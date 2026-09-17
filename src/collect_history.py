@@ -49,6 +49,19 @@ HISTORY_WINDOW_DAYS = 120  # "viimeiset 4 kk"
 TOP50_PATH = ROOT / "data" / "top50_teams.json"
 PROGRESS_PATH = ROOT / "data" / "history_progress.json"
 
+# BUGI (loydetty 2026-09-17): status pysyi ikuisesti 'ok':na ensimmaisen
+# onnistuneen keruun jalkeen, eika mikaan koskaan palauttanut sita takaisin
+# 'pending':ksi - WHERE status='pending' -kysely nayttaytyi siis tyhjana
+# JOKA ikinen ajo sen jalkeen kun kaikki 50 joukkuetta oli kertaalleen
+# kasitelty (havaittiin: kaikkien 50 last_attempt_utc oli sama 27 min
+# ikkuna 2026-09-17, GH Actions oli ajanut tyhjaa siita lahtien vaikka
+# ajastus oli paalla). Kayttaja huomasi tama epasuorasti kun Auroran data
+# oli 17 vrk vanhaa ja aiheutti ison virheen ennusteessa. Korjaus: nollaa
+# 'ok'-joukkueet takaisin 'pending':ksi kun niiden viimeisin haku on yli
+# STALE_HOURS vanha, jotta keraus OIKEASTI jatkuu taustalla kuten status-
+# sivu jo vaitti sen tekevan.
+STALE_HOURS = 6
+
 
 def now_utc_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -179,8 +192,21 @@ def main() -> int:
 
     cutoff_utc = datetime.now(timezone.utc) - timedelta(days=HISTORY_WINDOW_DAYS)
 
+    stale_cutoff = (datetime.now(timezone.utc) - timedelta(hours=STALE_HOURS)).isoformat()
+    reset = conn.execute(
+        "UPDATE history_team_progress SET status='pending' "
+        "WHERE status='ok' AND last_attempt_utc < ?",
+        (stale_cutoff,),
+    )
+    conn.commit()
+    if reset.rowcount:
+        log.info("Nollattu %d vanhentunutta (>%dh) joukkuetta takaisin pendingiksi", reset.rowcount, STALE_HOURS)
+
+    # Vanhin last_attempt_utc ensin (NULL = ei koskaan haettu = kiireisin) -
+    # varmistaa etta AINA vanhentunein data paivittyy ensin, ei aakkosjarjestys.
     pending = conn.execute(
-        "SELECT team FROM history_team_progress WHERE status='pending' ORDER BY team"
+        "SELECT team FROM history_team_progress WHERE status='pending' "
+        "ORDER BY last_attempt_utc IS NOT NULL, last_attempt_utc ASC"
     ).fetchall()
     pending = [r[0] for r in pending]
     if args.max_teams:

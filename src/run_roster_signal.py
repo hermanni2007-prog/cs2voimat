@@ -35,7 +35,7 @@ from backtest import (  # noqa: E402
     brier_score,
 )
 
-SCALE, K_FACTOR, HALF_LIFE = 100.0, 32.0, 99999.0
+SCALE, K_FACTOR, HALF_LIFE = 200.0, 48.0, 99999.0  # run_elo.py:n paras (2026-09-17, korjatulla datalla)
 LOOKBACK_DAYS = 30
 CHANGE_THRESHOLD = 1  # kuinka monta UUTTA pelaajaa lookback-ikkunassa lasketaan "muutokseksi"
 

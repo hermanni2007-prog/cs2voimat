@@ -61,7 +61,7 @@ from run_map_deviations import (  # noqa: E402
     load_map_results_with_dates,
 )
 
-SCALE, K_FACTOR, HALF_LIFE = 100.0, 32.0, 99999.0
+SCALE, K_FACTOR, HALF_LIFE = 200.0, 48.0, 99999.0  # run_elo.py:n paras (2026-09-17, korjatulla datalla)
 
 
 def build_map_elo(map_events_with_dates: list) -> EloModel:

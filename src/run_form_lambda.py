@@ -9,8 +9,9 @@ TAMA ON PROJEKTIN ALKUPERAINEN TEESI (kayttajan oma, istunnon alusta):
 lambda tulee ulos 0:na tai lahella 0:aa, teesi ei pida paikkaansa tassa
 datassa - raportoidaan suoraan.
 
-Kayttaa Tehtava 3:sta parhaaksi loydettya (scale, k) = (100, 32) - vain
-half_life vaihtelee kahden mallin valilla, kuten briiffi maarittelee.
+Kayttaa Tehtava 3:sta parhaaksi loydettya (scale, k) = (200, 48, korjattu
+2026-09-17 dedup-bugin jalkeen) - vain half_life vaihtelee kahden mallin
+valilla, kuten briiffi maarittelee.
 """
 from __future__ import annotations
 
@@ -30,8 +31,8 @@ from backtest import (  # noqa: E402
     run_elo_walkforward,
 )
 
-SCALE = 100.0
-K_FACTOR = 32.0
+SCALE = 200.0
+K_FACTOR = 48.0
 SLOW_HALF_LIFE = 180.0
 FAST_HALF_LIFE = 21.0
 

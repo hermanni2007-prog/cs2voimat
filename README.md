@@ -116,44 +116,137 @@ versio `historical_matches`-datan päälle.
   jokainen ottelu ennustetaan ennen ratingin päivitystä, aikajärjestyksessä.
 - `deduplicate_matches`: sama ottelu esiintyy kahdesti `historical_matches`-
   taulussa (molempien joukkueiden sivuilta luettuna) - tilalliselle mallille
-  tämä pitää poistaa etukäteen tai rating päivittyisi kahdesti. 1243 → 860
-  ottelua deduplikoinnin jälkeen.
+  tämä pitää poistaa etukäteen tai rating päivittyisi kahdesti. 1249 → 1134
+  ottelua deduplikoinnin jälkeen (ks. alla, 2026-09-17: korjattu toinen
+  dedup-bugi joka pudotti ottelupareja jotka jakoivat saman turnaus+aikaleiman).
 - `src/run_elo.py`: grid-hakee (scale, k, half_life_days) minimoiden log
   lossin, vertaa tulosta molempiin Tehtävä 2:n perusmalleihin samalla
   deduplikoidulla datalla (reilu vertailu).
-- **Tulos (2026-09-17):** paras Elo (scale=100, k=32, ei vaimennusta 4 kk:n
-  ikkunassa) log loss **0.665** — voittaa sekä 50/50:n (0.693) että pehmeän
-  VRS-mallin (0.674). Pieni mutta aito parannus: Elo oppii ottelutuloksista
-  suoraan, ei vain staattisesta kuukausittaisesta VRS-snapshotista.
-- Kalibrointi näyttää järkevältä koko välillä (esim. ennustettu 0.55 →
-  toteutunut 0.62, ennustettu 0.74 → toteutunut 0.67) - ei systemaattista
+- **Tulos (2026-09-17, korjatulla datalla):** paras Elo (scale=200, k=48,
+  ei vaimennusta 4 kk:n ikkunassa) log loss **0.6678** — voittaa sekä
+  50/50:n (0.6931) että pehmeän VRS-mallin (0.6787). Pieni mutta aito
+  parannus: Elo oppii ottelutuloksista suoraan, ei vain staattisesta
+  kuukausittaisesta VRS-snapshotista.
+- Kalibrointi näyttää järkevältä koko välillä (esim. ennustettu 0.54 →
+  toteutunut 0.62, ennustettu 0.74 → toteutunut 0.73) - ei systemaattista
   yli-/aliluottamusta.
 
 ### Aito train/test-validointi (2026-09-17) - malli testattu ilman markkinaa
 
-**Huomio metodologiasta:** yllä oleva 0.665 valitsi hyperparametrit (scale,
+**Huomio metodologiasta:** yllä oleva 0.6678 valitsi hyperparametrit (scale,
 k, half_life) KOKO datasetilla ja arvioi tuloksen samalla datasetilla -
 lievä sisäänrakennettu vinouma, vaikka itse walk-forward on ottelukohtaisesti
-lookahead-suojattu. `src/run_holdout_validation.py` korjaa tämän: jakaa 860
-ottelua kronologisesti (80% train / 20% test, raja 2026-09-03), valitsee
+lookahead-suojattu. `src/run_holdout_validation.py` korjaa tämän: jakaa
+1134 ottelua kronologisesti (80% train / 20% test, raja 2026-09-02), valitsee
 parametrit VAIN train-osalla, ja raportoi lopputuloksen VAIN test-osalla
 jota parametrivalinta ei ole koskaan nähnyt.
 
-- **Tulos: Elo (scale=200, k=48, valittu train:lla) test_log_loss = 0.6536**
-  — parempi kuin aina_5050 (0.6931) JA pehmeä VRS-sija (0.6669) TÄYSIN
+- **Tulos: Elo (scale=200, k=48, valittu train:lla) test_log_loss = 0.6545**
+  — parempi kuin aina_5050 (0.6931) JA pehmeä VRS-sija (0.6833) TÄYSIN
   näkemättömällä datalla. Itse asiassa parempi kuin koko-datasetin
-  in-sample-arvio (0.665) - ei merkkejä ylisovittumisesta.
-- Kalibrointi test-osalla: ennustettu 0.52 → toteutunut 0.61, ennustettu
-  0.67 → toteutunut 0.73 (n=96/64) - lievästi aliluottavainen, ei
+  in-sample-arvio (0.6678) - ei merkkejä ylisovittumisesta.
+- Kalibrointi test-osalla: ennustettu 0.52 → toteutunut 0.62, ennustettu
+  0.68 → toteutunut 0.72 (n=121/83) - lievästi aliluottavainen, ei
   yliluottavainen (turvallisempi suunta virheelle kuin päinvastoin).
-- **Huomio:** parhaat parametrit siirtyivät hieman pienemmällä train-
-  osajoukolla (scale=200,k=48 vs. scale=100,k=32 koko datasetilla) -
-  688 ottelua ei riitä täysin vakaaseen parametrien valintaan, joten
-  tarkkoja lukuja ei pidä ottaa lopullisena totuutena.
+- **Huomio:** parhaat parametrit ovat samat (scale=200,k=48) sekä train-
+  osajoukolla että koko datasetilla - vakaampi tulos kuin ennen dedup-
+  bugin korjausta, jolloin train/full-parametrit erosivat (viite alla
+  olevaan dedup-bugikorjaukseen).
 - **Tämä on paras tapa testata mallin paikkansapitävyyttä ilman
   markkinakerrointa** - ei todista markkinaetua (siihen tarvitaan
   Tehtävä 0), mutta todistaa että malli oikeasti yleistyy uuteen
   dataan eikä vain sovi hyvin viritysdataansa.
+
+### Toinen vakava dedup-bugi löydetty ja korjattu (2026-09-17) - kaikki yllä olevat luvut päivitetty
+
+Käyttäjä pyysi lisäämään kolme käsin syötettyä ottelutulosta (StarLadder
+StarSeries Fall 2026) tietokantaan analysoidakseen kahta live-ottelua.
+Yksi lisätyistä otteluista (NRG vs MOUZ) katosi näkyvistä kokonaan Elo-
+laskennasta - tutkimalla syytä löytyi **toinen, paljon vakavampi bugi**
+`deduplicate_matches`-funktiossa (ks. Tehtävä 3:n koodikommentti):
+dedup-avain oli `(päivämäärä, turnaus)` **ilman joukkueita** - jos kaksi
+ERI ottelua samassa turnauksessa jakoi täsmälleen saman aikaleiman
+(esim. ryhmävaiheen ottelut jotka Liquipedia merkitsee alkavaksi samaan
+kellonaikaan), toinen niistä tulkittiin virheellisesti saman ottelun
+kaksoiskappaleeksi ja **pudotettiin kokonaan** - ei vain käsin lisätyistä
+otteluista, vaan koko historiadatasta alusta asti.
+
+**Vaikutus: 860 → 1134 ottelua deduplikoinnin jälkeen (+274 ottelua, +32 %).**
+Kaikki Tehtävä 3:n ja 5:n aiemmat luvut oli siis laskettu puuttuvalla
+kolmasosalla datasta. Korjattu lisäämällä joukkuepari (`frozenset`) avaimeen.
+**Kaikki luvut tässä READMEssä on nyt päivitetty korjatulla datalla:**
+Elo paras (scale=200, k=48, ei vaimennusta) log loss **0.6678** (860→1134
+ottelun jälkeen; hieman huonompi kuin virheellinen 0.665, mutta tämä on
+nyt OIKEA luku), holdout-validointi test_log_loss **0.6545** (1134 ottelua,
+80/20-jako) - malli edelleen selvästi parempi kuin 50/50 (0.6931) ja
+pehmeä VRS (0.6833) täysin näkemättömällä datalla.
+
+### Mallin parannukset (2026-09-17, käyttäjän pyynnöstä, järjestyksessä)
+
+1. **Epävarmuuden mallinnus** - `EloModel.rating_deviation()` ja
+   `predict_with_confidence()`: yksinkertaistettu Glicko-tyylinen rating
+   deviation (RD), joka pienenee pelattujen otteluiden myötä (RD_MAX=350
+   uudelle joukkueelle, RD_MIN=40 paljon pelanneelle, puoliintumisaika 12
+   ottelua - alkuarvaus, ei kalibroitu). `predict_with_confidence()`
+   palauttaa piste-ennusteen lisäksi `[p_low, p_high]`-haarukan ja
+   luokittelun (MATALA/KOHTALAINEN/HYVÄ) otosmäärän mukaan. Testattu:
+   NRG vs Aurora (6 kelvollista ottelua) → MATALA, haarukka [0.01, 0.96];
+   MOUZ vs NaVi (36/14 ottelua) → KOHTALAINEN. Ei täydellinen Glicko (ei
+   volatiliteettia/RD-inflaatiota ajan myötä), mutta korjaa pahimman
+   ongelman: mallin ei pidä väittää samaa tarkkuutta 6 ottelun ja 43
+   ottelun päälle lasketuille luvuille.
+2. **Kerääjän tuoreus-bugi korjattu** (`collect_history.py`) - LÖYDETTY:
+   `history_team_progress`-taulun kaikki 50 joukkuetta olivat statuksessa
+   `'ok'`, ja KAIKKI `last_attempt_utc`-arvot olivat samalta 27 minuutin
+   ikkunalta (2026-09-17 12:07-12:34) - eli koko historiakeruu ajoi
+   TÄYSIN kerran alusta ja pysähtyi siihen pysyvästi, koska mikään ei
+   koskaan palauttanut valmiiksi merkittyä joukkuetta takaisin
+   `pending`-tilaan. GitHub Actions ajoi siis tyhjää joka 15 min sen
+   jälkeen, vaikka status-sivu väitti "kerääntyy jatkossa itsestään
+   taustalla". Tämä selitti suoraan miksi Auroran data oli 17 vrk vanhaa.
+   Korjaus: joukkueet joiden `last_attempt_utc` on yli `STALE_HOURS=6`
+   vanha nollataan takaisin `pending`-tilaan ennen jokaista ajoa, ja
+   käsittelyjärjestys on nyt vanhin-ensin (ei aakkosjärjestys).
+3. **Putken jarkevyystarkistukset** (`src/check_pipeline_health.py`,
+   ajetaan `collect_history.yml`:ssä jokaisen keruun jälkeen) - kolme
+   tarkistusta: (a) onko joukkueita joita ei ole koskaan haettu tai jotka
+   ovat yli 24h/72h vanhoja, (b) pudottaako dedup yli 60 % jonkun top-50-
+   joukkueen otteluista suhteessa raakadataan (sama oire kuin edellä
+   kuvattu dedup-bugi), (c) onko `bracket_progress` jumissa (pending-
+   jonoa mutta ei uutta ajoa 72h:een). Ei korjaa mitään automaattisesti,
+   vain raportoi - tarkoitus on että seuraava vastaava bugi löytyy
+   nopeammin kuin käyttäjän omalla havainnolla.
+4. **Formipaino λ testattu uudelleen korjatulla datalla - VIRHE MATKAN
+   VARRELLA, KORJATTU:** ensimmäinen uudelleenajo (1134 ottelua, mutta
+   VANHOILLA scale=100/k=32-parametreilla) näytti λ=0.3:n auttavan hieman
+   (0.6673 vs 0.6683) - raportoitiin tässä READMEssä virheellisesti
+   "teesi saa tukea". **Tämä oli itsessään virhe:** scale=100/k=32 ei ollut
+   enää Tehtävä 3:n paras parametri korjatulla datalla (uusi paras on
+   scale=200/k=48, ks. yllä) - sekoitettiin korjattu data vanhentuneisiin
+   hyperparametreihin. Kun `run_form_lambda.py` päivitettiin käyttämään
+   samaa scale=200/k=48-paria kuin Tehtävä 3, tulos palasi: **paras λ=0.0,
+   log loss 0.6681 vs. yksittäisen Elon 0.6678 - monotonisesti huononeva
+   käyrä koko välillä 0→1.** Tehtävä 5:n ALKUPERÄINEN "teesi ei saanut
+   tukea" -johtopäätös siis PYSYY VOIMASSA - se ei ollut dedup-bugin
+   artefakti, sen sijasin ITSE tein hetkellisen virheen vertailemalla
+   epäjohdonmukaisilla parametreilla. Opetus: aina kun malli päivittyy,
+   KAIKKI sitä käyttävät skriptit pitää päivittää samoihin parametreihin
+   ennen johtopäätösten tekemistä.
+   Roolimuutos-signaali (Edge-analyysi-osio) sen sijaan vahvistui aidosti
+   korjatulla datalla ja samoilla scale=200/k=48-parametreilla: log loss
+   0.6655 (vakaa, n=840) vs. 0.6745 (tuore muutos, n=294) - nyt myös 1
+   pelaajan vaihdolla on mitattava ero, ei vain isolla mullistuksella
+   (kynnys≥2: 0.6661 vs. 0.7044, n=52 - edelleen pieni otos).
+5. **Kartta-veto-mallin korvaava heuristiikka - TESTATTU, EI TUKEA:**
+   ennen koodin kirjoittamista testattiin empiirisesti kaksi oletusta
+   omalla datalla: (a) ovatko decider-kartat (Bo3:n 3. kartta) tasaisempia
+   kuin muut kartat round-pistemarginaalilla mitattuna - EI: decider
+   keskimarginaali 5.29, muut 5.12 (n=109 vs 528, ero kohinan sisällä).
+   (b) onko kartan järjestyksellä (1./2./3.) yleensä yhteyttä marginaaliin -
+   EI: 5.35 / 4.89 / 5.29, ei selvää trendiä. **Ei siis lisätty mitään
+   heuristiikkaa** `analyze_series.py`:hen - väärä oletus olisi pahempi
+   kuin ei mitään. Empiirinen "kartta 1:n voittaja voittaa sarjan 79,1 %"
+   -luku (ks. Tehtävä 4) pysyy parhaana käytettävissä olevana työkaluna.
 
 ## Tehtävä 4: Karttapoikkeamat & veto — kerääjä rakennettu, kattavuus osittainen
 
@@ -296,12 +389,13 @@ niita voi ottaa kayttoon heti kun kerroindata alkaa kertya.
    Elon ennustevirhe suurempi otteluissa joissa jompikumpi joukkue on
    vaihtanut kokoonpanoaan viimeisen 30 vrk:n aikana (`RosterHistory.
    roster_stability`, rakennettu jo Tehtävä 1:ssä mutta ei aiemmin käytetty
-   mihinkään). **Tulos on kaksijakoinen:** yhden pelaajan vaihdoksella ei ole
-   eroa (log loss 0.666 vs. 0.661, n=638/222 — kohinaa). MUTTA isommalla
-   kynnyksellä (≥2 uutta pelaajaa 30 vrk:ssa, eli oikea kokoonpanomullistus)
-   ero on selvä: log loss 0.707 vs. 0.662 (n=42 vs. 818) — malli ennustaa
-   selvästi huonommin näissä tilanteissa. **Varoitus: n=42 on pieni otos**,
-   tätä ei pidä ottaa vielä todistettuna, mutta se on looginen paikka jossa
+   mihinkään). **Ajantasaiset luvut (korjatulla datalla ja parametreilla,
+   ks. Tehtävä 3:n "Mallin parannukset" -osio):** 1 pelaajan vaihdoksella
+   on jo mitattava ero (log loss 0.6655 vs. 0.6745, n=840/294), ja isommalla
+   kynnyksellä (≥2 uutta pelaajaa) ero on selvempi: 0.6661 vs. 0.7044
+   (n=1082/52) — malli ennustaa selvästi huonommin näissä tilanteissa.
+   **Varoitus: n=52 on pieni otos** isomman kynnyksen osalta, mutta se on
+   looginen paikka jossa
    markkinakin todennäköisesti reagoi hitaammin kuin pitäisi.
 3. **CLV-seuranta** (`src/clv.py`, `clv_log`-taulu skeemassa) — **valmisteltu,
    EI VIELÄ KÄYTÖSSÄ.** Tämä on briiffin oma lopullinen validointimittari:

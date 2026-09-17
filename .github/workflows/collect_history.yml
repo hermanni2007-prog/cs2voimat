@@ -34,6 +34,9 @@ jobs:
       - name: Aja historiakeruu (max 25 joukkuetta / ajo)
         run: python src/collect_history.py --max-teams 25
 
+      - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
+        run: python src/check_pipeline_health.py || true
+
       - name: Committaa tietokanta ja edistymistiedosto takaisin repoon
         run: |
           git config user.name "cs2-history-bot"

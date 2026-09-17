@@ -373,6 +373,7 @@ class EloModel:
         self.k = k_factor
         self.half_life_days = half_life_days
         self.ratings: dict = {}  # team -> (rating, last_date)
+        self.games_played: dict = {}  # team -> int, ks. rating_deviation()
 
     def rating_as_of(self, team: str, as_of: datetime) -> float:
         """Julkinen versio _decayed_rating:sta - kayttoon Tehtava 5:n
@@ -403,6 +404,62 @@ class EloModel:
         actual = float(team_won)
         self.ratings[team] = (r_team + self.k * (actual - p), as_of)
         self.ratings[opponent] = (r_opp + self.k * ((1 - actual) - (1 - p)), as_of)
+        self.games_played[team] = self.games_played.get(team, 0) + 1
+        self.games_played[opponent] = self.games_played.get(opponent, 0) + 1
+
+    # -------------------------------------------------------------------
+    # Epavarmuuden mallinnus (lisatty 2026-09-17, kayttajan pyynnosta -
+    # loydettiin kayttamalla NRG:ta esimerkkina: malli antoi TARKAN 55.5%
+    # -luvun vaikka pohjalla oli vain 6 kelvollista ottelua, ei mitaan
+    # tapaa ilmaista etta talle luvulle EI PIDA luottaa yhta paljon kuin
+    # esim. MOUZ:n 43 ottelun paalle lasketulle. Ei taydellinen Glicko
+    # (ei seuraa volatiliteettia/aikahajontaa erikseen), mutta sama
+    # perusidea: rating deviation (RD) pienenee pelattujen ottelujen
+    # myota, alkaen suuresta (350, Glickon oma oletusarvo) ja lahestyen
+    # lattiaa (RD_MIN) - RD_HALFLIFE_GAMES saatiin karkealla arviolla
+    # (ei viela erikseen kalibroitu), ei tarkka tiede.
+    # -------------------------------------------------------------------
+    RD_MAX = 350.0
+    RD_MIN = 40.0
+    RD_HALFLIFE_GAMES = 12.0
+
+    def rating_deviation(self, team: str) -> float:
+        """Suurempi RD = epavarmempi rating. Uudelle/harvoin pelanneelle
+        joukkueelle lahella RD_MAX:a, paljon pelanneelle lahella RD_MIN:a."""
+        n = self.games_played.get(team, 0)
+        return self.RD_MIN + (self.RD_MAX - self.RD_MIN) * (0.5 ** (n / self.RD_HALFLIFE_GAMES))
+
+    def predict_with_confidence(self, team: str, opponent: str, as_of: datetime) -> dict:
+        """Palauttaa piste-ennusteen LISAKSI karkean epavarmuushaarukan:
+        p_low/p_high siirtavat kumpaakin ratingia yhden RD:n verran
+        EPASUOTUISAAN suuntaan ennen ennustetta - ei tilastollisesti
+        tasmallinen luottamusvali, mutta antaa karkean, rehellisen kuvan
+        siita kuinka paljon arvio voisi liikkua jos rating on vaarassa
+        suunnassa vaarin (esim. liian vahan dataa)."""
+        r_team = self._decayed_rating(team, as_of)
+        r_opp = self._decayed_rating(opponent, as_of)
+        rd_team = self.rating_deviation(team)
+        rd_opp = self.rating_deviation(opponent)
+
+        p_mid = 1.0 / (1.0 + math.exp(-(r_team - r_opp) / self.scale))
+        p_low = 1.0 / (1.0 + math.exp(-((r_team - rd_team) - (r_opp + rd_opp)) / self.scale))
+        p_high = 1.0 / (1.0 + math.exp(-((r_team + rd_team) - (r_opp - rd_opp)) / self.scale))
+
+        n_team = self.games_played.get(team, 0)
+        n_opp = self.games_played.get(opponent, 0)
+        n_min = min(n_team, n_opp)
+        if n_min < 10:
+            confidence = "MATALA"
+        elif n_min < 25:
+            confidence = "KOHTALAINEN"
+        else:
+            confidence = "HYVA"
+
+        return {
+            "p_mid": p_mid, "p_low": p_low, "p_high": p_high,
+            "n_team": n_team, "n_opp": n_opp, "confidence": confidence,
+            "rd_team": rd_team, "rd_opp": rd_opp,
+        }
 
 
 def run_elo_walkforward(matches: list, elo: EloModel) -> dict:
