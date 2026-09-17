@@ -109,6 +109,7 @@ def main() -> int:
     print(f"Elo-parametrit: scale={params['scale']} k={params['k_factor']} half_life={params['half_life_days']}\n")
 
     bankroll_log = []
+    estimated_bankroll_log = []
 
     for bet in BETS:
         bet_date = datetime.fromisoformat(bet["date"])
@@ -197,6 +198,8 @@ def main() -> int:
                       f"oletuksella) = {price_other_est:.2f}  ->  ARVIOITU EV = {ev_other_est:+.1%}"
                       f"  [EI OIKEA HAVAITTU KERROIN, vain arvio]")
                 if ev_other_est > 0:
+                    est_profit = (price_other_est - 1) if other_won else -1.0
+                    estimated_bankroll_log.append((bet["date"], f"{other_side}@{price_other_est:.2f} (arvio)", est_profit, other_won))
                     print(f"     Jos tama arvio pitaisi paikkansa ja panostettu 1 yksikko {other_side}:lle: "
                           f"{'VOITTI' if other_won else 'HAVISI'}")
             if ev > 0:
@@ -220,6 +223,20 @@ def main() -> int:
         print("Ei yhtaan EV>0-tilannetta loytynyt naista otteluista.")
     print("\n(Tarkka tulos -vedot eivat olleet mukana arvopaatoksessa - eri bet-tyyppi,")
     print(" ei suoraan vertailukelpoinen voitto-tn:n kanssa ilman erillista scoreline-mallia.)")
+
+    print("\n=== ERILLINEN YHTEENVETO: ARVIOIDUT vastapuolen kertoimet (EI havaittuja hintoja!) ===")
+    print("(Nama perustuvat ASSUMED_MARGIN-oletukseen kun oma puoli oli EV<=0 - eivat oikeita")
+    print(" markkinahintoja, siksi pidetty ERILLAAN ylla olevasta oikeasta nettotuloksesta.)")
+    if estimated_bankroll_log:
+        est_total = sum(p for _, _, p, _ in estimated_bankroll_log)
+        est_wins = sum(1 for *_, w in estimated_bankroll_log if w)
+        print(f"Arvioituja tilanteita: {len(estimated_bankroll_log)}, joista voitti: {est_wins}")
+        for date, desc, profit, won in estimated_bankroll_log:
+            print(f"  {date[:10]}  {desc}  ->  {'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'})")
+        print(f"\nArvioitu nettotulos: {'+' if est_total>=0 else ''}{est_total:.2f} yksikkoa "
+              f"({est_total/len(estimated_bankroll_log):+.1%} keskimaarin per panos)")
+    else:
+        print("Ei yhtaan arvioitua EV>0-tilannetta.")
     return 0
 
 
