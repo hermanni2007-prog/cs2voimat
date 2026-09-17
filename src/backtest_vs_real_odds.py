@@ -222,6 +222,40 @@ BETS = [
     {"date": "2026-08-23T12:15:00+00:00", "team": "FUT", "opponent": "Spirit",
      "price": 3.42, "opponent_price": 1.31,
      "bet_on": None, "actual_winner": "Spirit", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [Spinbetter, EWC 2026 finaali]"},
+    # Kayttajan pyynnosta (2026-09-18) haettu VIELA yksi turnaus taaksepain
+    # kronologisesti - ei enaa tips.gg:sta (sen analytiikka-arkisto loppuu
+    # EWC 2026:een) vaan kahdesta muusta vinkkisivustosta: egamersworld.com
+    # (neljannesfinaalit + 1. valierä) ja win.gg (2. valierä + finaali).
+    # IEM Cologne Major 2026, Koln, 18.-21.6.2026. Ajankohdat VARMISTETTU
+    # itse omasta datastamme kuten aina.
+    {"date": "2026-06-18T13:45:00+00:00", "team": "Aurora", "opponent": "BETBOOM",
+     "price": 1.68, "opponent_price": 2.05,
+     "bet_on": None, "actual_winner": "Aurora",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [egamersworld, IEM Cologne Major 2026 QF]"},
+    {"date": "2026-06-18T17:00:00+00:00", "team": "FURIA", "opponent": "9z",
+     "price": 1.26, "opponent_price": 3.40,
+     "bet_on": None, "actual_winner": "FURIA",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [egamersworld, IEM Cologne Major 2026 QF]"},
+    {"date": "2026-06-19T13:45:00+00:00", "team": "Spirit", "opponent": "G2",
+     "price": 1.28, "opponent_price": 3.30,
+     "bet_on": None, "actual_winner": "Spirit",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [egamersworld, IEM Cologne Major 2026 QF]"},
+    {"date": "2026-06-19T19:25:00+00:00", "team": "Vitality", "opponent": "Falcons",
+     "price": 1.43, "opponent_price": 2.80,
+     "bet_on": None, "actual_winner": "Falcons",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [egamersworld, IEM Cologne Major 2026 QF]"},
+    {"date": "2026-06-20T13:45:00+00:00", "team": "FURIA", "opponent": "Aurora",
+     "price": 1.61, "opponent_price": 2.16,
+     "bet_on": None, "actual_winner": "FURIA",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [egamersworld, IEM Cologne Major 2026 SF]"},
+    {"date": "2026-06-20T17:00:00+00:00", "team": "Spirit", "opponent": "Falcons",
+     "price": 1.75, "opponent_price": 2.04,
+     "bet_on": None, "actual_winner": "Falcons",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [win.gg, IEM Cologne Major 2026 SF]"},
+    {"date": "2026-06-21T15:00:00+00:00", "team": "Falcons", "opponent": "FURIA",
+     "price": 1.62, "opponent_price": 2.19,
+     "bet_on": None, "actual_winner": "Falcons",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [win.gg, IEM Cologne Major 2026 finaali]"},
 ]
 
 
