@@ -129,6 +129,48 @@ versio `historical_matches`-datan päälle.
   toteutunut 0.62, ennustettu 0.74 → toteutunut 0.67) - ei systemaattista
   yli-/aliluottamusta.
 
+## Tehtävä 4: Karttapoikkeamat & veto — kerääjä rakennettu, kattavuus osittainen
+
+Joukkuekohtaiset `/Matches`-sivut (Tehtävä 1) kertovat vain ottelun
+kokonaistuloksen (esim. "2-1") — eivät karttojen nimiä eikä CT/T-puoliskoja.
+Tämä data löytyy sen sijaan turnauksen omalta **bracket-sivulta**
+(`.brkts-match-popup-wrapper` -elementit), joka on rakenteeltaan täysin eri
+kuin `/Matches`-taulukko ja vaati oman jäsentimen.
+
+- `src/liquipedia_client.py`: `parse_bracket_matches()` purkaa jokaisesta
+  ottelupopupista joukkueiden nimet, sarjatuloksen, ajankohdan ja jokaisen
+  kartan erikseen — kartan nimi + molempien joukkueiden lopputulos + CT/T-
+  puoliskotulokset (mukaan lukien OT-puoliskot kun niitä on). Testattu ja
+  vahvistettu oikeaksi käsin ristiin katsomalla useita otteluita.
+- **Turnaussivun otsikon selvittäminen osoittautui odotettua vaikeammaksi.**
+  Naytto-nimi (esim. "IEM Beijing 2026: Global Qual") ei vastaa Liquipedian
+  sivun otsikkoa sanatarkasti, ja Liquipedian tavallinen tekstihaku
+  (`action=query&list=search`) osoittautui epäluotettavaksi tähän
+  tarkoitukseen — se palautti systemaattisesti vääriä osumia (esim. haku
+  "Esports World Cup 2026" palautti ensimmäiseksi tuloimeksi pelaajan
+  sivun "FOKUS", koska turnauksen nimi mainittiin siellä usein). Korjattu
+  käyttämällä Liquipedian `intitle:`-hakuoperaattoria (tasmaa vain
+  otsikkoon, ei koko sivun tekstiin) yhdistettynä lava-tunnisteen (Group A,
+  Playoffs, jne.) poistoon hakusanasta ennen hakua.
+- `src/collect_maps.py`: sama resumable-malli kuin Tehtävä 1:ssä
+  (`bracket_progress`-taulu, `--max-tournaments`-rajoitin). Ajastettu
+  GitHub Actions -työnä (`.github/workflows/collect_maps.yml`, 20
+  turnausta/ajo, offset-minuutit tasa-ajon välttämiseksi).
+- **Ensimmäisen 15 turnauksen ajon tulos (2026-09-17):** 9/15 (60 %)
+  resolvoitui oikein, 200 karttariviä / 121 ottelua kerätty 4:sta
+  turnaussivusta (mm. Esports World Cup 2026, Stake Ranked Ep. 2 & 3,
+  FISSURE Playground). 6/15 ei resolvoitunut — pääosin lyhennenimillä
+  ("IEM" = Intel Extreme Masters Liquipediassa, ei tunnistettu vielä
+  automaattisesti) tai turnauksilla joilla ei ehkä ole erillista
+  Liquipedia-sivua ollenkaan (esim. "BLAST Open Fall 2026 - Group A/B").
+  **Kattavuus on siis rehellisesti osittainen, ei täydellinen** — loput
+  166/181 turnausta kerääntyvät ajan mittaan taustalla, ja resolvointia
+  voi parantaa lisäämällä turnaussarjakohtaisia aliaksia (sama malli kuin
+  `TEAM_ALIASES` Tehtävässä 1) sitä mukaa kun huomataan mitä puuttuu.
+- Kartta- ja puoliskotason shrinkage-estimaattori (`m̂ = (n/(n+k))·m_raaka`)
+  ja veto-/päivitysmalli EI vielä rakennettu — odottaa laajempaa kattavuutta
+  ennen kuin per-kartta-poikkeamat ovat tilastollisesti mielekkäitä.
+
 ## Tehtävä 5: Formipaino λ — teesi EI saanut tukea (rehellinen negatiivinen tulos)
 
 **Tämä on projektin alkuperäinen ydinteesi** ("kun muutaman pelin formia

@@ -128,6 +128,56 @@ class LiquipediaClient:
                 return resolved_best
         return None
 
+    def search_intitle(self, phrase: str) -> list:
+        """CirrusSearchin "intitle:" -operaattori: tasmaa vain sivun OTSIKKOON,
+        ei koko sivun tekstisisaltoon. Havaittu 2026-09-17 etta tavallinen
+        list=search ilman tata palauttaa lahes satunnaisia osumia
+        turnausnimille (esim. "Esports World Cup 2026" -> "FOKUS", pelaajan
+        sivu jolla sana esiintyy usein) - intitle: on huomattavasti
+        tarkempi kun etsitaan nimenomaan turnaussivua."""
+        self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
+        r = self.session.get(
+            BASE_URL,
+            params={
+                "action": "query", "format": "json", "list": "search",
+                "srsearch": f'intitle:"{phrase}"', "srlimit": 5,
+            },
+            timeout=20,
+        )
+        r.raise_for_status()
+        hits = r.json().get("query", {}).get("search", [])
+        return [h["title"] for h in hits]
+
+    def resolve_tournament_page(self, tournament_string: str) -> Optional[str]:
+        """Yrittaa loytaa turnaus(lava)-merkkijonoa (esim. "Esports World Cup
+        2026 - Playoffs", historical_matches.tournament-kentasta) vastaavan
+        Liquipedia-sivun otsikon bracket-datan hakua varten.
+
+        Turnaussivujen otsikot ovat hierarkkisia (esim. "Esports World
+        Cup/2026/Qualifier/Group Stage") eivatka tasmaa naytto-nimeen
+        sanatarkasti, joten haetaan runkonimella (kaikki ennen ensimmaista
+        " - "/": "/"#N" -erotinta, esim. "Esports World Cup 2026 - Group A"
+        -> "Esports World Cup 2026") intitle:-operaattorilla, joka tasmaa
+        vain otsikkoon (ei koko sivun sisaltoon - HAVAITTU BUGI: tavallinen
+        full-text-haku palautti systemaattisesti vaaria sivuja, esim.
+        pelaajien/joukkueiden sivuja joilla turnauksen nimi mainitaan usein).
+
+        Kattavuus on epatasaista: osa turnaussarjoista (esim. lyhenteet
+        kuten "IEM" = "Intel Extreme Masters") tai pienemmat
+        karsintaturnaukset eivat resolvoidu talla yksinkertaisella
+        saannolla - naille status jaa 'not_found' bracket_progress-tauluun,
+        eika niita yriteta loputtomiin uudelleen."""
+        import re as _re
+
+        base = _re.split(r"\s*[:\-]\s*|\s*#\d+", tournament_string)[0].strip()
+
+        hits = self.search_intitle(base)
+        if hits:
+            resolved = self.resolve_redirect(hits[0])
+            if self.page_exists(resolved):
+                return resolved
+        return None
+
     def fetch_rendered_html(self, page_title: str) -> str:
         self._wait("_last_parse_at", PARSE_COOLDOWN_SECONDS)
         r = self.session.get(
@@ -209,6 +259,117 @@ def parse_matches_table(html: str) -> list:
                 "score_opponent": score_opponent,
                 "raw_score": raw_score,
                 "opponent": opponent,
+            }
+        )
+    return out
+
+
+def parse_bracket_matches(html: str) -> list:
+    """Jasentaa turnauksen bracket-sivun ottelupopupit (.brkts-match-popup-
+    wrapper) kartta- ja puoliskotasolle asti.
+
+    Havaittu rakenne 2026-09-17 (esim. PGL/2024/Copenhagen -sivulta):
+      .brkts-opponent-entry[aria-label]           -> joukkueen nimi
+      .brkts-opponent-score-inner                 -> ottelun (Bo3/Bo5) sarjatulos
+      [data-timestamp]                             -> ottelun UTC-ajankohta
+      .brkts-popup-body-grid > .brkts-popup-body-grid-row (yksi per kartta):
+        .brkts-popup-body-grid-row-detail > 3x .brkts-popup-spaced:
+          [0] joukkue1: .brkts-popup-body-detailed-scores-main-score +
+              spanit (.brkts-cs-score-color-ct/-t) = puoliskotulokset
+          [1] karttanimi (<a title="...">)
+          [2] joukkue2: sama rakenne kuin [0]
+    Kartta jatetaan pois jos jompikumpi paatulos puuttuu (ei viela pelattu,
+    esim. GSL-sarjan tarpeeton paatoserapelilauta)."""
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    out = []
+
+    for wrapper in soup.find_all("div", class_="brkts-match-popup-wrapper"):
+        opponents = wrapper.find_all("div", class_="brkts-opponent-entry")
+        if len(opponents) != 2:
+            continue
+
+        names, series_scores = [], []
+        for o in opponents:
+            names.append(o.get("aria-label"))
+            score_el = o.find("div", class_="brkts-opponent-score-inner")
+            txt = score_el.get_text(strip=True) if score_el else None
+            try:
+                series_scores.append(int(txt))
+            except (TypeError, ValueError):
+                series_scores.append(None)
+        if not names[0] or not names[1]:
+            continue
+
+        ts_el = wrapper.find(attrs={"data-timestamp": True})
+        match_date_utc = None
+        if ts_el:
+            try:
+                ts = int(ts_el["data-timestamp"])
+                if ts > 0:
+                    match_date_utc = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
+            except (ValueError, TypeError):
+                pass
+
+        maps_out = []
+        grid = wrapper.find("div", class_="brkts-popup-body-grid")
+        if grid:
+            for row in grid.find_all("div", class_="brkts-popup-body-grid-row", recursive=False):
+                detail = row.find("div", class_="brkts-popup-body-grid-row-detail")
+                if not detail:
+                    continue
+                spaced = detail.find_all("div", class_="brkts-popup-spaced", recursive=False)
+                if len(spaced) != 3:
+                    continue
+                map_link = spaced[1].find("a", title=True)
+                map_name = map_link["title"] if map_link else None
+                if not map_name:
+                    continue
+
+                def _read_score(container_div):
+                    main = container_div.find("div", class_="brkts-popup-body-detailed-scores-main-score")
+                    if not main:
+                        return None, []
+                    try:
+                        val = int(main.get_text(strip=True))
+                    except ValueError:
+                        return None, []
+                    halves = []
+                    for span in container_div.find_all("span", class_="brkts-popup-body-detailed-score"):
+                        classes = span.get("class", [])
+                        side = "CT" if "brkts-cs-score-color-ct" in classes else (
+                            "T" if "brkts-cs-score-color-t" in classes else None)
+                        try:
+                            hval = int(span.get_text(strip=True))
+                        except ValueError:
+                            continue
+                        halves.append({"side": side, "score": hval})
+                    return val, halves
+
+                s1, h1 = _read_score(spaced[0])
+                s2, h2 = _read_score(spaced[2])
+                if s1 is None or s2 is None:
+                    continue
+
+                maps_out.append(
+                    {
+                        "map_name": map_name,
+                        "team1_score": s1,
+                        "team2_score": s2,
+                        "team1_halves": h1,
+                        "team2_halves": h2,
+                    }
+                )
+
+        out.append(
+            {
+                "team1": names[0],
+                "team2": names[1],
+                "team1_series_score": series_scores[0],
+                "team2_series_score": series_scores[1],
+                "match_date_utc": match_date_utc,
+                "maps": maps_out,
             }
         )
     return out

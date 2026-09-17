@@ -107,3 +107,45 @@ CREATE TABLE IF NOT EXISTS roster_team_progress (
     last_attempt_utc TEXT,
     error_message   TEXT
 );
+
+-- Tehtava 4: kartta- ja puoliskotason tulokset turnausten bracket-sivuilta
+-- (".../<Turnaus>" -sivun .brkts-match-popup-wrapper -elementit). Tama on
+-- eri lahde kuin historical_matches (joukkuekohtaiset /Matches-taulukot),
+-- jotka eivat sisalla kartta- tai CT/T-puoliskotietoa - vain ottelun
+-- kokonaistuloksen. Yksi rivi = yksi kartta yhdesta ottelusta.
+CREATE TABLE IF NOT EXISTS historical_maps (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    match_date_utc      TEXT,
+    tournament          TEXT NOT NULL,      -- historical_matches.tournament -kentan alkuperainen merkkijono
+    liquipedia_page      TEXT NOT NULL,      -- resolvoitu bracket-sivun otsikko
+    team1               TEXT NOT NULL,
+    team2               TEXT NOT NULL,
+    team1_series_score  INTEGER,
+    team2_series_score  INTEGER,
+    map_order           INTEGER NOT NULL,   -- 1., 2., 3. kartta ottelussa
+    map_name            TEXT NOT NULL,
+    team1_score         INTEGER NOT NULL,
+    team2_score         INTEGER NOT NULL,
+    team1_halves_json   TEXT,               -- [{"side":"CT","score":8}, ...] puoliskojarjestyksessa
+    team2_halves_json   TEXT,
+    collected_utc       TEXT NOT NULL,
+    UNIQUE(liquipedia_page, team1, team2, map_order, match_date_utc)
+);
+
+CREATE INDEX IF NOT EXISTS idx_maps_tournament ON historical_maps(tournament);
+CREATE INDEX IF NOT EXISTS idx_maps_mapname ON historical_maps(map_name);
+
+-- Etenemisen seuranta turnaus-per-turnaus (sama resumable-malli kuin
+-- history_team_progress). "tournament" = historical_matches.tournament
+-- -kentan raakamerkkijono (181 kpl 2026-09-17), koska yksittaisia
+-- turnauslavoja (Group A / Playoffs / ...) kasitellaan usein omina
+-- Liquipedia-sivuinaan.
+CREATE TABLE IF NOT EXISTS bracket_progress (
+    tournament          TEXT PRIMARY KEY,
+    liquipedia_page      TEXT,
+    status              TEXT NOT NULL DEFAULT 'pending',  -- pending / ok / ok_no_brackets / not_found / error
+    matches_found        INTEGER DEFAULT 0,
+    maps_found            INTEGER DEFAULT 0,
+    last_attempt_utc     TEXT,
+    error_message         TEXT
+);

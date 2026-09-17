@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Pelivoimat Status</title>
 <meta name="description" content="CS2-pelivoimajärjestelmän rakennustilanne: tehtäväputki, löydetyt esteet ja kuukausikulut.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -152,6 +153,8 @@
   .histo-note{ font-size:11.5px; color:var(--text-faint); margin-top:12px; line-height:1.6; border-top:1px solid var(--border-soft); padding-top:10px; }
   #h-live-flag.live::before{ content:"● LIVE"; color:var(--ct); font-family:var(--font-mono); font-weight:600; }
   #h-live-flag.stale::before{ content:"○ staattinen esikatselu"; color:var(--text-faint); font-family:var(--font-mono); }
+  #m-live-flag.live::before{ content:"● LIVE"; color:var(--ct); font-family:var(--font-mono); font-weight:600; }
+  #m-live-flag.stale::before{ content:"○ staattinen esikatselu"; color:var(--text-faint); font-family:var(--font-mono); }
 
   /* terminal */
   .term{
@@ -181,9 +184,9 @@
       <div class="sub">CS2 · SEURANTALOKI · 17.9.2026</div>
       <a href="https://github.com/hermanni2007-prog/cs2voimat" target="_blank" rel="noopener">github.com/hermanni2007-prog/cs2voimat →</a>
       <div class="phasebar">
-        <i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i class="done"></i><i class="done"></i><i></i>
+        <i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="live"></i><i class="done"></i><i class="done"></i><i></i>
       </div>
-      <div class="phasebar-label">6/8 RAKENNETTU — T4 ODOTTAA KARTTADATAA</div>
+      <div class="phasebar-label">6/8 RAKENNETTU — T4 KERÄYS KÄYNNISSÄ</div>
     </div>
 
     <div class="readouts">
@@ -218,7 +221,7 @@
 
     <div class="next">
       <h3>Seuraava askel</h3>
-      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen ja avaa markkinavertailun Tehtäville 2 ja 6. Mallipuoli (2/3/5/6) on nyt rakennettu niin pitkälle kuin ilman kertoimia pääsee — loput odottavat joko tätä tilausta tai karttatason dataa (Tehtävä 4). <a href="https://claude.ai/artifact/NM9wHN96RtFobPrPPw9RXQ" target="_blank" rel="noopener" style="color:var(--t);">Katso raportti →</a></p>
+      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen ja avaa markkinavertailun Tehtäville 2 ja 6. Mallipuoli (2/3/5/6) on nyt rakennettu niin pitkälle kuin ilman kertoimia pääsee. Tehtävä 4:n karttadatan keräys on käynnistetty taustalle — loput odottavat joko tilausta tai lisää karttadataa. <a href="https://claude.ai/artifact/NM9wHN96RtFobPrPPw9RXQ" target="_blank" rel="noopener" style="color:var(--t);">Katso raportti →</a></p>
     </div>
   </div>
 
@@ -268,10 +271,10 @@
           <div class="desc">Joukkueille lasketaan pelivoimaluku joka päivittyy jokaisen ottelun jälkeen (kuten shakin Elo-rating). Testattu oikeasti paremmaksi ennustajaksi kuin pelkkä virallinen ranking-sijoitus tai täysi arvailu — pieni mutta aito etu.</div>
         </div>
 
-        <div class="task">
+        <div class="task live">
           <div class="node">4</div>
-          <div class="task-head"><div class="title">Karttapoikkeamat &amp; veto</div><div class="stamp waiting">ODOTTAA KARTTADATAA</div></div>
-          <div class="desc">Tarvitsee tiedon SIITÄ MIKÄ kartta pelattiin (Mirage, Inferno, jne.) — nykyinen keruu tietää vain lopputuloksen, ei karttojen nimiä. Vaatii lisätyötä otteludatan keruuseen.</div>
+          <div class="task-head"><div class="title">Karttapoikkeamat &amp; veto</div><div class="stamp progress">KERÄYS KÄYNNISSÄ</div></div>
+          <div class="desc">Turnausten bracket-sivuilta löytyi oikeasti kartta- ja CT/T-puoliskotason data — jäsennin rakennettu ja testattu. Turnaussivun tunnistus automaattisesti osoittautui odotettua vaikeammaksi (nimet eivät vastaa toisiaan sanatarkasti): ensimmäisessä 15 turnauksen erässä 9/15 löytyi oikein, 200 karttaa / 121 ottelua kerätty. Kerääntyy nyt taustalla automaattisesti (loput 166/181 turnausta), mutta poikkeama-/veto-mallia ei vielä rakennettu — odottaa laajempaa kattavuutta.</div>
         </div>
 
         <div class="task done">
@@ -328,6 +331,34 @@
       </div>
     </div>
 
+    <div id="maps-section">
+      <h2>Karttadatan keräys — live (Tehtävä 4)</h2>
+      <div class="histobox">
+        <div class="histo-top">
+          <div class="histo-stat">
+            <div class="histo-num" id="m-maps">–</div>
+            <div class="histo-label">KARTTAA KERÄTTY</div>
+          </div>
+          <div class="histo-stat">
+            <div class="histo-num" id="m-tournaments">–<span class="of">/181</span></div>
+            <div class="histo-label">TURNAUSTA KÄSITELTY</div>
+          </div>
+          <div class="histo-stat">
+            <div class="histo-num" id="m-updated">–</div>
+            <div class="histo-label">VIIMEKSI PÄIVITETTY</div>
+          </div>
+        </div>
+        <div class="histo-bar-track"><div class="histo-bar-fill" id="m-bar" style="width:0%"></div></div>
+        <div class="histo-breakdown">
+          <span><i class="dot ok"></i>löytyi: <b id="m-ok">–</b></span>
+          <span><i class="dot none"></i>ei löytynyt: <b id="m-nf">–</b></span>
+          <span><i class="dot err"></i>virhe: <b id="m-err">–</b></span>
+        </div>
+        <div class="histo-last" id="m-last">Odottaa ensimmäistä päivitystä…</div>
+        <div class="histo-note">181 turnaus(lava)-nimeä historical_matches-taulusta, resolvoidaan yksi kerrallaan oikeaksi Liquipedia-bracket-sivuksi (kattavuus ei ole 100 % — ks. Tehtävä 4:n kuvaus yllä ja README). Päivittyy automaattisesti GitHub Actionsista. <span id="m-live-flag"></span></div>
+      </div>
+    </div>
+
     <div>
       <h2>Mitä matkalla opittiin</h2>
       <div class="findings">
@@ -374,12 +405,18 @@
           <p>Koko projektin lähtöajatus oli, että viimeisimpiä otteluita painottamalla saisi etulyöntiaseman. Suora testi osoitti päinvastaista: mitä enemmän tuoretta muotoa painotettiin, sitä huonompi ennuste. Rehellinen, ei-toivottu tulos — mutta data on vasta 4 kuukauden mittainen, joten kannattaa testata uudelleen myöhemmin.</p>
         </div>
 
+        <div class="finding note">
+          <div class="finding-top"><div class="when">TURNAUSSIVUJEN TUNNISTUS</div><div class="stamp-word">OSITTAIN RATKAISTU</div></div>
+          <div class="headline">Turnausten nimet eivät vastaa Liquipedian sivujen otsikkoja — automaattinen tunnistus osuu vain n. 60 %:iin</div>
+          <p>Tavallinen tekstihaku palautti systemaattisesti vääriä sivuja (esim. pelaajan sivun turnauksen sijaan). Korjattu tarkemmalla otsikkohaulla, mutta esim. lyhenteet ("IEM") ja osa pienemmistä karsintaturnauksista eivät vielä tunnistu — kattavuus kasvaa ajan mittaan taustalla.</p>
+        </div>
+
       </div>
     </div>
 
     <div>
       <h2>Konkreettinen näyttö — muutama oikea testikutsu</h2>
-      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... otteludata löytyi</span></div><div class="line comment">  # → sallittu, ilmainen reitti otteludataan</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> for fixture in 72_vanhaa_ottelua: curl .../v4/historical-odds</div><div class="line">  <span class="hit">0 / 72 palautti hinnan</span></div><div class="line comment">  # → markkinadata ei kerry taaksepäin, vain eteenpäin</div></div>
+      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... otteludata löytyi</span></div><div class="line comment">  # → sallittu, ilmainen reitti otteludataan</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> for fixture in 72_vanhaa_ottelua: curl .../v4/historical-odds</div><div class="line">  <span class="hit">0 / 72 palautti hinnan</span></div><div class="line comment">  # → markkinadata ei kerry taaksepäin, vain eteenpäin</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl 'liquipedia.net/counterstrike/api.php?action=query&list=search&srsearch=intitle:"Esports World Cup"'</div><div class="line">  <span class="go">Esports World Cup/2026, Esports World Cup/2026/Qualifier, ...</span></div><div class="line comment">  # → intitle: tarkempi kuin tavallinen tekstihaku turnaussivun löytämiseen</div></div>
     </div>
 
     <footer>pelivoimat/status-dashboard · päivittyy pyynnöstä</footer>
@@ -400,6 +437,18 @@
     err: document.getElementById('h-err'),
     last: document.getElementById('h-last'),
     flag: document.getElementById('h-live-flag'),
+  };
+
+  var mEls = {
+    maps: document.getElementById('m-maps'),
+    tournaments: document.getElementById('m-tournaments'),
+    updated: document.getElementById('m-updated'),
+    bar: document.getElementById('m-bar'),
+    ok: document.getElementById('m-ok'),
+    nf: document.getElementById('m-nf'),
+    err: document.getElementById('m-err'),
+    last: document.getElementById('m-last'),
+    flag: document.getElementById('m-live-flag'),
   };
 
   function relTime(iso) {
@@ -429,6 +478,21 @@
     }
   }
 
+  function renderMaps(d) {
+    if (!d) return;
+    mEls.maps.textContent = (d.maps_collected != null) ? d.maps_collected : '–';
+    mEls.tournaments.innerHTML = (d.tournaments_done != null ? d.tournaments_done : '–') + '<span class="of">/' + (d.tournaments_total || 181) + '</span>';
+    mEls.updated.textContent = d.updated_utc ? relTime(d.updated_utc) : '–';
+    var pct = d.tournaments_total ? Math.round(100 * (d.tournaments_done || 0) / d.tournaments_total) : 0;
+    mEls.bar.style.width = pct + '%';
+    mEls.ok.textContent = d.tournaments_ok != null ? d.tournaments_ok : '–';
+    mEls.nf.textContent = d.tournaments_not_found != null ? d.tournaments_not_found : '–';
+    mEls.err.textContent = d.tournaments_error != null ? d.tournaments_error : '–';
+    if (d.last_tournament) {
+      mEls.last.textContent = 'Viimeksi käsitelty: ' + d.last_tournament.tournament + ' (' + d.last_tournament.status + ', ' + d.last_tournament.maps_found + ' karttaa)';
+    }
+  }
+
   // Staattinen esikatselu nakyy heti, ennen kuin (tai jos) live-yhteys avautuu.
   render({
     matches_collected: 1445,
@@ -442,6 +506,18 @@
   });
   if (els.flag) els.flag.className = 'stale';
 
+  renderMaps({
+    maps_collected: 200,
+    tournaments_done: 15,
+    tournaments_total: 181,
+    tournaments_ok: 9,
+    tournaments_not_found: 6,
+    tournaments_error: 0,
+    updated_utc: '2026-09-17T19:30:03Z',
+    last_tournament: { tournament: 'NODWIN Clutch Series #9 - Playoffs', status: 'not_found', maps_found: 0 },
+  });
+  if (mEls.flag) mEls.flag.className = 'stale';
+
   try {
     if (window.claude && window.claude.use) {
       window.claude.use('db').then(function (db) {
@@ -452,8 +528,16 @@
         }, function (e) {
           console.error('db subscribe error', e);
         });
+        if (mEls.flag) mEls.flag.className = 'live';
+        db.doc('maps/progress').onSnapshot(function (snap) {
+          if (snap.exists) renderMaps(snap.data());
+        }, function (e) {
+          console.error('db subscribe error (maps)', e);
+        });
       }).catch(function (e) { console.error('claude.use(db) failed', e); });
     }
   } catch (e) { console.error(e); }
 })();
 </script>
+
+</body></html>
