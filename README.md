@@ -1,7 +1,34 @@
 # CS2-pelivoimat
 
 Tehtävä 0 (kertoimien keruu) on **rakennettu ja testattu**, automaatio on
-tauolla tilauspäivitystä odottamassa: https://github.com/hermanni2007-prog/cs2voimat
+tauolla tilauspäivitystä odottamassa. Tehtävä 1 (historiadata, rajattu:
+4 kk / top 50) on **käynnissä**. Live-tila:
+https://github.com/hermanni2007-prog/cs2voimat · status-sivu (linkki keskustelussa).
+
+## Tehtävä 1: historiadata — rajattu laajuus (2026-09-17)
+
+Alkuperäinen briiffi pyysi 24 kk / top 30. Käyttäjä rajasi tätä käytännön
+syistä: **4 kuukautta, top 50 joukkuetta**.
+
+- `src/collect_history.py` + `src/liquipedia_client.py`: hakee jokaisen
+  top-50-joukkueen (`data/top50_teams.json`, lähde: Valve VRS
+  `standings_global`) Liquipedia-sivun `<Joukkue>/Matches`-alasivun ja
+  jäsentää sen ottelutaulukon (pvm, taso, LAN/online, turnaus, tulos,
+  vastustaja). Yksi HTTP-pyyntö per joukkue - ei tarvitse skannata
+  turnaussivuja erikseen.
+- Liquipedian oma nopeusrajoitus (1 `action=parse`/30s) tekee koko
+  top-50-kierroksesta ~25 min operaation. `history_team_progress`-taulu
+  muistaa jo käsitellyt joukkueet, joten ajon voi katkaista ja jatkaa.
+- `.github/workflows/collect_history.yml` ajaa tätä 15 min välein,
+  25 joukkuetta/ajo, ja committaa tuloksen takaisin repoon - jatkuu
+  itsenäisesti tulevaisuudessa (uudet ottelut, joukkueiden vaihtuessa).
+- Status-sivulla on live-osio ("Historiadatan keräys") joka lukee
+  edistymisen suoraan artifaktin `db`-kyvyn kautta - ei vaadi sivun
+  manuaalista uudelleenjulkaisua nähdäkseen tuoreet luvut.
+- **Tunnettu rajoitus:** rivit ovat sekoitus karttatason (round-score,
+  esim. "13-9") ja sarjatason (map-win, esim. "2:0") tuloksia riippuen
+  ottelun formaatista - ei vielä normalisoitu. Sama ottelu voi esiintyä
+  kahdesti (kummankin joukkueen sivulta), dedupetty `UNIQUE`-indeksillä.
 
 Lähde [oddspapi.io](https://oddspapi.io), bookmaker **Coolbet**, skeema
 varmistettu oikeaa dataa vastaan 2026-09-17. Ajastus pyörii GitHubin
