@@ -140,13 +140,25 @@ class LiquipediaClient:
             BASE_URL,
             params={
                 "action": "query", "format": "json", "list": "search",
-                "srsearch": f'intitle:"{phrase}"', "srlimit": 5,
+                "srsearch": f'intitle:"{phrase}"', "srlimit": 10,
             },
             timeout=20,
         )
         r.raise_for_status()
         hits = r.json().get("query", {}).get("search", [])
         return [h["title"] for h in hits]
+
+    # Turnaussarjat joiden nayttonimi ei sisalla Liquipedian oikeaa sarjan
+    # nimea. Havaittu 2026-09-17: "IEM Cologne" loytaa intitle:lla useita
+    # sivuja ("Intel Extreme Masters/Season XVII/Cologne",
+    # ".../2026/Cologne", ...) - lyhenteen KAUTTA haku toimii silti (Liqui-
+    # pedian search-indeksi tuntee sen), pidempi nayttonimi ("IEM Cologne
+    # Major 2026 Stage 3") EI loyda mitaan koska "Major"/"Stage N" -sanat
+    # eivat esiinny otsikossa.
+    _SERIES_SHORT_FORM = {
+        "IEM": 2,    # "IEM Cologne" (sarja + kaupunki)
+        "BLAST": 2,  # "BLAST Bounty" (sarja + alasarja)
+    }
 
     def resolve_tournament_page(self, tournament_string: str) -> Optional[str]:
         """Yrittaa loytaa turnaus(lava)-merkkijonoa (esim. "Esports World Cup
@@ -162,18 +174,75 @@ class LiquipediaClient:
         full-text-haku palautti systemaattisesti vaaria sivuja, esim.
         pelaajien/joukkueiden sivuja joilla turnauksen nimi mainitaan usein).
 
-        Kattavuus on epatasaista: osa turnaussarjoista (esim. lyhenteet
-        kuten "IEM" = "Intel Extreme Masters") tai pienemmat
-        karsintaturnaukset eivat resolvoidu talla yksinkertaisella
-        saannolla - naille status jaa 'not_found' bracket_progress-tauluun,
-        eika niita yriteta loputtomiin uudelleen."""
+        Osa sarjoista (esim. IEM) elaa Liquipediassa monena eri kautena
+        saman kaupungin alla ("Season XIV/Beijing", "Season XVII/Cologne",
+        "2026/Cologne", ...) - intitle-haku palauttaa TASSA tapauksessa
+        useita osumia. Jotta ei vahingossa poimita vaaran vuoden dataa
+        (esim. 2019 Beijing sekoittuisi 2026-datasettiimme), useamman
+        osuman tapauksessa hyvaksytaan vain sellainen jossa "2026" esiintyy
+        otsikossa; jos yksikaan ei tasmaa eika ainoa osuma sisalla "2026":ta,
+        merkitaan not_found mieluummin kuin arvataan vaara kausi.
+
+        Kattavuus on siis edelleen epatasaista, mutta tietoisesti
+        varovainen - vaarat sivut ovat pahempi ongelma kuin puuttuvat."""
         import re as _re
 
         base = _re.split(r"\s*[:\-]\s*|\s*#\d+", tournament_string)[0].strip()
+        num_match = _re.search(r"#(\d+)", tournament_string)
+        num_suffix = num_match.group(1) if num_match else None
 
-        hits = self.search_intitle(base)
-        if hits:
-            resolved = self.resolve_redirect(hits[0])
+        words = base.split()
+        phrases = [(base, False, [])]
+        for prefix, n_words in self._SERIES_SHORT_FORM.items():
+            if words and words[0].upper() == prefix and len(words) >= n_words:
+                short = " ".join(words[:n_words])
+                if short != base:
+                    # lyhyempi muoto ensin, mutta merkitty "epavarmaksi" -
+                    # sarjalla on usein monta vanhaa kautta ja monta
+                    # rinnakkaista alasarjaa (Summer/Winter/Fall/Spring)
+                    # saman kaupungin/vuoden alla, joten vaaditaan "2026"
+                    # JA joku erottava lisasana ("Summer" jne.) otsikossa -
+                    # ei hyvaksyta sokeasti mitaan yksittaista osumaa.
+                    phrases.insert(0, (short, True, words[n_words:]))
+                break
+
+        for phrase, uncertain, extra_words in phrases:
+            hits = self.search_intitle(phrase)
+            if not hits:
+                continue
+
+            # Numeroitu turnaussarja ilman vuosilukua otsikossa (esim.
+            # "BC.Game Masters Championship #2" -> ".../Championship/2") -
+            # kokeillaan taman ensin, ennen vuosi-/lisasanaerottelua.
+            if num_suffix and len(hits) > 1:
+                num_hits = [h for h in hits if h.rstrip("/").rsplit("/", 1)[-1] == num_suffix]
+                if len(num_hits) == 1:
+                    resolved = self.resolve_redirect(num_hits[0])
+                    if self.page_exists(resolved):
+                        return resolved
+
+            year_hits = [h for h in hits if "2026" in h]
+            pick = None
+            if len(year_hits) == 1:
+                pick = year_hits[0]
+            elif len(year_hits) > 1:
+                # useampi 2026-osuma (esim. eri vuodenajan alasarjat) -
+                # yritetaan erottaa lisasanalla (esim. "Fall" hakusanasta
+                # "BLAST Open Fall 2026" osuu "BLAST/Open/2026/Fall":iin).
+                for w in extra_words:
+                    if len(w) < 4:
+                        continue
+                    match = next((h for h in year_hits if w.lower() in h.lower()), None)
+                    if match:
+                        pick = match
+                        break
+                if not pick and not uncertain:
+                    pick = year_hits[0]
+            elif len(hits) == 1 and not uncertain:
+                pick = hits[0]
+            if not pick:
+                continue
+            resolved = self.resolve_redirect(pick)
             if self.page_exists(resolved):
                 return resolved
         return None

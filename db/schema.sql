@@ -149,3 +149,22 @@ CREATE TABLE IF NOT EXISTS bracket_progress (
     last_attempt_utc     TEXT,
     error_message         TEXT
 );
+
+-- Tehtava 7 (valmisteltu etukateen, EI VIELA KAYTOSSA): CLV (closing line
+-- value) -loki. Rakenne valmis nyt jotta Tehtava 0:n kaynnistyessa (Coolbet-
+-- tilaus) sen voi ottaa suoraan kayttoon ilman skeemamuutosta. Tayttyy
+-- vain jos/kun oikeaa markkinadataa (odds_snapshots) on riittavasti - katso
+-- src/clv.py:n yla kommentti laskentakaavasta.
+CREATE TABLE IF NOT EXISTS clv_log (
+    id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+    fixture_id            TEXT NOT NULL REFERENCES matches(fixture_id),
+    bookmaker             TEXT NOT NULL,
+    model_prob_team       REAL NOT NULL,   -- p_malli hetkella jolloin "veto" olisi tehty
+    market_prob_team_bet  REAL NOT NULL,   -- markkinan marginaalipoistettu tn samalla hetkella
+    price_at_bet          REAL NOT NULL,
+    price_closing         REAL,            -- taytetaan jalkikateen kun sulkeutuva kerroin tiedossa
+    clv_pct               REAL,            -- (price_at_bet / price_closing - 1) - taytetaan samalla
+    logged_utc            TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_clv_fixture ON clv_log(fixture_id);

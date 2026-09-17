@@ -53,8 +53,8 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   (esim. "Was on loan to X") jätetään huomiotta - käytetään vain
   ensimmäistä ja viimeistä YYYY-MM-DD-päivää riviltä.
 - `backtest.RosterHistory`: `roster_as_of(team, date)` ja
-  `roster_stability(team, date, lookback_days)` - valmiina tulevaa käyttöä
-  varten (mm. Tehtävä 7:n "rosterimuutosliput" -segmentointi).
+  `roster_stability(team, date, lookback_days)` - kaytetty nyt ensi kertaa
+  `src/run_roster_signal.py`:ssa, ks. "Edge-analyysi" alempana.
 
 ### HUOM: ajastukset eivät ole vielä laukenneet kertaakaan (2026-09-17)
 
@@ -156,20 +156,40 @@ kuin `/Matches`-taulukko ja vaati oman jäsentimen.
   (`bracket_progress`-taulu, `--max-tournaments`-rajoitin). Ajastettu
   GitHub Actions -työnä (`.github/workflows/collect_maps.yml`, 20
   turnausta/ajo, offset-minuutit tasa-ajon välttämiseksi).
-- **Ensimmäisen 15 turnauksen ajon tulos (2026-09-17):** 9/15 (60 %)
-  resolvoitui oikein, 200 karttariviä / 121 ottelua kerätty 4:sta
-  turnaussivusta (mm. Esports World Cup 2026, Stake Ranked Ep. 2 & 3,
-  FISSURE Playground). 6/15 ei resolvoitunut — pääosin lyhennenimillä
-  ("IEM" = Intel Extreme Masters Liquipediassa, ei tunnistettu vielä
-  automaattisesti) tai turnauksilla joilla ei ehkä ole erillista
-  Liquipedia-sivua ollenkaan (esim. "BLAST Open Fall 2026 - Group A/B").
-  **Kattavuus on siis rehellisesti osittainen, ei täydellinen** — loput
-  166/181 turnausta kerääntyvät ajan mittaan taustalla, ja resolvointia
-  voi parantaa lisäämällä turnaussarjakohtaisia aliaksia (sama malli kuin
-  `TEAM_ALIASES` Tehtävässä 1) sitä mukaa kun huomataan mitä puuttuu.
-- Kartta- ja puoliskotason shrinkage-estimaattori (`m̂ = (n/(n+k))·m_raaka`)
-  ja veto-/päivitysmalli EI vielä rakennettu — odottaa laajempaa kattavuutta
-  ennen kuin per-kartta-poikkeamat ovat tilastollisesti mielekkäitä.
+- **Resolveria parannettiin iteratiivisesti (2026-09-17) sitä mukaa kun
+  puuttuvia turnaussarjoja huomattiin:** lyhenteille (IEM = "Intel Extreme
+  Masters") lyhyempi hakumuoto, useamman osuman tapauksessa vuosiluvun
+  ("2026") ja alasarjan (esim. "Summer"/"Fall") perusteella oikean kauden
+  valinta (jotta ei vahingossa poimita vanhan kauden dataa vaaraan
+  turnaukseen), ja numeroiduille sarjoille (esim. "BC.Game Masters
+  Championship #2") suoraan numerolla tasmays. Jokainen korjaus lisatty
+  vasta kun havaittu real esimerkki jota vanha logiikka ei loytanyt.
+- **Koko 181 turnauksen ensimmäisen läpikäynnin tulos (2026-09-17):**
+  86/181 (48 %) resolvoitui oikeaksi Liquipedia-sivuksi, 2 löytyi mutta
+  ilman bracket-dataa, 92 ei löytynyt ollenkaan. **783 karttariviä
+  (1566 joukkue×kartta-tapahtumaa) kerätty 24 eri turnaussivusta.**
+  Suurin osa ei-löytyneistä on pieniä alueellisia karsintaturnauksia
+  (esim. "CCT EU Series", "Moscow Cyber Games", "Thunderpick WC Qual")
+  joiden Liquipedia-nimeämiskäytäntö poikkeaa nayttö-nimestä täysin eri
+  tavalla kuin IEM/BLAST — näiden korjaaminen vaatisi tapaus kerrallaan
+  tutkimista, ei yleistä sääntöä. **Kattavuus on siis rehellisesti
+  osittainen** — puuttuvat turnaukset (`status='not_found'`) EIVAT yritetä
+  loputtomiin uudelleen automaattisesti, jottei tuhlata Liquipedian
+  pyyntökiintiötä samoihin tuloksettomiin hakuihin.
+- Kartta- ja puoliskotason shrinkage-estimaattori (`src/run_map_deviations.py`,
+  `m̂ = (n/(n+k))·m_raaka`, k=5) laskee jokaiselle joukkue×kartta-parille
+  kuinka paljon sen voitto-% kyseisellä kartalla poikkeaa joukkueen OMASTA
+  yleistasosta (ei kentän keskiarvosta, joka on rakenteellisesti aina 0.5).
+  **Havaintoja 783 kartan datalla:** esim. MOUZ +16 %-yks. Miragella mutta
+  -20 %-yks. Ancientilla suhteessa omaan tasoonsa; G2 Esports vahva
+  Infernolla, heikko Dust II:lla. Nama ovat aitoja, mitattavia
+  poikkeamia — ei viela testattu markkinaa vastaan (Tehtävä 0 tauolla),
+  joten emme tiedä hinnoitteleeko Coolbet nama jo sisään. k=5 on
+  tietoinen alkuarvaus, ei kalibroitu.
+- **Veto-/päivitysmalli EI vielä rakennettu** — vaatii kartta-VETOJARJESTYS-
+  datan (mika kartta poistettiin milloinkin), jota historical_maps ei
+  vielä tallenna erikseen: nyt tiedetaan vain PELATUT kartat, ei koko
+  veto-sekvenssia. Seuraava laajennus jos tätä jatketaan.
 
 ## Tehtävä 5: Formipaino λ — teesi EI saanut tukea (rehellinen negatiivinen tulos)
 
@@ -197,6 +217,41 @@ varmistettu oikeaa dataa vastaan 2026-09-17. Ajastus pyörii GitHubin
 palvelimella, täysin riippumatta tästä koneesta. Muut tehtävät
 (`cs2-agenttibriiffi.md`) rakennetaan tämän päälle vasta kun hyväksymiskriteeri
 (7 pv, 50 ottelua, molemmat kertoimet) täyttyy.
+
+## Edge-analyysi (2026-09-17): mistä oikea etu voisi löytyä
+
+Rehellinen lähtökohta: se että malli voittaa 50/50:n tai VRS-sijan (Tehtävä 3)
+EI todista markkinaetua — Coolbet käyttää paljon enemmän tietoa kuin VRS-sija.
+Oikea edge vaatii markkinavertailua (Tehtävä 0), jota ei viela ole. Alla kolme
+konkreettista askelta jotka VALMISTELTIIN nyt olemassa olevalla datalla, jotta
+niita voi ottaa kayttoon heti kun kerroindata alkaa kertya.
+
+1. **Karttatason poikkeamat** — ks. Tehtävä 4 yllä (`src/run_map_deviations.py`).
+   Todennäköisin paikka oikealle edgelle, koska kartta-handicap/-totaali
+   -markkinat ovat yleensä ohuemmin hinnoiteltuja kuin ottelun voittaja.
+2. **Rosterimuutos-signaali** (`src/run_roster_signal.py`): testattiin onko
+   Elon ennustevirhe suurempi otteluissa joissa jompikumpi joukkue on
+   vaihtanut kokoonpanoaan viimeisen 30 vrk:n aikana (`RosterHistory.
+   roster_stability`, rakennettu jo Tehtävä 1:ssä mutta ei aiemmin käytetty
+   mihinkään). **Tulos on kaksijakoinen:** yhden pelaajan vaihdoksella ei ole
+   eroa (log loss 0.666 vs. 0.661, n=638/222 — kohinaa). MUTTA isommalla
+   kynnyksellä (≥2 uutta pelaajaa 30 vrk:ssa, eli oikea kokoonpanomullistus)
+   ero on selvä: log loss 0.707 vs. 0.662 (n=42 vs. 818) — malli ennustaa
+   selvästi huonommin näissä tilanteissa. **Varoitus: n=42 on pieni otos**,
+   tätä ei pidä ottaa vielä todistettuna, mutta se on looginen paikka jossa
+   markkinakin todennäköisesti reagoi hitaammin kuin pitäisi.
+3. **CLV-seuranta** (`src/clv.py`, `clv_log`-taulu skeemassa) — **valmisteltu,
+   EI VIELÄ KÄYTÖSSÄ.** Tämä on briiffin oma lopullinen validointimittari:
+   sen sijaan että odotetaan satoja oikeita vetotuloksia, katsotaan liikkuuko
+   markkinan kerroin ajan mittaan kohti mallin ennustetta (CLV% =
+   hinta_vedolla / sulkeutuva_hinta − 1). Rakenne (taulu + `log_bet()` /
+   `settle_closing()` -funktiot) on valmis, mutta täysin tyhjä kunnes
+   Tehtävä 0 käynnistyy uudelleen — mitään ei ole vielä kytketty
+   `collect_odds.py`:hen, koska oikeaa kerrointa ei ole mihin verrata.
+
+**Ei siis vielä väitetä että edgeä on löytynyt** — nämä ovat kolme valmisteltua
+työkalua/havaintoa jotka aktivoituvat/vahvistuvat kun Tehtävä 0:n kerroindata
+alkaa kertyä.
 
 ## Bookmaker-valinta: Coolbet, ei Pinnacle
 

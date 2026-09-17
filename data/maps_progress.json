@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-17T16:30:03.133915+00:00",
+  "updated_utc": "2026-09-17T17:31:49.506365+00:00",
   "tournaments_total": 181,
-  "tournaments_done": 15,
-  "tournaments_ok": 9,
-  "tournaments_ok_no_brackets": 0,
-  "tournaments_not_found": 6,
-  "tournaments_error": 0,
-  "maps_collected": 200,
+  "tournaments_done": 180,
+  "tournaments_ok": 86,
+  "tournaments_ok_no_brackets": 2,
+  "tournaments_not_found": 92,
+  "tournaments_error": 1,
+  "maps_collected": 783,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #9 - Playoffs",
-    "status": "not_found",
+    "tournament": "Esports World Cup 2026: LCQ - Group Stage - Group L",
+    "status": "error",
     "maps_found": 0,
-    "at": "2026-09-17T16:30:03.122539+00:00"
+    "at": "2026-09-17T17:31:49.490482+00:00"
   }
 }

@@ -184,14 +184,14 @@
       <div class="sub">CS2 · SEURANTALOKI · 17.9.2026</div>
       <a href="https://github.com/hermanni2007-prog/cs2voimat" target="_blank" rel="noopener">github.com/hermanni2007-prog/cs2voimat →</a>
       <div class="phasebar">
-        <i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="live"></i><i class="done"></i><i class="done"></i><i></i>
+        <i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i>
       </div>
-      <div class="phasebar-label">6/8 RAKENNETTU — T4 KERÄYS KÄYNNISSÄ</div>
+      <div class="phasebar-label">7/8 RAKENNETTU — T7 EI ALOITETTU</div>
     </div>
 
     <div class="readouts">
       <div class="readout ct">
-        <div class="num">6<span class="of">/8</span></div>
+        <div class="num">7<span class="of">/8</span></div>
         <div class="label">TEHTÄVÄÄ RAKENNETTU</div>
       </div>
       <div class="readout">
@@ -221,7 +221,7 @@
 
     <div class="next">
       <h3>Seuraava askel</h3>
-      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen ja avaa markkinavertailun Tehtäville 2 ja 6. Mallipuoli (2/3/5/6) on nyt rakennettu niin pitkälle kuin ilman kertoimia pääsee. Tehtävä 4:n karttadatan keräys on käynnistetty taustalle — loput odottavat joko tilausta tai lisää karttadataa. <a href="https://claude.ai/artifact/NM9wHN96RtFobPrPPw9RXQ" target="_blank" rel="noopener" style="color:var(--t);">Katso raportti →</a></p>
+      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen ja avaa markkinavertailun sekä CLV-seurannan (valmisteltu, ei käytössä). Mallipuoli (2/3/4/5/6) on nyt rakennettu niin pitkälle kuin ilman kertoimia pääsee — 7/8 tehtävää rakennettu, vain Tehtävä 7 odottaa kokonaan aloittamista. <a href="https://claude.ai/artifact/NM9wHN96RtFobPrPPw9RXQ" target="_blank" rel="noopener" style="color:var(--t);">Katso raportti →</a></p>
     </div>
   </div>
 
@@ -271,10 +271,10 @@
           <div class="desc">Joukkueille lasketaan pelivoimaluku joka päivittyy jokaisen ottelun jälkeen (kuten shakin Elo-rating). Testattu oikeasti paremmaksi ennustajaksi kuin pelkkä virallinen ranking-sijoitus tai täysi arvailu — pieni mutta aito etu.</div>
         </div>
 
-        <div class="task live">
+        <div class="task done">
           <div class="node">4</div>
-          <div class="task-head"><div class="title">Karttapoikkeamat &amp; veto</div><div class="stamp progress">KERÄYS KÄYNNISSÄ</div></div>
-          <div class="desc">Turnausten bracket-sivuilta löytyi oikeasti kartta- ja CT/T-puoliskotason data — jäsennin rakennettu ja testattu. Turnaussivun tunnistus automaattisesti osoittautui odotettua vaikeammaksi (nimet eivät vastaa toisiaan sanatarkasti): ensimmäisessä 15 turnauksen erässä 9/15 löytyi oikein, 200 karttaa / 121 ottelua kerätty. Kerääntyy nyt taustalla automaattisesti (loput 166/181 turnausta), mutta poikkeama-/veto-mallia ei vielä rakennettu — odottaa laajempaa kattavuutta.</div>
+          <div class="task-head"><div class="title">Karttapoikkeamat &amp; veto</div><div class="stamp done">POIKKEAMAT VALMIS · VETOMALLI PUUTTUU</div></div>
+          <div class="desc">Turnausten bracket-sivuilta löytyi kartta- ja CT/T-puoliskotason data. Turnaussivun automaattinen tunnistus oli odotettua vaikeampaa (näyttönimet eivät vastaa Liquipedian otsikoita) — iteroitu useaan kertaan, lopputulos 86/181 (48 %) turnausta resolvoitui, 783 karttaa kerätty. Shrinkage-estimaattori (m̂ = (n/(n+k))·m_raaka) laskettu: löytyi aitoja poikkeamia (esim. MOUZ +16 %-yks. Miragella, −20 %-yks. Ancientilla suhteessa omaan tasoonsa). Veto-JÄRJESTYSDATAA ei vielä kerätä (vain pelatut kartat), joten itse veto-/päivitysmalli puuttuu.</div>
         </div>
 
         <div class="task done">
@@ -406,9 +406,15 @@
         </div>
 
         <div class="finding note">
-          <div class="finding-top"><div class="when">TURNAUSSIVUJEN TUNNISTUS</div><div class="stamp-word">OSITTAIN RATKAISTU</div></div>
-          <div class="headline">Turnausten nimet eivät vastaa Liquipedian sivujen otsikkoja — automaattinen tunnistus osuu vain n. 60 %:iin</div>
-          <p>Tavallinen tekstihaku palautti systemaattisesti vääriä sivuja (esim. pelaajan sivun turnauksen sijaan). Korjattu tarkemmalla otsikkohaulla, mutta esim. lyhenteet ("IEM") ja osa pienemmistä karsintaturnauksista eivät vielä tunnistu — kattavuus kasvaa ajan mittaan taustalla.</p>
+          <div class="finding-top"><div class="when">TURNAUSSIVUJEN TUNNISTUS</div><div class="stamp-word">OSITTAIN RATKAISTU — 48 %</div></div>
+          <div class="headline">Turnausten nimet eivät vastaa Liquipedian sivujen otsikkoja — automaattinen tunnistus osuu 86/181:een (48 %)</div>
+          <p>Tavallinen tekstihaku palautti systemaattisesti vääriä sivuja. Korjattu tarkemmalla otsikkohaulla + vuosiluku-/numerotunnistuksella (IEM, BLAST, BC.Game, 1win nyt toimivat). Loput 92 ovat pääosin pieniä alueellisia karsintoja joiden nimeämiskäytäntö poikkeaa täysin — vaatisivat tapauskohtaista tutkimista.</p>
+        </div>
+
+        <div class="finding fix">
+          <div class="finding-top"><div class="when">EDGE-ANALYYSI</div><div class="stamp-word">VALMISTELTU</div></div>
+          <div class="headline">Kolme konkreettista askelta kohti oikeaa markkinaetua valmisteltu olemassa olevalla datalla</div>
+          <p>Karttapoikkeamat (yllä) ovat todennäköisin edge — kartta-markkinat ovat ohuemmin hinnoiteltuja. Rosterimuutos-signaali: isolla kokoonpanomullistuksella (≥2 uutta pelaajaa) Elon ennuste selvästi huonompi (log loss 0.71 vs. 0.66, n=42 — pieni otos). CLV-seuranta rakennettu muttei käytössä, odottaa Tehtävä 0:aa.</p>
         </div>
 
       </div>
@@ -507,14 +513,14 @@
   if (els.flag) els.flag.className = 'stale';
 
   renderMaps({
-    maps_collected: 200,
-    tournaments_done: 15,
+    maps_collected: 783,
+    tournaments_done: 180,
     tournaments_total: 181,
-    tournaments_ok: 9,
-    tournaments_not_found: 6,
+    tournaments_ok: 86,
+    tournaments_not_found: 92,
     tournaments_error: 0,
-    updated_utc: '2026-09-17T19:30:03Z',
-    last_tournament: { tournament: 'NODWIN Clutch Series #9 - Playoffs', status: 'not_found', maps_found: 0 },
+    updated_utc: '2026-09-17T20:31:36Z',
+    last_tournament: { tournament: 'Esports World Cup 2026: LCQ - Group Stage - Group K', status: 'ok', maps_found: 0 },
   });
   if (mEls.flag) mEls.flag.className = 'stale';
 
