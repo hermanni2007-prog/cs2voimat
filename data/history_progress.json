@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-17T19:35:12.080676+00:00",
-  "window_days": 120,
+  "updated_utc": "2026-09-17T21:32:09.400932+00:00",
+  "window_days": 240,
   "teams_total": 50,
-  "teams_done": 50,
-  "teams_ok": 50,
+  "teams_done": 1,
+  "teams_ok": 1,
   "teams_not_found": 0,
   "teams_error": 0,
-  "matches_collected": 1645,
+  "matches_collected": 1688,
   "last_team": {
-    "team": "Spirit",
+    "team": "100 Thieves",
     "status": "ok",
-    "matches_found": 0,
-    "at": "2026-09-17T19:35:12.073617+00:00"
+    "matches_found": 43,
+    "at": "2026-09-17T21:32:09.388519+00:00"
   }
 }

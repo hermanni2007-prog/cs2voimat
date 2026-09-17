@@ -1,8 +1,9 @@
 """
 Tehtava 1 (rajattu): historiallisten ottelutulosten keruu Liquipediasta.
 
-Laajuus (kayttajan rajaus 2026-09-17): vain viimeiset 4 kuukautta, vain
-top-50 joukkuetta (data/top50_teams.json, lahde: Valve VRS).
+Laajuus: viimeiset 8 kuukautta (kayttajan pyynnosta 2026-09-18 laajennettu
+alkuperaisesta 4 kk:n rajauksesta), vain top-50 joukkuetta
+(data/top50_teams.json, lahde: Valve VRS).
 
 Lahde: Liquipedian MediaWiki-API, "<Joukkue>/Matches"-alasivut. Jokainen
 sivu sisaltaa joukkueen koko ottelutulokset (pvm, taso, LAN/online,
@@ -46,7 +47,7 @@ logging.basicConfig(
 )
 log = logging.getLogger("collect_history")
 
-HISTORY_WINDOW_DAYS = 120  # "viimeiset 4 kk"
+HISTORY_WINDOW_DAYS = 240  # "viimeiset 8 kk" (laajennettu 4 kk:sta 2026-09-18)
 TOP50_PATH = ROOT / "data" / "top50_teams.json"
 PROGRESS_PATH = ROOT / "data" / "history_progress.json"
 
@@ -175,7 +176,7 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
             (page_title, inserted, now_utc_iso(), team_name),
         )
         conn.commit()
-        log.info("OK %s (%s): %d uutta ottelua (4 kk ikkunassa)", team_name, page_title, inserted)
+        log.info("OK %s (%s): %d uutta ottelua (8 kk ikkunassa)", team_name, page_title, inserted)
 
     except Exception as exc:
         conn.execute(
@@ -220,7 +221,7 @@ def main() -> int:
     if args.max_teams:
         pending = pending[: args.max_teams]
 
-    log.info("Kasitellaan %d joukkuetta tassa ajossa (4 kk ikkuna, alkaen %s)", len(pending), cutoff_utc.date())
+    log.info("Kasitellaan %d joukkuetta tassa ajossa (8 kk ikkuna, alkaen %s)", len(pending), cutoff_utc.date())
 
     client = LiquipediaClient()
     for team_name in pending:
