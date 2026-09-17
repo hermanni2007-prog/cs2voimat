@@ -21,6 +21,7 @@ METODOLOGIA: kaksivaiheinen, sama periaate kuin koko projektissa.
      osiolla) - EI ennen kuin tama on tehty, mitaan ei oteta kayttoon."""
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -48,10 +49,20 @@ def streak_bucket(streak: int) -> int:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-sos-filter", action="store_true",
+                         help="Aja koko (suodattamattomalla) 2498 ottelun datalla SOS-suodatuksen "
+                              "sijaan - vertailua varten, ei oletusarvoinen kayttotapa.")
+    args = parser.parse_args()
+
     conn = get_connection()
     all_matches = deduplicate_matches(load_clean_matches(conn))
     conn.close()
-    matches = filter_top50_only(all_matches, load_top50_names())
+    if args.no_sos_filter:
+        matches = all_matches
+        print("HUOM: --no-sos-filter -> kaytetaan KOKO deduplikoitua dataa (ei top50-vs-top50 -rajausta)\n")
+    else:
+        matches = filter_top50_only(all_matches, load_top50_names())
     params = load_best_elo_params()
 
     elo = EloModel(scale=params["scale"], k_factor=params["k_factor"], half_life_days=params["half_life_days"])
