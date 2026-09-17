@@ -13,6 +13,15 @@ Soveltaa "ruostumis"-korjauksen (backtest.apply_rust_adjustment): jos
 suosikki ei ole pelannut yhtaan ottelua viimeisen 5 vrk:n aikana,
 ennustetta kutistetaan kohti 0.5:ta kertoimella 0.79.
 
+Soveltaa myos online-korjauksen (backtest.apply_online_adjustment,
+lisatty 2026-09-18, --online-lippu): jos ottelu pelataan onlinena (ei
+LANilla), ennuste kutistetaan KOKONAAN kohti 0.5:ta (ONLINE_SHRINK=0.0) -
+validoitu loytamalla etta mallilla ei ole online-otteluissa kaytannossa
+minkaanlaista ennustearvoa markkinaa/arvausta parempaa (ks. backtest.py:n
+kommentti ja run_online_adjustment.py). Todennakoinen syy: top-joukkueet
+kayttavat online-karsinnoissa useammin stand-ineja / eivat panosta
+taydella kokoonpanolla.
+
 HUOM METODOLOGIASTA (2026-09-17, kayttajan perustellun huomion jalkeen):
 tama kerroin on validoitu OIKEIN - fitattu VAIN kronologisen datan
 ensimmaisella 80%:lla, sovellettu ja tarkistettu VASTA nakemattomalla
@@ -37,7 +46,7 @@ from db import get_connection  # noqa: E402
 from backtest import (  # noqa: E402
     EloModel,
     RUST_WINDOW_DAYS,
-    apply_rust_adjustment,
+    apply_all_adjustments,
     count_recent_matches,
     deduplicate_matches,
     filter_top50_only,
@@ -55,7 +64,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("team")
     parser.add_argument("opponent")
+    parser.add_argument("--online", action="store_true",
+                         help="Ottelu pelataan onlinena (ei LANilla) - soveltaa validoidun "
+                              "online-korjauksen (ks. yla kommentti).")
     args = parser.parse_args()
+    match_type = "Online" if args.online else None
 
     conn = get_connection()
     matches = deduplicate_matches(load_clean_matches(conn))
@@ -87,12 +100,17 @@ def main() -> int:
 
     n_recent_team = count_recent_matches(args.team, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
     n_recent_opp = count_recent_matches(args.opponent, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
-    p_adjusted = apply_rust_adjustment(r["p_mid"], n_recent_team, n_recent_opp)
+    p_adjusted = apply_all_adjustments(r["p_mid"], n_recent_team, n_recent_opp, match_type=match_type)
 
-    print(f"{args.team} vs {args.opponent}")
+    print(f"{args.team} vs {args.opponent}" + ("  [ONLINE-ottelu]" if match_type == "Online" else ""))
     print(f"  n_ottelua: {args.team}={r['n_team']}  {args.opponent}={r['n_opp']}  -> luottamus: {r['confidence']}")
     print(f"  P({args.team}) raaka = {r['p_mid']:.3f}  (haarukka [{r['p_low']:.3f}, {r['p_high']:.3f}])")
-    if p_adjusted != r["p_mid"]:
+    if match_type == "Online":
+        print(f"  P({args.team}) ONLINE-KORJATTU = {p_adjusted:.3f}  "
+              f"(mallilla ei validoinnin mukaan ole online-otteluissa kaytannon ennustearvoa - "
+              f"katso backtest.py:n ONLINE_SHRINK-kommentti)")
+        p_final = p_adjusted
+    elif p_adjusted != r["p_mid"]:
         print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
               f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - toistaiseksi tuettu, pieni otos)")
         p_final = p_adjusted

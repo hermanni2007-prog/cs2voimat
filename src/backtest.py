@@ -557,6 +557,41 @@ def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: 
 
 
 # ---------------------------------------------------------------------------
+# Online-korjaus (lisatty 2026-09-18, kayttajan pyynnosta - run_lan_online_
+# upsets.py:n loydos): online-otteluissa suosikki havisi selvasti useammin
+# kuin malli ennustaa (upset-rate 47.1% vs odotettu 40.6%, n=933 SOS-
+# suodatetulla datalla), kun taas LAN/Offline on lahes tasmalleen
+# kalibroitu (41.8% vs 40.3%). Todennakoinen selitys: top-joukkueet
+# kayttavat online-karsinnoissa useammin stand-ineja / eivat panosta
+# taydella kokoonpanolla - sama ilmio jonka kayttaja itse huomasi
+# yksittaisissa otteluissa (magic-valmentaja, Vitality-mezii) tanaan,
+# vain laajempana kategoriana.
+#
+# VALIDOITU OIKEIN (run_online_adjustment.py): shrink-kerroin grid-haettu
+# VALILTA [0.0, 1.0] VAIN train-online-otteluilla (n=179, ensimmainen 80%
+# kronologisesti), tarkistettu nakemattomalla test-online-joukolla (n=61).
+# Kayra on TAYSIN MONOTONINEN - log loss paranee jatkuvasti mita enemman
+# mallia kutistetaan, paras arvo koko haetulla valilla on aarirajalla
+# s=0.0 (= mallilla ei ole MINKAANLAISTA hyodyllista signaalia online-
+# otteluissa - raaka malli on jopa HUONOMPI kuin pelkka 50/50-arvaus,
+# train_log_loss 0.7253 vs 0.6931). Nakemattomalla testilla sama suunta
+# (0.6995 -> 0.6931). HUOM: pieni otos (n=179/61, yksi train/test-jako) -
+# vahva tulos mutta ei yhta laajasti testattu kuin ruostumiskorjaus.
+# ---------------------------------------------------------------------------
+ONLINE_SHRINK = 0.0  # "ei kaytannon ennustearvoa" - validoitu, ei arvaus
+
+
+def apply_online_adjustment(p_team: float, match_type: Optional[str]) -> float:
+    """Kutistaa ennusteen kohti 0.5:ta JOS ottelu on Online (ei LAN/Offline).
+    match_type odottaa historical_matches.match_type-arvoja ('Online',
+    'Offline', 'LAN', tai None jos tuntematon - tuntemattomalle ei
+    korjata, koska emme tieda kummasta on kyse)."""
+    if match_type == "Online":
+        return 0.5 + (p_team - 0.5) * ONLINE_SHRINK
+    return p_team
+
+
+# ---------------------------------------------------------------------------
 # TASO-korjaus - RAKENNETTIIN JA SITTEN POISTETTIIN (2026-09-17).
 #
 # Kayttaja huomautti perustellusti: kaikki tama session'in "validointi" on
@@ -584,11 +619,15 @@ def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: 
 
 
 def apply_all_adjustments(p_team: float, n_recent_team: int, n_recent_opponent: int,
-                           tier: Optional[str] = None) -> float:
-    """Soveltaa (toistaiseksi) vain ruostumiskorjauksen - taso-korjaus
-    poistettiin, ks. yla kommentti. `tier`-parametri jatetty rajapintaan
-    taaksepain yhteensopivuuden vuoksi, ei enaa kaytossa."""
-    return apply_rust_adjustment(p_team, n_recent_team, n_recent_opponent)
+                           tier: Optional[str] = None, match_type: Optional[str] = None) -> float:
+    """Soveltaa ruostumis- ja online-korjaukset peräkkäin (molemmat ovat
+    kutistuksia kohti 0.5:ta, joten järjestys ei muuta lopputulosta
+    merkittävästi). Taso-korjaus poistettiin, ks. yla kommentti.
+    `tier`-parametri jatetty rajapintaan taaksepain yhteensopivuuden
+    vuoksi, ei enaa kaytossa."""
+    p = apply_rust_adjustment(p_team, n_recent_team, n_recent_opponent)
+    p = apply_online_adjustment(p, match_type)
+    return p
 
 
 def run_elo_walkforward(matches: list, elo: EloModel) -> dict:
