@@ -109,7 +109,6 @@ def main() -> int:
     print(f"Elo-parametrit: scale={params['scale']} k={params['k_factor']} half_life={params['half_life_days']}\n")
 
     bankroll_log = []
-    estimated_bankroll_log = []
 
     for bet in BETS:
         bet_date = datetime.fromisoformat(bet["date"])
@@ -151,7 +150,7 @@ def main() -> int:
                 if ev_side > 0:
                     won_side = bet["actual_winner"] == side
                     profit = (price - 1) if won_side else -1.0
-                    bankroll_log.append((bet["date"], f"{side}@{price}", profit, won_side))
+                    bankroll_log.append((bet["date"], f"{side}@{price}", ev_side, profit, won_side, False))
                     print(f"      Jos panostettu 1 yksikko: {'+' if profit>0 else ''}{profit:.2f} "
                           f"({'voitti' if won_side else 'havisi'})")
             print()
@@ -184,9 +183,11 @@ def main() -> int:
                 # arvo), koska molemmat puolet ovat sidoksissa toisiinsa
                 # saman markkinan marginaalin kautta. EI meilla OIKEAA
                 # kerrointa vastapuolelle - ARVIOIDAAN se olettamalla
-                # tyypillinen ~5% marginaali (ASSUMED_MARGIN), JOTTA
-                # NAHDAAN OLISIKO LOGIIKKA PITANYT PAIKKANSA. Selvasti
-                # merkitty ARVIOKSI, ei havaituksi kertoimeksi.
+                # tyypillinen ~5% marginaali (ASSUMED_MARGIN). Kayttajan
+                # ohje 2026-09-18: nama YHDISTETAAN samaan nettotulokseen
+                # havaittuihin kertoimiin perustuvien vetojen kanssa (ei
+                # pideta enaa erillaan) - jokainen rivi silti merkitaan
+                # selvasti "(arvio)"-tunnisteella, jotta lahde nakyy.
                 other_side = bet["opponent"] if priced_side == bet["team"] else bet["team"]
                 implied_priced = 1 / bet["price"]
                 implied_other_est = max(ASSUMED_MARGIN - implied_priced, 0.01)
@@ -199,44 +200,36 @@ def main() -> int:
                       f"  [EI OIKEA HAVAITTU KERROIN, vain arvio]")
                 if ev_other_est > 0:
                     est_profit = (price_other_est - 1) if other_won else -1.0
-                    estimated_bankroll_log.append((bet["date"], f"{other_side}@{price_other_est:.2f} (arvio)", est_profit, other_won))
+                    bankroll_log.append((bet["date"], f"{other_side}@{price_other_est:.2f} (arvio)",
+                                          ev_other_est, est_profit, other_won, True))
                     print(f"     Jos tama arvio pitaisi paikkansa ja panostettu 1 yksikko {other_side}:lle: "
                           f"{'VOITTI' if other_won else 'HAVISI'}")
             if ev > 0:
                 profit = (bet["price"] - 1) if priced_side_won else -1.0
-                bankroll_log.append((bet["date"], f"{priced_side}@{bet['price']}", profit, priced_side_won))
+                bankroll_log.append((bet["date"], f"{priced_side}@{bet['price']}", ev, profit, priced_side_won, False))
                 print(f"  Jos panostettu 1 yksikko: {'+' + format(profit, '.2f') if profit > 0 else format(profit, '.2f')} "
                       f"({'VOITTI' if priced_side_won else 'HAVISI'})")
         print()
 
     print("=== YHTEENVETO: 'panosta vain kun EV>0' -strategia (riippumaton kayttajan valinnoista) ===")
+    print("(Kayttajan ohje 2026-09-18: havaitut ja ASSUMED_MARGIN-arvioidut vastapuolen kertoimet")
+    print(" YHDISTETAAN samaan nettotulokseen - '(arvio)'-merkki rivilla kertoo lahteen.)")
     if bankroll_log:
-        total_profit = sum(p for _, _, p, _ in bankroll_log)
-        wins = sum(1 for *_, w in bankroll_log if w)
-        print(f"Panoksia tehty: {len(bankroll_log)}, joista voitti: {wins}")
-        for date, desc, profit, won in bankroll_log:
-            print(f"  {date[:10]}  {desc}  ->  {'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'})")
-        print(f"\nNettotulos {len(bankroll_log)} yksikon panoksella (1 yksikko/veto): "
+        bankroll_log_sorted = sorted(bankroll_log, key=lambda row: row[0])
+        total_profit = sum(p for _, _, _, p, _, _ in bankroll_log_sorted)
+        wins = sum(1 for *_, w, _ in bankroll_log_sorted if w)
+        print(f"Panoksia tehty: {len(bankroll_log_sorted)}, joista voitti: {wins}")
+        for date, desc, ev, profit, won, is_est in bankroll_log_sorted:
+            tag = " (arvio)" if is_est and "(arvio)" not in desc else ""
+            print(f"  {date[:10]}  {desc}{tag}  EV={ev:+.1%}  ->  "
+                  f"{'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'})")
+        print(f"\nNettotulos {len(bankroll_log_sorted)} yksikon panoksella (1 yksikko/veto): "
               f"{'+' if total_profit>=0 else ''}{total_profit:.2f} yksikkoa "
-              f"({total_profit/len(bankroll_log):+.1%} keskimaarin per panos)")
+              f"({total_profit/len(bankroll_log_sorted):+.1%} keskimaarin per panos)")
     else:
         print("Ei yhtaan EV>0-tilannetta loytynyt naista otteluista.")
     print("\n(Tarkka tulos -vedot eivat olleet mukana arvopaatoksessa - eri bet-tyyppi,")
     print(" ei suoraan vertailukelpoinen voitto-tn:n kanssa ilman erillista scoreline-mallia.)")
-
-    print("\n=== ERILLINEN YHTEENVETO: ARVIOIDUT vastapuolen kertoimet (EI havaittuja hintoja!) ===")
-    print("(Nama perustuvat ASSUMED_MARGIN-oletukseen kun oma puoli oli EV<=0 - eivat oikeita")
-    print(" markkinahintoja, siksi pidetty ERILLAAN ylla olevasta oikeasta nettotuloksesta.)")
-    if estimated_bankroll_log:
-        est_total = sum(p for _, _, p, _ in estimated_bankroll_log)
-        est_wins = sum(1 for *_, w in estimated_bankroll_log if w)
-        print(f"Arvioituja tilanteita: {len(estimated_bankroll_log)}, joista voitti: {est_wins}")
-        for date, desc, profit, won in estimated_bankroll_log:
-            print(f"  {date[:10]}  {desc}  ->  {'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'})")
-        print(f"\nArvioitu nettotulos: {'+' if est_total>=0 else ''}{est_total:.2f} yksikkoa "
-              f"({est_total/len(estimated_bankroll_log):+.1%} keskimaarin per panos)")
-    else:
-        print("Ei yhtaan arvioitua EV>0-tilannetta.")
     return 0
 
 
