@@ -178,14 +178,14 @@
       <div class="sub">CS2 · SEURANTALOKI · 17.9.2026</div>
       <a href="https://github.com/hermanni2007-prog/cs2voimat" target="_blank" rel="noopener">github.com/hermanni2007-prog/cs2voimat →</a>
       <div class="phasebar">
-        <i class="done"></i><i class="live"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i class="done"></i><i class="done"></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
-      <div class="phasebar-label">TEHTÄVÄ 1 / 8 KÄYNNISSÄ</div>
+      <div class="phasebar-label">TEHTÄVÄ 2 / 8 SEURAAVANA</div>
     </div>
 
     <div class="readouts">
       <div class="readout ct">
-        <div class="num">1<span class="of">/8</span></div>
+        <div class="num">2<span class="of">/8</span></div>
         <div class="label">TEHTÄVÄÄ RAKENNETTU</div>
       </div>
       <div class="readout">
@@ -215,7 +215,7 @@
 
     <div class="next">
       <h3>Seuraava askel</h3>
-      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk, 100k pyyntöä/kk) — sen jälkeen ajastus käynnistyy uudelleen 5 min välein. Rinnalla: Liquipedia-keruuputki, muutama tunnettu turnaus todisteeksi ennen 24 kk:n backfillia.</p>
+      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen uudelleen. Rinnalla: Tehtävä 2, backtest-harness, nyt kun 1445 ottelua on jo tallessa.</p>
     </div>
   </div>
 
@@ -234,13 +234,13 @@
           <div class="desc">Putki toimii päästä päähän: <code>OddsPapi → SQLite → GitHub Actions</code>, testattu Coolbet-kertoimilla, 38 ottelua tallessa. Ajastus on pysäytetty tarkoituksella — käynnistän sen uudelleen 5 min välein kun Dev-tilaus on vahvistettu, ei ennen.</div>
         </div>
 
-        <div class="task live">
+        <div class="task done">
           <div class="node">1</div>
           <div class="task-head">
             <div class="title">Historiadata — rajattu: 4 kk, top 50</div>
-            <div class="stamp progress">KERÄÄ NYT</div>
+            <div class="stamp done">ENSIKIERROS VALMIS</div>
           </div>
-          <div class="desc">Laajuus pudotettu 24 kk:sta 4 kuukauteen ja top 50 joukkueeseen (Valve VRS -ranking). Keruu käynnissä: <code>Liquipedia → SQLite → GitHub Actions</code>, 15 min välein, 25 joukkuetta/ajo (Liquipedian 30s/pyyntö-rajoite). Live-tila alla.</div>
+          <div class="desc">Laajuus pudotettu 24 kk:sta 4 kuukauteen ja top 50 joukkueeseen (Valve VRS -ranking). Ensimmäinen täysi kierros valmis: 50/50 joukkuetta, 1445 ottelua. <code>GitHub Actions</code> jatkaa 15 min välein - poimii uudet ottelut sitä mukaa kun niitä pelataan. Live-tila alla.</div>
         </div>
 
         <div class="task">
@@ -325,6 +325,12 @@
           <div class="finding-top"><div class="when">BOOKMAKER</div><div class="stamp-word">TIETOINEN RISKI</div></div>
           <div class="headline">Vaihdettu Pinnaclesta Coolbetiin — ei vahvistettu sharp-kirja</div>
           <p>Coolbet $10/kk vs. Pinnacle $30/kk (per-bookmaker-hinta). Coolbetiä ei mainita yhdelläkään tarkistetulla sharp-bookmaker-listauksella. Tietoinen, hintaperusteinen valinta — merkitty riskiksi jos CLV-tulokset alkavat näyttää epäjohdonmukaisilta.</p>
+        </div>
+
+        <div class="finding fix">
+          <div class="finding-top"><div class="when">NIMITÖRMÄYS</div><div class="stamp-word">KORJATTU</div></div>
+          <div class="headline">2/50 joukkuetta ei löytynyt — Spirit ja Aurora törmäsivät pelaajasivuihin</div>
+          <p>Liquipedialla "Spirit" on erään pelaajan nimimerkki, ei uudelleenohjaus joukkuesivulle — sama Aurora-nimellä. Lisätty pieni alias-taulukko ("Spirit"→"Team Spirit" jne). Lopputulos: 50/50 joukkuetta, 1445 ottelua, 0 virhettä.</p>
         </div>
 
         <div class="finding block">
@@ -414,14 +420,14 @@
 
   // Staattinen esikatselu nakyy heti, ennen kuin (tai jos) live-yhteys avautuu.
   render({
-    matches_collected: 95,
-    teams_done: 4,
+    matches_collected: 1445,
+    teams_done: 50,
     teams_total: 50,
-    teams_ok: 4,
+    teams_ok: 50,
     teams_not_found: 0,
     teams_error: 0,
-    updated_utc: '2026-09-17T12:09:16Z',
-    last_team: { team: '9z', status: 'ok', matches_found: 29 },
+    updated_utc: '2026-09-17T12:34:52Z',
+    last_team: { team: 'Spirit', status: 'ok', matches_found: 25 },
   });
   if (els.flag) els.flag.className = 'stale';
 
