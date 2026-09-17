@@ -354,6 +354,22 @@ def deduplicate_matches(matches: list) -> list:
 
 
 # ---------------------------------------------------------------------------
+# SOS-suodatus (strength of schedule) - kayttajan huomio 2026-09-18: joukkueet
+# joilla suuri osuus otteluista top50-listan ULKOPUOLISIA vastustajia (esim.
+# NRG 47%, karsintasarjojen fodder-joukkueita kuten NuTorious tai Iowa
+# Stormboar) muodostavat Elo-verkossa irrallisen osa-altaan jonka rating-taso
+# ei ole suoraan vertailukelpoinen aidon top50-vs-top50 -verkon kanssa.
+# VALIDOITU OIKEIN (2026-09-18, ks. run_sos_filter.py): fitattu/rakennettu
+# VAIN ensimmaisella 80%:lla kronologisesti, tarkistettu nakemattomalla
+# 20%:lla top50-vs-top50 -otteluita. Tulos: log loss 0.668 -> 0.663, brier
+# 0.237 -> 0.233 - aito parannus, ei ylisovitus. Otettu kayttoon oletukseksi
+# ottelukohtaisissa live-ennusteissa (predict_match.py,
+# backtest_vs_real_odds.py).
+def filter_top50_only(matches: list, top50_names: set) -> list:
+    return [m for m in matches if m.team in top50_names and m.opponent in top50_names]
+
+
+# ---------------------------------------------------------------------------
 # Tehtava 3: karttatason Elo (round-taso pudotettu, ks. cs2-agenttibriiffi.md
 # -laajuuspaatos 2026-09-17 - CT/T-dataa ei saatu ilmaiseksi lahteeksi).
 #

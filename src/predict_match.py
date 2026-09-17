@@ -40,6 +40,7 @@ from backtest import (  # noqa: E402
     apply_rust_adjustment,
     count_recent_matches,
     deduplicate_matches,
+    filter_top50_only,
     load_clean_matches,
     load_best_elo_params,
 )
@@ -60,6 +61,12 @@ def main() -> int:
     matches = deduplicate_matches(load_clean_matches(conn))
     conn.close()
 
+    # SOS-suodatus (2026-09-18, validoitu ei-kehamaisesti run_sos_filter.py:ssa):
+    # top50-ulkopuoliset vastustajat pois Elo-paivityksesta - katso backtest.py:n
+    # filter_top50_only()-kommentti.
+    top50_names = load_top50_names()
+    matches = filter_top50_only(matches, top50_names)
+
     elo = EloModel(scale=SCALE, k_factor=K_FACTOR, half_life_days=HALF_LIFE)
     for m in matches:
         elo.update(m.team, m.opponent, m.team_won, m.date)
@@ -71,7 +78,6 @@ def main() -> int:
     # todennakoisemmin KIRJOITUSVIRHE kuin oikeasti aloitteleva joukkue -
     # ilman tata varoitusta EloModel palauttaa hiljaa n=0/rating=1500,
     # mika nayttaa identtiselta oikealta "ei dataa" -tilanteelta.
-    top50_names = load_top50_names()
     for name in (args.team, args.opponent):
         if name not in elo.ratings and name not in top50_names:
             print(f"  VAROITUS: '{name}' ei loydy top50-listalta eika sille ole yhtaan ottelua -"

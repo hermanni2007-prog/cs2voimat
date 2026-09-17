@@ -28,10 +28,12 @@ from db import get_connection  # noqa: E402
 from backtest import (  # noqa: E402
     EloModel,
     deduplicate_matches,
+    filter_top50_only,
     load_clean_matches,
     load_best_elo_params,
     remove_margin,
 )
+from team_names import load_top50_names  # noqa: E402
 
 # Oletettu kokonaismarginaali (molempien puolien implisiittiset tn:t
 # yhteensa) VASTAPUOLEN kertoimen ARVIOINTIA varten kun oma puoli on
@@ -439,6 +441,12 @@ def main() -> int:
     conn = get_connection()
     matches = deduplicate_matches(load_clean_matches(conn))
     conn.close()
+
+    # SOS-suodatus (2026-09-18, validoitu ei-kehamaisesti run_sos_filter.py:ssa):
+    # top50-ulkopuoliset vastustajat pois Elo-paivityksesta - katso backtest.py:n
+    # filter_top50_only()-kommentti. Kayttajan huomio NRG:n vastustajien
+    # heikkoudesta johti tahan.
+    matches = filter_top50_only(matches, load_top50_names())
 
     params = load_best_elo_params()
     elo = EloModel(scale=params["scale"], k_factor=params["k_factor"], half_life_days=params["half_life_days"])
