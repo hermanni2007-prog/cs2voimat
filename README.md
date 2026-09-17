@@ -39,9 +39,22 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   johtaa `join_date <= date AND (leave_date IS NULL OR leave_date > date)`.
 - `.github/workflows/collect_rosters.yml`: päivittäin (kokoonpanot muuttuvat
   harvoin, ei tarvitse 15 min tarkkuutta kuten ottelut).
+- **Tulos (2026-09-17): 50/50 joukkuetta, 1474 roolirivia, 0 virhettä.**
+- **Bugi matkan varrella, löydetty ja korjattu:** ensimmäinen ajo antoi
+  11/50 joukkueelle (mm. FaZe, Vitality, Liquid, Falcons, G2) 0 roolirivia.
+  Syy: `action=parse` EI seuraa uudelleenohjauksia automaattisesti (toisin
+  kuin `action=query`) - esim. "G2" on redirect-sivu "G2 Esports":iin, ja
+  `fetch_rendered_html("G2")` palautti vain tynkätekstin "Redirect to: G2
+  Esports". Ottelujäsennin (`resolve_team_page`) vältti tämän vahingossa,
+  koska `"G2/Matches"` ei ole itse redirect vaan ei ole olemassa ollenkaan,
+  mikä pakotti fallback-polun käyttöön. Korjattu: `resolve_team_base_page`
+  seuraa uudelleenohjauksen AINA, ei vain fallbackina.
 - **Tunnettu yksinkertaistus:** "Inactive Date" ja laina-abbr-tekstit
   (esim. "Was on loan to X") jätetään huomiotta - käytetään vain
   ensimmäistä ja viimeistä YYYY-MM-DD-päivää riviltä.
+- `backtest.RosterHistory`: `roster_as_of(team, date)` ja
+  `roster_stability(team, date, lookback_days)` - valmiina tulevaa käyttöä
+  varten (mm. Tehtävä 7:n "rosterimuutosliput" -segmentointi).
 
 ## Tehtävä 2: Backtest-harness — rakennettu, markkinavertailu vielä tyhjä
 

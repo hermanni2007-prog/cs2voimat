@@ -178,7 +178,7 @@
       <div class="sub">CS2 · SEURANTALOKI · 17.9.2026</div>
       <a href="https://github.com/hermanni2007-prog/cs2voimat" target="_blank" rel="noopener">github.com/hermanni2007-prog/cs2voimat →</a>
       <div class="phasebar">
-        <i class="done"></i><i class="live"></i><i class="done"></i><i class="done"></i><i></i><i class="done"></i><i></i><i></i>
+        <i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i class="done"></i><i></i><i></i>
       </div>
       <div class="phasebar-label">5/8 RAKENNETTU — T4 ODOTTAA KARTTADATAA</div>
     </div>
@@ -234,13 +234,13 @@
           <div class="desc">Putki toimii päästä päähän: <code>OddsPapi → SQLite → GitHub Actions</code>, testattu Coolbet-kertoimilla, 38 ottelua tallessa. Ajastus on pysäytetty tarkoituksella — käynnistän sen uudelleen 5 min välein kun Dev-tilaus on vahvistettu, ei ennen.</div>
         </div>
 
-        <div class="task live">
+        <div class="task done">
           <div class="node">1</div>
           <div class="task-head">
             <div class="title">Historiadata — rajattu: 4 kk, top 50</div>
-            <div class="stamp progress">OTTELUT VALMIS · KOKOONPANOT KERÄÄ</div>
+            <div class="stamp done">OTTELUT + KOKOONPANOT VALMIS</div>
           </div>
-          <div class="desc">Ottelut: 50/50 joukkuetta, 1445 ottelua, <code>GitHub Actions</code> jatkaa 15 min välein. <strong>Kokoonpanot</strong> (alkuperäisen hyväksymiskriteerin puuttunut osa) kerätään nyt — <code>src/collect_rosters.py</code>, Liquipedian "Player Roster" -taulut, päivittäinen ajastus. Live-tila alla.</div>
+          <div class="desc">Ottelut: 50/50 joukkuetta, 1445 ottelua. <strong>Kokoonpanot</strong> (alkuperäisen hyväksymiskriteerin puuttunut osa): 50/50 joukkuetta, 1474 roolirivia — <code>src/collect_rosters.py</code>, Liquipedian "Player Roster" -taulut. Molemmat jatkuvat <code>GitHub Actionsissa</code> (15 min / päivittäin). Live-tila alla.</div>
         </div>
 
         <div class="task done">
@@ -337,6 +337,12 @@
           <div class="finding-top"><div class="when">VRS-NIMIHAKU</div><div class="stamp-word">VAKAVA BUGI, KORJATTU</div></div>
           <div class="headline">Sumea haku teki mallista huonomman kuin 50/50 — "am" täsmäsi sanaan "teAM"</div>
           <p>Ensimmäinen versio käytti raakaa osamerkkijonohakua ilman sanarajoja: lyhyt VRS-nimi "am" täsmäsi mihin tahansa sanaan joka sisälsi kirjaimet peräkkäin — "Team Liquid", "Team Vitality", "PaiN Gaming" (gam<u>ing</u>) saivat kaikki väärän ratingin. 75 väärää osumaa, teki pehmeästä VRS-mallista huonomman kuin täysi arvailu. Korjattu sanarajalliseen regexiin — kattavuus 44%→85%, log loss 0.93→0.674 (nyt oikeasti parempi kuin 50/50).</p>
+        </div>
+
+        <div class="finding fix">
+          <div class="finding-top"><div class="when">KOKOONPANOT</div><div class="stamp-word">KORJATTU</div></div>
+          <div class="headline">11/50 joukkuetta (FaZe, Vitality, Liquid, G2...) sai 0 roolia — redirect-sivu palautti tynkätekstin</div>
+          <p><code>action=parse</code> ei seuraa Liquipedian uudelleenohjauksia automaattisesti, toisin kuin <code>action=query</code>. "G2" on redirect "G2 Esports":iin — haku palautti vain "Redirect to: G2 Esports" -tekstin, ei sivun sisältöä. Ottelujäsennin vältti tämän vahingossa (eri hakupolku). Korjattu: uudelleenohjaus seurataan aina, ei vain varasuunnitelmana. Lopputulos: 50/50 joukkuetta, 1474 roolirivia.</p>
         </div>
 
         <div class="finding fix">
