@@ -1,0 +1,9 @@
+.env
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+data/debug_last_response.json
+__pycache__/
+*.pyc
+logs/
+.venv/
