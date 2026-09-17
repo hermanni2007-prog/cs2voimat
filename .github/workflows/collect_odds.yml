@@ -1,11 +1,13 @@
 name: CS2 odds collector
 
 on:
-  schedule:
-    # 20 min valein. CLOSING_WINDOW_MINUTES (.env / repo-oletus 25 min) on
-    # pidettava >= tama, jotta jokaiselle ottelulle osuu vahintaan yksi ajo
-    # ennen ottelun alkua sulkeutuvan kertoimen ikkunaan.
-    - cron: "*/20 * * * *"
+  # VALIAIKAISESTI POIS PAALTA (2026-09-17): /v4/account paljasti etta
+  # OddsPapin ilmainen taso on 250 PYYNTOA/KUUKAUSI, ei paivassa. 20 min
+  # pollausvali (3 pyyntoa/ajo) olisi polttanut koko kuukauden kiintion
+  # alle vuorokaudessa. Ajetaan vain kasin (workflow_dispatch) kunnes
+  # pollausstrategia on suunniteltu uudelleen kiintion sisalle.
+  # - schedule:
+  #     - cron: "*/20 * * * *"
   workflow_dispatch: {}
 
 permissions:
