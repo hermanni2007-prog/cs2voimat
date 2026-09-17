@@ -87,6 +87,9 @@
 
   /* ---------- main ---------- */
   .main{ display:flex; flex-direction:column; gap:38px; min-width:0; }
+  .intro{ background:var(--ct-soft); border:1px solid color-mix(in srgb, var(--ct) 30%, var(--border)); padding:16px 18px; }
+  .intro p{ margin:0; font-size:14.5px; line-height:1.6; color:var(--text); max-width:74ch; }
+  .intro strong{ color:var(--ct); }
   h2{
     font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.1em;
     color:var(--text-faint); margin:0 0 14px; font-weight:600; padding-bottom:8px; border-bottom:1px solid var(--border);
@@ -221,6 +224,10 @@
 
   <div class="main">
 
+    <div class="intro">
+      <p><strong>Mistä tässä on kyse:</strong> rakennamme järjestelmää, joka laskee oman ennusteen top-50 CS2-joukkueiden otteluille ja vertaa sitä vedonlyöntimarkkinan kertoimiin. Jos oma malli on toistuvasti tarkempi kuin markkina, siitä voi löytyä kannattavia vetoja. Tämä sivu näyttää missä kohtaa ollaan juuri nyt: mitä on rakennettu, mitä matkalla opittiin (mukaan lukien virheet), ja mitä vielä puuttuu.</p>
+    </div>
+
     <div>
       <h2>Tehtäväputki</h2>
       <div class="pipeline">
@@ -231,7 +238,7 @@
             <div class="title">Kertoimien keruu</div>
             <div class="stamp paused">TAUOLLA</div>
           </div>
-          <div class="desc">Putki toimii päästä päähän: <code>OddsPapi → SQLite → GitHub Actions</code>, testattu Coolbet-kertoimilla, 38 ottelua tallessa. Ajastus on pysäytetty tarkoituksella — käynnistän sen uudelleen 5 min välein kun Dev-tilaus on vahvistettu, ei ennen.</div>
+          <div class="desc">Kertoimien automaattinen tallennus on rakennettu ja testattu toimivaksi (38 ottelua jo tallessa), mutta pysäytetty tarkoituksella — se käynnistyy uudelleen heti kun Coolbet-tilaus (ks. kulut) on vahvistettu, ei ennen.</div>
         </div>
 
         <div class="task done">
@@ -240,7 +247,7 @@
             <div class="title">Historiadata — rajattu: 4 kk, top 50</div>
             <div class="stamp done">OTTELUT + KOKOONPANOT VALMIS</div>
           </div>
-          <div class="desc">Ottelut: 50/50 joukkuetta, 1445 ottelua. <strong>Kokoonpanot</strong> (alkuperäisen hyväksymiskriteerin puuttunut osa): 50/50 joukkuetta, 1474 roolirivia — <code>src/collect_rosters.py</code>, Liquipedian "Player Roster" -taulut. Molemmat jatkuvat <code>GitHub Actionsissa</code> (15 min / päivittäin). Live-tila alla.</div>
+          <div class="desc">50 joukkueen ottelut (1445 kpl) ja kokoonpanot (1474 pelaajariviä, eli kuka pelasi missäkin joukkueessa milloinkin) on kerätty Liquipediasta. Kerääntyy jatkossa itsestään taustalla.</div>
         </div>
 
         <div class="task done">
@@ -249,7 +256,7 @@
             <div class="title">Backtest-harness</div>
             <div class="stamp paused">MALLIT OK · MARKKINADATA PUUTTUU</div>
           </div>
-          <div class="desc">Log loss / Brier / kalibrointi / walk-forward toimivat. Deterministinen VRS-perusmalli antoi harhaanjohtavan huonon log lossin (9.7) — ei bugi, log lossin matematiikkaa. Korjattu pehmeäksi malliksi (0.674). Matkalla löytyi ja korjattiin myös nimien sumean haun bugi (75 väärää osumaa, ks. löydökset). Markkinavertailu odottaa yhä Coolbet-tilausta.</div>
+          <div class="desc">Työkalu joka arvioi rehellisesti onko jokin ennustemalli hyvä — laskee "ennustusvirheen" <em>(pienempi = parempi; täysi arvailu = 0.69)</em> ja tarkistaa onko malli yli- vai aliluottavainen. Valmis ja testattu. Ainoa mikä puuttuu: vertailu oikeaan markkinakertoimeen, mikä vaatii Coolbet-tilauksen.</div>
         </div>
 
         <div class="task done">
@@ -258,13 +265,13 @@
             <div class="title">Karttatason Elo</div>
             <div class="stamp done">VALMIS — VOITTAA PERUSMALLIT</div>
           </div>
-          <div class="desc">Kierrostaso pudotettu karttatasoon (CT/T-dataa ei löytynyt ilmaiseksi). Log loss <strong>0.665</strong> — voittaa sekä 50/50:n (0.693) että pehmeän VRS-mallin (0.674). Tilallinen walk-forward, deduplikoitu (1243→860 ottelua), aikavaimennus.</div>
+          <div class="desc">Joukkueille lasketaan pelivoimaluku joka päivittyy jokaisen ottelun jälkeen (kuten shakin Elo-rating). Testattu oikeasti paremmaksi ennustajaksi kuin pelkkä virallinen ranking-sijoitus tai täysi arvailu — pieni mutta aito etu.</div>
         </div>
 
         <div class="task">
           <div class="node">4</div>
           <div class="task-head"><div class="title">Karttapoikkeamat &amp; veto</div><div class="stamp waiting">ODOTTAA KARTTADATAA</div></div>
-          <div class="desc">Vaatii tiedon SIITÄ MIKÄ kartta pelattiin per ottelu — Liquipedian /Matches-taulukossa on vain kokonaistulos, ei karttanimeä. Tarvitsee jäsentimen laajennuksen (ottelun detaljipopupit).</div>
+          <div class="desc">Tarvitsee tiedon SIITÄ MIKÄ kartta pelattiin (Mirage, Inferno, jne.) — nykyinen keruu tietää vain lopputuloksen, ei karttojen nimiä. Vaatii lisätyötä otteludatan keruuseen.</div>
         </div>
 
         <div class="task done">
@@ -273,7 +280,7 @@
             <div class="title">Formipaino λ</div>
             <div class="stamp progress">VALMIS — TEESI EI SAANUT TUKEA</div>
           </div>
-          <div class="desc"><strong>Projektin alkuperäinen teesi testattu suoraan.</strong> Paras λ = 0.0, log loss huononee monotonisesti λ:n kasvaessa. Tuoreen forman korostaminen ei auttanut tässä datassa. Rajoite: 4 kk on lyhyempi kuin hitaan mallin 180 vrk:n puoliintumisaika — testi kannattaa toistaa kun dataa kertyy lisää.</div>
+          <div class="desc"><strong>Tämä oli koko projektin lähtöideamme testi:</strong> kannattaako viimeisimpiä otteluita painottaa enemmän kuin vanhoja? Vastaus tässä datassa: ei kannattanut — ennuste vain huononi mitä enemmän tuoretta muotoa painotettiin. Rehellinen tulos, mutta huomio: 4 kuukauden data on vielä lyhyt, kannattaa testata uudelleen kun dataa on enemmän.</div>
         </div>
 
         <div class="task">
@@ -318,81 +325,57 @@
     </div>
 
     <div>
-      <h2>Mitä tällä istunnolla selvisi</h2>
+      <h2>Mitä matkalla opittiin</h2>
       <div class="findings">
 
+        <div class="finding fix">
+          <div class="finding-top"><div class="when">DATALÄHDE</div><div class="stamp-word">RATKAISTU</div></div>
+          <div class="headline">Liquipediasta löytyi ilmainen, laillinen lähde ottelu- ja kokoonpanodatalle</div>
+          <p>Heidän rajapintansa on vapaasti kaikkien käytettävissä, kunhan noudattaa kohtuullista nopeusrajoitusta — ei vaatinut erillistä lupaa tai maksua.</p>
+        </div>
+
         <div class="finding block">
-          <div class="finding-top"><div class="when">HISTORIALLISET KERTOIMET</div><div class="stamp-word">PERUTTU — LIIAN OPTIMISTINEN</div></div>
-          <div class="headline">Korjaus: OddsPapin arkisto EI kata menneitä otteluita laajasti</div>
-          <p>Aiempi löydös perustui yhteen-kahteen onnistuneeseen testiin (NAVI 20.8., Magic vs Vitality 14.9.) ja oli liian optimistinen yleistys. Testasin ~72 historical-odds-kutsua top-50-otteluille, myös S-Tier-otteluilla tunnetuilla joukkueilla (9z vs G2, BIG vs G2) — <b>0/72 palautti hinnan</b>. Todennäköisin selitys: arkisto kattaa vain otteluita joita joku on aktiivisesti pollannut ajantasaisena. Tehtävä 7 tarvitsee siis edelleen Tehtävä 0:n eteenpäin-keruuta, ei taaksepäin-oikotietä.</p>
+          <div class="finding-top"><div class="when">DATALÄHTEET</div><div class="stamp-word">HYLÄTTY</div></div>
+          <div class="headline">Kaksi muuta kerrointilastolähdettä jouduttiin hylkäämään</div>
+          <p>Yksi olisi vaatinut selaimen huijaamista päästäkseen sisään sivustolle joka kieltää sen omissa säännöissään. Toinen kieltää käyttöehdoissaan suoraan kaiken vedonlyöntiin liittyvän käytön, jopa ilmaisella tasolla. Kumpaakaan ei käytetty.</p>
         </div>
 
         <div class="finding note">
-          <div class="finding-top"><div class="when">BOOKMAKER</div><div class="stamp-word">TIETOINEN RISKI</div></div>
-          <div class="headline">Vaihdettu Pinnaclesta Coolbetiin — ei vahvistettu sharp-kirja</div>
-          <p>Coolbet $10/kk vs. Pinnacle $30/kk (per-bookmaker-hinta). Coolbetiä ei mainita yhdelläkään tarkistetulla sharp-bookmaker-listauksella. Tietoinen, hintaperusteinen valinta — merkitty riskiksi jos CLV-tulokset alkavat näyttää epäjohdonmukaisilta.</p>
-        </div>
-
-        <div class="finding block">
-          <div class="finding-top"><div class="when">VRS-NIMIHAKU</div><div class="stamp-word">VAKAVA BUGI, KORJATTU</div></div>
-          <div class="headline">Sumea haku teki mallista huonomman kuin 50/50 — "am" täsmäsi sanaan "teAM"</div>
-          <p>Ensimmäinen versio käytti raakaa osamerkkijonohakua ilman sanarajoja: lyhyt VRS-nimi "am" täsmäsi mihin tahansa sanaan joka sisälsi kirjaimet peräkkäin — "Team Liquid", "Team Vitality", "PaiN Gaming" (gam<u>ing</u>) saivat kaikki väärän ratingin. 75 väärää osumaa, teki pehmeästä VRS-mallista huonomman kuin täysi arvailu. Korjattu sanarajalliseen regexiin — kattavuus 44%→85%, log loss 0.93→0.674 (nyt oikeasti parempi kuin 50/50).</p>
-        </div>
-
-        <div class="finding fix">
-          <div class="finding-top"><div class="when">KOKOONPANOT</div><div class="stamp-word">KORJATTU</div></div>
-          <div class="headline">11/50 joukkuetta (FaZe, Vitality, Liquid, G2...) sai 0 roolia — redirect-sivu palautti tynkätekstin</div>
-          <p><code>action=parse</code> ei seuraa Liquipedian uudelleenohjauksia automaattisesti, toisin kuin <code>action=query</code>. "G2" on redirect "G2 Esports":iin — haku palautti vain "Redirect to: G2 Esports" -tekstin, ei sivun sisältöä. Ottelujäsennin vältti tämän vahingossa (eri hakupolku). Korjattu: uudelleenohjaus seurataan aina, ei vain varasuunnitelmana. Lopputulos: 50/50 joukkuetta, 1474 roolirivia.</p>
-        </div>
-
-        <div class="finding fix">
-          <div class="finding-top"><div class="when">NIMITÖRMÄYS</div><div class="stamp-word">KORJATTU</div></div>
-          <div class="headline">2/50 joukkuetta ei löytynyt — Spirit ja Aurora törmäsivät pelaajasivuihin</div>
-          <p>Liquipedialla "Spirit" on erään pelaajan nimimerkki, ei uudelleenohjaus joukkuesivulle — sama Aurora-nimellä. Lisätty pieni alias-taulukko ("Spirit"→"Team Spirit" jne). Lopputulos: 50/50 joukkuetta, 1445 ottelua, 0 virhettä.</p>
+          <div class="finding-top"><div class="when">KERROINPALVELU</div><div class="stamp-word">HUOMIO</div></div>
+          <div class="headline">Ilmainen kiintiö ja oikea hinta olivat molemmat yllätys</div>
+          <p>Kiintiö osoittautui olevan 250 pyyntöä <em>kuukaudessa</em>, ei päivässä — alkuperäinen suunnitelma olisi polttanut sen loppuun alle vuorokaudessa. Myös oikea kuukausihinta ($33) oli reilusti alkuperäistä arviota ($3) suurempi. Molemmat huomattiin ajoissa ennen kuin rahaa käytettiin.</p>
         </div>
 
         <div class="finding note">
-          <div class="finding-top"><div class="when">FORMIPAINO λ</div><div class="stamp-word">TEESI EI SAANUT TUKEA</div></div>
-          <div class="headline">Alkuperäinen ydinteesi testattu suoraan — paras λ = 0.0</div>
-          <p>Log loss huononee monotonisesti kun tuoretta formaa (21 vrk puoliintumisaika) painotetaan hitaan ratingin (180 vrk) päälle. Raportoitu suoraan, ei etsitty kiertotietä. Rajoite: 4 kk havaintoikkuna on lyhyempi kuin hitaan mallin oma puoliintumisaika — testi ei ole vielä lopullinen.</p>
-        </div>
-
-        <div class="finding block">
-          <div class="finding-top"><div class="when">KERROIN-API</div><div class="stamp-word">ESTETTY / KORJATTU</div></div>
-          <div class="headline">Ilmainen taso on 250 pyyntöä kuussa, ei vuorokaudessa</div>
-          <p>Luin tämän ensin väärin. 20 min pollausväli olisi polttanut koko kuukauden kiintiön reilussa vuorokaudessa, joten pysäytin ajastuksen ennen kuin se ehti ajaa uudelleen.</p>
-        </div>
-
-        <div class="finding note">
-          <div class="finding-top"><div class="when">HINNOITTELU</div><div class="stamp-word">KORJAUS</div></div>
-          <div class="headline">Pinnacle maksaa $33/kk, ei $3/kk kuten ensin sanoin</div>
-          <p>En löytänyt bookmaker-kohtaista hintapaneelia omassa selaimessani. Unibet olisi $23/kk, mutta pehmeänä kirjana kelpaamaton CLV-vertailukohdaksi.</p>
-        </div>
-
-        <div class="finding block">
-          <div class="finding-top"><div class="when">BO3.GG</div><div class="stamp-word">ESTETTY</div></div>
-          <div class="headline"><code>cs2api</code>-kirjasto huijaa yksityistä rajapintaa</div>
-          <p>Väärentää Chrome-selaimen HTTP-headerit päästäkseen APIin, jonka bo3.gg:n oma <code>robots.txt</code> kieltää kaikilta automaattisilta pyynnöiltä. Ei käytetty.</p>
-        </div>
-
-        <div class="finding block">
-          <div class="finding-top"><div class="when">PANDASCORE</div><div class="stamp-word">ESTETTY</div></div>
-          <div class="headline">Käyttöehdot kieltävät betting-käytön myös ilmaisella tasolla</div>
-          <p>Pelkkien ottelutulosten hakukin rikkoisi sopimusta. Sama rajaus todennäköisesti GRID Open Accessissa — molemmilla erillinen tuote vedonlyöntikäyttöön.</p>
+          <div class="finding-top"><div class="when">KIRJAVALINTA</div><div class="stamp-word">TIETOINEN RISKI</div></div>
+          <div class="headline">Valittiin Coolbet Pinnaclen sijaan — halvempi, mutta ei yhtä luotettava vertailukohta</div>
+          <p>Coolbet on $10/kk, Pinnacle $30/kk. Pinnacle on alan tunnetuin "oikeaa hintaa" tarjoava kirja, Coolbetiä ei mainita vastaavilla listoilla. Säästö valittiin tietoisesti — jos tulokset myöhemmin näyttävät oudoilta, tämä on ensimmäinen paikka jota epäillä.</p>
         </div>
 
         <div class="finding fix">
-          <div class="finding-top"><div class="when">LIQUIPEDIA</div><div class="stamp-word">RATKAISTU</div></div>
-          <div class="headline">MediaWiki-API on vapaasti käytettävissä, LPDB ei</div>
-          <p><code>action=parse</code> oikealla User-Agentilla palautti PGL Major Copenhagen 2024 -sivun otteludatan renderöidystä HTML:stä, käyttöehtojen puitteissa.</p>
+          <div class="finding-top"><div class="when">KOODIBUGIT</div><div class="stamp-word">3 KPL, KAIKKI KORJATTU</div></div>
+          <div class="headline">Kolme datanlaatuvirhettä huomattiin ja korjattiin ajon aikana</div>
+          <p>1) Nimihaku sekoitti joukkueiden lyhyitä nimiä keskenään (esim. "Team Liquid" sai vahingossa väärän ranking-arvon) — tämä teki mallista hetken huonomman kuin täysi arvailu, kunnes huomattiin. 2) 11/50 joukkueen kokoonpanotieto (mm. FaZe, Vitality, G2) jäi tyhjäksi teknisen kikan takia. 3) 2 joukkuetta (Spirit, Aurora) sekoittuivat samannimisiin pelaajiin. Kaikki kolme korjattu, data nyt täysi ja tarkistettu.</p>
+        </div>
+
+        <div class="finding block">
+          <div class="finding-top"><div class="when">MARKKINAVERTAILU</div><div class="stamp-word">KORJATTU JOHTOPÄÄTÖS</div></div>
+          <div class="headline">Kertoimien historia-arkisto ei kata vanhoja otteluita, kuten ensin luultiin</div>
+          <p>Testasimme 72 vanhaa ottelua ja yhtään historiallista kerrointa ei löytynyt niistä joita emme itse olleet jo seuranneet reaaliajassa. Johtopäätös: markkinavertailu kertyy vain eteenpäin, sitä ei voi hakea takautuvasti — Tehtävä 0:n oma jatkuva keräys on ainoa tie.</p>
+        </div>
+
+        <div class="finding note">
+          <div class="finding-top"><div class="when">YDINTEESI</div><div class="stamp-word">EI SAANUT TUKEA</div></div>
+          <div class="headline">"Tuoreen formin painottaminen" -idea testattiin — ei toiminut tässä datassa</div>
+          <p>Koko projektin lähtöajatus oli, että viimeisimpiä otteluita painottamalla saisi etulyöntiaseman. Suora testi osoitti päinvastaista: mitä enemmän tuoretta muotoa painotettiin, sitä huonompi ennuste. Rehellinen, ei-toivottu tulos — mutta data on vasta 4 kuukauden mittainen, joten kannattaa testata uudelleen myöhemmin.</p>
         </div>
 
       </div>
     </div>
 
     <div>
-      <h2>Otos: testikutsuja tältä istunnolta</h2>
-      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl bo3.gg/robots.txt</div><div class="line">  <span class="hit">Disallow: /api/</span></div><div class="line comment">  # → cs2api-kirjastoa ei käytetä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... brkts-opponent-score ...</span></div><div class="line comment">  # → sallittu reitti otteludataan löytyi</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> for fixture in 72_top50_ottelua: curl .../v4/historical-odds</div><div class="line">  <span class="hit">0 / 72 palautti hinnan</span></div><div class="line comment">  # → arkisto EI kata passiivisesti seuraamattomia otteluita, korjattu johtopäätös alla</div></div>
+      <h2>Konkreettinen näyttö — muutama oikea testikutsu</h2>
+      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... otteludata löytyi</span></div><div class="line comment">  # → sallittu, ilmainen reitti otteludataan</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> for fixture in 72_vanhaa_ottelua: curl .../v4/historical-odds</div><div class="line">  <span class="hit">0 / 72 palautti hinnan</span></div><div class="line comment">  # → markkinadata ei kerry taaksepäin, vain eteenpäin</div></div>
     </div>
 
     <footer>pelivoimat/status-dashboard · päivittyy pyynnöstä</footer>
