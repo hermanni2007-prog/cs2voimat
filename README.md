@@ -30,6 +30,31 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   ottelun formaatista - ei vielä normalisoitu. Sama ottelu voi esiintyä
   kahdesti (kummankin joukkueen sivulta), dedupetty `UNIQUE`-indeksillä.
 
+## Tehtävä 2: Backtest-harness — rakennettu, markkinavertailu vielä tyhjä
+
+- `src/backtest.py`: log loss, Brier, kalibrointikäyrä (10 koria), walk-forward
+  -ajuri, VRS-sijoitus ajankohtana T (lookahead-suojattu kuukausisnapshoteista,
+  `src/fetch_vrs_history.py`). `src/run_backtest.py` ajaa hyväksymiskriteerin
+  kahdella tyhmällä mallilla (aina 50/50, korkeampi VRS-sija voittaa) 1243
+  puhdasta ottelua vasten (1445:sta, loput ilman validia tulosta).
+- **Tulos (2026-09-17):** `aina_5050` log loss 0.693 (odotettu, ln 2).
+  `korkeampi_vrs_sija` log loss 6.69 — PAHEMPI kuin 50/50, koska malli on
+  deterministinen (0/1) ja log loss rankaisee kovaa väärästä itsevarmuudesta.
+  Kalibrointi paljastaa oikean signaalin: kun VRS-suosikin ennustetaan
+  voittavan, se voittaa oikeasti ~67 % kerroista (ei 100 %) - VRS-sijalla on
+  siis aitoa ennustearvoa, mutta naiivi determinismi ei ole hyvä tapa
+  ilmaista sitä todennäköisyytenä.
+- **Markkinavertailu EI VIELÄ TOIMI** — ks. `src/fetch_market_spotcheck.py`:n
+  yläkommentti. Testattiin ~72 historical-odds-kutsua (OddsPapi, ilmainen
+  kiintiö) reaaliaikaisesti kerätyille top-50-otteluille, myös S-Tier-tason
+  otteluilla tunnetuilla joukkueilla (9z vs G2, BIG vs G2) - **0/72 palautti
+  hinnan**. Tämä kumoaa aiemman (liian optimistisen) johtopäätöksen siitä,
+  että OddsPapin historiallinen arkisto kattaisi laajasti menneitä otteluita:
+  todennäköisin selitys on, että arkisto sisältää vain otteluita joita joku
+  on aktiivisesti pollannut ajantasaisena - ei mitä tahansa mennyttä ottelua.
+  **Tehtävä 0:n oma jatkuva keruu (`odds_snapshots`) on siis edelleen se
+  ainoa luotettava tapa kartuttaa markkinadataa - eteenpäin, ei taaksepäin.**
+
 Lähde [oddspapi.io](https://oddspapi.io), bookmaker **Coolbet**, skeema
 varmistettu oikeaa dataa vastaan 2026-09-17. Ajastus pyörii GitHubin
 palvelimella, täysin riippumatta tästä koneesta. Muut tehtävät
