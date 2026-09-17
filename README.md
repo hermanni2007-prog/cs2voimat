@@ -56,6 +56,22 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   `roster_stability(team, date, lookback_days)` - valmiina tulevaa käyttöä
   varten (mm. Tehtävä 7:n "rosterimuutosliput" -segmentointi).
 
+### HUOM: ajastukset eivät ole vielä laukenneet kertaakaan (2026-09-17)
+
+`collect_history.yml` (15 min cron) ja `collect_rosters.yml` (päivittäin)
+olivat päällä ~1,5 h ennen tämän kirjoittamista, mutta GitHubin Actions-
+sivu näytti **0 ajoa** kummallekaan - vain alkuperäinen käsiajo
+`collect_odds.yml`:lle näkyy historiassa. YAML-syntaksi on validi (GitHub
+tunnistaa molemmat workflow-nimet pudotusvalikossa), joten kyse on
+todennäköisesti GitHubin dokumentoidusta viiveestä uusille `schedule`-
+liipaisimille, ei konfiguraatiovirheestä - `*/15 * * * *` osuu myös
+tasatuntien ruuhka-aikoihin joita GitHub itse varoittaa. **En voinut
+laukaista ajoa käsin tarkistaakseni**, koska oma selaimeni ei ole
+kirjautunut GitHubiin (aiempi käsiajo teki käyttäjä itse). Data on silti
+tallessa (paikallisten ajojen ansiosta) - vain TULEVA automaattinen
+päivitys on epävarma kunnes ensimmäinen ajastettu ajo nähdään onnistuneen.
+**Tarkista Actions-välilehdeltä ja käynnistä tarvittaessa käsin.**
+
 ## Tehtävä 2: Backtest-harness — rakennettu, markkinavertailu vielä tyhjä
 
 - `src/backtest.py`: log loss, Brier, kalibrointikäyrä (10 koria), walk-forward
