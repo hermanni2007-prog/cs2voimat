@@ -7,7 +7,13 @@ Kayttaa Tehtava 3:n ottelutason Elo-mallia (historical_matches, korjattu
 dedup-bugi 2026-09-17) ja EloModel.predict_with_confidence() -metodia
 (lisatty 2026-09-17) epavarmuushaarukan nayttamiseen - katso backtest.py:n
 kommentti: karkea Glicko-tyylinen rating deviation, EI tilastollisesti
-tasmallinen luottamusvali."""
+tasmallinen luottamusvali.
+
+Soveltaa myos "ruostumis"-korjauksen (backtest.apply_rust_adjustment,
+lisatty 2026-09-17 kayttajan pyynnosta - ks. run_tournament_effects.py ja
+README): jos suosikki ei ole pelannut yhtaan ottelua viimeisen 5 vrk:n
+aikana, ennustetta kutistetaan kohti 0.5:ta empiirisesti sovitetulla
+kertoimella (0.79) - malli on tassa tilanteessa mitatusti yliluottavainen."""
 from __future__ import annotations
 
 import argparse
@@ -18,9 +24,20 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection  # noqa: E402
-from backtest import EloModel, deduplicate_matches, load_clean_matches  # noqa: E402
+from backtest import (  # noqa: E402
+    EloModel,
+    RUST_WINDOW_DAYS,
+    apply_rust_adjustment,
+    count_recent_matches,
+    deduplicate_matches,
+    load_clean_matches,
+    load_best_elo_params,
+)
+from run_tournament_effects import build_recent_match_index  # noqa: E402
+from team_names import load_top50_names  # noqa: E402
 
-SCALE, K_FACTOR, HALF_LIFE = 200.0, 48.0, 99999.0  # run_elo.py:n paras (2026-09-17, korjattu data)
+_params = load_best_elo_params()
+SCALE, K_FACTOR, HALF_LIFE = _params["scale"], _params["k_factor"], _params["half_life_days"]
 
 
 def main() -> int:
@@ -37,14 +54,36 @@ def main() -> int:
     for m in matches:
         elo.update(m.team, m.opponent, m.team_won, m.date)
     last_date = matches[-1].date if matches else None
+    recent_idx = build_recent_match_index(matches)
+
+    # Turvaverkko (lisatty 2026-09-17, "korjaa lisaa puutteita"): jos
+    # nimi ei osu YHTAAN dataan (0 ottelua JA ei top50-listalla), tama on
+    # todennakoisemmin KIRJOITUSVIRHE kuin oikeasti aloitteleva joukkue -
+    # ilman tata varoitusta EloModel palauttaa hiljaa n=0/rating=1500,
+    # mika nayttaa identtiselta oikealta "ei dataa" -tilanteelta.
+    top50_names = load_top50_names()
+    for name in (args.team, args.opponent):
+        if name not in elo.ratings and name not in top50_names:
+            print(f"  VAROITUS: '{name}' ei loydy top50-listalta eika sille ole yhtaan ottelua -"
+                  f" tarkista kirjoitusasu (esim. isot/pienet kirjaimet, koko nimi vs. lyhenne).")
 
     r = elo.predict_with_confidence(args.team, args.opponent, last_date)
 
+    n_recent_team = count_recent_matches(args.team, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
+    n_recent_opp = count_recent_matches(args.opponent, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
+    p_adjusted = apply_rust_adjustment(r["p_mid"], n_recent_team, n_recent_opp)
+
     print(f"{args.team} vs {args.opponent}")
     print(f"  n_ottelua: {args.team}={r['n_team']}  {args.opponent}={r['n_opp']}  -> luottamus: {r['confidence']}")
-    print(f"  P({args.team}) = {r['p_mid']:.3f}  (haarukka [{r['p_low']:.3f}, {r['p_high']:.3f}])")
-    print(f"  Reilu kerroin {args.team}: {1/r['p_mid']:.2f}  (haarukka [{1/r['p_high']:.2f}, {1/r['p_low']:.2f}])")
-    print(f"  Reilu kerroin {args.opponent}: {1/(1-r['p_mid']):.2f}")
+    print(f"  P({args.team}) raaka = {r['p_mid']:.3f}  (haarukka [{r['p_low']:.3f}, {r['p_high']:.3f}])")
+    if p_adjusted != r["p_mid"]:
+        print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
+              f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - malli on tassa tilanteessa mitatusti yliluottavainen)")
+        p_final = p_adjusted
+    else:
+        p_final = r["p_mid"]
+    print(f"  Reilu kerroin {args.team}: {1/p_final:.2f}")
+    print(f"  Reilu kerroin {args.opponent}: {1/(1-p_final):.2f}")
     if r["confidence"] == "MATALA":
         print("\n  HUOM: MATALA luottamus - jommallakummalla joukkueella alle 10 kelvollista ottelua."
               " Piste-ennustetta ei pida kayttaa yhta luottavaisesti kuin HYVA-luokan ennusteita.")

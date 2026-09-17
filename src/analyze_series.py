@@ -53,7 +53,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection  # noqa: E402
-from backtest import EloModel  # noqa: E402
+from backtest import EloModel, load_best_elo_params  # noqa: E402
 from run_map_deviations import (  # noqa: E402
     compute_deviations,
     compute_empirical_leader_win_rate,
@@ -61,7 +61,8 @@ from run_map_deviations import (  # noqa: E402
     load_map_results_with_dates,
 )
 
-SCALE, K_FACTOR, HALF_LIFE = 200.0, 48.0, 99999.0  # run_elo.py:n paras (2026-09-17, korjatulla datalla)
+_params = load_best_elo_params()
+SCALE, K_FACTOR, HALF_LIFE = _params["scale"], _params["k_factor"], _params["half_life_days"]
 
 
 def build_map_elo(map_events_with_dates: list) -> EloModel:

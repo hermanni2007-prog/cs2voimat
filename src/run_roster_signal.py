@@ -31,11 +31,13 @@ from backtest import (  # noqa: E402
     RosterHistory,
     deduplicate_matches,
     load_clean_matches,
+    load_best_elo_params,
     log_loss,
     brier_score,
 )
 
-SCALE, K_FACTOR, HALF_LIFE = 200.0, 48.0, 99999.0  # run_elo.py:n paras (2026-09-17, korjatulla datalla)
+_params = load_best_elo_params()
+SCALE, K_FACTOR, HALF_LIFE = _params["scale"], _params["k_factor"], _params["half_life_days"]
 LOOKBACK_DAYS = 30
 CHANGE_THRESHOLD = 1  # kuinka monta UUTTA pelaajaa lookback-ikkunassa lasketaan "muutokseksi"
 

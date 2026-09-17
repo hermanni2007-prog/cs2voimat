@@ -261,14 +261,29 @@ class LiquipediaClient:
         return data["parse"]["text"]["*"]
 
 
-def parse_matches_table(html: str) -> list:
+def parse_matches_table(html: str, team_name: str = None) -> list:
     """Jasentaa joukkuesivun "/Matches"-taulukon riveiksi.
 
-    Sarakejarjestys (havaittu 2026-09-17, Natus Vincere/Matches -sivulta):
-    0=Date(timer-object data-timestamp), 1=Tier, 2=Type(Offline/Online),
-    3=peli-ikoni, 4=turnausikoni, 5=Tournament, 6=tulosmerkki, 7=Score,
-    8=vs. Opponent, 9=VOD(s).
-    """
+    Sarakkeet 0-5 (Date/Tier/Type/peli-ikoni/turnausikoni/Tournament) ovat
+    vakioita, mutta BUGI (loydetty 2026-09-17, kayttajan pyytaessa lisaa
+    puutteita - NRG:n data oli lahes tyhjaa, 21/27 rivista virheellisia):
+    osa joukkueiden /Matches-sivuista kayttaa 12-sarakkeista "team1 | tulos
+    | pisteet | tulos | team2" -asettelua JOSSA ON YLIMAARAINEN oman
+    joukkueen ikonisarake ENNEN pistesaraketta (havaittu NRG:lla), toiset
+    (esim. Natus Vincere, alkuperainen referenssi) kayttavat 10-sarakkeista
+    asettelua ilman sita. Vanha koodi oletti AINA tds[7]=pisteet, tds[8]=
+    vastustaja - NRG:n tapauksessa tds[7] oli tyhja tulosmerkki-ikoni ja
+    tds[8] oikea pistesarake, joten "opponent"-kenttaan tallentui vahingossa
+    PISTELUKEMA ("2:3") teksti, ja score_team/score_opponent jaivat None:ksi
+    (koska tds[8]:n sisalto ei ollutkaan linkki vaan tekstia).
+
+    KORJAUS: pistesarake etsitaan DYNAAMISESTI ensimmaisena tds:na (index
+    >= 6) jossa on >=2 <span>-elementtia JOTKA molemmat parsiutuvat
+    kokonaisluvuiksi - ei oleteta kiintea indeksia. Vastustaja etsitaan
+    vastaavasti ensimmaisena pistesarakkeen JALKEISENA tds:na jossa on
+    joukkuelinkki (<a title=...>), jonka otsikko EI ole oma joukkue
+    (team_name-parametri, jos annettu - suojaa siltä etta oman joukkueen
+    ikonisarake tulkittaisiin vastustajaksi)."""
     from bs4 import BeautifulSoup
 
     soup = BeautifulSoup(html, "html.parser")
@@ -300,20 +315,35 @@ def parse_matches_table(html: str) -> list:
         tourn_link = tds[5].find("a")
         tournament = (tourn_link.get_text(strip=True) if tourn_link else tds[5].get_text(strip=True)) or None
 
-        score_cell = tds[7]
-        score_spans = score_cell.find_all("span")
+        score_idx = None
         score_team = score_opponent = None
-        if len(score_spans) >= 2:
+        raw_score = None
+        for i in range(6, len(tds)):
+            spans = tds[i].find_all("span")
+            if len(spans) < 2:
+                continue
             try:
-                score_team = int(score_spans[0].get_text(strip=True))
-                score_opponent = int(score_spans[1].get_text(strip=True))
+                a = int(spans[0].get_text(strip=True))
+                b = int(spans[-1].get_text(strip=True))
             except ValueError:
-                pass
-        raw_score = score_cell.get_text(strip=True)
+                continue
+            score_idx = i
+            score_team, score_opponent = a, b
+            raw_score = tds[i].get_text(strip=True)
+            break
+        if score_idx is None:
+            continue  # ei parsittavaa tulosta talla rivilla (esim. tuleva ottelu)
 
-        opp_cell = tds[8]
-        opp_link = opp_cell.find("a", title=True)
-        opponent = opp_link["title"] if opp_link else opp_cell.get_text(strip=True)
+        opponent = None
+        for i in range(score_idx + 1, len(tds)):
+            opp_link = tds[i].find("a", title=True)
+            if not opp_link:
+                continue
+            title = opp_link["title"]
+            if team_name and title == team_name:
+                continue
+            opponent = title
+            break
 
         if not tournament or not opponent:
             continue

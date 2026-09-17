@@ -366,6 +366,33 @@ def deduplicate_matches(matches: list) -> list:
 
 MEAN_RATING = 1500.0
 
+# Oletusarvo jos data/elo_report.json ei ole viela olemassa (esim. taysin
+# tuore checkout). Paivittyy automaattisesti kun run_elo.py ajetaan.
+_FALLBACK_ELO_PARAMS = {"scale": 200.0, "k_factor": 32.0, "half_life_days": 99999.0}
+
+
+def load_best_elo_params() -> dict:
+    """Lukee Tehtava 3:n viimeisimman grid-haun tuloksen (run_elo.py:n
+    kirjoittama data/elo_report.json) - EI ENAA hardcodattu joka skriptiin
+    erikseen. LOYDETTY ONGELMA (2026-09-17): kun dedup-bugi ja
+    nimenormalisointibugi korjattiin, "paras" (scale,k) muuttui KAHDESTI,
+    ja jokainen skripti (analyze_series.py, predict_match.py, run_roster_
+    signal.py, run_form_lambda.py, generate_report.py) piti paivittaa
+    KASIN erikseen - unohdettiin osa niista ensimmaisella kierroksella,
+    mika johti hetkelliseen VAARAAN johtopaatokseen (Tehtava 5:n lambda-
+    testi, ks. README). Yksi yhteinen lataaja poistaa taman toistuvan
+    virhelahteen kokonaan - skriptit eivat voi enaa "unohtua paivittaa"."""
+    path = ROOT / "data" / "elo_report.json"
+    if not path.exists():
+        return dict(_FALLBACK_ELO_PARAMS)
+    try:
+        import json
+        data = json.loads(path.read_text(encoding="utf-8"))
+        p = data["best_params"]
+        return {"scale": float(p["scale"]), "k_factor": float(p["k"]), "half_life_days": float(p["half_life_days"])}
+    except (KeyError, ValueError, OSError):
+        return dict(_FALLBACK_ELO_PARAMS)
+
 
 class EloModel:
     def __init__(self, scale: float = 400.0, k_factor: float = 24.0, half_life_days: float = 60.0):
@@ -460,6 +487,57 @@ class EloModel:
             "n_team": n_team, "n_opp": n_opp, "confidence": confidence,
             "rd_team": rd_team, "rd_opp": rd_opp,
         }
+
+
+# ---------------------------------------------------------------------------
+# "Ruostumis"-korjaus (lisatty 2026-09-17, kayttajan pyynnosta - alkuperainen
+# hypoteesi oli "uupumus" (liikaa otteluita -> huonompi tulos), mutta
+# run_tournament_effects.py:n mittaus (ks. README) osoitti PAINVASTAISEN
+# ilmion: suosikki joka EI OLE PELANNUT VIIMEISEN 5 VRK:N AIKANA havisi
+# ODOTETTUA USEAMMIN - ei uupumus vaan "ring rust"/kilpailurytmin puute.
+#
+# KAAVA (empiirisesti sovitettu, ei teoreettinen): OLS-kalibrointikulmakerroin
+# per bucket (pakotettu leikkauspiste 0.5, ks. fit: slope = Sum((p-0.5)(y-0.5))
+# / Sum((p-0.5)^2)):
+#   suosikki EI pelannut viimeisen 5 vrk:n aikana (n=227): slope = 0.790
+#     -> malli YLILUOTTAVAINEN, ennustetta pitaa vetaa kohti 0.5:ta
+#   suosikki PELASI >=1 kertaa viimeisen 5 vrk:n aikana (n=810): slope = 1.117
+#     -> lahella 1.0:aa, ei korjata (mahdollinen lievä aliluottamus jatetaan
+#        korjaamatta - pienempi riski kuin yliluottamuksen jattaminen)
+#
+# p_korjattu = 0.5 + (p_raaka - 0.5) * RUST_SHRINK   (vain jos suosikilla n=0)
+#
+# HUOM: tama on toistaiseksi YKSI kertaluokka karkeampi kuin oikea Glicko-
+# tyylinen ratkaisu (ei huomioi MONTAKO paivaa on kulunut, vain 0 vs >=1),
+# ja perustuu 227 ottelun otokseen - ei kalibroitu markkinaa vastaan.
+# ---------------------------------------------------------------------------
+RUST_WINDOW_DAYS = 5
+RUST_SHRINK_NO_RECENT_MATCH = 0.790
+
+
+def count_recent_matches(team: str, as_of, matches_by_team: dict, window_days: float = RUST_WINDOW_DAYS) -> int:
+    """matches_by_team: team -> LAJITELTU lista ottelupaivamaarista (esim.
+    run_tournament_effects.build_recent_match_index:n tuottama). Laskee
+    kuinka monta ottelua team on pelannut valilla [as_of - window_days, as_of)."""
+    import bisect
+    from datetime import timedelta
+
+    dates = matches_by_team.get(team, [])
+    lo = as_of - timedelta(days=window_days)
+    left = bisect.bisect_left(dates, lo)
+    right = bisect.bisect_left(dates, as_of)
+    return right - left
+
+
+def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: int) -> float:
+    """Kutistaa ennusteen kohti 0.5:ta JOS suosikilla (kumpi tahansa puoli
+    p_team>=0.5 mukaan) ei ole yhtaan ottelua viimeisen RUST_WINDOW_DAYS:n
+    aikana. Ei muuta ennustetta jos suosikki on pelannut äskettäin."""
+    is_team_favorite = p_team >= 0.5
+    favorite_n_recent = n_recent_team if is_team_favorite else n_recent_opponent
+    if favorite_n_recent == 0:
+        return 0.5 + (p_team - 0.5) * RUST_SHRINK_NO_RECENT_MATCH
+    return p_team
 
 
 def run_elo_walkforward(matches: list, elo: EloModel) -> dict:

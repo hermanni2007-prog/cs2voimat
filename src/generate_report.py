@@ -35,6 +35,7 @@ from db import get_connection  # noqa: E402
 from backtest import (  # noqa: E402
     EloModel,
     deduplicate_matches,
+    load_best_elo_params,
     load_clean_matches,
     log_loss,
     remove_margin,
@@ -42,10 +43,14 @@ from backtest import (  # noqa: E402
 
 REPORT_PATH = ROOT / "data" / "daily_report.json"
 
-# Tehtava 3:n paras loydetty parametristo (run_elo.py)
-SCALE = 100.0
-K_FACTOR = 32.0
-HALF_LIFE = 99999.0  # ei vaimennusta - paras loydos 4 kk:n datalla
+# Tehtava 3:n paras loydetty parametristo - ladataan AINA tuoreena
+# data/elo_report.json:sta (ks. backtest.load_best_elo_params, lisatty
+# 2026-09-17 jotta tama ei paase enaa jaamaan jalkeen kun run_elo.py:n
+# tulos muuttuu bugikorjausten myota).
+_params = load_best_elo_params()
+SCALE = _params["scale"]
+K_FACTOR = _params["k_factor"]
+HALF_LIFE = _params["half_life_days"]
 
 
 def build_elo_and_rolling_loss(matches: list) -> tuple:

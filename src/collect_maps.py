@@ -32,6 +32,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
 from liquipedia_client import LiquipediaClient, parse_bracket_matches  # noqa: E402
+from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -114,9 +115,17 @@ def process_tournament(conn, client: LiquipediaClient, tournament: str) -> None:
 
         html = client.fetch_rendered_html(page_title)
         matches = parse_bracket_matches(html)
+        top50_names = load_top50_names()
 
         maps_inserted = 0
         for match in matches:
+            # BUGI (loydetty 2026-09-17): bracket-popupin aria-label antaa
+            # Liquipedian TAYDEN nimen ("G2 Esports", "Team Spirit") - ei
+            # top50:n lyhytta nimea. Ilman normalisointia sama joukkue
+            # halkeaa kahdeksi entiteetiksi Elo/deviaatio-laskennassa.
+            # Vaikutti VAHINTAAN 24/50 joukkueeseen. Ks. src/team_names.py.
+            team1 = resolve_to_canonical(match["team1"], top50_names)
+            team2 = resolve_to_canonical(match["team2"], top50_names)
             for i, mp in enumerate(match["maps"], start=1):
                 cur = conn.execute(
                     """INSERT OR IGNORE INTO historical_maps
@@ -125,7 +134,7 @@ def process_tournament(conn, client: LiquipediaClient, tournament: str) -> None:
                         team1_score, team2_score, team1_halves_json, team2_halves_json, collected_utc)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
-                        match["match_date_utc"], tournament, page_title, match["team1"], match["team2"],
+                        match["match_date_utc"], tournament, page_title, team1, team2,
                         match["team1_series_score"], match["team2_series_score"], i, mp["map_name"],
                         mp["team1_score"], mp["team2_score"],
                         json.dumps(mp["team1_halves"], ensure_ascii=False),

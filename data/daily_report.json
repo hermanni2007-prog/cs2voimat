@@ -1,338 +1,326 @@
 {
-  "generated_utc": "2026-09-17T16:05:27.506799+00:00",
+  "generated_utc": "2026-09-17T19:36:11.110048+00:00",
   "section_a_power_table": [
-    {
-      "vrs_rank": 33,
-      "team": "fnatic",
-      "elo_rating": 1642.6,
-      "elo_rank": 1
-    },
     {
       "vrs_rank": 49,
       "team": "Nemiga",
-      "elo_rating": 1640.5,
+      "elo_rating": 2161.4,
+      "elo_rank": 1
+    },
+    {
+      "vrs_rank": 1,
+      "team": "Spirit",
+      "elo_rating": 2101.8,
       "elo_rank": 2
     },
     {
-      "vrs_rank": 2,
-      "team": "MOUZ",
-      "elo_rating": 1631.2,
+      "vrs_rank": 13,
+      "team": "B8",
+      "elo_rating": 1994.8,
       "elo_rank": 3
     },
     {
       "vrs_rank": 40,
       "team": "Virtus.pro",
-      "elo_rating": 1629.6,
+      "elo_rating": 1988.7,
       "elo_rank": 4
-    },
-    {
-      "vrs_rank": 6,
-      "team": "Legacy",
-      "elo_rating": 1625.5,
-      "elo_rank": 5
     },
     {
       "vrs_rank": 25,
       "team": "HOTU",
-      "elo_rating": 1601.2,
+      "elo_rating": 1939.0,
+      "elo_rank": 5
+    },
+    {
+      "vrs_rank": 33,
+      "team": "fnatic",
+      "elo_rating": 1917.0,
       "elo_rank": 6
     },
     {
-      "vrs_rank": 13,
-      "team": "B8",
-      "elo_rating": 1600.9,
+      "vrs_rank": 2,
+      "team": "MOUZ",
+      "elo_rating": 1882.8,
       "elo_rank": 7
-    },
-    {
-      "vrs_rank": 4,
-      "team": "FUT",
-      "elo_rating": 1573.6,
-      "elo_rank": 8
-    },
-    {
-      "vrs_rank": 1,
-      "team": "Spirit",
-      "elo_rating": 1573.5,
-      "elo_rank": 9
     },
     {
       "vrs_rank": 24,
       "team": "HEROIC",
-      "elo_rating": 1573.0,
+      "elo_rating": 1873.3,
+      "elo_rank": 8
+    },
+    {
+      "vrs_rank": 6,
+      "team": "Legacy",
+      "elo_rating": 1861.9,
+      "elo_rank": 9
+    },
+    {
+      "vrs_rank": 3,
+      "team": "Falcons",
+      "elo_rating": 1844.4,
       "elo_rank": 10
+    },
+    {
+      "vrs_rank": 8,
+      "team": "G2",
+      "elo_rating": 1835.9,
+      "elo_rank": 11
+    },
+    {
+      "vrs_rank": 50,
+      "team": "NRG",
+      "elo_rating": 1815.4,
+      "elo_rank": 12
+    },
+    {
+      "vrs_rank": 4,
+      "team": "FUT",
+      "elo_rating": 1794.7,
+      "elo_rank": 13
+    },
+    {
+      "vrs_rank": 5,
+      "team": "Vitality",
+      "elo_rating": 1792.0,
+      "elo_rank": 14
+    },
+    {
+      "vrs_rank": 12,
+      "team": "Aurora",
+      "elo_rating": 1788.5,
+      "elo_rank": 15
+    },
+    {
+      "vrs_rank": 37,
+      "team": "K27",
+      "elo_rating": 1758.2,
+      "elo_rank": 16
     },
     {
       "vrs_rank": 17,
       "team": "Liquid",
-      "elo_rating": 1570.2,
-      "elo_rank": 11
-    },
-    {
-      "vrs_rank": 48,
-      "team": "Sashi",
-      "elo_rating": 1567.2,
-      "elo_rank": 12
-    },
-    {
-      "vrs_rank": 45,
-      "team": "Nemesis",
-      "elo_rating": 1559.0,
-      "elo_rank": 13
-    },
-    {
-      "vrs_rank": 30,
-      "team": "Betclic",
-      "elo_rating": 1555.2,
-      "elo_rank": 14
-    },
-    {
-      "vrs_rank": 38,
-      "team": "BC.Game",
-      "elo_rating": 1555.2,
-      "elo_rank": 15
-    },
-    {
-      "vrs_rank": 15,
-      "team": "BETBOOM",
-      "elo_rating": 1554.7,
-      "elo_rank": 16
-    },
-    {
-      "vrs_rank": 32,
-      "team": "JiJieHao",
-      "elo_rating": 1554.0,
+      "elo_rating": 1755.0,
       "elo_rank": 17
     },
     {
       "vrs_rank": 27,
       "team": "100 Thieves",
-      "elo_rating": 1552.5,
+      "elo_rating": 1732.2,
       "elo_rank": 18
     },
     {
-      "vrs_rank": 22,
-      "team": "Alliance",
-      "elo_rating": 1552.3,
+      "vrs_rank": 45,
+      "team": "Nemesis",
+      "elo_rating": 1727.8,
       "elo_rank": 19
     },
     {
-      "vrs_rank": 21,
-      "team": "MIBR",
-      "elo_rating": 1551.1,
+      "vrs_rank": 15,
+      "team": "BETBOOM",
+      "elo_rating": 1718.2,
       "elo_rank": 20
-    },
-    {
-      "vrs_rank": 26,
-      "team": "TYLOO",
-      "elo_rating": 1545.4,
-      "elo_rank": 21
-    },
-    {
-      "vrs_rank": 37,
-      "team": "K27",
-      "elo_rating": 1544.9,
-      "elo_rank": 22
-    },
-    {
-      "vrs_rank": 34,
-      "team": "DENDELE",
-      "elo_rating": 1543.3,
-      "elo_rank": 23
-    },
-    {
-      "vrs_rank": 41,
-      "team": "M80",
-      "elo_rating": 1540.0,
-      "elo_rank": 24
-    },
-    {
-      "vrs_rank": 23,
-      "team": "magic",
-      "elo_rating": 1536.3,
-      "elo_rank": 25
-    },
-    {
-      "vrs_rank": 7,
-      "team": "FURIA",
-      "elo_rating": 1524.9,
-      "elo_rank": 26
-    },
-    {
-      "vrs_rank": 9,
-      "team": "9z",
-      "elo_rating": 1515.1,
-      "elo_rank": 27
-    },
-    {
-      "vrs_rank": 42,
-      "team": "paiN",
-      "elo_rating": 1504.2,
-      "elo_rank": 28
-    },
-    {
-      "vrs_rank": 3,
-      "team": "Falcons",
-      "elo_rating": 1500.0,
-      "elo_rank": 29
-    },
-    {
-      "vrs_rank": 8,
-      "team": "G2",
-      "elo_rating": 1500.0,
-      "elo_rank": 30
     },
     {
       "vrs_rank": 14,
       "team": "Inner Circle",
-      "elo_rating": 1500.0,
+      "elo_rating": 1716.0,
+      "elo_rank": 21
+    },
+    {
+      "vrs_rank": 38,
+      "team": "BC.Game",
+      "elo_rating": 1703.5,
+      "elo_rank": 22
+    },
+    {
+      "vrs_rank": 26,
+      "team": "TYLOO",
+      "elo_rating": 1702.4,
+      "elo_rank": 23
+    },
+    {
+      "vrs_rank": 7,
+      "team": "FURIA",
+      "elo_rating": 1687.7,
+      "elo_rank": 24
+    },
+    {
+      "vrs_rank": 22,
+      "team": "Alliance",
+      "elo_rating": 1674.4,
+      "elo_rank": 25
+    },
+    {
+      "vrs_rank": 30,
+      "team": "Betclic",
+      "elo_rating": 1665.9,
+      "elo_rank": 26
+    },
+    {
+      "vrs_rank": 32,
+      "team": "JiJieHao",
+      "elo_rating": 1647.1,
+      "elo_rank": 27
+    },
+    {
+      "vrs_rank": 48,
+      "team": "Sashi",
+      "elo_rating": 1646.6,
+      "elo_rank": 28
+    },
+    {
+      "vrs_rank": 21,
+      "team": "MIBR",
+      "elo_rating": 1621.8,
+      "elo_rank": 29
+    },
+    {
+      "vrs_rank": 10,
+      "team": "FaZe",
+      "elo_rating": 1621.3,
+      "elo_rank": 30
+    },
+    {
+      "vrs_rank": 34,
+      "team": "DENDELE",
+      "elo_rating": 1616.7,
       "elo_rank": 31
+    },
+    {
+      "vrs_rank": 43,
+      "team": "Nuclear TigeRES",
+      "elo_rating": 1612.1,
+      "elo_rank": 32
+    },
+    {
+      "vrs_rank": 41,
+      "team": "M80",
+      "elo_rating": 1585.0,
+      "elo_rank": 33
+    },
+    {
+      "vrs_rank": 9,
+      "team": "9z",
+      "elo_rating": 1521.6,
+      "elo_rank": 34
+    },
+    {
+      "vrs_rank": 20,
+      "team": "Astralis",
+      "elo_rating": 1516.8,
+      "elo_rank": 35
+    },
+    {
+      "vrs_rank": 16,
+      "team": "BIG",
+      "elo_rating": 1515.4,
+      "elo_rank": 36
+    },
+    {
+      "vrs_rank": 18,
+      "team": "PARIVISION",
+      "elo_rating": 1513.2,
+      "elo_rank": 37
+    },
+    {
+      "vrs_rank": 23,
+      "team": "magic",
+      "elo_rating": 1508.1,
+      "elo_rank": 38
+    },
+    {
+      "vrs_rank": 44,
+      "team": "Luminosity",
+      "elo_rating": 1503.0,
+      "elo_rank": 39
     },
     {
       "vrs_rank": 31,
       "team": "1win",
       "elo_rating": 1500.0,
-      "elo_rank": 32
-    },
-    {
-      "vrs_rank": 50,
-      "team": "NRG",
-      "elo_rating": 1500.0,
-      "elo_rank": 33
-    },
-    {
-      "vrs_rank": 18,
-      "team": "PARIVISION",
-      "elo_rating": 1498.1,
-      "elo_rank": 34
-    },
-    {
-      "vrs_rank": 16,
-      "team": "BIG",
-      "elo_rating": 1495.7,
-      "elo_rank": 35
-    },
-    {
-      "vrs_rank": 20,
-      "team": "Astralis",
-      "elo_rating": 1495.0,
-      "elo_rank": 36
-    },
-    {
-      "vrs_rank": 43,
-      "team": "Nuclear TigeRES",
-      "elo_rating": 1494.1,
-      "elo_rank": 37
-    },
-    {
-      "vrs_rank": 19,
-      "team": "The MongolZ",
-      "elo_rating": 1493.8,
-      "elo_rank": 38
-    },
-    {
-      "vrs_rank": 5,
-      "team": "Vitality",
-      "elo_rating": 1490.6,
-      "elo_rank": 39
-    },
-    {
-      "vrs_rank": 44,
-      "team": "Luminosity",
-      "elo_rating": 1488.1,
       "elo_rank": 40
-    },
-    {
-      "vrs_rank": 35,
-      "team": "3DMAX",
-      "elo_rating": 1486.6,
-      "elo_rank": 41
-    },
-    {
-      "vrs_rank": 11,
-      "team": "Natus Vincere",
-      "elo_rating": 1486.1,
-      "elo_rank": 42
-    },
-    {
-      "vrs_rank": 12,
-      "team": "Aurora",
-      "elo_rating": 1477.8,
-      "elo_rank": 43
-    },
-    {
-      "vrs_rank": 36,
-      "team": "EYEBALLERS",
-      "elo_rating": 1475.7,
-      "elo_rank": 44
     },
     {
       "vrs_rank": 46,
       "team": "Acend",
-      "elo_rating": 1472.9,
-      "elo_rank": 45
+      "elo_rating": 1485.1,
+      "elo_rank": 41
     },
     {
-      "vrs_rank": 29,
-      "team": "Ninjas in Pyjamas",
-      "elo_rating": 1470.8,
-      "elo_rank": 46
-    },
-    {
-      "vrs_rank": 39,
-      "team": "Lynn Vision",
-      "elo_rating": 1470.0,
-      "elo_rank": 47
-    },
-    {
-      "vrs_rank": 28,
-      "team": "GamerLegion",
-      "elo_rating": 1465.5,
-      "elo_rank": 48
-    },
-    {
-      "vrs_rank": 10,
-      "team": "FaZe",
-      "elo_rating": 1462.8,
-      "elo_rank": 49
+      "vrs_rank": 19,
+      "team": "The MongolZ",
+      "elo_rating": 1467.9,
+      "elo_rank": 42
     },
     {
       "vrs_rank": 47,
       "team": "INFINITE",
-      "elo_rating": 1451.0,
+      "elo_rating": 1459.2,
+      "elo_rank": 43
+    },
+    {
+      "vrs_rank": 35,
+      "team": "3DMAX",
+      "elo_rating": 1450.2,
+      "elo_rank": 44
+    },
+    {
+      "vrs_rank": 11,
+      "team": "Natus Vincere",
+      "elo_rating": 1420.9,
+      "elo_rank": 45
+    },
+    {
+      "vrs_rank": 39,
+      "team": "Lynn Vision",
+      "elo_rating": 1414.1,
+      "elo_rank": 46
+    },
+    {
+      "vrs_rank": 36,
+      "team": "EYEBALLERS",
+      "elo_rating": 1404.7,
+      "elo_rank": 47
+    },
+    {
+      "vrs_rank": 29,
+      "team": "Ninjas in Pyjamas",
+      "elo_rating": 1349.9,
+      "elo_rank": 48
+    },
+    {
+      "vrs_rank": 42,
+      "team": "paiN",
+      "elo_rating": 1344.2,
+      "elo_rank": 49
+    },
+    {
+      "vrs_rank": 28,
+      "team": "GamerLegion",
+      "elo_rating": 1326.9,
       "elo_rank": 50
     }
   ],
   "section_a_note": "Karttapoikkeamat EIVAT viela mukana - Tehtava 4 odottaa karttatason dataa.",
   "rolling_log_loss": {
-    "model": 0.6052070429467872,
+    "model": 0.5860502465357184,
     "model_n": 100,
     "market": null,
     "market_note": "Ei saatavilla - vaatii Tehtava 0:n jatkuvan kerroinkeruun ja pidemman aikahistorian."
   },
   "section_b_examples": [
     {
-      "team_home": "Magic",
-      "team_away": "Team Vitality",
-      "tournament": "StarLadder StarSeries",
-      "start_utc": "2026-09-17T12:30:00.000Z",
-      "price_home": 1.06,
-      "price_away": 6.51,
-      "p_model_home": 0.397517776965127,
-      "p_fair_home": 0.8599735799207398,
-      "ev_home": -0.5786311564169653,
+      "team_home": "Team Spirit Academy",
+      "team_away": "Nexus Gaming",
+      "tournament": "CCT European Series",
+      "start_utc": "2026-09-17T17:00:00.000Z",
+      "price_home": 1.709,
+      "price_away": 2.12,
+      "p_model_home": 0.5140190963537297,
+      "p_fair_home": 0.5536693653695481,
+      "ev_home": -0.121541364331476,
       "kelly_home": 0.0
-    },
-    {
-      "team_home": "Aurora Gaming",
-      "team_away": "Natus Vincere",
-      "tournament": "StarLadder StarSeries",
-      "start_utc": "2026-09-17T15:00:00.000Z",
-      "price_home": 1.714,
-      "price_away": 2.15,
-      "p_model_home": 0.7811294188640343,
-      "p_fair_home": 0.5564182194616978,
-      "ev_home": 0.3388558239329549,
-      "kelly_home": 0.4745879887016175
     },
     {
       "team_home": "Metizport",
@@ -341,9 +329,9 @@
       "start_utc": "2026-09-17T08:00:00.000Z",
       "price_home": 1.446,
       "price_away": 2.81,
-      "p_model_home": 0.18096563362854587,
+      "p_model_home": 0.1772789160238558,
       "p_fair_home": 0.6602443609022557,
-      "ev_home": -0.7383236937731227,
+      "ev_home": -0.7436546874295045,
       "kelly_home": 0.0
     },
     {
@@ -353,9 +341,9 @@
       "start_utc": "2026-09-17T13:00:00.000Z",
       "price_home": 1.571,
       "price_away": 2.43,
-      "p_model_home": 0.28898279765047863,
+      "p_model_home": 0.3751039439898668,
       "p_fair_home": 0.6073481629592602,
-      "ev_home": -0.5460080248910981,
+      "ev_home": -0.41071170399191925,
       "kelly_home": 0.0
     },
     {
@@ -365,10 +353,10 @@
       "start_utc": "2026-09-17T15:00:00.000Z",
       "price_home": 1.598,
       "price_away": 2.37,
-      "p_model_home": 0.6478243274456907,
+      "p_model_home": 0.735850316556351,
       "p_fair_home": 0.5972782258064516,
-      "ev_home": 0.03522327525821378,
-      "kelly_home": 0.05890179809065849
+      "ev_home": 0.1758888058570489,
+      "kelly_home": 0.2941284378880416
     }
   ],
   "section_b_note": "Nama EIVAT ole aktiivisia suosituksia - kertoimet talta paivalta, ottelut jo menneet. Esimerkki EV/Kelly-laskentatavasta.",

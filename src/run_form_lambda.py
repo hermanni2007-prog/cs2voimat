@@ -9,9 +9,12 @@ TAMA ON PROJEKTIN ALKUPERAINEN TEESI (kayttajan oma, istunnon alusta):
 lambda tulee ulos 0:na tai lahella 0:aa, teesi ei pida paikkaansa tassa
 datassa - raportoidaan suoraan.
 
-Kayttaa Tehtava 3:sta parhaaksi loydettya (scale, k) = (200, 48, korjattu
-2026-09-17 dedup-bugin jalkeen) - vain half_life vaihtelee kahden mallin
-valilla, kuten briiffi maarittelee.
+Kayttaa Tehtava 3:sta parhaaksi loydettya (scale, k) - ladataan AINA
+tuoreena data/elo_report.json:sta (backtest.load_best_elo_params(), lisatty
+2026-09-17 sen jalkeen kun kaksi peräkkäistä bugikorjausta muutti "parasta"
+kahdesti ja skriptit unohtuivat paivittaa kasin kertaalleen, mika johti
+hetkelliseen vaaraan johtopaatokseen - ks. README). Vain half_life vaihtelee
+kahden mallin valilla, kuten briiffi maarittelee.
 """
 from __future__ import annotations
 
@@ -26,13 +29,15 @@ from db import get_connection  # noqa: E402
 from backtest import (  # noqa: E402
     EloModel,
     deduplicate_matches,
+    load_best_elo_params,
     load_clean_matches,
     run_dual_elo_walkforward,
     run_elo_walkforward,
 )
 
-SCALE = 200.0
-K_FACTOR = 48.0
+_params = load_best_elo_params()
+SCALE = _params["scale"]
+K_FACTOR = _params["k_factor"]
 SLOW_HALF_LIFE = 180.0
 FAST_HALF_LIFE = 21.0
 

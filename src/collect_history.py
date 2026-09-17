@@ -32,6 +32,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
 from liquipedia_client import LiquipediaClient, parse_matches_table  # noqa: E402
+from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -139,20 +140,27 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
             return
 
         html = client.fetch_rendered_html(page_title)
-        rows = parse_matches_table(html)
+        rows = parse_matches_table(html, team_name=team_name)
+        top50_names = load_top50_names()
 
         inserted = 0
         for row in rows:
             match_dt = datetime.fromisoformat(row["match_date_utc"])
             if match_dt < cutoff_utc:
                 continue
+            # BUGI (loydetty 2026-09-17): Liquipedia nayttaa vastustajan
+            # TAYDELLA nimella ("G2 Esports"), mutta oma joukkue tallentuu
+            # top50:n LYHYELLA nimella ("G2") - ilman normalisointia sama
+            # oikea joukkue halkeaa kahdeksi eri Elo-entiteetiksi. Ks.
+            # src/team_names.py:n docstring. Vaikutti 24/50 joukkueeseen.
+            opponent = resolve_to_canonical(row["opponent"], top50_names)
             cur = conn.execute(
                 """INSERT OR IGNORE INTO historical_matches
                    (match_date_utc, team, opponent, tier, match_type, tournament,
                     score_team, score_opponent, raw_score, source_page, collected_utc)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    row["match_date_utc"], team_name, row["opponent"], row["tier"], row["match_type"],
+                    row["match_date_utc"], team_name, opponent, row["tier"], row["match_type"],
                     row["tournament"], row["score_team"], row["score_opponent"], row["raw_score"],
                     page_title, now_utc_iso(),
                 ),

@@ -70,12 +70,19 @@ def compute_empirical_leader_win_rate(conn) -> dict:
     formaatin mukaan eroteltuna (Bo3 vs Bo5 - EI Bo1:sta, jonka
     "sarjatulos" on itse asiassa vain kartan round-score, ei erillinen
     sarjalaskuri - suodatettu pois vaatimalla max(s1,s2) in {2,3})."""
+    # HUOM (varautuminen, ei viela havaittu ongelma): match_date_utc IS NOT
+    # NULL -ehto suojaa samalta bugityypilta kuin dedup-bugi (backtest.py) -
+    # jos jonain paivana jokin ottelu tallentuisi ilman aikaleimaa, kaksi
+    # ERI ottelua samalla (turnaus, team1, team2, NULL) -avaimella
+    # sekoittuisi yhdeksi "otteluksi" alla olevassa ryhmittelyssa. Nyt 0
+    # riivia jolla match_date_utc on NULL - tarkistettu 2026-09-17.
     rows = conn.execute(
         """SELECT tournament, team1, team2, match_date_utc, team1_series_score, team2_series_score,
                   map_order, team1_score, team2_score
            FROM historical_maps
            WHERE team1_series_score IS NOT NULL AND team2_series_score IS NOT NULL
              AND team1_series_score != team2_series_score
+             AND match_date_utc IS NOT NULL
            ORDER BY tournament, team1, team2, match_date_utc, map_order"""
     ).fetchall()
 
@@ -130,6 +137,20 @@ def load_map_results_with_dates(conn) -> list:
 
 
 def compute_deviations(events: list) -> list:
+    """BUGI (loydetty ja korjattu 2026-09-17, kayttajan pyytaessa lisaa
+    puutteita mallista): "oma yleistaso" (baseline) laskettiin AIKAISEMMIN
+    KAIKISTA joukkueen karttatapahtumista - MUKAAN LUKIEN se sama kartta
+    jolle poikkeamaa juuri lasketaan. Jos joukkue on pelannut esim. 6/10
+    kartastaan Miragella, Miragen tulokset itsessaan vetavat "oman tason"
+    kohti Miragen tulosta - poikkeama systemaattisesti ALIARVIOITU
+    (itseensa viittaava kontaminaatio). Havaittu erityisen vakavana pienen
+    otoksen joukkueilla: tarkistettiin data, useilla pienemmilla
+    joukkueilla n_kartalla/n_yhteensa oli 60-100 %. Korjattu leave-one-out
+    -periaatteella: baseline lasketaan KAIKISTA MUISTA karttatapahtumista
+    PAITSI tasta kartasta. Jos joukkue on pelannut VAIN tata yhta karttaa
+    (baseline_n - n == 0), poikkeamaa ei voida laskea itsenaisesti -
+    palautetaan 0.0 (sama lopputulos kuin vanha koodi tuotti tassa
+    erikoistapauksessa, mutta nyt tarkoituksella eika sattumalta)."""
     overall: dict = {}   # team -> [wins, n]
     per_map: dict = {}   # (team, map) -> [wins, n]
 
@@ -144,12 +165,16 @@ def compute_deviations(events: list) -> list:
 
     out = []
     for (team, map_name), (wins, n) in per_map.items():
-        baseline_wins, baseline_n = overall[team]
-        if baseline_n == 0:
-            continue
-        baseline_rate = baseline_wins / baseline_n
+        total_wins, total_n = overall[team]
+        loo_wins = total_wins - wins       # leave-one-out: poista tama kartta baselinesta
+        loo_n = total_n - n
+        if loo_n <= 0:
+            baseline_rate = wins / n       # ei itsenaista baselinea - poikkeama pakotetaan 0:aan
+            raw_deviation = 0.0
+        else:
+            baseline_rate = loo_wins / loo_n
+            raw_deviation = (wins / n) - baseline_rate
         raw_rate = wins / n
-        raw_deviation = raw_rate - baseline_rate
         shrunk = (n / (n + K_SHRINKAGE)) * raw_deviation
         out.append(
             {

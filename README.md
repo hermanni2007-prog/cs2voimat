@@ -29,6 +29,20 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   esim. "13-9") ja sarjatason (map-win, esim. "2:0") tuloksia riippuen
   ottelun formaatista - ei vielä normalisoitu. Sama ottelu voi esiintyä
   kahdesti (kummankin joukkueen sivulta), dedupetty `UNIQUE`-indeksillä.
+- **BUGIKORJAUS (2026-09-17, "etsi lisää puutteita"):** `parse_matches_table`
+  oletti KIINTEÄT sarakeindeksit (pisteet aina `tds[7]`, vastustaja aina
+  `tds[8]`) - toimi referenssijoukkueella (Natus Vincere, 10 saraketta)
+  mutta EI toiminut kaikilla joukkueilla. Löydetty NRG:n kohdalla:
+  heidän `/Matches`-taulukossaan on 12 saraketta (ylimääräinen oman
+  joukkueen ikonisarake ennen pistesaraketta), minkä takia vanha koodi
+  luki PISTELUKEMAN ("2:3") vahingossa `opponent`-kenttään ja jätti
+  `score_team`/`score_opponent` tyhjäksi - **21/27 NRG:n ottelusta oli
+  käyttökelvottomia tämän takia.** Korjattu: pistesarake ja vastustaja-
+  sarake etsitään nyt DYNAAMISESTI sisällön perusteella (kaksi
+  kokonaisluku-`<span>`-elementtiä pistesarakkeelle, sitä seuraava
+  joukkuelinkki vastustajalle) kiinteän indeksin sijaan - toimii
+  molemmilla havaituilla taulukkolayouteilla. NRG:n kelvolliset ottelut
+  nousivat 6:sta 339:ään.
 
 ### Kokoonpanot (alkuperäisen hyväksymiskriteerin puuttuva osa)
 
@@ -122,36 +136,44 @@ versio `historical_matches`-datan päälle.
 - `src/run_elo.py`: grid-hakee (scale, k, half_life_days) minimoiden log
   lossin, vertaa tulosta molempiin Tehtävä 2:n perusmalleihin samalla
   deduplikoidulla datalla (reilu vertailu).
-- **Tulos (2026-09-17, korjatulla datalla):** paras Elo (scale=200, k=48,
-  ei vaimennusta 4 kk:n ikkunassa) log loss **0.6678** — voittaa sekä
-  50/50:n (0.6931) että pehmeän VRS-mallin (0.6787). Pieni mutta aito
-  parannus: Elo oppii ottelutuloksista suoraan, ei vain staattisesta
-  kuukausittaisesta VRS-snapshotista.
-- Kalibrointi näyttää järkevältä koko välillä (esim. ennustettu 0.54 →
-  toteutunut 0.62, ennustettu 0.74 → toteutunut 0.73) - ei systemaattista
+- **Tulos (2026-09-17, LOPULLINEN - kaikkien 50 joukkueen täysi uudelleen-
+  keräys kaikkien bugikorjausten jälkeen, 1037 ottelua):** paras Elo
+  (scale=400, k=96, ei vaimennusta) log loss **0.6632** — voittaa sekä
+  50/50:n (0.6931) että pehmeän VRS-mallin (0.6778).
+- **Huomio grid-haun reunasta:** paras (scale=400, k=96) osuu testatun
+  ruudukon REUNALLE (scale∈[100..500], k∈[8..96]) - merkki siitä että
+  ruudukko voisi olla liian kapea, ja k=96 (aggressiivinen, nopeasti
+  reagoiva rating) voi ylisovittaa juuri tähän 4 kk:n ikkunaan. Holdout-
+  validointi (alla) valitsi maltillisemman (scale=150, k=32) train-datalla
+  ja sai SILTI paremman test-tuloksen - absoluuttisia rating-arvoja
+  (esim. "Nemiga 2161") ei pidä ottaa kirjaimellisesti, suhteelliset
+  voittotodennäköisyydet ovat vakaampia kuin tarkka piste-arvo.
+- Kalibrointi näyttää järkevältä koko välillä - ei systemaattista
   yli-/aliluottamusta.
 
 ### Aito train/test-validointi (2026-09-17) - malli testattu ilman markkinaa
 
-**Huomio metodologiasta:** yllä oleva 0.6678 valitsi hyperparametrit (scale,
+**Huomio metodologiasta:** yllä oleva 0.6632 valitsi hyperparametrit (scale,
 k, half_life) KOKO datasetilla ja arvioi tuloksen samalla datasetilla -
 lievä sisäänrakennettu vinouma, vaikka itse walk-forward on ottelukohtaisesti
 lookahead-suojattu. `src/run_holdout_validation.py` korjaa tämän: jakaa
-1134 ottelua kronologisesti (80% train / 20% test, raja 2026-09-02), valitsee
-parametrit VAIN train-osalla, ja raportoi lopputuloksen VAIN test-osalla
-jota parametrivalinta ei ole koskaan nähnyt.
+1037 ottelua (lopullinen määrä) kronologisesti (80% train / 20% test,
+raja 2026-09-03), valitsee parametrit VAIN train-osalla, ja raportoi
+lopputuloksen VAIN test-osalla jota parametrivalinta ei ole koskaan nähnyt.
 
-- **Tulos: Elo (scale=200, k=48, valittu train:lla) test_log_loss = 0.6545**
-  — parempi kuin aina_5050 (0.6931) JA pehmeä VRS-sija (0.6833) TÄYSIN
+- **Tulos: Elo (scale=150, k=32, valittu train:lla) test_log_loss = 0.6322**
+  — parempi kuin aina_5050 (0.6931) JA pehmeä VRS-sija (0.6786) TÄYSIN
   näkemättömällä datalla. Itse asiassa parempi kuin koko-datasetin
-  in-sample-arvio (0.6678) - ei merkkejä ylisovittumisesta.
-- Kalibrointi test-osalla: ennustettu 0.52 → toteutunut 0.62, ennustettu
-  0.68 → toteutunut 0.72 (n=121/83) - lievästi aliluottavainen, ei
-  yliluottavainen (turvallisempi suunta virheelle kuin päinvastoin).
-- **Huomio:** parhaat parametrit ovat samat (scale=200,k=48) sekä train-
-  osajoukolla että koko datasetilla - vakaampi tulos kuin ennen dedup-
-  bugin korjausta, jolloin train/full-parametrit erosivat (viite alla
-  olevaan dedup-bugikorjaukseen).
+  in-sample-arvio (0.6632) - ei merkkejä ylisovittumisesta, ja tämä
+  maltillisempi parametripari (150,32 vs. koko datasetin 400,96) antaa
+  vahvan signaalin etta se yleistyy vahintaan yhta hyvin.
+- Kalibrointi test-osalla: ennustettu 0.36 → toteutunut 0.47, ennustettu
+  0.51 → toteutunut 0.58, ennustettu 0.67 → toteutunut 0.78 (n=19/103/80) -
+  ei systemaattista yli-/aliluottamusta suuntaan tai toiseen.
+- **Huomio parametrien vakaudesta:** train-osajoukon paras (150,32) eroaa
+  yhä hieman koko datasetin parhaasta (100,24) - 754 ottelua ei riitä
+  täysin vakaaseen parametrien valintaan pienillä grid-eroilla, mutta
+  molemmat antavat samansuuntaisen, selvästi baselineja paremman tuloksen.
 - **Tämä on paras tapa testata mallin paikkansapitävyyttä ilman
   markkinakerrointa** - ei todista markkinaetua (siihen tarvitaan
   Tehtävä 0), mutta todistaa että malli oikeasti yleistyy uuteen
@@ -174,12 +196,74 @@ otteluista, vaan koko historiadatasta alusta asti.
 **Vaikutus: 860 → 1134 ottelua deduplikoinnin jälkeen (+274 ottelua, +32 %).**
 Kaikki Tehtävä 3:n ja 5:n aiemmat luvut oli siis laskettu puuttuvalla
 kolmasosalla datasta. Korjattu lisäämällä joukkuepari (`frozenset`) avaimeen.
-**Kaikki luvut tässä READMEssä on nyt päivitetty korjatulla datalla:**
-Elo paras (scale=200, k=48, ei vaimennusta) log loss **0.6678** (860→1134
-ottelun jälkeen; hieman huonompi kuin virheellinen 0.665, mutta tämä on
-nyt OIKEA luku), holdout-validointi test_log_loss **0.6545** (1134 ottelua,
-80/20-jako) - malli edelleen selvästi parempi kuin 50/50 (0.6931) ja
-pehmeä VRS (0.6833) täysin näkemättömällä datalla.
+(Tämä luku muuttui vielä kerran alla kuvatun kolmannen bugin korjauksen
+jälkeen - 1134 → 943, ks. seuraava osio.)
+
+### KOLMAS ja vakavin bugi: joukkuenimet halkesivat kahdeksi eri entiteetiksi (2026-09-17)
+
+**Käyttäjän pyynnöstä ("etsi mallista lisää puutteita") tehty systemaattinen
+koodikatselmus löysi tämän - suurin yksittäinen datavirhe koko projektissa.**
+
+Liquipedia näyttää saman joukkueen ERI tavalla riippuen konteksista: oman
+`/Matches`-sivunsa "team"-sarakkeessa top50:n LYHYT nimi ("G2"), mutta
+kun sama joukkue esiintyy TOISEN joukkueen sivulla vastustajana tai
+turnauksen bracket-sivulla, näytetään Liquipedian TÄYSI nimi ("G2 Esports").
+Koska kaikki mallimme (Elo, VRS-sijoitus, karttapoikkeamat) käyttävät
+joukkueen nimeä AVAIMENA, tämä tarkoitti että **sama oikea joukkue
+halkesi kahdeksi täysin erilliseksi "joukkueeksi" mallin silmissä** - toinen
+joka kertyi vain omalta sivulta luetuista otteluista, toinen (vajaampi,
+usein rating=1500 "ei dataa" -oletuksella) joka kertyi vain vastustaja-
+merkinnöistä. **Vahvistettu vaikuttavan vähintään 24/50 top-joukkueeseen**,
+mukaan lukien useita huipputiimejä: G2, FaZe, Team Spirit, Team Vitality,
+Team Liquid, Team Falcons, Aurora, 9z, Nemiga, Luminosity, ja muita.
+
+Konkreettinen esimerkki joka paljasti bugin: kun käyttäjä kysyi NRG vs
+Aurora -ennustetta, väitin Auroralla olevan "0 riviä" Tehtävä 4:n
+karttadatassa - **tämä oli väärin**. Auroran karttadata OLI olemassa,
+mutta tallennettuna nimellä "Aurora Gaming", ei "Aurora" - haku väärällä
+avaimella näytti tyhjältä.
+
+**Korjaus** (`src/team_names.py`, uusi jaettu moduuli):
+`resolve_to_canonical()` tunnistaa sanarajallisella osamerkkijonohaulla
+(sama turvallinen menetelmä kuin `VrsRankings._fuzzy_resolve`, ks. Tehtävä
+2) kun täysi nimi sisältää top50-lyhennimen kokonaisena sanana ("G2"
+sanassa "G2 Esports"). **Tietoisesti KONSERVATIIVINEN:** nimet jotka
+sisältävät viitteen eri (vara-/nuoriso-)rosteriin - "Academy", "Young",
+"Ares", "Next", jne. - jätetään TARKOITUKSELLA yhdistämättä (esim.
+"B8 Academy" ≠ "B8", "G2 Ares" ≠ "G2", "The MongolZ Academy" ≠
+"The MongolZ") koska ne ovat oikeasti eri pelaajia, eri taso. Jokainen
+ehdotettu yhdistys tarkistettiin manuaalisesti ennen ajoa (24 nimeä,
+katso commit-loki).
+
+**Migraatio ajettu kertaalleen olemassa olevaan dataan:** 284 riviä
+korjattu `historical_matches.opponent`-kentässä, 469 riviä (251+218)
+`historical_maps.team1/team2`-kentissä. Sama normalisointi lisätty
+`collect_history.py`:hen ja `collect_maps.py`:hen jotta bugi ei toistu
+tulevissa keräyksissä.
+
+**Vaikutus lopputuloksiin:** korjaus paljasti myös PIILEVIÄ dedup-
+kaksoiskappaleita (sama oikea ottelu oli aiemmin laskettu KAHDESTI koska
+nimet eivät täsmänneet dedup-avaimessa) - ottelumäärä laski 1134 → 943
+kun nämä väärät kaksoiskappaleet poistuivat, ja nousi lopulta **1037**:ään
+kun kaikki 50 joukkuetta kerättiin uudelleen korjatulla jäsentimellä
+(ks. Tehtävä 1:n parser-bugikorjaus) - moni joukkue (G2 +28, Inner Circle
++36, jne.) sai takaisin otteluita jotka olivat aiemmin kadonneet
+sarake-indeksi- tai nimibugin takia. **Lopulliset luvut (2026-09-17,
+1037 ottelua):** Elo paras (scale=400, k=96) log loss **0.6632**,
+holdout-validointi test_log_loss **0.6322** (80/20-jako) - malli edelleen
+selvästi parempi kuin 50/50 (0.6931) ja pehmeä VRS (0.6786) täysin
+näkemättömällä datalla.
+
+### Skriptien parametrit eivät voi enää "unohtua päivittää"
+
+Kun Tehtävä 3:n paras (scale, k) muuttui KAHDESTI peräkkäisten
+bugikorjausten myötä, viisi eri skriptiä (`analyze_series.py`,
+`predict_match.py`, `run_roster_signal.py`, `run_form_lambda.py`,
+`generate_report.py`) piti päivittää käsin - ensimmäisellä kierroksella
+yksi jäi vahingossa vanhoihin arvoihin, mikä johti hetkellisesti VÄÄRÄÄN
+johtopäätökseen (ks. Tehtävä 5:n formipaino-osio). Korjattu pysyvästi:
+`backtest.load_best_elo_params()` lukee parametrit aina tuoreena
+`data/elo_report.json`:sta - yksikään skripti ei enää voi jäädä jälkeen.
 
 ### Mallin parannukset (2026-09-17, käyttäjän pyynnöstä, järjestyksessä)
 
@@ -237,6 +321,11 @@ pehmeä VRS (0.6833) täysin näkemättömällä datalla.
    0.6655 (vakaa, n=840) vs. 0.6745 (tuore muutos, n=294) - nyt myös 1
    pelaajan vaihdolla on mitattava ero, ei vain isolla mullistuksella
    (kynnys≥2: 0.6661 vs. 0.7044, n=52 - edelleen pieni otos).
+   **LOPULLINEN PÄIVITYS (kaikkien 50 joukkueen täysi uudelleenkeräys,
+   1037 ottelua, scale=400/k=96):** molemmat johtopäätökset PYSYVÄT
+   samoina - λ=0.0 edelleen paras (log loss 0.6641 vs. yksittäisen Elon
+   0.6632), roolimuutos-signaali edelleen mitattava (0.6595 vakaa/n=753
+   vs. 0.6729 tuore muutos/n=284, kynnys≥2: 0.6617/n=972 vs. 0.6844/n=65).
 5. **Kartta-veto-mallin korvaava heuristiikka - TESTATTU, EI TUKEA:**
    ennen koodin kirjoittamista testattiin empiirisesti kaksi oletusta
    omalla datalla: (a) ovatko decider-kartat (Bo3:n 3. kartta) tasaisempia
@@ -299,12 +388,23 @@ kuin `/Matches`-taulukko ja vaati oman jäsentimen.
   `m̂ = (n/(n+k))·m_raaka`, k=5) laskee jokaiselle joukkue×kartta-parille
   kuinka paljon sen voitto-% kyseisellä kartalla poikkeaa joukkueen OMASTA
   yleistasosta (ei kentän keskiarvosta, joka on rakenteellisesti aina 0.5).
-  **Havaintoja 783 kartan datalla:** esim. MOUZ +16 %-yks. Miragella mutta
-  -20 %-yks. Ancientilla suhteessa omaan tasoonsa; G2 Esports vahva
+  **Havaintoja (lopullisella datalla):** esim. MOUZ +17,5 %-yks. Miragella
+  mutta -24,1 %-yks. Ancientilla suhteessa omaan tasoonsa; G2 vahva
   Infernolla, heikko Dust II:lla. Nama ovat aitoja, mitattavia
   poikkeamia — ei viela testattu markkinaa vastaan (Tehtävä 0 tauolla),
   joten emme tiedä hinnoitteleeko Coolbet nama jo sisään. k=5 on
   tietoinen alkuarvaus, ei kalibroitu.
+- **BUGIKORJAUS (2026-09-17, "etsi lisää puutteita"):** "oma yleistaso"
+  (baseline) laskettiin aiemmin KAIKISTA joukkueen kartoista MUKAAN
+  LUKIEN se sama kartta jolle poikkeamaa laskettiin - itseensä viittaava
+  kontaminaatio joka systemaattisesti ALIARVIOI poikkeaman, pahimmillaan
+  60-100 % kontaminaatio pienen otoksen joukkueilla. Korjattu leave-one-
+  out-periaatteella (baseline = kaikki MUUT kartat paitsi tama). Lisäksi
+  löytyi ja korjattiin sama nimenhalkeamis-bugi kuin Tehtävä 3:ssa (ks.
+  "Mallin parannukset") - `historical_maps` käytti Liquipedian TÄYTTÄ
+  nimeä top50:n lyhyen sijaan 24/50 joukkueella, esim. Aurora oli
+  tallennettuna "Aurora Gaming"-nimellä, minkä takia väitin aiemmin
+  virheellisesti Auroralla olevan "0 riviä" karttadatassa.
 - **Veto-/päivitysmalli EI vielä rakennettu** — vaatii kartta-VETOJARJESTYS-
   datan (mika kartta poistettiin milloinkin), jota historical_maps ei
   vielä tallenna erikseen: nyt tiedetaan vain PELATUT kartat, ei koko
@@ -389,12 +489,12 @@ niita voi ottaa kayttoon heti kun kerroindata alkaa kertya.
    Elon ennustevirhe suurempi otteluissa joissa jompikumpi joukkue on
    vaihtanut kokoonpanoaan viimeisen 30 vrk:n aikana (`RosterHistory.
    roster_stability`, rakennettu jo Tehtävä 1:ssä mutta ei aiemmin käytetty
-   mihinkään). **Ajantasaiset luvut (korjatulla datalla ja parametreilla,
-   ks. Tehtävä 3:n "Mallin parannukset" -osio):** 1 pelaajan vaihdoksella
-   on jo mitattava ero (log loss 0.6655 vs. 0.6745, n=840/294), ja isommalla
-   kynnyksellä (≥2 uutta pelaajaa) ero on selvempi: 0.6661 vs. 0.7044
-   (n=1082/52) — malli ennustaa selvästi huonommin näissä tilanteissa.
-   **Varoitus: n=52 on pieni otos** isomman kynnyksen osalta, mutta se on
+   mihinkään). **Ajantasaiset luvut (lopullinen data, 1037 ottelua,
+   ks. Tehtävä 3:n "Mallin parannukset" -osio):** 1 pelaajan
+   vaihdoksella on jo mitattava ero (log loss 0.6595 vs. 0.6729, n=753/284),
+   ja isommalla kynnyksellä (≥2 uutta pelaajaa) ero on selvempi: 0.6617 vs.
+   0.6844 (n=972/65) — malli ennustaa selvästi huonommin näissä tilanteissa.
+   **Varoitus: n=65 on pieni otos** isomman kynnyksen osalta, mutta se on
    looginen paikka jossa
    markkinakin todennäköisesti reagoi hitaammin kuin pitäisi.
 3. **CLV-seuranta** (`src/clv.py`, `clv_log`-taulu skeemassa) — **valmisteltu,
@@ -409,6 +509,65 @@ niita voi ottaa kayttoon heti kun kerroindata alkaa kertya.
 **Ei siis vielä väitetä että edgeä on löytynyt** — nämä ovat kolme valmisteltua
 työkalua/havaintoa jotka aktivoituvat/vahvistuvat kun Tehtävä 0:n kerroindata
 alkaa kertyä.
+
+## Uupumus- ja turnauksen alkuvaihe -tutkimus (2026-09-17)
+
+Käyttäjän kaksi hypoteesia testattu `src/run_tournament_effects.py`:llä
+olemassa olevalla datalla (ei uutta keruuta): (1) vaikuttaako joukkueen
+tiheä ottelutahti upset-todennäköisyyteen ("uupumus"), (2) onko turnauksen
+ensimmäisissä otteluissa enemmän yllätyksiä kuin myöhemmissä.
+
+**Ensimmäinen versio** ryhmitteli ottelut raa'an `tournament`-merkkijonon
+mukaan (esim. "IEM Cologne Major 2026 Stage 1 - Round 1") - käyttäjä
+huomautti tämän olevan väärä taso ("puhun turnauksen ensimmäisistä", ei
+yksittäisen lavan). **Korjattu** hyödyntämällä Tehtävä 4:n
+`bracket_progress`-taulua: 88/181 raakaa lava-merkkijonoa on jo resolvoitu
+oikeiksi Liquipedia-tapahtumasivuiksi, ja monet lavat (esim. 19 eri
+"Esports World Cup 2026 - Group X/LCQ/Playoffs" -merkkijonoa) osuvat
+SAMAAN tapahtumaan - 182 raakaa merkkijonoa → 121 oikeaa tapahtumaa ilman
+uutta dataa.
+
+**Molemmat hypoteesit saivat PÄINVASTAISEN tuloksen kuin oletettu:**
+
+- **"Uupumus":** suosikki joka EI OLE PELANNUT viimeisen 5 vrk:n aikana
+  häviää useammin (upset% 48,9, n=227) kuin suosikki joka on pelannut
+  äskettäin (upset% 38–42, n=810) - ei uupumusta vaan päinvastoin
+  "ring rust"/kilpailurytmin puute.
+- **Turnauksen alkuvaihe (oikealla tapahtumatasolla):** molempien
+  joukkueiden ensimmäinen ottelu tapahtumassa on VAKAAMPI (upset% 39,0,
+  log loss 0,637, n=354) kuin myöhemmät ottelut (upset% 43,5, log loss
+  0,677, n=683) - todennäköinen selitys: ensimmäiseen otteluun tullaan
+  tunnetulla seedauksella/ryhmäjaolla, kun taas myöhemmät (playoffs/
+  decider) -ottelut ovat nimenomaan niitä joissa heikommat on jo
+  karsittu pois ja jäljelle jääneet ovat tasaisempia.
+
+### Ruostumiskorjaus - konkreettinen kaava, otettu käyttöön
+
+Käyttäjän pyynnöstä "uupumus"-löydös muotoiltiin konkreettiseksi,
+sovellettavaksi kaavaksi eikä jätetty pelkäksi havainnoksi:
+
+- Kalibrointikulmakerroin (OLS, pakotettu leikkauspiste 0,5:
+  `slope = Σ(p-0.5)(y-0.5) / Σ(p-0.5)²`) laskettu kahdelle bucketille
+  suosikin äskettäisen ottelutiheyden mukaan:
+  - suosikki EI pelannut viimeisen 5 vrk:n aikana (n=227): **slope=0,790**
+    (malli YLILUOTTAVAINEN)
+  - suosikki pelasi ≥1 kertaa (n=810): **slope=1,117** (lähellä 1:tä, ei korjata)
+- **Kaava** (`backtest.apply_rust_adjustment`):
+  `p_korjattu = 0.5 + (p_raaka - 0.5) × 0.79` **vain** jos suosikilla on
+  0 ottelua viimeisen 5 vrk:n aikana, muuten ei muutosta.
+- **Validoitu ennen käyttöönottoa:** log loss koko datasetilla 0,6632 →
+  0,6630, pelkässä n=0-bucketissa 0,6830 → 0,6825. **Rehellinen huomio:**
+  vaikutus on suunnaltaan oikea mutta KOOLTAAN vaatimaton - bucketin
+  keskimääräinen ennustettu todennäköisyys (0,568) ei ole kovin äärimmäinen,
+  joten kutistus 0,5:ta kohti ei liikuta lukua paljon absoluuttisesti.
+  Suurempi vaikutus odotettavissa tilanteissa joissa suosikki on
+  vahvempi (esim. p=0,80+) ja samalla n=0.
+- **Käytössä:** `src/predict_match.py` soveltaa tämän automaattisesti ja
+  merkitsee selvästi kun korjaus aktivoituu.
+- **Tunnetut rajoitukset:** karkea 0-vs-≥1 -kynnys (ei jatkuva funktio
+  ottelumäärästä - tarkempi jaottelu 0/1/2/3+ antoi epämonotonisia,
+  kohinaisia kulmakertoimia pienillä bucket-koilla), ei kalibroitu
+  markkinaa vastaan, 5 vrk -ikkuna on alkuarvaus.
 
 ## Bookmaker-valinta: Coolbet, ei Pinnacle
 
