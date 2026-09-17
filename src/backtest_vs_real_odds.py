@@ -33,6 +33,12 @@ from backtest import (  # noqa: E402
     remove_margin,
 )
 
+# Oletettu kokonaismarginaali (molempien puolien implisiittiset tn:t
+# yhteensa) VASTAPUOLEN kertoimen ARVIOINTIA varten kun oma puoli on
+# EV<=0 - tyypillinen esports-Money Line -marginaali. TAMA ON ARVAUS,
+# ei mitattu tasta datasta - ks. kayton yhteydessa oleva HUOM-merkinta.
+ASSUMED_MARGIN = 1.05
+
 # (pvm, team, opponent, kayttajan_kerroin_team:lle, veto_kohde, oikea_tulos)
 # kerroin on aina TEAM-sarakkeen (ensimmainen nimetty joukkue) kertoimena
 # jos veto oli suoraan tallä joukkueella; jos veto oli TOISELLA joukkueella,
@@ -120,6 +126,28 @@ def main() -> int:
                   f"(mallin reilu kerroin talle puolelle: {fair_odds_priced:.2f})  ->  EV = {ev:+.1%}")
             decision = "PANOSTAISIN (EV>0)" if ev > 0 else "EN PANOSTAISI (EV<=0)"
             print(f"  RIIPPUMATON PAATOS taman hinnan perusteella: {decision}")
+            if ev <= 0:
+                # Kayttajan huomio 2026-09-18: jos tama puoli on ALIKERROIN
+                # (huono arvo), VASTAPUOLI on lahes aina YLIKERROIN (hyva
+                # arvo), koska molemmat puolet ovat sidoksissa toisiinsa
+                # saman markkinan marginaalin kautta. EI meilla OIKEAA
+                # kerrointa vastapuolelle - ARVIOIDAAN se olettamalla
+                # tyypillinen ~5% marginaali (ASSUMED_MARGIN), JOTTA
+                # NAHDAAN OLISIKO LOGIIKKA PITANYT PAIKKANSA. Selvasti
+                # merkitty ARVIOKSI, ei havaituksi kertoimeksi.
+                other_side = bet["opponent"] if priced_side == bet["team"] else bet["team"]
+                implied_priced = 1 / bet["price"]
+                implied_other_est = max(ASSUMED_MARGIN - implied_priced, 0.01)
+                price_other_est = 1 / implied_other_est
+                p_other = 1 - p_priced
+                ev_other_est = p_other * price_other_est - 1
+                other_won = bet["actual_winner"] == other_side
+                print(f"  -> VASTAPUOLI {other_side}: ARVIOITU kerroin (~{int((ASSUMED_MARGIN-1)*100)}% marginaali-"
+                      f"oletuksella) = {price_other_est:.2f}  ->  ARVIOITU EV = {ev_other_est:+.1%}"
+                      f"  [EI OIKEA HAVAITTU KERROIN, vain arvio]")
+                if ev_other_est > 0:
+                    print(f"     Jos tama arvio pitaisi paikkansa ja panostettu 1 yksikko {other_side}:lle: "
+                          f"{'VOITTI' if other_won else 'HAVISI'}")
             if ev > 0:
                 profit = (bet["price"] - 1) if priced_side_won else -1.0
                 bankroll_log.append((bet["date"], f"{priced_side}@{bet['price']}", profit, priced_side_won))
