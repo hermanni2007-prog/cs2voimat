@@ -30,6 +30,19 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   ottelun formaatista - ei vielä normalisoitu. Sama ottelu voi esiintyä
   kahdesti (kummankin joukkueen sivulta), dedupetty `UNIQUE`-indeksillä.
 
+### Kokoonpanot (alkuperäisen hyväksymiskriteerin puuttuva osa)
+
+- `src/collect_rosters.py` + `liquipedia_client.parse_roster_page`: hakee
+  top-50-joukkueiden **pääsivun** (ei `/Matches`-alasivua) "Player Roster"
+  -osion Active- ja Former-taulut, jotka sisältävät pelaajien liittymis-/
+  lähtöpäivät. `team_rosters`-taulu: `roster_as_of(team, date)` voidaan
+  johtaa `join_date <= date AND (leave_date IS NULL OR leave_date > date)`.
+- `.github/workflows/collect_rosters.yml`: päivittäin (kokoonpanot muuttuvat
+  harvoin, ei tarvitse 15 min tarkkuutta kuten ottelut).
+- **Tunnettu yksinkertaistus:** "Inactive Date" ja laina-abbr-tekstit
+  (esim. "Was on loan to X") jätetään huomiotta - käytetään vain
+  ensimmäistä ja viimeistä YYYY-MM-DD-päivää riviltä.
+
 ## Tehtävä 2: Backtest-harness — rakennettu, markkinavertailu vielä tyhjä
 
 - `src/backtest.py`: log loss, Brier, kalibrointikäyrä (10 koria), walk-forward
@@ -38,12 +51,19 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   kahdella tyhmällä mallilla (aina 50/50, korkeampi VRS-sija voittaa) 1243
   puhdasta ottelua vasten (1445:sta, loput ilman validia tulosta).
 - **Tulos (2026-09-17):** `aina_5050` log loss 0.693 (odotettu, ln 2).
-  `korkeampi_vrs_sija` log loss 6.69 — PAHEMPI kuin 50/50, koska malli on
-  deterministinen (0/1) ja log loss rankaisee kovaa väärästä itsevarmuudesta.
-  Kalibrointi paljastaa oikean signaalin: kun VRS-suosikin ennustetaan
-  voittavan, se voittaa oikeasti ~67 % kerroista (ei 100 %) - VRS-sijalla on
-  siis aitoa ennustearvoa, mutta naiivi determinismi ei ole hyvä tapa
-  ilmaista sitä todennäköisyytenä.
+  `korkeampi_vrs_sija` (deterministinen 0/1) log loss 9.7 — PAHEMPI kuin
+  50/50, koska log loss rankaisee kovaa väärästä itsevarmuudesta. Tämä EI
+  ole harnessin bugi.
+- **Pehmeä VRS-sijamalli** (`make_predict_vrs_soft`, logistinen funktio
+  sijaerosta, scale grid-haulla) korjaa tämän: log loss **0.674** —
+  voittaa 50/50:n. Raaka osumatarkkuus (kumpi voittaa oikein) on 64 %.
+- **Bugi matkan varrella, löydetty ja korjattu:** ensimmäinen sumea
+  nimihaku VRS-datan ja Liquipedia-nimien välillä käytti raakaa
+  osamerkkijonohakua ("Team Liquid" sisältää "am"? — kyllä, sanassa
+  "te**AM**"!), mikä tuotti 75 väärää yhdistystä (mm. kaikki "X Team"
+  -nimiset osuivat sattumalta lyhyeen VRS-nimeen "am") ja teki mallista
+  todellisuudessa 50/50:tä huonomman. Korjattu sanarajalliseen regexiin
+  (`\bsana\b`). Kattavuus parani samalla 44 %:sta 85 %:iin.
 - **Markkinavertailu EI VIELÄ TOIMI** — ks. `src/fetch_market_spotcheck.py`:n
   yläkommentti. Testattiin ~72 historical-odds-kutsua (OddsPapi, ilmainen
   kiintiö) reaaliaikaisesti kerätyille top-50-otteluille, myös S-Tier-tason
@@ -54,6 +74,31 @@ syistä: **4 kuukautta, top 50 joukkuetta**.
   on aktiivisesti pollannut ajantasaisena - ei mitä tahansa mennyttä ottelua.
   **Tehtävä 0:n oma jatkuva keruu (`odds_snapshots`) on siis edelleen se
   ainoa luotettava tapa kartuttaa markkinadataa - eteenpäin, ei taaksepäin.**
+
+## Tehtävä 3: Karttatason Elo — rakennettu, voittaa perusmallit
+
+Alkuperäinen briiffi pyysi kierrostason Elon, mutta CT/T-dataa ei löytynyt
+ilmaiseksi lähteeksi (ks. aiempi keskustelu) - rakennettu **karttatason**
+versio `historical_matches`-datan päälle.
+
+- `src/backtest.py`: `EloModel` (logistinen p = 1/(1+e^(-diff/scale)),
+  K-kerroin-päivitys, eksponentiaalinen aikavaimennus puoliintumisajalla
+  kohti keskiarvoa 1500). `run_elo_walkforward` on AIDOSTI tilallinen:
+  jokainen ottelu ennustetaan ennen ratingin päivitystä, aikajärjestyksessä.
+- `deduplicate_matches`: sama ottelu esiintyy kahdesti `historical_matches`-
+  taulussa (molempien joukkueiden sivuilta luettuna) - tilalliselle mallille
+  tämä pitää poistaa etukäteen tai rating päivittyisi kahdesti. 1243 → 860
+  ottelua deduplikoinnin jälkeen.
+- `src/run_elo.py`: grid-hakee (scale, k, half_life_days) minimoiden log
+  lossin, vertaa tulosta molempiin Tehtävä 2:n perusmalleihin samalla
+  deduplikoidulla datalla (reilu vertailu).
+- **Tulos (2026-09-17):** paras Elo (scale=100, k=32, ei vaimennusta 4 kk:n
+  ikkunassa) log loss **0.665** — voittaa sekä 50/50:n (0.693) että pehmeän
+  VRS-mallin (0.674). Pieni mutta aito parannus: Elo oppii ottelutuloksista
+  suoraan, ei vain staattisesta kuukausittaisesta VRS-snapshotista.
+- Kalibrointi näyttää järkevältä koko välillä (esim. ennustettu 0.55 →
+  toteutunut 0.62, ennustettu 0.74 → toteutunut 0.67) - ei systemaattista
+  yli-/aliluottamusta.
 
 Lähde [oddspapi.io](https://oddspapi.io), bookmaker **Coolbet**, skeema
 varmistettu oikeaa dataa vastaan 2026-09-17. Ajastus pyörii GitHubin
