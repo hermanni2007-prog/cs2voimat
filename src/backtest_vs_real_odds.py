@@ -217,13 +217,17 @@ def main() -> int:
     if bankroll_log:
         bankroll_log_sorted = sorted(bankroll_log, key=lambda row: row[0])
         total_profit = sum(p for _, _, _, p, _, _ in bankroll_log_sorted)
+        total_ev = sum(ev for _, _, ev, _, _, _ in bankroll_log_sorted)  # odotusarvo (1 yksikko/veto)
         wins = sum(1 for *_, w, _ in bankroll_log_sorted if w)
         print(f"Panoksia tehty: {len(bankroll_log_sorted)}, joista voitti: {wins}")
         for date, desc, ev, profit, won, is_est in bankroll_log_sorted:
             tag = " (arvio)" if is_est and "(arvio)" not in desc else ""
             print(f"  {date[:10]}  {desc}{tag}  EV={ev:+.1%}  ->  "
                   f"{'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'})")
-        print(f"\nNettotulos {len(bankroll_log_sorted)} yksikon panoksella (1 yksikko/veto): "
+        print(f"\nOdotusarvo (mallin mukainen, ennen tuloksia) {len(bankroll_log_sorted)} yksikon panoksella: "
+              f"{'+' if total_ev>=0 else ''}{total_ev:.2f} yksikkoa "
+              f"({total_ev/len(bankroll_log_sorted):+.1%} keskimaarin per panos)")
+        print(f"Nettotulos (toteutunut) {len(bankroll_log_sorted)} yksikon panoksella (1 yksikko/veto): "
               f"{'+' if total_profit>=0 else ''}{total_profit:.2f} yksikkoa "
               f"({total_profit/len(bankroll_log_sorted):+.1%} keskimaarin per panos)")
     else:
