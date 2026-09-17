@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-17T21:57:39.882014+00:00",
+  "updated_utc": "2026-09-17T22:30:06.561557+00:00",
   "tournaments_total": 481,
-  "tournaments_done": 187,
-  "tournaments_ok": 88,
+  "tournaments_done": 207,
+  "tournaments_ok": 94,
   "tournaments_ok_no_brackets": 2,
-  "tournaments_not_found": 97,
+  "tournaments_not_found": 111,
   "tournaments_error": 0,
-  "maps_collected": 855,
+  "maps_collected": 1086,
   "last_tournament": {
-    "tournament": "IEM Atlanta 2026: Global Qual",
+    "tournament": "PGL Bucharest 2026 - Playoffs",
     "status": "not_found",
     "maps_found": 0,
-    "at": "2026-09-17T21:57:39.875071+00:00"
+    "at": "2026-09-17T22:30:06.559253+00:00"
   }
 }
