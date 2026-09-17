@@ -131,6 +131,25 @@
   .finding .headline{ font-weight:600; font-size:13.5px; line-height:1.35; }
   .finding p{ margin:0; font-size:12.5px; color:var(--text-dim); line-height:1.5; }
 
+  /* live history box */
+  .histobox{ background:var(--surface); border:1px solid var(--border-soft); border-left:3px solid var(--t); padding:16px 18px; }
+  .histo-top{ display:flex; gap:28px; flex-wrap:wrap; margin-bottom:12px; }
+  .histo-num{ font-family:var(--font-display); font-size:28px; font-weight:600; line-height:1; font-variant-numeric:tabular-nums; }
+  .histo-num .of{ font-family:var(--font-mono); font-size:14px; color:var(--text-faint); font-weight:400; }
+  .histo-label{ font-family:var(--font-mono); font-size:10px; color:var(--text-dim); letter-spacing:.03em; margin-top:4px; }
+  .histo-bar-track{ height:6px; background:var(--surface-2); border:1px solid var(--border-soft); overflow:hidden; }
+  .histo-bar-fill{ height:100%; background:var(--t); transition:width .6s ease; }
+  .histo-breakdown{ display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:12px; color:var(--text-dim); font-family:var(--font-mono); }
+  .histo-breakdown b{ color:var(--text); font-weight:600; }
+  .dot{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; }
+  .dot.ok{ background:var(--ct); }
+  .dot.none{ background:var(--text-faint); }
+  .dot.err{ background:var(--bad); }
+  .histo-last{ font-size:12px; color:var(--text-dim); margin-top:10px; font-style:italic; }
+  .histo-note{ font-size:11.5px; color:var(--text-faint); margin-top:12px; line-height:1.6; border-top:1px solid var(--border-soft); padding-top:10px; }
+  #h-live-flag.live::before{ content:"● LIVE"; color:var(--ct); font-family:var(--font-mono); font-weight:600; }
+  #h-live-flag.stale::before{ content:"○ staattinen esikatselu"; color:var(--text-faint); font-family:var(--font-mono); }
+
   /* terminal */
   .term{
     background:#0a0c10; color:#c7cdd6; border:1px solid var(--border); font-family:var(--font-mono);
@@ -218,10 +237,10 @@
         <div class="task live">
           <div class="node">1</div>
           <div class="task-head">
-            <div class="title">Historiadata, 24 kk</div>
-            <div class="stamp progress">KÄYNNISSÄ</div>
+            <div class="title">Historiadata — rajattu: 4 kk, top 50</div>
+            <div class="stamp progress">KERÄÄ NYT</div>
           </div>
-          <div class="desc">Lähde löytyi: Liquipedian MediaWiki-API, vahvistettu live-testillä. Rakentamatta on vielä itse jäsennin ja kokoonpanojen rekonstruktio pelaajasiirtohistoriasta.</div>
+          <div class="desc">Laajuus pudotettu 24 kk:sta 4 kuukauteen ja top 50 joukkueeseen (Valve VRS -ranking). Keruu käynnissä: <code>Liquipedia → SQLite → GitHub Actions</code>, 15 min välein, 25 joukkuetta/ajo (Liquipedian 30s/pyyntö-rajoite). Live-tila alla.</div>
         </div>
 
         <div class="task">
@@ -261,6 +280,34 @@
           <div class="task-head"><div class="title">Tuottavuuden seuranta</div><div class="stamp waiting">EI ALOITETTU</div></div>
         </div>
 
+      </div>
+    </div>
+
+    <div id="history-section">
+      <h2>Historiadatan keräys — live</h2>
+      <div class="histobox">
+        <div class="histo-top">
+          <div class="histo-stat">
+            <div class="histo-num" id="h-matches">–</div>
+            <div class="histo-label">OTTELUA KERÄTTY</div>
+          </div>
+          <div class="histo-stat">
+            <div class="histo-num" id="h-teams">–<span class="of">/50</span></div>
+            <div class="histo-label">JOUKKUETTA KÄSITELTY</div>
+          </div>
+          <div class="histo-stat">
+            <div class="histo-num" id="h-updated">–</div>
+            <div class="histo-label">VIIMEKSI PÄIVITETTY</div>
+          </div>
+        </div>
+        <div class="histo-bar-track"><div class="histo-bar-fill" id="h-bar" style="width:0%"></div></div>
+        <div class="histo-breakdown">
+          <span><i class="dot ok"></i>onnistui: <b id="h-ok">–</b></span>
+          <span><i class="dot none"></i>ei löytynyt: <b id="h-nf">–</b></span>
+          <span><i class="dot err"></i>virhe: <b id="h-err">–</b></span>
+        </div>
+        <div class="histo-last" id="h-last">Odottaa ensimmäistä päivitystä…</div>
+        <div class="histo-note">Rajaus: viimeiset 4 kuukautta, top 50 joukkuetta (Valve VRS). Lähde: Liquipedian joukkuekohtaiset <code>/Matches</code>-sivut. Päivittyy automaattisesti GitHub Actionsista ~15 min välein — tämä osio lukee sen suoraan, ei vaadi sivun uudelleenjulkaisua. <span id="h-live-flag"></span></div>
       </div>
     </div>
 
@@ -323,3 +370,73 @@
   </div>
 
 </div>
+
+<script>
+(function () {
+  var els = {
+    matches: document.getElementById('h-matches'),
+    teams: document.getElementById('h-teams'),
+    updated: document.getElementById('h-updated'),
+    bar: document.getElementById('h-bar'),
+    ok: document.getElementById('h-ok'),
+    nf: document.getElementById('h-nf'),
+    err: document.getElementById('h-err'),
+    last: document.getElementById('h-last'),
+    flag: document.getElementById('h-live-flag'),
+  };
+
+  function relTime(iso) {
+    try {
+      var d = new Date(iso);
+      var mins = Math.round((Date.now() - d.getTime()) / 60000);
+      if (mins < 1) return 'juuri nyt';
+      if (mins < 60) return mins + ' min sitten';
+      var hrs = Math.round(mins / 60);
+      if (hrs < 24) return hrs + ' h sitten';
+      return Math.round(hrs / 24) + ' pv sitten';
+    } catch (e) { return iso || '–'; }
+  }
+
+  function render(d) {
+    if (!d) return;
+    els.matches.textContent = (d.matches_collected != null) ? d.matches_collected : '–';
+    els.teams.innerHTML = (d.teams_done != null ? d.teams_done : '–') + '<span class="of">/' + (d.teams_total || 50) + '</span>';
+    els.updated.textContent = d.updated_utc ? relTime(d.updated_utc) : '–';
+    var pct = d.teams_total ? Math.round(100 * (d.teams_done || 0) / d.teams_total) : 0;
+    els.bar.style.width = pct + '%';
+    els.ok.textContent = d.teams_ok != null ? d.teams_ok : '–';
+    els.nf.textContent = d.teams_not_found != null ? d.teams_not_found : '–';
+    els.err.textContent = d.teams_error != null ? d.teams_error : '–';
+    if (d.last_team) {
+      els.last.textContent = 'Viimeksi käsitelty: ' + d.last_team.team + ' (' + d.last_team.status + ', ' + d.last_team.matches_found + ' ottelua)';
+    }
+  }
+
+  // Staattinen esikatselu nakyy heti, ennen kuin (tai jos) live-yhteys avautuu.
+  render({
+    matches_collected: 95,
+    teams_done: 4,
+    teams_total: 50,
+    teams_ok: 4,
+    teams_not_found: 0,
+    teams_error: 0,
+    updated_utc: '2026-09-17T12:09:16Z',
+    last_team: { team: '9z', status: 'ok', matches_found: 29 },
+  });
+  if (els.flag) els.flag.className = 'stale';
+
+  try {
+    if (window.claude && window.claude.use) {
+      window.claude.use('db').then(function (db) {
+        if (!db) return;
+        if (els.flag) els.flag.className = 'live';
+        db.doc('history/progress').onSnapshot(function (snap) {
+          if (snap.exists) render(snap.data());
+        }, function (e) {
+          console.error('db subscribe error', e);
+        });
+      }).catch(function (e) { console.error('claude.use(db) failed', e); });
+    }
+  } catch (e) { console.error(e); }
+})();
+</script>
