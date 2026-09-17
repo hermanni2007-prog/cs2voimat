@@ -329,16 +329,23 @@ def market_walk_forward(matches: list) -> dict:
 # Deduplikointi (Tehtava 3): sama ottelu esiintyy kahdesti historical_matches
 # -taulussa kun molemmat osapuolet ovat top-50 (kerran kummankin sivulta).
 # Tilallisille malleille (Elo) tama pitaa poistaa ETUKATEEN, koska muuten
-# rating paivittyisi kahdesti samasta ottelusta. Avain (pvm, turnaus) -
-# yksinkertaistus, ks. tiedoston yla kommentti mahdollisesta harvinaisesta
-# kollisiosta.
+# rating paivittyisi kahdesti samasta ottelusta.
+#
+# BUGI (loydetty 2026-09-17, kayttaja lisasi kasin kolme samana paivana
+# samassa turnauksessa pelattua ottelua): alkuperainen avain (pvm, turnaus)
+# EI sisaltanyt joukkueita - jos KAKSI ERI ottelua samassa turnauksessa
+# jaettiin samaan aikaleimaan (esim. ryhmavaiheen ottelut jotka alkavat
+# samaan kellonaikaan), toinen niista tulkittiin virheellisesti "saman
+# ottelun toiseksi puoleksi" ja pudotettiin kokonaan - yhden joukkueen
+# rating ei paivittynyt ollenkaan. Korjattu lisaamalla joukkuepari
+# (frozenset, jarjestyksesta riippumaton) avaimeen.
 # ---------------------------------------------------------------------------
 
 def deduplicate_matches(matches: list) -> list:
     seen = set()
     out = []
     for m in matches:
-        key = (m.date.isoformat(), m.tournament)
+        key = (m.date.isoformat(), m.tournament, frozenset({m.team, m.opponent}))
         if key in seen:
             continue
         seen.add(key)
