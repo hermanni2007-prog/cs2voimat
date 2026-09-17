@@ -139,6 +139,47 @@ BETS = [
      "price": 1.64, "opponent_price": 2.26,
      "bet_on": None, "actual_winner": "G2",
      "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Pinbetter-kerroin eri kirjanpitajalta]"},
+    # Mega:Pari "Expert predictions" -kuvakaappaukset (2026-09-18):
+    # BLAST Open Fall 2026 -ryhmavaihe, 26.-27.8.2026 (EDELTAVA turnaus
+    # ennen FISSURE Playground #3:a). Ajankohdat VARMISTETTU itse omasta
+    # datastamme kuten aina - sivuston omat ennustetekstit jatetty
+    # huomiotta, kaytetty vain kerroin + lopputulos.
+    {"date": "2026-08-26T09:00:00+00:00", "team": "Aurora", "opponent": "G2",
+     "price": 2.03, "opponent_price": 1.78,
+     "bet_on": None, "actual_winner": "G2", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-08-26T11:55:00+00:00", "team": "Spirit", "opponent": "DENDELE",
+     "price": 1.12, "opponent_price": 5.20,
+     "bet_on": None, "actual_winner": "Spirit", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-08-26T14:25:00+00:00", "team": "Natus Vincere", "opponent": "M80",
+     "price": 1.22, "opponent_price": 4.30,
+     "bet_on": None, "actual_winner": "M80", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS)"},
+    {"date": "2026-08-26T17:55:00+00:00", "team": "FURIA", "opponent": "paiN",
+     "price": 1.26, "opponent_price": 3.88,
+     "bet_on": None, "actual_winner": "FURIA", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-08-27T09:00:00+00:00", "team": "Vitality", "opponent": "Inner Circle",
+     "price": 1.08, "opponent_price": 6.50,
+     "bet_on": None, "actual_winner": "Inner Circle", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS)"},
+    {"date": "2026-08-27T12:00:00+00:00", "team": "MOUZ", "opponent": "9z",
+     "price": 1.46, "opponent_price": 2.72,
+     "bet_on": None, "actual_winner": "MOUZ", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-08-27T14:30:00+00:00", "team": "Legacy", "opponent": "FUT",
+     "price": 2.00, "opponent_price": 1.73,
+     "bet_on": None, "actual_winner": "Legacy", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS)"},
+    {"date": "2026-08-27T17:10:00+00:00", "team": "Falcons", "opponent": "Lynn Vision",
+     "price": 1.05, "opponent_price": 10.00,
+     "bet_on": None, "actual_winner": "Falcons", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    # Spinbetter-kuvakaappaukset (2026-09-18, saapuivat kesken taman
+    # turnin): SAMAT playoff-neljannesfinaalit jotka ovat jo listassa
+    # (Falcons vs G2, FURIA vs Vitality, 4.9.2026) - kolmas kirjanpitaja,
+    # eri havaittu hinta samalle oikealle ottelulle.
+    {"date": "2026-09-04T14:00:00+00:00", "team": "Falcons", "opponent": "G2",
+     "price": 1.56, "opponent_price": 2.42,
+     "bet_on": None, "actual_winner": "Falcons",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Spinbetter-kerroin eri kirjanpitajalta]"},
+    {"date": "2026-09-04T16:50:00+00:00", "team": "FURIA", "opponent": "Vitality",
+     "price": 2.39, "opponent_price": 1.55,
+     "bet_on": None, "actual_winner": "Vitality",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Spinbetter-kerroin eri kirjanpitajalta]"},
 ]
 
 
