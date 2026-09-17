@@ -104,18 +104,27 @@ class LiquipediaClient:
     def resolve_team_base_page(self, team_name: str) -> Optional[str]:
         """Sama resoluutiologiikka kuin resolve_team_page, mutta palauttaa
         joukkueen PAASIVUN otsikon (ei /Matches-alasivua) - kayttoon
-        roolituksen ("Player Roster") lukemiseen."""
-        if self.page_exists(team_name):
-            return team_name
+        roolituksen ("Player Roster") lukemiseen.
+
+        BUGI 2026-09-17 (loydetty ja korjattu): action=parse EI seuraa
+        uudelleenohjauksia automaattisesti (toisin kuin action=query) -
+        "G2" on uudelleenohjaussivu "G2 Esports":iin, joten alkuperainen
+        "if page_exists(team_name): return team_name" palautti "G2":n
+        (page_exists on totta, koska ohjaussivu ITSE on olemassa), ja
+        fetch_rendered_html("G2") palautti vain tynkatekstin "Redirect to:
+        G2 Esports" - parse_roster_page loysi tietysti 0 rivia. Vaikutti
+        11/50 joukkueeseen (mm. FaZe, Vitality, Liquid, Falcons, G2).
+        resolve_team_page (ottelut) valtti taman vahingossa, koska
+        "{name}/Matches" (esim. "G2/Matches") ei ole itse ohjaussivu vaan
+        EI OLE OLEMASSA ollenkaan, mika pakotti fallback-polun kayttoon.
+        Korjaus: resolve_redirect() AINA ensin, ei vain fallbackina."""
         resolved = self.resolve_redirect(team_name)
-        if resolved != team_name and self.page_exists(resolved):
+        if self.page_exists(resolved):
             return resolved
         best = self.search_best_title(team_name)
-        if best and self.page_exists(best):
-            return best
         if best:
             resolved_best = self.resolve_redirect(best)
-            if resolved_best != best and self.page_exists(resolved_best):
+            if self.page_exists(resolved_best):
                 return resolved_best
         return None
 
