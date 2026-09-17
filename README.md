@@ -129,6 +129,32 @@ versio `historical_matches`-datan päälle.
   toteutunut 0.62, ennustettu 0.74 → toteutunut 0.67) - ei systemaattista
   yli-/aliluottamusta.
 
+### Aito train/test-validointi (2026-09-17) - malli testattu ilman markkinaa
+
+**Huomio metodologiasta:** yllä oleva 0.665 valitsi hyperparametrit (scale,
+k, half_life) KOKO datasetilla ja arvioi tuloksen samalla datasetilla -
+lievä sisäänrakennettu vinouma, vaikka itse walk-forward on ottelukohtaisesti
+lookahead-suojattu. `src/run_holdout_validation.py` korjaa tämän: jakaa 860
+ottelua kronologisesti (80% train / 20% test, raja 2026-09-03), valitsee
+parametrit VAIN train-osalla, ja raportoi lopputuloksen VAIN test-osalla
+jota parametrivalinta ei ole koskaan nähnyt.
+
+- **Tulos: Elo (scale=200, k=48, valittu train:lla) test_log_loss = 0.6536**
+  — parempi kuin aina_5050 (0.6931) JA pehmeä VRS-sija (0.6669) TÄYSIN
+  näkemättömällä datalla. Itse asiassa parempi kuin koko-datasetin
+  in-sample-arvio (0.665) - ei merkkejä ylisovittumisesta.
+- Kalibrointi test-osalla: ennustettu 0.52 → toteutunut 0.61, ennustettu
+  0.67 → toteutunut 0.73 (n=96/64) - lievästi aliluottavainen, ei
+  yliluottavainen (turvallisempi suunta virheelle kuin päinvastoin).
+- **Huomio:** parhaat parametrit siirtyivät hieman pienemmällä train-
+  osajoukolla (scale=200,k=48 vs. scale=100,k=32 koko datasetilla) -
+  688 ottelua ei riitä täysin vakaaseen parametrien valintaan, joten
+  tarkkoja lukuja ei pidä ottaa lopullisena totuutena.
+- **Tämä on paras tapa testata mallin paikkansapitävyyttä ilman
+  markkinakerrointa** - ei todista markkinaetua (siihen tarvitaan
+  Tehtävä 0), mutta todistaa että malli oikeasti yleistyy uuteen
+  dataan eikä vain sovi hyvin viritysdataansa.
+
 ## Tehtävä 4: Karttapoikkeamat & veto — kerääjä rakennettu, kattavuus osittainen
 
 Joukkuekohtaiset `/Matches`-sivut (Tehtävä 1) kertovat vain ottelun
