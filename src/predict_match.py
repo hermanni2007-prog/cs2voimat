@@ -9,11 +9,21 @@ dedup-bugi 2026-09-17) ja EloModel.predict_with_confidence() -metodia
 kommentti: karkea Glicko-tyylinen rating deviation, EI tilastollisesti
 tasmallinen luottamusvali.
 
-Soveltaa myos "ruostumis"-korjauksen (backtest.apply_rust_adjustment,
-lisatty 2026-09-17 kayttajan pyynnosta - ks. run_tournament_effects.py ja
-README): jos suosikki ei ole pelannut yhtaan ottelua viimeisen 5 vrk:n
-aikana, ennustetta kutistetaan kohti 0.5:ta empiirisesti sovitetulla
-kertoimella (0.79) - malli on tassa tilanteessa mitatusti yliluottavainen."""
+Soveltaa "ruostumis"-korjauksen (backtest.apply_rust_adjustment): jos
+suosikki ei ole pelannut yhtaan ottelua viimeisen 5 vrk:n aikana,
+ennustetta kutistetaan kohti 0.5:ta kertoimella 0.79.
+
+HUOM METODOLOGIASTA (2026-09-17, kayttajan perustellun huomion jalkeen):
+tama kerroin on validoitu OIKEIN - fitattu VAIN kronologisen datan
+ensimmaisella 80%:lla, sovellettu ja tarkistettu VASTA nakemattomalla
+20%:lla (ks. README). Aiemmin talla samalla paikalla oli myos "taso"-
+korjaus (S/A-Tier -otteluille) joka NAYTTI toimivan kun se validoitiin
+virheellisesti (fitattu JA testattu samalla koko datasetilla) - oikealla
+train/test-erottelulla se osoittautui ylisovitukseksi (huononsi test-
+tulosta) ja poistettiin. Ruostumiskorjaus on ainoa jaljella oleva
+korjaus koska se on ainoa joka selvisi oikeasta, ei-kehamaisesta
+validoinnista - silti pienella otoksella (n=28 test-ottelua), joten
+"toistaiseksi tuettu", ei "todistettu"."""
 from __future__ import annotations
 
 import argparse
@@ -78,7 +88,7 @@ def main() -> int:
     print(f"  P({args.team}) raaka = {r['p_mid']:.3f}  (haarukka [{r['p_low']:.3f}, {r['p_high']:.3f}])")
     if p_adjusted != r["p_mid"]:
         print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
-              f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - malli on tassa tilanteessa mitatusti yliluottavainen)")
+              f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - toistaiseksi tuettu, pieni otos)")
         p_final = p_adjusted
     else:
         p_final = r["p_mid"]

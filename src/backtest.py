@@ -540,6 +540,41 @@ def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: 
     return p_team
 
 
+# ---------------------------------------------------------------------------
+# TASO-korjaus - RAKENNETTIIN JA SITTEN POISTETTIIN (2026-09-17).
+#
+# Kayttaja huomautti perustellusti: kaikki tama session'in "validointi" on
+# tehnyt saman virheen jos kalibrointikerroin FITATAAN koko datasetilla ja
+# sen jalkeen "todennetaan" soveltamalla se TAKAISIN samaan dataan - se ei
+# ole validointia, se on kehaa. Aiempi versio talla paikalla vaitti etta
+# S/A-Tier-otteluissa malli on yliluottavainen (OLS-slope=0.563 koko
+# datasetilla) ja "validoi" taman huonontamalla ennustetta koko datasetilla
+# ja pienella "viimeinen 20%" -tarkistuksella JOKA OLI ITSEKIN SAASTUNUT
+# (se 20% oli mukana slope:n fittauksessa alusta asti).
+#
+# OIKEA TESTI: fitattiin slope VAIN train-osalla (ensimmaiset 80%, n=311
+# HIGH-tier-ottelua) -> slope=0.211, TAYSIN ERI kuin koko datasetin 0.563.
+# Sovellettuna AIDOSTI nakemattomaan test-osaan (n=50 HIGH-tier ottelua)
+# se HUONONSI log lossia (0.624 -> 0.675). Tama tarkoittaa etta "taso"-
+# ilmio ei yleisty - se oli ylisovitus/kohinaa koko-datasetin fittauksessa,
+# ei aito, toistuva efekti. POISTETTU KOKONAAN kayttajan huomion ansiosta.
+#
+# (Vertaa: ruostumiskorjaus LAPAISI saman testin - slope pysyi lahes
+# samana train-only-fitatussa (0.792) ja koko-datasetin (0.790) versiossa,
+# ja paransi log lossia myos aidosti nakemattomalla test-datalla (0.684 ->
+# 0.683, n=28) - siksi se on yha kaytossa alla, tosin pienella n:lla
+# varustettuna "toistaiseksi tuettu" -leimalla, ei "todistettu".)
+# ---------------------------------------------------------------------------
+
+
+def apply_all_adjustments(p_team: float, n_recent_team: int, n_recent_opponent: int,
+                           tier: Optional[str] = None) -> float:
+    """Soveltaa (toistaiseksi) vain ruostumiskorjauksen - taso-korjaus
+    poistettiin, ks. yla kommentti. `tier`-parametri jatetty rajapintaan
+    taaksepain yhteensopivuuden vuoksi, ei enaa kaytossa."""
+    return apply_rust_adjustment(p_team, n_recent_team, n_recent_opponent)
+
+
 def run_elo_walkforward(matches: list, elo: EloModel) -> dict:
     """Aidosti tilallinen walk-forward: jokainen ottelu ENSIN ennustetaan
     (vain aiempi data vaikuttaa), SITTEN paivitetaan rating. matches TAYTYY

@@ -316,16 +316,13 @@ johtopäätökseen (ks. Tehtävä 5:n formipaino-osio). Korjattu pysyvästi:
    epäjohdonmukaisilla parametreilla. Opetus: aina kun malli päivittyy,
    KAIKKI sitä käyttävät skriptit pitää päivittää samoihin parametreihin
    ennen johtopäätösten tekemistä.
-   Roolimuutos-signaali (Edge-analyysi-osio) sen sijaan vahvistui aidosti
-   korjatulla datalla ja samoilla scale=200/k=48-parametreilla: log loss
-   0.6655 (vakaa, n=840) vs. 0.6745 (tuore muutos, n=294) - nyt myös 1
-   pelaajan vaihdolla on mitattava ero, ei vain isolla mullistuksella
-   (kynnys≥2: 0.6661 vs. 0.7044, n=52 - edelleen pieni otos).
-   **LOPULLINEN PÄIVITYS (kaikkien 50 joukkueen täysi uudelleenkeräys,
-   1037 ottelua, scale=400/k=96):** molemmat johtopäätökset PYSYVÄT
-   samoina - λ=0.0 edelleen paras (log loss 0.6641 vs. yksittäisen Elon
-   0.6632), roolimuutos-signaali edelleen mitattava (0.6595 vakaa/n=753
-   vs. 0.6729 tuore muutos/n=284, kynnys≥2: 0.6617/n=972 vs. 0.6844/n=65).
+   Roolimuutos-signaali (Edge-analyysi-osio) näytti koko datasetilla
+   samansuuntaiselta täysin korjatun datan jälkeenkin (0.6595 vakaa/n=753
+   vs. 0.6729 tuore muutos/n=284) - **MUTTA ks. alempi "Metodologinen
+   itsekritiikki" -osio: aito train/test-tarkistus myöhemmin samana
+   päivänä osoitti tämän suunnan KÄÄNTYVÄN PÄINVASTAISEKSI aidosti
+   näkemättömällä datalla. Löydös on siis peruttu, ei enää pidetä
+   vahvistettuna.**
 5. **Kartta-veto-mallin korvaava heuristiikka - TESTATTU, EI TUKEA:**
    ennen koodin kirjoittamista testattiin empiirisesti kaksi oletusta
    omalla datalla: (a) ovatko decider-kartat (Bo3:n 3. kartta) tasaisempia
@@ -485,18 +482,14 @@ niita voi ottaa kayttoon heti kun kerroindata alkaa kertya.
 1. **Karttatason poikkeamat** — ks. Tehtävä 4 yllä (`src/run_map_deviations.py`).
    Todennäköisin paikka oikealle edgelle, koska kartta-handicap/-totaali
    -markkinat ovat yleensä ohuemmin hinnoiteltuja kuin ottelun voittaja.
-2. **Rosterimuutos-signaali** (`src/run_roster_signal.py`): testattiin onko
-   Elon ennustevirhe suurempi otteluissa joissa jompikumpi joukkue on
-   vaihtanut kokoonpanoaan viimeisen 30 vrk:n aikana (`RosterHistory.
-   roster_stability`, rakennettu jo Tehtävä 1:ssä mutta ei aiemmin käytetty
-   mihinkään). **Ajantasaiset luvut (lopullinen data, 1037 ottelua,
-   ks. Tehtävä 3:n "Mallin parannukset" -osio):** 1 pelaajan
-   vaihdoksella on jo mitattava ero (log loss 0.6595 vs. 0.6729, n=753/284),
-   ja isommalla kynnyksellä (≥2 uutta pelaajaa) ero on selvempi: 0.6617 vs.
-   0.6844 (n=972/65) — malli ennustaa selvästi huonommin näissä tilanteissa.
-   **Varoitus: n=65 on pieni otos** isomman kynnyksen osalta, mutta se on
-   looginen paikka jossa
-   markkinakin todennäköisesti reagoi hitaammin kuin pitäisi.
+2. **Rosterimuutos-signaali** (`src/run_roster_signal.py`) — **PERUTTU
+   löydös, ks. "Metodologinen itsekritiikki" -osio alempana.** Koko
+   datasetilla näytti siltä että Elon ennustevirhe on suurempi otteluissa
+   joissa jompikumpi joukkue on vaihtanut kokoonpanoaan (log loss 0.6595
+   vakaa vs. 0.6729 muutos, n=753/284), mutta aito train/test-tarkistus
+   käänsi suunnan päinvastaiseksi näkemättömällä datalla. Ei siis (vielä)
+   käyttökelpoinen edge - `RosterHistory.roster_stability` on silti valmis
+   infrastruktuuri jos tätä halutaan tutkia uudelleen isommalla datalla.
 3. **CLV-seuranta** (`src/clv.py`, `clv_log`-taulu skeemassa) — **valmisteltu,
    EI VIELÄ KÄYTÖSSÄ.** Tämä on briiffin oma lopullinen validointimittari:
    sen sijaan että odotetaan satoja oikeita vetotuloksia, katsotaan liikkuuko
@@ -541,33 +534,55 @@ uutta dataa.
   decider) -ottelut ovat nimenomaan niitä joissa heikommat on jo
   karsittu pois ja jäljelle jääneet ovat tasaisempia.
 
-### Ruostumiskorjaus - konkreettinen kaava, otettu käyttöön
+### Metodologinen itsekritiikki (2026-09-17): kehämäinen validointi löydetty ja korjattu
 
-Käyttäjän pyynnöstä "uupumus"-löydös muotoiltiin konkreettiseksi,
-sovellettavaksi kaavaksi eikä jätetty pelkäksi havainnoksi:
+**Käyttäjä esitti perustellun kritiikin:** "kun vertaat mallin toimivuutta
+historiassa, vertaatko nimenomaan niiden otteluiden tuloksista tehtyä
+mallia niihin samoihin otteluihin? eihän näin voi järkevästi tehdä."
 
-- Kalibrointikulmakerroin (OLS, pakotettu leikkauspiste 0,5:
-  `slope = Σ(p-0.5)(y-0.5) / Σ(p-0.5)²`) laskettu kahdelle bucketille
-  suosikin äskettäisen ottelutiheyden mukaan:
-  - suosikki EI pelannut viimeisen 5 vrk:n aikana (n=227): **slope=0,790**
-    (malli YLILUOTTAVAINEN)
-  - suosikki pelasi ≥1 kertaa (n=810): **slope=1,117** (lähellä 1:tä, ei korjata)
-- **Kaava** (`backtest.apply_rust_adjustment`):
-  `p_korjattu = 0.5 + (p_raaka - 0.5) × 0.79` **vain** jos suosikilla on
-  0 ottelua viimeisen 5 vrk:n aikana, muuten ei muutosta.
-- **Validoitu ennen käyttöönottoa:** log loss koko datasetilla 0,6632 →
-  0,6630, pelkässä n=0-bucketissa 0,6830 → 0,6825. **Rehellinen huomio:**
-  vaikutus on suunnaltaan oikea mutta KOOLTAAN vaatimaton - bucketin
-  keskimääräinen ennustettu todennäköisyys (0,568) ei ole kovin äärimmäinen,
-  joten kutistus 0,5:ta kohti ei liikuta lukua paljon absoluuttisesti.
-  Suurempi vaikutus odotettavissa tilanteissa joissa suosikki on
-  vahvempi (esim. p=0,80+) ja samalla n=0.
-- **Käytössä:** `src/predict_match.py` soveltaa tämän automaattisesti ja
-  merkitsee selvästi kun korjaus aktivoituu.
-- **Tunnetut rajoitukset:** karkea 0-vs-≥1 -kynnys (ei jatkuva funktio
-  ottelumäärästä - tarkempi jaottelu 0/1/2/3+ antoi epämonotonisia,
-  kohinaisia kulmakertoimia pienillä bucket-koilla), ei kalibroitu
-  markkinaa vastaan, 5 vrk -ikkuna on alkuarvaus.
+Tämä osui suoraan siihen miten "ruostumis"- ja "taso"-korjaukset alun
+perin fitattiin JA "validoitiin" - molemmat vaiheet käyttivät samaa koko
+dataa. Yksittäisen ottelun ENNUSTE on aidosti walk-forward (Elo-rating
+käyttää vain aiempaa dataa), mutta KORJAUSKERTOIMEN fittaus + sen
+"toimivuuden" tarkistus samalla datalla on kehämäistä - täsmälleen sama
+virhe jota `run_holdout_validation.py` jo korjasi Tehtävä 3:n
+hyperparametreille (ks. yllä), mutta jota ei oltu vielä sovellettu näihin
+kahteen uudempaan korjaukseen.
+
+**Korjaus: kumpikin korjaus testattiin uudelleen aidolla 80/20-jaolla**
+(kerroin fitattu VAIN ensimmäisellä 80%:lla, tarkistettu VAIN
+viimeisellä 20%:lla jota fittaus ei koskaan nähnyt):
+
+- **Ruostumiskorjaus: LÄPÄISI.** Kulmakerroin pysyi lähes samana
+  train-only-fitattuna (0,792) verrattuna koko datasetin fittaukseen
+  (0,790), ja paransi log lossia myös aidosti näkemättömällä test-datalla
+  (0,684 → 0,683, n=28 - pieni otos, "toistaiseksi tuettu" ei "todistettu").
+  **Pidetty käytössä** `predict_match.py`:ssä.
+- **Taso-korjaus (S/A-Tier): EPÄONNISTUI.** Kulmakerroin train-datalla
+  fitattuna oli 0,211 - TÄYSIN eri kuin koko datasetin 0,563. Sovellettuna
+  aidosti näkemättömään test-dataan (n=50 HIGH-tier ottelua) se HUONONSI
+  log lossia (0,624 → 0,675). Tämä oli siis ylisovitus/kohinaa, ei aito
+  toistuva ilmiö. **Poistettu kokonaan** koodista.
+- **Rosterimuutos-signaali (aiemmin raportoitu "mitattavana löydöksenä"):
+  tarkistettu samalla tavalla - EI LÄPÄISSYT.** Suunta pysyi samana
+  train-osalla (stabiili 0,665 vs. muutos 0,688, sama suunta kuin koko
+  data), mutta KÄÄNTYI PÄINVASTAISEKSI aidosti näkemättömällä test-datalla
+  (stabiili 0,636 vs. muutos 0,612 - muutos oli TÄSSÄ parempi). **Tämä
+  löydös on siis peruttu** - alkuperäinen "Edge-analyysi"-osion väite
+  "mitattava ero" ei kestä kunnollista validointia. Ei poisteta datasta,
+  mutta ei myöskään enää esitetä vahvistettuna signaalina.
+- **Tapahtuman ensimmäinen ottelu -löydös: LÄPÄISI.** Suunta pysyi samana
+  ja jopa vahvistui test-datalla (train: ensimmäinen 0,655 vs. ei-1. 0,681;
+  test: ensimmäinen 0,596 vs. ei-1. 0,651 - molemmissa ensimmäinen ottelu
+  selvästi parempi). Tämä on siis toistaiseksi luotettavin näistä kolmesta
+  löydöksestä, joskin edelleen vain yhden train/test-jaon varassa.
+
+**Yleinen opetus:** täyden datasetin bucket-vertailu (esim. "ryhmä A:n
+log loss on parempi kuin ryhmä B:n") EI ole validointia, vaikka itse
+ennusteet olisivat walk-forward - se kertoo vain että ilmiö ESIINTYY
+tässä datassa, ei että se ON AITO/TOISTUVA. Jatkossa jokainen uusi
+"löydös" pitää testata train-only-fittauksella + test-only-tarkistuksella
+ennen kuin sitä kutsutaan validoiduksi tai muutetaan koodiksi.
 
 ## Bookmaker-valinta: Coolbet, ei Pinnacle
 
