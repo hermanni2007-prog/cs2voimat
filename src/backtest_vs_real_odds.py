@@ -31,6 +31,7 @@ from backtest import (  # noqa: E402
     filter_top50_only,
     load_clean_matches,
     load_best_elo_params,
+    online_k_override,
     remove_margin,
 )
 from team_names import load_top50_names  # noqa: E402
@@ -464,7 +465,8 @@ def main() -> int:
         elo_snapshot = EloModel(scale=params["scale"], k_factor=params["k_factor"],
                                  half_life_days=params["half_life_days"])
         for m in prior:
-            elo_snapshot.update(m.team, m.opponent, m.team_won, m.date)
+            elo_snapshot.update(m.team, m.opponent, m.team_won, m.date,
+                                k_override=online_k_override(params["k_factor"], m.match_type))
 
         p_team = elo_snapshot.predict(bet["team"], bet["opponent"], bet_date)
         n_team = elo_snapshot.games_played.get(bet["team"], 0)

@@ -52,6 +52,7 @@ from backtest import (  # noqa: E402
     filter_top50_only,
     load_clean_matches,
     load_best_elo_params,
+    online_k_override,
 )
 from run_tournament_effects import build_recent_match_index  # noqa: E402
 from team_names import load_top50_names  # noqa: E402
@@ -82,7 +83,8 @@ def main() -> int:
 
     elo = EloModel(scale=SCALE, k_factor=K_FACTOR, half_life_days=HALF_LIFE)
     for m in matches:
-        elo.update(m.team, m.opponent, m.team_won, m.date)
+        elo.update(m.team, m.opponent, m.team_won, m.date,
+                    k_override=online_k_override(K_FACTOR, m.match_type))
     last_date = matches[-1].date if matches else None
     recent_idx = build_recent_match_index(matches)
 

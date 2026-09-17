@@ -440,13 +440,18 @@ class EloModel:
         r_opp = self._decayed_rating(opponent, as_of)
         return 1.0 / (1.0 + math.exp(-(r_team - r_opp) / self.scale))
 
-    def update(self, team: str, opponent: str, team_won: int, as_of: datetime) -> None:
+    def update(self, team: str, opponent: str, team_won: int, as_of: datetime,
+               k_override: Optional[float] = None) -> None:
+        """k_override: kaytossa esim. run_online_weight.py:ssa online-otteluiden
+        painon skaalaamiseen rating-PAIVITYKSESSA (eri asia kuin apply_online_
+        adjustment, joka vaikuttaa vain ENNUSTEESEEN, ei rating-historiaan)."""
         r_team = self._decayed_rating(team, as_of)
         r_opp = self._decayed_rating(opponent, as_of)
         p = 1.0 / (1.0 + math.exp(-(r_team - r_opp) / self.scale))
         actual = float(team_won)
-        self.ratings[team] = (r_team + self.k * (actual - p), as_of)
-        self.ratings[opponent] = (r_opp + self.k * ((1 - actual) - (1 - p)), as_of)
+        k = self.k if k_override is None else k_override
+        self.ratings[team] = (r_team + k * (actual - p), as_of)
+        self.ratings[opponent] = (r_opp + k * ((1 - actual) - (1 - p)), as_of)
         self.games_played[team] = self.games_played.get(team, 0) + 1
         self.games_played[opponent] = self.games_played.get(opponent, 0) + 1
 
@@ -563,9 +568,14 @@ def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: 
 # suodatetulla datalla), kun taas LAN/Offline on lahes tasmalleen
 # kalibroitu (41.8% vs 40.3%). Todennakoinen selitys: top-joukkueet
 # kayttavat online-karsinnoissa useammin stand-ineja / eivat panosta
-# taydella kokoonpanolla - sama ilmio jonka kayttaja itse huomasi
-# yksittaisissa otteluissa (magic-valmentaja, Vitality-mezii) tanaan,
-# vain laajempana kategoriana.
+# taydella kokoonpanolla. (HUOM 2026-09-18: TAMA ON ERI ASIA kuin
+# kayttajan tanaan huomaamat magic-valmentaja/Vitality-mezii-stand-init -
+# ne olivat StarLadder StarSeries Fall 2026 -turnauksen LAN-otteluita,
+# ei online. Vahvistin virheellisesti nama samaksi ilmioksi kayttajalle -
+# ne ovat kaksi ERILLISTA, EI-liittyvaa puutetta: online-korjaus koskee
+# koko online-kategoriaa yleisesti, kun taas yksittaiset stand-init
+# voivat tapahtua seka LANilla etta onlinena eika kumpaakaan tallenneta
+# erikseen dataamme.)
 #
 # VALIDOITU OIKEIN (run_online_adjustment.py): shrink-kerroin grid-haettu
 # VALILTA [0.0, 1.0] VAIN train-online-otteluilla (n=179, ensimmainen 80%
@@ -589,6 +599,34 @@ def apply_online_adjustment(p_team: float, match_type: Optional[str]) -> float:
     if match_type == "Online":
         return 0.5 + (p_team - 0.5) * ONLINE_SHRINK
     return p_team
+
+
+# ---------------------------------------------------------------------------
+# Online-paino RATING-PAIVITYKSESSA (lisatty 2026-09-18, kayttajan
+# jatkokysymys apply_online_adjustment:n jalkeen): edellinen korjaus
+# vaimentaa vain ENNUSTETTA online-ottelulle, mutta online-ottelun TULOS
+# paivitti silti joukkueen ratingia taydella K-kertoimella - vaikuttaen
+# kaikkiin TULEVIIN ennusteisiin (myos LAN-otteluihin). Kysymys: pitaisiko
+# online-tuloksille antaa pienempi paino ITSE rating-paivityksessa?
+#
+# VALIDOITU OIKEIN (run_online_weight.py): online_weight grid-haettu
+# valilta [0.0, 1.0] VAIN train-osiolla (koko datasetin log loss, ei vain
+# online-otteluiden - tavoite on parantaa yleista rating-laatua), paras
+# arvo 0.2. Nakemattomalla test-osiolla (n=187): koko test-joukon log
+# loss parani 0.6397 -> 0.6379, ja erityisesti online-test parani
+# selvasti (0.6995 -> 0.6854); LAN-test heikkeni hieman (0.6107 ->
+# 0.6149) mutta kokonaisvaikutus on positiivinen. HUOM: sama pieni-otos-
+# varaus kuin apply_online_adjustment:lla.
+# ---------------------------------------------------------------------------
+ONLINE_UPDATE_WEIGHT = 0.2  # validoitu grid-haulla, ei arvaus
+
+
+def online_k_override(k_factor: float, match_type: Optional[str]) -> Optional[float]:
+    """Palauttaa skaalatun K-kertoimen EloModel.update()-kutsuun kun ottelu
+    on Online, muuten None (=kaytä oletus-K:ta)."""
+    if match_type == "Online":
+        return k_factor * ONLINE_UPDATE_WEIGHT
+    return None
 
 
 # ---------------------------------------------------------------------------
