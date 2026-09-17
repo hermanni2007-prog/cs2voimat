@@ -188,6 +188,40 @@ BETS = [
      "price": 2.39, "opponent_price": 1.55,
      "bet_on": None, "actual_winner": "Vitality",
      "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Spinbetter-kerroin eri kirjanpitajalta]"},
+    # tips.gg-artikkelit (2026-09-18, kayttajan antama linkki): Esports
+    # World Cup 2026 -pudotuspelit, 20.-23.8.2026 - KOKONAAN UUTTA dataa,
+    # ei paallekkaisyyksia aiempien kanssa. Ajankohdat VARMISTETTU itse
+    # omasta datastamme kuten aina (ei sivun oman "Finished HH:MM"-ajan
+    # perusteella, joka on paikallista aikaa eika UTC:ta).
+    {"date": "2026-08-20T16:20:00+00:00", "team": "G2", "opponent": "FURIA",
+     "price": 2.16, "opponent_price": 1.70,
+     "bet_on": None, "actual_winner": "FURIA", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [GGbet, EWC 2026 QF]"},
+    {"date": "2026-08-21T11:00:00+00:00", "team": "FUT", "opponent": "MOUZ",
+     "price": 2.39, "opponent_price": 1.57,
+     "bet_on": None, "actual_winner": "FUT",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [GGbet, EWC 2026 QF]"},
+    {"date": "2026-08-21T13:50:00+00:00", "team": "Legacy", "opponent": "Falcons",
+     "price": 3.68, "opponent_price": 1.28,
+     "bet_on": None, "actual_winner": "Legacy",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [GGbet, EWC 2026 QF]"},
+    {"date": "2026-08-21T16:30:00+00:00", "team": "Vitality", "opponent": "Spirit",
+     "price": 1.77, "opponent_price": 2.05,
+     "bet_on": None, "actual_winner": "Spirit",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [GGbet, EWC 2026 QF]"},
+    {"date": "2026-08-22T14:00:00+00:00", "team": "FURIA", "opponent": "FUT",
+     "price": 1.56, "opponent_price": 2.43,
+     "bet_on": None, "actual_winner": "FUT",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [Megapari, EWC 2026 SF]"},
+    {"date": "2026-08-22T18:00:00+00:00", "team": "Legacy", "opponent": "Spirit",
+     "price": 3.26, "opponent_price": 1.34,
+     "bet_on": None, "actual_winner": "Spirit", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [Megapari, EWC 2026 SF]"},
+    {"date": "2026-08-23T08:00:00+00:00", "team": "FURIA", "opponent": "Legacy",
+     "price": 1.56, "opponent_price": 2.43,
+     "bet_on": None, "actual_winner": "Legacy",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS) [Spinbetter, EWC 2026 3.sija]"},
+    {"date": "2026-08-23T12:15:00+00:00", "team": "FUT", "opponent": "Spirit",
+     "price": 3.42, "opponent_price": 1.31,
+     "bet_on": None, "actual_winner": "Spirit", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [Spinbetter, EWC 2026 finaali]"},
 ]
 
 
