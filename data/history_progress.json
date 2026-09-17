@@ -1,0 +1,16 @@
+{
+  "updated_utc": "2026-09-17T12:09:16.413195+00:00",
+  "window_days": 120,
+  "teams_total": 50,
+  "teams_done": 4,
+  "teams_ok": 4,
+  "teams_not_found": 0,
+  "teams_error": 0,
+  "matches_collected": 95,
+  "last_team": {
+    "team": "9z",
+    "status": "ok",
+    "matches_found": 29,
+    "at": "2026-09-17T12:09:16.404425+00:00"
+  }
+}

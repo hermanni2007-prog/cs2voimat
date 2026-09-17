@@ -1,0 +1,39 @@
+name: CS2 history collector
+
+on:
+  schedule:
+    # 15 min valein. Liquipedian action=parse sallii 1 pyynnon/30s, joten
+    # 25 joukkuetta/ajo (~12.5 min) mahtuu turvallisesti 15 min ikkunaan.
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cs2-history-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - name: Aja historiakeruu (max 25 joukkuetta / ajo)
+        run: python src/collect_history.py --max-teams 25
+
+      - name: Committaa tietokanta ja edistymistiedosto takaisin repoon
+        run: |
+          git config user.name "cs2-history-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/odds.db data/history_progress.json
+          git diff --cached --quiet || git commit -m "history collector: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git pull --rebase origin main
+          git push
