@@ -95,6 +95,50 @@ BETS = [
     {"date": "2026-09-04T16:50:00+00:00", "team": "FURIA", "opponent": "Vitality",
      "price": 2.50, "opponent_price": 1.52,
      "bet_on": None, "actual_winner": "Vitality", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    # Bettar "Expert predictions" (Day 1, FISSURE Playground #3 -ryhmavaihe)
+    # ja Pinbetter (playoff-loppuottelut) -kuvakaappaukset (2026-09-18).
+    # Kaikki ajankohdat VARMISTETTU itse omasta datastamme (ei kayttajan
+    # kuvakaappauksen omasta ajasta) - kayttajan toistuva ohje: ei
+    # kehapaatelmia, selvita ajankohdat itse ja kayta vain niita
+    # edeltavaa dataa. Sivuston omat ennuste-artikkelitekstit jatetty
+    # kokonaan huomiotta, kaytetty vain kerroin + lopputulos.
+    {"date": "2026-09-08T03:00:00+00:00", "team": "9z", "opponent": "5star eSports",
+     "price": 1.06, "opponent_price": 9.50,
+     "bet_on": None, "actual_winner": "9z", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-09-08T03:00:00+00:00", "team": "Legacy", "opponent": "magic",
+     "price": 1.32, "opponent_price": 3.36,
+     "bet_on": None, "actual_winner": "Legacy", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-09-08T07:50:00+00:00", "team": "Alliance", "opponent": "FaZe",
+     "price": 3.36, "opponent_price": 1.32,
+     "bet_on": None, "actual_winner": "Alliance", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS)"},
+    {"date": "2026-09-08T05:55:00+00:00", "team": "MIBR", "opponent": "The MongolZ",
+     "price": 2.15, "opponent_price": 1.70,
+     "bet_on": None, "actual_winner": "MIBR", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu, ALIKERTOIMEN YLLATYS)"},
+    {"date": "2026-09-08T10:55:00+00:00", "team": "PARIVISION", "opponent": "TYLOO",
+     "price": 1.60, "opponent_price": 2.33,
+     "bet_on": None, "actual_winner": "PARIVISION", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-09-08T09:25:00+00:00", "team": "BIG", "opponent": "BETBOOM",
+     "price": 2.02, "opponent_price": 1.78,
+     "bet_on": None, "actual_winner": "BETBOOM", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-09-08T11:50:00+00:00", "team": "GamerLegion", "opponent": "FURIA",
+     "price": 3.96, "opponent_price": 1.25,
+     "bet_on": None, "actual_winner": "FURIA", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    # Seuraavat kolme ovat SAMOJA otteluita jotka ovat jo listassa ylla,
+    # mutta ERI kirjanpitajan (Bettar/Pinbetter) kaksipuoliset kertoimet
+    # - eri markkinahavainto samasta oikeasta ottelusta, ei sama rivi
+    # kahdesti. Kayttajan huomio 2026-09-18: "voi olla duplikaatteja".
+    {"date": "2026-09-08T13:45:00+00:00", "team": "G2", "opponent": "Astralis",
+     "price": 1.36, "opponent_price": 3.14,
+     "bet_on": None, "actual_winner": "Astralis",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Bettar-kerroin, aiempi oli tarkka-tulos-kerroin]"},
+    {"date": "2026-09-11T06:00:00+00:00", "team": "MIBR", "opponent": "Alliance",
+     "price": 1.85, "opponent_price": 1.95,
+     "bet_on": None, "actual_winner": "MIBR",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Pinbetter-kerroin eri kirjanpitajalta]"},
+    {"date": "2026-09-11T09:15:00+00:00", "team": "FURIA", "opponent": "G2",
+     "price": 1.64, "opponent_price": 2.26,
+     "bet_on": None, "actual_winner": "G2",
+     "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu) [sama ottelu kuin ylla, Pinbetter-kerroin eri kirjanpitajalta]"},
 ]
 
 
