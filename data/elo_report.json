@@ -80,7 +80,9 @@
     }
   ],
   "baseline_5050_log_loss": 0.693147180559939,
-  "baseline_vrs_log_loss": 6.092279423351446,
+  "baseline_vrs_deterministic_log_loss": 9.715701890977673,
+  "baseline_vrs_soft_log_loss": 0.6743361788795085,
+  "baseline_vrs_soft_scale": 200,
   "grid_results": [
     {
       "scale": 100,

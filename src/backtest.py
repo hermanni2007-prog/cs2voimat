@@ -135,6 +135,43 @@ class VrsRankings:
             _date.fromisoformat(k): v for k, v in snapshots.items()
         }
         self.dates = sorted(self.snapshots.keys())
+        # esilasketut lowercase-nakymat per snapshot-paiva (rakennetaan kerran)
+        self._lower_snapshots = {
+            d: {name.lower(): rank for name, rank in s.items()} for d, s in self.snapshots.items()
+        }
+        self._fuzzy_cache: dict = {}  # (snapshot_date, raw_name) -> resolved_name tai None
+
+    def _fuzzy_resolve(self, snapshot: dict, name: str) -> Optional[str]:
+        """KORJAUS 2026-09-17: tarkka nimi ei loydy usein, koska Liquipedian
+        ottelusivun vastustaja-teksti ("Team Liquid") ei tasmaa VRS:n lyhyeen
+        nimeen ("Liquid"). Vain 377/860 ottelusta loysi molemmat sijat ennen
+        tata korjausta.
+
+        KORJAUS #2 (samana paivana): ensimmainen versio kaytti raakaa
+        "in"-osamerkkijonohakua (kuten fetch_market_spotcheck.py:ssa), mika
+        tuotti vaaria osumia - esim. lyhyt VRS-nimi "am" tasmasi sanojen
+        "te-AM" ja "g-AM-ing" SISALLA ilman sanarajoja, tuottaen 75 vaaraa
+        yhdistysta (esim. "Team Liquid" -> "am"). Korjattu sanarajalliseen
+        regexiin (\\b...\\b) - "liquid" tasmaa "team liquid":iin valilyonnin
+        kohdalla, mutta "am" ei enaa tasmaa "team":iin, koska "am" ei ole
+        oma sanansa siina. Lisaksi minimipituus 3 merkkia kandidaateille."""
+        import re
+
+        key = name.lower()
+        if key in snapshot:
+            return key
+        candidates = []
+        for full in snapshot:
+            if len(full) < 3 or len(key) < 3:
+                continue
+            if re.search(r"\b" + re.escape(full) + r"\b", key):
+                candidates.append(full)
+            elif re.search(r"\b" + re.escape(key) + r"\b", full):
+                candidates.append(full)
+        if not candidates:
+            return None
+        candidates.sort(key=len)
+        return candidates[0]
 
     def rank_as_of(self, team: str, as_of: datetime) -> Optional[int]:
         as_of_naive = as_of.date()
@@ -146,7 +183,17 @@ class VrsRankings:
                 break
         if chosen is None:
             return None
-        return self.snapshots[chosen].get(team)
+        lower_snapshot = self._lower_snapshots[chosen]
+
+        cache_key = (chosen, team)
+        if cache_key in self._fuzzy_cache:
+            resolved = self._fuzzy_cache[cache_key]
+        else:
+            resolved = self._fuzzy_resolve(lower_snapshot, team)
+            self._fuzzy_cache[cache_key] = resolved
+        if resolved is None:
+            return None
+        return lower_snapshot.get(resolved)
 
 
 # ---------------------------------------------------------------------------
@@ -167,6 +214,24 @@ def predict_higher_vrs_rank(match: MatchRow, vrs: VrsRankings) -> float:
     if r_team == r_opp:
         return 0.5
     return 1.0 if r_team < r_opp else 0.0
+
+
+def make_predict_vrs_soft(scale: float) -> Callable:
+    """KORJAUS 2026-09-17: predict_higher_vrs_rank on deterministinen (0/1),
+    minka vuoksi sen log loss (6+) on paatonta huonompi kuin 50/50 - se ei
+    ole 'malli on rikki' vaan log lossin matematiikkaa (kova vaara ennuste
+    rangaistaan asymptoottisesti). Tama versio muuntaa sijaeron pehmeaksi
+    todennakoisyydeksi logistisella funktiolla, samaan tapaan kuin Elo -
+    antaa mielekkaamman vertailukohdan. 'scale' fitataan run_elo.py:ssa
+    grid-haulla."""
+    def predict(match: MatchRow, vrs: "VrsRankings") -> float:
+        r_team = vrs.rank_as_of(match.team, match.date)
+        r_opp = vrs.rank_as_of(match.opponent, match.date)
+        if r_team is None or r_opp is None:
+            return 0.5
+        diff = r_opp - r_team  # positiivinen jos 'team' on paremmin sijoitettu
+        return 1.0 / (1.0 + math.exp(-diff / scale))
+    return predict
 
 
 # ---------------------------------------------------------------------------

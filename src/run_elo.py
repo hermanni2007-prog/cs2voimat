@@ -26,6 +26,7 @@ from backtest import (  # noqa: E402
     VrsRankings,
     deduplicate_matches,
     load_clean_matches,
+    make_predict_vrs_soft,
     predict_5050,
     predict_higher_vrs_rank,
     run_elo_walkforward,
@@ -51,10 +52,19 @@ def main() -> int:
 
     # --- uudelleenaja tyhmat mallit SAMALLA deduplikoidulla datalla, reilu vertailu ---
     baseline_results = {}
-    for name, fn in [("aina_5050", predict_5050), ("korkeampi_vrs_sija", predict_higher_vrs_rank)]:
+    for name, fn in [("aina_5050", predict_5050), ("korkeampi_vrs_sija_deterministinen", predict_higher_vrs_rank)]:
         res = run_walk_forward(matches, fn, vrs)
         baseline_results[name] = res
         print(f"{name}: log_loss={fmt(res['log_loss'])} brier={fmt(res['brier'])}")
+
+    # --- Tehtava 2 -korjaus: pehmea VRS-sijaeromalli, scale grid-haulla ---
+    best_soft = None
+    for soft_scale in [8, 16, 32, 48, 75, 100, 150, 200, 300, 500, 750, 1000]:
+        res = run_walk_forward(matches, make_predict_vrs_soft(soft_scale), vrs)
+        if best_soft is None or res["log_loss"] < best_soft["log_loss"]:
+            best_soft = {"scale": soft_scale, **res}
+    baseline_results["korkeampi_vrs_sija_pehmea"] = best_soft
+    print(f"korkeampi_vrs_sija_pehmea (scale={best_soft['scale']}): log_loss={fmt(best_soft['log_loss'])} brier={fmt(best_soft['brier'])}")
 
     # --- grid search Elolle ---
     scales = [100, 150, 200, 300, 400, 500]
@@ -82,18 +92,21 @@ def main() -> int:
         print(f"    {b['range']}  n={b['n']:<4d}  ennustettu={b['avg_predicted']:.2f}  toteutunut={b['avg_actual']:.2f}")
 
     print("\n=== VERTAILU (sama deduplikoitu data) ===")
-    print(f"  aina_5050:            {fmt(baseline_results['aina_5050']['log_loss'])}")
-    print(f"  korkeampi_vrs_sija:   {fmt(baseline_results['korkeampi_vrs_sija']['log_loss'])}")
-    print(f"  Elo (paras):          {fmt(best['log_loss'])}")
+    print(f"  aina_5050:                    {fmt(baseline_results['aina_5050']['log_loss'])}")
+    print(f"  korkeampi_vrs_sija (0/1):     {fmt(baseline_results['korkeampi_vrs_sija_deterministinen']['log_loss'])}")
+    print(f"  korkeampi_vrs_sija (pehmea):  {fmt(baseline_results['korkeampi_vrs_sija_pehmea']['log_loss'])}")
+    print(f"  Elo (paras):                  {fmt(best['log_loss'])}")
 
     ll_5050 = baseline_results["aina_5050"]["log_loss"]
-    ll_vrs = baseline_results["korkeampi_vrs_sija"]["log_loss"]
+    ll_vrs_soft = baseline_results["korkeampi_vrs_sija_pehmea"]["log_loss"]
     if best["log_loss"] < ll_5050:
         print("  -> Elo VOITTAA 50/50-perusmallin.")
     else:
         print("  -> Elo EI voita edes 50/50-perusmallia - jotain on vialla.")
-    if best["log_loss"] < ll_vrs:
-        print("  -> Elo voittaa myos deterministisen VRS-mallin (odotettua, koska tama ei rankaise itsevarmuudesta).")
+    if best["log_loss"] < ll_vrs_soft:
+        print("  -> Elo voittaa myos pehman VRS-sijamallin: kierrostason/karttatason ratingilla on lisaarvoa pelkan VRS-sijan paalla.")
+    else:
+        print("  -> Elo EI voita pehmeaa VRS-mallia - Elo ei viela tuo lisaarvoa VRS-sijoituksen paalle.")
 
     report = {
         "n_matches": len(matches),
@@ -102,7 +115,9 @@ def main() -> int:
         "best_brier": best["brier"],
         "calibration": best["calibration"],
         "baseline_5050_log_loss": ll_5050,
-        "baseline_vrs_log_loss": ll_vrs,
+        "baseline_vrs_deterministic_log_loss": baseline_results["korkeampi_vrs_sija_deterministinen"]["log_loss"],
+        "baseline_vrs_soft_log_loss": ll_vrs_soft,
+        "baseline_vrs_soft_scale": baseline_results["korkeampi_vrs_sija_pehmea"]["scale"],
         "grid_results": grid_results,
     }
     REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
