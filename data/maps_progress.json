@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-17T19:50:06.156736+00:00",
-  "tournaments_total": 183,
-  "tournaments_done": 183,
-  "tournaments_ok": 87,
+  "updated_utc": "2026-09-17T21:57:39.882014+00:00",
+  "tournaments_total": 481,
+  "tournaments_done": 187,
+  "tournaments_ok": 88,
   "tournaments_ok_no_brackets": 2,
-  "tournaments_not_found": 94,
+  "tournaments_not_found": 97,
   "tournaments_error": 0,
-  "maps_collected": 783,
+  "maps_collected": 855,
   "last_tournament": {
-    "tournament": "Esports World Cup 2026: LCQ - Group Stage - Group L",
-    "status": "ok",
+    "tournament": "IEM Atlanta 2026: Global Qual",
+    "status": "not_found",
     "maps_found": 0,
-    "at": "2026-09-17T19:50:06.154320+00:00"
+    "at": "2026-09-17T21:57:39.875071+00:00"
   }
 }
