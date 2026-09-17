@@ -2,9 +2,14 @@ name: CS2 history collector
 
 on:
   schedule:
-    # 15 min valein. Liquipedian action=parse sallii 1 pyynnon/30s, joten
+    # 15 min valein, mutta SIIRRETTY pois tasa-ajoista (:00/:15/:30/:45).
+    # GitHubin oma dokumentaatio varoittaa: "the schedule event can be
+    # delayed during periods of high load - high load times include the
+    # start of every hour [ja vastaavat tasavalit]." Alkuperainen "*/15"
+    # osui juuri naihin - havaittu 2026-09-17: 0 ajoa 1,5 h:ssa vaikka
+    # YAML oli validi. Liquipedian action=parse sallii 1 pyynnon/30s, joten
     # 25 joukkuetta/ajo (~12.5 min) mahtuu turvallisesti 15 min ikkunaan.
-    - cron: "*/15 * * * *"
+    - cron: "6,21,36,51 * * * *"
   workflow_dispatch: {}
 
 permissions:

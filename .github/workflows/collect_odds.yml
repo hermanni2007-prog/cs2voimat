@@ -9,9 +9,11 @@ on:
   #
   # Kun tilaus on vahvistettu: poista kommentit alta. 5 min pollausvali x
   # ~3-4 pyyntoa/ajo x 288 ajoa/vrk on n. 30 000/kk - reilusti 100 000:n
-  # kiintion sisalla.
+  # kiintion sisalla. Minuutit siirretty pois tasa-ajoista (2,7,12...) -
+  # GitHub varoittaa itse etta tasatunnit/-vartit ruuhkautuvat ja voivat
+  # viivastyttaa laukaisua, ks. collect_history.yml:n havainto 2026-09-17.
   # - schedule:
-  #     - cron: "*/5 * * * *"
+  #     - cron: "2,7,12,17,22,27,32,37,42,47,52,57 * * * *"
   workflow_dispatch: {}
 
 permissions:
