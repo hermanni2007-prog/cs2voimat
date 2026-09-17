@@ -318,6 +318,11 @@ class EloModel:
         self.half_life_days = half_life_days
         self.ratings: dict = {}  # team -> (rating, last_date)
 
+    def rating_as_of(self, team: str, as_of: datetime) -> float:
+        """Julkinen versio _decayed_rating:sta - kayttoon Tehtava 5:n
+        (formipaino) kahden rinnakkaisen mallin sekoitukseen."""
+        return self._decayed_rating(team, as_of)
+
     def _decayed_rating(self, team: str, as_of: datetime) -> float:
         if team not in self.ratings:
             return MEAN_RATING
@@ -356,6 +361,49 @@ def run_elo_walkforward(matches: list, elo: EloModel) -> dict:
         outcomes.append(m.team_won)
         probs.append(p)
         elo.update(m.team, m.opponent, m.team_won, m.date)
+    return {
+        "n": len(outcomes),
+        "log_loss": log_loss(outcomes, probs),
+        "brier": brier_score(outcomes, probs),
+        "calibration": calibration_curve(outcomes, probs),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Tehtava 5: formipaino lambda.
+#
+# PV = R_hidas + lambda * (R_nopea - R_hidas)
+# R_hidas: puoliintumisaika ~180 vrk (pitka muisti, "todellinen taso")
+# R_nopea: puoliintumisaika ~21 vrk (lyhyt muisti, "tuore forma")
+# lambda haetaan ruudukosta 0..1 minimoiden walk-forward log loss - TAMA
+# ON PROJEKTIN ALKUPERAINEN TEESI: painottaako tuore forma tuo edgen.
+# Jos paras lambda ajautuu 0:aan, teesi EI pida paikkaansa tassa datassa -
+# raportoidaan suoraan, ei etsita kiertotieta (kayttajan oma vaatimus).
+# ---------------------------------------------------------------------------
+
+def run_dual_elo_walkforward(matches: list, elo_slow: EloModel, elo_fast: EloModel, lam: float) -> dict:
+    """Molemmat mallit paivittyvat JOKAISELLA ottelulla omalla
+    puoliintumisajallaan riippumatta lambda:sta - lambda vaikuttaa vain
+    ENNUSTEEN sekoitukseen, ei rating-paivitykseen. Sekoitus tehdaan
+    RATING-avaruudessa (PV = R_hidas + lambda*(R_nopea-R_hidas)), kuten
+    briiffi maarittelee, ei erillisina todennakoisyyksina."""
+    outcomes = []
+    probs = []
+    for m in matches:
+        rt_slow = elo_slow.rating_as_of(m.team, m.date)
+        rt_fast = elo_fast.rating_as_of(m.team, m.date)
+        pv_team = rt_slow + lam * (rt_fast - rt_slow)
+
+        ro_slow = elo_slow.rating_as_of(m.opponent, m.date)
+        ro_fast = elo_fast.rating_as_of(m.opponent, m.date)
+        pv_opp = ro_slow + lam * (ro_fast - ro_slow)
+
+        p = 1.0 / (1.0 + math.exp(-(pv_team - pv_opp) / elo_slow.scale))
+        outcomes.append(m.team_won)
+        probs.append(p)
+
+        elo_slow.update(m.team, m.opponent, m.team_won, m.date)
+        elo_fast.update(m.team, m.opponent, m.team_won, m.date)
     return {
         "n": len(outcomes),
         "log_loss": log_loss(outcomes, probs),

@@ -100,6 +100,27 @@ versio `historical_matches`-datan päälle.
   toteutunut 0.62, ennustettu 0.74 → toteutunut 0.67) - ei systemaattista
   yli-/aliluottamusta.
 
+## Tehtävä 5: Formipaino λ — teesi EI saanut tukea (rehellinen negatiivinen tulos)
+
+**Tämä on projektin alkuperäinen ydinteesi** ("kun muutaman pelin formia
+hieman korostaa niin saa edgen") suorassa testissä.
+
+- `src/run_form_lambda.py`: kaksi rinnakkaista Elo-ratingia, puoliintumisajat
+  180 vrk (hidas) ja 21 vrk (nopea), PV = R_hidas + λ·(R_nopea − R_hidas)
+  RATING-avaruudessa (ei todennäköisyysavaruudessa). λ grid-haku 0.0–1.0.
+- **Tulos (2026-09-17): paras λ = 0.0.** Log loss kasvaa MONOTONISESTI
+  λ:n kasvaessa (0.6653 → 0.6734 välillä λ=0→1) - tuoreen forman lisääminen
+  ei paranna, se huonontaa ennustetta joka askeleella. Yksittäinen
+  vaimentamaton Elo (0.6646) on paras kaikista.
+- **Teesi ei siis saa tukea tässä datassa.** Raportoitu suoraan, ei etsitty
+  kiertotietä (käyttäjän oma vaatimus istunnon alusta).
+- **HUOM - rajoite joka pitää mainita joka kerta kun tätä tulosta siteerataan:**
+  havaintoikkuna on vain 4 kuukautta, joka on LYHYEMPI kuin "hitaan" mallin
+  180 vrk:n puoliintumisaika - hidas ja nopea rating eivät ehdi juuri eriytyä
+  toisistaan tässä datassa. Tämä ei ole lopullinen kumous teesille, vaan
+  varhainen negatiivinen tulos alimitoitetulla otoksella. Kun Tehtävä 0:n
+  data kertyy kuukausien ajalta, testi kannattaa ajaa uudelleen.
+
 Lähde [oddspapi.io](https://oddspapi.io), bookmaker **Coolbet**, skeema
 varmistettu oikeaa dataa vastaan 2026-09-17. Ajastus pyörii GitHubin
 palvelimella, täysin riippumatta tästä koneesta. Muut tehtävät
