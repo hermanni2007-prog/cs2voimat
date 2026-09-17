@@ -1,0 +1,313 @@
+<title>Pelivoimat Status</title>
+<meta name="description" content="CS2-pelivoimajärjestelmän rakennustilanne: tehtäväputki, löydetyt esteet ja kuukausikulut.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1013; --surface:#141820; --surface-2:#1a1f28;
+    --border:#2b323c; --border-soft:#20262e;
+    --text:#e8ebef; --text-dim:#8f98a5; --text-faint:#565f6b;
+    --ct:#6e9bd1; --ct-soft:rgba(110,155,209,.13);
+    --bad:#d16457; --bad-soft:rgba(209,100,87,.14);
+    --t:#d9a441; --t-soft:rgba(217,164,65,.14);
+    --font-display:'Oswald',Impact,sans-serif;
+    --font-body:'IBM Plex Sans',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  }
+  :root:not([data-theme="light"]){ color-scheme: dark; }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#eef1f4; --surface:#ffffff; --surface-2:#e7ebef;
+    --border:#ccd3db; --border-soft:#dde2e7;
+    --text:#12151a; --text-dim:#4d5561; --text-faint:#7c8593;
+    --ct:#2c6aa6; --ct-soft:rgba(44,106,166,.09);
+    --bad:#ac4335; --bad-soft:rgba(172,67,53,.09);
+    --t:#9c701d; --t-soft:rgba(156,112,29,.1);
+  }
+  @media (prefers-color-scheme:light){
+    :root:not([data-theme="dark"]){
+      color-scheme:light;
+      --bg:#eef1f4; --surface:#ffffff; --surface-2:#e7ebef;
+      --border:#ccd3db; --border-soft:#dde2e7;
+      --text:#12151a; --text-dim:#4d5561; --text-faint:#7c8593;
+      --ct:#2c6aa6; --ct-soft:rgba(44,106,166,.09);
+      --bad:#ac4335; --bad-soft:rgba(172,67,53,.09);
+      --t:#9c701d; --t-soft:rgba(156,112,29,.1);
+    }
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    margin:0; padding-inline:20px; padding-block:36px 70px; line-height:1.55;
+  }
+  code{ font-family:var(--font-mono); font-size:.92em; background:var(--surface-2); padding:1px 5px; border-radius:3px; }
+
+  .shell{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns:248px 1fr; gap:0 44px; align-items:start; }
+
+  /* ---------- rail ---------- */
+  .rail{ display:flex; flex-direction:column; gap:28px; position:sticky; top:24px; }
+  .brand h1{
+    font-family:var(--font-display); font-weight:600; font-size:26px; text-transform:uppercase;
+    letter-spacing:.02em; margin:0; line-height:1.05;
+  }
+  .brand .sub{ font-family:var(--font-mono); font-size:11px; color:var(--text-faint); margin-top:6px; letter-spacing:.02em; }
+  .brand a{ color:var(--text-dim); font-family:var(--font-mono); font-size:11px; display:inline-block; margin-top:10px; text-decoration:none; border-bottom:1px solid var(--border); }
+  .brand a:hover{ color:var(--ct); border-color:var(--ct); }
+
+  .phasebar{ display:flex; gap:3px; margin-top:16px; }
+  .phasebar i{ flex:1; height:5px; background:var(--surface-2); border:1px solid var(--border-soft); }
+  .phasebar i.done{ background:var(--ct); border-color:var(--ct); }
+  .phasebar i.live{ background:var(--t); border-color:var(--t); }
+  .phasebar-label{ font-family:var(--font-mono); font-size:10px; color:var(--text-faint); margin-top:6px; }
+
+  .readouts{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); }
+  .readout{ padding:12px 0; border-bottom:1px solid var(--border-soft); }
+  .readout .num{ font-family:var(--font-display); font-size:30px; font-weight:600; line-height:1; font-variant-numeric:tabular-nums; }
+  .readout .num .of{ font-family:var(--font-mono); font-size:14px; color:var(--text-faint); font-weight:400; }
+  .readout .label{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); letter-spacing:.02em; margin-top:3px; }
+  .readout.ct .num{ color:var(--ct); }
+  .readout.t .num{ color:var(--t); }
+
+  .rail-block h3{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); margin:0 0 10px; }
+  .ledger{ display:flex; flex-direction:column; gap:9px; }
+  .lrow{ display:flex; justify-content:space-between; gap:10px; font-size:12.5px; }
+  .lrow .name{ color:var(--text-dim); }
+  .lrow .amt{ font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .lrow.pend .amt{ color:var(--t); }
+  .lrow.total{ border-top:1px solid var(--border); padding-top:9px; font-weight:600; }
+  .lrow.total .name{ color:var(--text); }
+  .lrow.total .amt{ color:var(--t); font-size:14px; }
+
+  .next{ background:var(--surface); border:1px solid var(--border-soft); border-left:3px solid var(--t); padding:14px 16px; }
+  .next h3{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--t); margin:0 0 6px; }
+  .next p{ margin:0; font-size:12.5px; color:var(--text-dim); }
+  .next strong{ color:var(--text); }
+
+  /* ---------- main ---------- */
+  .main{ display:flex; flex-direction:column; gap:38px; min-width:0; }
+  h2{
+    font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--text-faint); margin:0 0 14px; font-weight:600; padding-bottom:8px; border-bottom:1px solid var(--border);
+  }
+
+  /* pipeline */
+  .pipeline{ display:flex; flex-direction:column; }
+  .task{ position:relative; padding:13px 0 13px 40px; border-bottom:1px solid var(--border-soft); }
+  .task:first-child{ padding-top:0; }
+  .task:last-child{ border-bottom:none; }
+  .task::before{ content:""; position:absolute; left:9px; top:0; bottom:0; width:1px; background:var(--border-soft); }
+  .task:first-child::before{ top:11px; }
+  .task:last-child::before{ bottom:calc(100% - 24px); }
+  .task .node{
+    position:absolute; left:0; top:1px; width:19px; height:19px; background:var(--bg);
+    border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); z-index:1;
+  }
+  .task.done .node{ border-color:var(--ct); color:var(--ct); }
+  .task.live .node{ border-color:var(--t); color:var(--t); }
+  .task-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px 16px; flex-wrap:wrap; }
+  .task .title{ font-weight:600; font-size:15px; }
+  .task .stamp{ font-family:var(--font-mono); font-size:10px; letter-spacing:.04em; padding:2px 7px; border:1px solid; white-space:nowrap; }
+  .stamp.done{ color:var(--ct); border-color:var(--ct); background:var(--ct-soft); }
+  .stamp.paused{ color:var(--t); border-color:var(--t); background:var(--t-soft); }
+  .stamp.progress{ color:var(--t); border-color:var(--t); background:var(--t-soft); }
+  .stamp.waiting{ color:var(--text-faint); border-color:var(--border); }
+  .task .desc{ font-size:13.5px; color:var(--text-dim); margin-top:5px; max-width:64ch; }
+
+  /* findings */
+  .findings{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .finding{ background:var(--surface); border:1px solid var(--border-soft); padding:13px 15px; display:flex; flex-direction:column; gap:6px; }
+  .finding.block{ border-left:3px solid var(--bad); }
+  .finding.fix{ border-left:3px solid var(--ct); }
+  .finding.note{ border-left:3px solid var(--border); }
+  .finding-top{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .finding .when{ font-family:var(--font-mono); font-size:10px; color:var(--text-faint); letter-spacing:.03em; }
+  .finding .stamp-word{ font-family:var(--font-mono); font-size:9.5px; letter-spacing:.05em; padding:1px 6px; border:1px solid; }
+  .finding.block .stamp-word{ color:var(--bad); border-color:var(--bad); }
+  .finding.fix .stamp-word{ color:var(--ct); border-color:var(--ct); }
+  .finding.note .stamp-word{ color:var(--text-dim); border-color:var(--border); }
+  .finding .headline{ font-weight:600; font-size:13.5px; line-height:1.35; }
+  .finding p{ margin:0; font-size:12.5px; color:var(--text-dim); line-height:1.5; }
+
+  /* terminal */
+  .term{
+    background:#0a0c10; color:#c7cdd6; border:1px solid var(--border); font-family:var(--font-mono);
+    font-size:12px; line-height:1.7; padding:16px 18px; overflow-x:auto;
+  }
+  .term .line{ white-space:pre; }
+  .term .prompt{ color:#6e9bd1; }
+  .term .comment{ color:#5c6470; }
+  .term .hit{ color:#d9a441; }
+  .term .go{ color:#7fb896; }
+
+  footer{ font-family:var(--font-mono); font-size:11px; color:var(--text-faint); border-top:1px solid var(--border-soft); padding-top:14px; margin-top:4px; }
+
+  @media (max-width:840px){
+    .shell{ grid-template-columns:1fr; }
+    .rail{ position:static; }
+    .findings{ grid-template-columns:1fr; }
+  }
+</style>
+
+<div class="shell">
+
+  <div class="rail">
+    <div class="brand">
+      <h1>Pelivoimat</h1>
+      <div class="sub">CS2 · SEURANTALOKI · 17.9.2026</div>
+      <a href="https://github.com/hermanni2007-prog/cs2voimat" target="_blank" rel="noopener">github.com/hermanni2007-prog/cs2voimat →</a>
+      <div class="phasebar">
+        <i class="done"></i><i class="live"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="phasebar-label">TEHTÄVÄ 1 / 8 KÄYNNISSÄ</div>
+    </div>
+
+    <div class="readouts">
+      <div class="readout ct">
+        <div class="num">1<span class="of">/8</span></div>
+        <div class="label">TEHTÄVÄÄ RAKENNETTU</div>
+      </div>
+      <div class="readout">
+        <div class="num">2</div>
+        <div class="label">PÄÄTÖSTÄ SINULTA ODOTTAA</div>
+      </div>
+      <div class="readout">
+        <div class="num">3</div>
+        <div class="label">ESTETTYÄ LÄHDETTÄ VÄLTETTY</div>
+      </div>
+      <div class="readout t">
+        <div class="num">$0<span class="of">/33</span></div>
+        <div class="label">KK-KULU, NYT / SOVITTU</div>
+      </div>
+    </div>
+
+    <div class="rail-block">
+      <h3>Kuukausikulut</h3>
+      <div class="ledger">
+        <div class="lrow pend"><div class="name">OddsPapi · Pinnacle</div><div class="amt">$33</div></div>
+        <div class="lrow"><div class="name">Liquipedia API</div><div class="amt">$0</div></div>
+        <div class="lrow"><div class="name">Valve VRS</div><div class="amt">$0</div></div>
+        <div class="lrow"><div class="name">GitHub Actions</div><div class="amt">$0</div></div>
+        <div class="lrow total"><div class="name">Yhteensä</div><div class="amt">$33</div></div>
+      </div>
+    </div>
+
+    <div class="next">
+      <h3>Seuraava askel</h3>
+      <p><strong>Liquipedia-keruuputki</strong> — muutama tunnettu turnaus todisteeksi, sitten 24 kk:n backfill. Sen jälkeen OddsPapi-tilaus vahvistetaan.</p>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div>
+      <h2>Tehtäväputki</h2>
+      <div class="pipeline">
+
+        <div class="task done">
+          <div class="node">0</div>
+          <div class="task-head">
+            <div class="title">Kertoimien keruu</div>
+            <div class="stamp paused">TAUOLLA</div>
+          </div>
+          <div class="desc">Putki toimii päästä päähän: <code>OddsPapi → SQLite → GitHub Actions</code>, testattu oikealla datalla, 23 ottelua tallessa avaus- ja sulkeutuvine kertoimineen. Ajastus on pysäytetty tarkoituksella — käynnistän sen uudelleen kun tilaus on vahvistettu, ei ennen.</div>
+        </div>
+
+        <div class="task live">
+          <div class="node">1</div>
+          <div class="task-head">
+            <div class="title">Historiadata, 24 kk</div>
+            <div class="stamp progress">KÄYNNISSÄ</div>
+          </div>
+          <div class="desc">Lähde löytyi: Liquipedian MediaWiki-API, vahvistettu live-testillä. Rakentamatta on vielä itse jäsennin ja kokoonpanojen rekonstruktio pelaajasiirtohistoriasta.</div>
+        </div>
+
+        <div class="task">
+          <div class="node">2</div>
+          <div class="task-head">
+            <div class="title">Backtest-harness</div>
+            <div class="stamp waiting">EI ALOITETTU</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="node">3</div>
+          <div class="task-head">
+            <div class="title">Kierrostason Elo</div>
+            <div class="stamp waiting">EI ALOITETTU</div>
+          </div>
+          <div class="desc">CT/T-puoliaikadatalle ei ole vielä ilmaista, sallittua lähdettä — laajuus saattaa tarkentua kun tähän päästään.</div>
+        </div>
+
+        <div class="task">
+          <div class="node">4</div>
+          <div class="task-head"><div class="title">Karttapoikkeamat &amp; veto</div><div class="stamp waiting">EI ALOITETTU</div></div>
+        </div>
+
+        <div class="task">
+          <div class="node">5</div>
+          <div class="task-head"><div class="title">Formipaino λ</div><div class="stamp waiting">EI ALOITETTU</div></div>
+        </div>
+
+        <div class="task">
+          <div class="node">6</div>
+          <div class="task-head"><div class="title">Päivittäinen raportti</div><div class="stamp waiting">EI ALOITETTU</div></div>
+        </div>
+
+        <div class="task">
+          <div class="node">7</div>
+          <div class="task-head"><div class="title">Tuottavuuden seuranta</div><div class="stamp waiting">EI ALOITETTU</div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2>Mitä tällä istunnolla selvisi</h2>
+      <div class="findings">
+
+        <div class="finding block">
+          <div class="finding-top"><div class="when">KERROIN-API</div><div class="stamp-word">ESTETTY / KORJATTU</div></div>
+          <div class="headline">Ilmainen taso on 250 pyyntöä kuussa, ei vuorokaudessa</div>
+          <p>Luin tämän ensin väärin. 20 min pollausväli olisi polttanut koko kuukauden kiintiön reilussa vuorokaudessa, joten pysäytin ajastuksen ennen kuin se ehti ajaa uudelleen.</p>
+        </div>
+
+        <div class="finding note">
+          <div class="finding-top"><div class="when">HINNOITTELU</div><div class="stamp-word">KORJAUS</div></div>
+          <div class="headline">Pinnacle maksaa $33/kk, ei $3/kk kuten ensin sanoin</div>
+          <p>En löytänyt bookmaker-kohtaista hintapaneelia omassa selaimessani. Unibet olisi $23/kk, mutta pehmeänä kirjana kelpaamaton CLV-vertailukohdaksi.</p>
+        </div>
+
+        <div class="finding block">
+          <div class="finding-top"><div class="when">BO3.GG</div><div class="stamp-word">ESTETTY</div></div>
+          <div class="headline"><code>cs2api</code>-kirjasto huijaa yksityistä rajapintaa</div>
+          <p>Väärentää Chrome-selaimen HTTP-headerit päästäkseen APIin, jonka bo3.gg:n oma <code>robots.txt</code> kieltää kaikilta automaattisilta pyynnöiltä. Ei käytetty.</p>
+        </div>
+
+        <div class="finding block">
+          <div class="finding-top"><div class="when">PANDASCORE</div><div class="stamp-word">ESTETTY</div></div>
+          <div class="headline">Käyttöehdot kieltävät betting-käytön myös ilmaisella tasolla</div>
+          <p>Pelkkien ottelutulosten hakukin rikkoisi sopimusta. Sama rajaus todennäköisesti GRID Open Accessissa — molemmilla erillinen tuote vedonlyöntikäyttöön.</p>
+        </div>
+
+        <div class="finding fix">
+          <div class="finding-top"><div class="when">LIQUIPEDIA</div><div class="stamp-word">RATKAISTU</div></div>
+          <div class="headline">MediaWiki-API on vapaasti käytettävissä, LPDB ei</div>
+          <p><code>action=parse</code> oikealla User-Agentilla palautti PGL Major Copenhagen 2024 -sivun otteludatan renderöidystä HTML:stä, käyttöehtojen puitteissa.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h2>Otos: kolme testikutsua tältä istunnolta</h2>
+      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl bo3.gg/robots.txt</div><div class="line">  <span class="hit">Disallow: /api/</span></div><div class="line comment">  # → cs2api-kirjastoa ei käytetä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... brkts-opponent-score ...</span></div><div class="line comment">  # → sallittu reitti otteludataan löytyi</div></div>
+    </div>
+
+    <footer>pelivoimat/status-dashboard · päivittyy pyynnöstä</footer>
+
+  </div>
+
+</div>

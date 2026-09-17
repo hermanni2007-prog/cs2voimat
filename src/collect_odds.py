@@ -1,9 +1,9 @@
 """
 Tehtava 0: CS2-kertoimien keruu.
 
-Ajetaan ajastettuna (Windows Task Scheduler) 15 min valein - tama tarvitaan
-jotta jokaiselle ottelulle osuu vahintaan yksi pollaus CLOSING_WINDOW_MINUTES
-(oletus 25 min) -ikkunaan ennen alkua. Jokaisella ajolla skripti:
+Ajetaan ajastettuna (GitHub Actions) 5 min valein - tama tarvitaan jotta
+jokaiselle ottelulle osuu vahintaan yksi pollaus CLOSING_WINDOW_MINUTES
+(oletus 10 min) -ikkunaan ennen alkua. Jokaisella ajolla skripti:
   1. Hakee kaikki tulevat CS2-ottelut kertoimineen.
   2. Jos ottelu nahdaan ensi kertaa -> tallentaa "avauskertoimen" (is_opening=1).
   3. Jos ottelun alkuun on alle CLOSING_WINDOW_MINUTES eika sulkeutuvaa

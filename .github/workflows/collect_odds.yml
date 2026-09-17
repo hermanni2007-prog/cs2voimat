@@ -1,13 +1,17 @@
 name: CS2 odds collector
 
 on:
-  # VALIAIKAISESTI POIS PAALTA (2026-09-17): /v4/account paljasti etta
-  # OddsPapin ilmainen taso on 250 PYYNTOA/KUUKAUSI, ei paivassa. 20 min
-  # pollausvali (3 pyyntoa/ajo) olisi polttanut koko kuukauden kiintion
-  # alle vuorokaudessa. Ajetaan vain kasin (workflow_dispatch) kunnes
-  # pollausstrategia on suunniteltu uudelleen kiintion sisalle.
+  # VALIAIKAISESTI POIS PAALTA (2026-09-17): odotetaan etta Coolbet + Dev
+  # (100 000 pyyntoa/kk) -tilaus on vahvistettu oddspapi.io:ssa. Nykyinen
+  # avain on viela ilmaisella 250/kk-tasolla - AJASTUSTA EI SAA PAALLE
+  # ennen kuin tilaus on aktiivinen, tai kiintio palaa loppumaan alle
+  # vuorokaudessa niin kuin ensimmaisella kerralla.
+  #
+  # Kun tilaus on vahvistettu: poista kommentit alta. 5 min pollausvali x
+  # ~3-4 pyyntoa/ajo x 288 ajoa/vrk on n. 30 000/kk - reilusti 100 000:n
+  # kiintion sisalla.
   # - schedule:
-  #     - cron: "*/20 * * * *"
+  #     - cron: "*/5 * * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -32,8 +36,8 @@ jobs:
       - name: Aja keruu
         env:
           ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
-          CLOSING_WINDOW_MINUTES: "25"
-          ODDSPAPI_BOOKMAKERS: "pinnacle"
+          CLOSING_WINDOW_MINUTES: "10"
+          ODDSPAPI_BOOKMAKERS: "coolbet"
         run: python src/collect_odds.py
 
       - name: Committaa tietokanta ja valimuisti takaisin repoon
