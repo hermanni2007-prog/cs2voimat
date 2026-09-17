@@ -217,6 +217,43 @@ kuin `/Matches`-taulukko ja vaati oman jäsentimen.
   vielä tallenna erikseen: nyt tiedetaan vain PELATUT kartat, ei koko
   veto-sekvenssia. Seuraava laajennus jos tätä jatketaan.
 
+### Löydetty ja korjattu vakava bugi (2026-09-17): teoreettinen sarjapäivitys ylitodennäköinen
+
+**Käyttäjä testasi mallia konkreettisella tapauksella** (MIBR voitti kartan
+1 FURIAa vastaan, Bo3, seuraava Nuke, decider Cache) ja vertasi tulosta
+oikeaan Coolbet-live-kertoimeen (Money Line 1.80 MIBR / 1.90 FURIA, eli
+sarja lähes tasapelinä ~51 %/49 % marginaali poistettuna).
+
+- **v1** käytti Tehtävä 3:n ottelutason Elo-mallia per-kartta-syötteenä.
+  `historical_matches` on kuitenkin SEKOITUS: 998/1223 riviä (82 %) on
+  SARJAN kokonaistulos ("2-0" jne.), vain 219 riviä aidosti yksittäisen
+  kartan tulos. → **P(sarjavoitto) = 87,7 %.**
+- **v2** rakensi puhtaan per-kartta-Elon `historical_maps`-datasta (783
+  aidosti yksittäisen kartan tulosta) ja syötti sen teoreettiseen Bo3-
+  kombinatoriikkaan P=q+(1-q)·q. **Tuskin muuttunut (85,8 %)** — kaava
+  olettaa jäljellä olevat kartat RIIPPUMATTOMIKSI joukkueen yleistasosta,
+  mikä on väärin: Bo3:n veto-järjestys (molemmat kieltävät huonoimpansa)
+  tekee jäljellä olevista kartoista todellisuudessa tasaisempia. Tätä ei
+  voi mallintaa suoraan — veto-järjestysdataa EI ole Liquipedian bracket-
+  sivuilla (tarkistettu tuoreella haulla), vain yksittäisten ottelusivujen
+  kautta, mikä vaatisi yhden pyynnön PER OTTELU (satoja/tuhansia) — ei
+  toteutettavissa 30,5s/pyyntö-rajoitteella.
+- **v3 (nykyinen, `src/analyze_series.py`):** sen sijaan että mallinnetaan
+  veto-mekanismia jota emme voi havaita, mitataan **suoraan toteutunut
+  taajuus** omasta datastamme (`run_map_deviations.
+  compute_empirical_leader_win_rate()`, käyttää `historical_maps`:n
+  `map_order`-kenttää + lopullista sarjatulosta, jotka olivat jo tallessa).
+  **Tulos: kartan 1 voittaja voitti Bo3-sarjan 193/244 kertaa (79,1 %,
+  n=244 oikeaa ottelua)** — Bo5:lle vain n=11, liian pieni luotettavaksi.
+  Tämä ei oleta mitään riippumattomuudesta; se ON toteutunut taajuus,
+  veto-vaikutus jo sisäänrakennettuna koska se on oikeasti tapahtunut.
+- **Rehellinen jäännösero:** 79,1 % on silti korkeampi kuin markkinan ~51 %
+  tälle YKSITTÄISELLE ottelulle. Tämä EI ole ristiriita — 79,1 % on
+  keskiarvo KAIKEN tasoisten otteluiden yli, kun taas Coolbetin hinta
+  sisältää tietoa juuri TÄSTÄ ottelusta (esim. FURIAn koettu vahvuus juuri
+  nyt) jota mallillamme ei ole. Merkki siitä että oma tietomme on
+  suppeampi kuin markkinan, ei markkinavirheestä.
+
 ## Tehtävä 5: Formipaino λ — teesi EI saanut tukea (rehellinen negatiivinen tulos)
 
 **Tämä on projektin alkuperäinen ydinteesi** ("kun muutaman pelin formia

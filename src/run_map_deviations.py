@@ -48,6 +48,87 @@ def load_map_results(conn) -> list:
     return events
 
 
+def compute_empirical_leader_win_rate(conn) -> dict:
+    """Empiirinen P(kartta 1:n voittaja voittaa koko sarjan) OIKEASTA
+    datasta - ei teoreettisesta Bo3-kombinatoriikasta.
+
+    LOYDETTY BUGI (2026-09-17, kayttaja vertasi mallia oikeaan Coolbet-
+    kertoimeen: MIBR voitti kartan 1 FURIAa vastaan, malli antoi
+    P(sarjavoitto)=85.8% teoreettisella kaavalla P=q+(1-q)*q (q=per-kartta-
+    Elo), markkina hinnoitteli sarjan lahes tasapeliksi (~51%, marginaali
+    poistettuna). Teoria OLETTAA kartat riippumattomiksi, mutta Bo3:n
+    veto-jarjestys (kumpikin joukkue kieltaa huonoimpansa) tekee jaljella
+    olevista kartoista todennakoisesti tasaisempia kuin raaka joukkue-
+    taso antaisi olettaa - emme voi mallintaa tata suoraan koska veto-
+    jarjestysdataa EI ole Liquipedian bracket-sivuilla (tarkistettu
+    2026-09-17 - vain yksittaisten ottelusivujen kautta, mika vaatisi
+    yhden pyynnon PER OTTELU, ei ole jarkevaa nykyisella 30.5s/pyynto
+    -rajoitteella satojen ottelujen otokselle).
+
+    KORJAUS: lasketaan suoraan OIKEA, TOTEUTUNUT taajuus historical_maps
+    -datastamme (map_order + lopullinen sarjatulos ovat jo tallessa),
+    formaatin mukaan eroteltuna (Bo3 vs Bo5 - EI Bo1:sta, jonka
+    "sarjatulos" on itse asiassa vain kartan round-score, ei erillinen
+    sarjalaskuri - suodatettu pois vaatimalla max(s1,s2) in {2,3})."""
+    rows = conn.execute(
+        """SELECT tournament, team1, team2, match_date_utc, team1_series_score, team2_series_score,
+                  map_order, team1_score, team2_score
+           FROM historical_maps
+           WHERE team1_series_score IS NOT NULL AND team2_series_score IS NOT NULL
+             AND team1_series_score != team2_series_score
+           ORDER BY tournament, team1, team2, match_date_utc, map_order"""
+    ).fetchall()
+
+    matches: dict = {}
+    for tournament, t1, t2, date, s1, s2, order, m1, m2 in rows:
+        key = (tournament, t1, t2, date)
+        matches.setdefault(key, {"series": (s1, s2), "maps": {}})
+        matches[key]["maps"][order] = (m1, m2)
+
+    by_format: dict = {}  # max(s1,s2) -> [won, lost]
+    for info in matches.values():
+        s1, s2 = info["series"]
+        maps = info["maps"]
+        fmt = max(s1, s2)
+        if 1 not in maps or fmt not in (2, 3):  # vain aidot Bo3 (2) / Bo5 (3), ei Bo1-kontaminaatiota
+            continue
+        m1_1, m1_2 = maps[1]
+        map1_winner_is_team1 = m1_1 > m1_2
+        series_winner_is_team1 = s1 > s2
+        bucket = by_format.setdefault(fmt, [0, 0])
+        if map1_winner_is_team1 == series_winner_is_team1:
+            bucket[0] += 1
+        else:
+            bucket[1] += 1
+
+    out = {}
+    for fmt, (won, lost) in by_format.items():
+        n = won + lost
+        out[fmt] = {"win_rate": won / n if n else None, "n": n}
+    return out
+
+
+def load_map_results_with_dates(conn) -> list:
+    """Sama kuin load_map_results, mutta sisaltaa paivamaaran (tarvitaan
+    aidosti aikajarjestetylle per-kartta-Elolle - ks. analyze_series.py:n
+    yla kommentti BUGISTA jossa ottelutason Elo (jota koulutettiin sekaisin
+    SARJA- ja KARTTA-tason tuloksilla) sekoitettiin per-kartta-todennakoi-
+    syytena)."""
+    from datetime import datetime
+
+    rows = conn.execute(
+        "SELECT match_date_utc, team1, team2, map_name, team1_score, team2_score "
+        "FROM historical_maps WHERE match_date_utc IS NOT NULL ORDER BY match_date_utc ASC"
+    ).fetchall()
+    events = []
+    for date_str, team1, team2, map_name, s1, s2 in rows:
+        if s1 == s2:
+            continue
+        date = datetime.fromisoformat(date_str)
+        events.append((date, team1, team2, map_name, 1 if s1 > s2 else 0))
+    return events
+
+
 def compute_deviations(events: list) -> list:
     overall: dict = {}   # team -> [wins, n]
     per_map: dict = {}   # (team, map) -> [wins, n]

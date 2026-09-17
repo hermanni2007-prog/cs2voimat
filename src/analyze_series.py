@@ -1,27 +1,47 @@
 """
 Konkreettinen esimerkki mallin kaytosta: laskee Bo3-sarjan voittotoden-
-nakoisyyden yhdistamalla Tehtava 3:n Elo-pelivoiman (ottelutason yleistaso)
-ja Tehtava 4:n karttapoikkeamat (joukkuekohtainen vahvuus/heikkous
-YKSITTAISELLA kartalla), seka paivittaa ennusteen sarjatilanteen mukaan
-(esim. "joukkue A johtaa 1-0, seuraava kartta B, mahdollinen decider C").
+nakoisyyden 1-0-johtotilanteesta.
 
-Yhdistamistapa (v1, ei viela kalibroitu markkinaa vastaan):
-  p_kartta(joukkue, vastustaja, kartta) =
-      p_elo(joukkue, vastustaja)                       [ottelutason yleistaso]
-    + poikkeama_shrunk(joukkue, kartta)                [oma vahvuus talla kartalla]
-    - poikkeama_shrunk(vastustaja, kartta)              [vastustajan vahvuus talla kartalla]
-  (leikattu valille [0.03, 0.97])
+BUGIHISTORIA (2026-09-17, loydetty kayttajan vertaillessa oikeaan Coolbet-
+kertoimeen - MIBR voitti kartan 1 FURIAa vastaan; Coolbetin live-Money
+Line hinnoitteli SARJAN lahes tasapeliksi, 1.80/1.90 eli ~51%/49%
+marginaali poistettuna):
 
-Sarjan lasku (Bo3, jo 1-0 tilanteessa):
-  P(voitto) = P(voita seuraava kartta)
-            + P(havia seuraava kartta) * P(voita decider)
+  v1: kaytti Tehtava 3:n OTTELUTASON EloMallia (koulutettu
+      `historical_matches`-taululla) per-kartta-todennakoisyytena. VAARIN:
+      `historical_matches` on SEKOITUS - 998/1223 rivista (82%) on SARJAN
+      kokonaistulos ("2-0" jne.), vain 219 aidosti yksittaisen kartan
+      round-tulos. -> antoi 87.7%.
 
-TARKEA VAROITUS: kartta-poikkeamat perustuvat usein hyvin pieneen otokseen
-(n=2-5 karttaa/joukkue), jolloin shrinkage-estimaattori (k=5) vetaa
-poikkeaman lahelle nollaa - tama on TARKOITUKSELLISTA (ei haluta luottaa
-kohinaan), mutta tarkoittaa etta kartta-korjaus on usein pieni. Tata EI
-ole viela testattu markkinaa vastaan (Tehtava 0 tauolla) - tama on
-mallin OMA arvio, ei todiste vedonlyontiarvosta."""
+  v2: rakensi PUHTAAN per-kartta-Elon Tehtava 4:n `historical_maps`-
+      datasta (783 aidosti yksittaisen kartan tulosta) ja syotti sen
+      teoreettiseen Bo3-kombinatoriikkaan P=q+(1-q)*q. Yha VAARIN -> 85.8%,
+      tuskin muuttunut. SYY: kaava OLETTAA jaljella olevat kartat
+      RIIPPUMATTOMIKSI joukkueen yleistasosta. Todellisuudessa Bo3:n
+      veto-jarjestys (molemmat joukkueet kieltavat huonoimpansa ennen
+      pelia) tekee jaljella olevista kartoista tasaisempia kuin raaka
+      joukkuetaso antaisi olettaa - MUTTA emme voi mallintaa tata
+      SUORAAN, koska veto-jarjestysdataa ei ole Liquipedian bracket-
+      sivuilla (tarkistettu: haettiin Esports World Cup/2026 tuoreena,
+      ei "veto"/"pick"/"ban"-jalkea rakenteessa) - se vaatisi yhden
+      pyynnon PER YKSITTAINEN OTTELU (satoja/tuhansia), ei toteutettavissa
+      30.5s/pyynto -rajoitteella.
+
+  v3 (TAMA VERSIO): sen sijaan etta yritetaan mallintaa VETO-mekanismia
+      teoreettisesti jota emme voi havaita, mitataan suoraan OIKEA
+      TOTEUTUNUT taajuus omasta datastamme: run_map_deviations.
+      compute_empirical_leader_win_rate() laskee historical_maps:n
+      map_order + lopullisen sarjatuloksen avulla, kuinka usein kartan 1
+      voittaja OIKEASTI voitti koko sarjan (Bo3: 193/244 = 79.1%, Bo5:
+      6/11 = 54.5% - liian pieni otos luotettavaksi). Tama ei oleta
+      mitaan riippumattomuudesta - se ON se toteutunut taajuus, veto-
+      vaikutus jo sisaanrakennettuna koska se on OIKEASTI tapahtunut.
+
+      79.1% on silti korkeampi kuin markkinan ~51% talle YKSITTAISELLE
+      ottelulle - se ei ole ristiriita: 79.1% on KESKIARVO KAIKEN
+      TASOISTEN otteluiden yli, kun taas Coolbetin hinta sisaltaa tietoa
+      juuri TASTA ottelusta (esim. FURIAn koettu vahvuus juuri nyt) jota
+      meidan mallimme ei nae. Tama raportoidaan avoimesti alla."""
 from __future__ import annotations
 
 import argparse
@@ -33,16 +53,21 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection  # noqa: E402
-from backtest import EloModel, deduplicate_matches, load_clean_matches  # noqa: E402
-from run_map_deviations import K_SHRINKAGE, compute_deviations, load_map_results  # noqa: E402
+from backtest import EloModel  # noqa: E402
+from run_map_deviations import (  # noqa: E402
+    compute_deviations,
+    compute_empirical_leader_win_rate,
+    load_map_results,
+    load_map_results_with_dates,
+)
 
 SCALE, K_FACTOR, HALF_LIFE = 100.0, 32.0, 99999.0
 
 
-def build_current_elo(matches: list) -> EloModel:
+def build_map_elo(map_events_with_dates: list) -> EloModel:
     elo = EloModel(scale=SCALE, k_factor=K_FACTOR, half_life_days=HALF_LIFE)
-    for m in matches:
-        elo.update(m.team, m.opponent, m.team_won, m.date)
+    for date, team1, team2, map_name, team1_won in map_events_with_dates:
+        elo.update(team1, team2, team1_won, date)
     return elo
 
 
@@ -65,65 +90,61 @@ def main() -> int:
     parser.add_argument("--leader", default="MIBR", help="Kuka johtaa sarjaa 1-0")
     parser.add_argument("--next-map", default="Nuke")
     parser.add_argument("--decider-map", default="Cache")
+    parser.add_argument("--format", type=int, default=2, choices=[2, 3],
+                         help="Sarjan max-score: 2=Bo3, 3=Bo5")
     args = parser.parse_args()
 
     conn = get_connection()
-    matches = deduplicate_matches(load_clean_matches(conn))
+    map_events_dated = load_map_results_with_dates(conn)
     map_events = load_map_results(conn)
+    empirical_rates = compute_empirical_leader_win_rate(conn)
     conn.close()
 
-    elo = build_current_elo(matches)
+    elo = build_map_elo(map_events_dated)
     deviations = compute_deviations(map_events)
 
-    r_team = elo.rating_as_of(args.team, matches[-1].date if matches else None)
-    r_opp = elo.rating_as_of(args.opponent, matches[-1].date if matches else None)
+    last_date = map_events_dated[-1][0] if map_events_dated else None
+    r_team = elo.rating_as_of(args.team, last_date)
+    r_opp = elo.rating_as_of(args.opponent, last_date)
     p_elo_team = 1.0 / (1.0 + math.exp(-(r_team - r_opp) / SCALE))
 
-    print(f"=== Elo-pelivoima (ottelutason yleistaso, {len(matches)} ottelun historian jalkeen) ===")
+    print(f"=== PUHDAS per-kartta-Elo ({len(map_events_dated)} kartan historian jalkeen, historical_maps) ===")
     print(f"  {args.team:<10s} rating={r_team:7.1f}")
     print(f"  {args.opponent:<10s} rating={r_opp:7.1f}")
-    print(f"  P({args.team} voittaa ottelun, ei kartta-korjausta) = {p_elo_team:.3f}\n")
+    print(f"  P({args.team} voittaa YHDEN kartan, pre-match) = {p_elo_team:.3f}\n")
 
-    print(f"=== Sarjatilanne: {args.leader} johtaa 1-0, seuraava {args.next_map}, decider {args.decider_map} ===\n")
-
-    leader_is_team = args.leader == args.team
-    p_elo_leader = p_elo_team if leader_is_team else (1 - p_elo_team)
-
+    print("=== Karttakohtaiset poikkeamat (informatiivista - EI kayteta enaa sarjaennusteessa, ks. yla kommentti) ===")
     for map_name in (args.next_map, args.decider_map):
         dev_team, n_team = get_deviation(deviations, args.team, map_name)
         dev_opp, n_opp = get_deviation(deviations, args.opponent, map_name)
         p_team_map = map_win_prob(p_elo_team, dev_team, dev_opp)
-        print(f"--- {map_name} ---")
-        print(f"  {args.team}: oma poikkeama {dev_team:+.3f} (n={n_team} karttaa)")
-        print(f"  {args.opponent}: oma poikkeama {dev_opp:+.3f} (n={n_opp} karttaa)")
-        print(f"  P({args.team} voittaa {map_name}) = {p_elo_team:.3f} {dev_team:+.3f} - ({dev_opp:+.3f}) = {p_team_map:.3f}\n")
+        print(f"  {map_name}: {args.team} poikkeama {dev_team:+.3f} (n={n_team}), "
+              f"{args.opponent} poikkeama {dev_opp:+.3f} (n={n_opp}) "
+              f"-> raaka P({args.team}) = {p_team_map:.3f} (EPALUOTETTAVA, ks. alla)")
 
-    dev_team_next, n_team_next = get_deviation(deviations, args.team, args.next_map)
-    dev_opp_next, n_opp_next = get_deviation(deviations, args.opponent, args.next_map)
-    p_team_next = map_win_prob(p_elo_team, dev_team_next, dev_opp_next)
+    print(f"\n=== Sarjatilanne: {args.leader} johtaa 1-0 (formaatti: Bo{2*args.format-1}) ===\n")
 
-    dev_team_dec, n_team_dec = get_deviation(deviations, args.team, args.decider_map)
-    dev_opp_dec, n_opp_dec = get_deviation(deviations, args.opponent, args.decider_map)
-    p_team_dec = map_win_prob(p_elo_team, dev_team_dec, dev_opp_dec)
+    rate_info = empirical_rates.get(args.format)
+    if rate_info is None or rate_info["n"] < 20:
+        print(f"EI RIITTAVASTI DATAA (n={rate_info['n'] if rate_info else 0}) talle formaatille - "
+              f"ei anneta lukua.")
+        return 0
 
-    if leader_is_team:
-        p_leader_wins_next = p_team_next
-        p_leader_wins_decider = p_team_dec
-    else:
-        p_leader_wins_next = 1 - p_team_next
-        p_leader_wins_decider = 1 - p_team_dec
+    p_leader_wins_series = rate_info["win_rate"]
+    n = rate_info["n"]
 
-    p_leader_wins_series = p_leader_wins_next + (1 - p_leader_wins_next) * p_leader_wins_decider
-
-    print("=== Sarjan kokonaistulos ===")
-    print(f"  P({args.leader} voittaa {args.next_map} ja paattaa sarjan 2-0) = {p_leader_wins_next:.3f}")
-    print(f"  P({args.leader} havioaa {args.next_map}, sarja jatkuu decideriin {args.decider_map}) = {1 - p_leader_wins_next:.3f}")
-    print(f"  P({args.leader} voittaa decider-kartan jos siihen mennaan) = {p_leader_wins_decider:.3f}")
+    print(f"EMPIIRINEN P(kartta 1:n voittaja voittaa sarjan), Bo{2*args.format-1}, n={n} oikeaa ottelua:")
     print(f"  --> P({args.leader} voittaa koko sarjan, 1-0-tilanteesta) = {p_leader_wins_series:.3f}\n")
 
-    print("HUOM: karttapoikkeamat perustuvat pieneen otokseen (n usein 2-5), shrinkage")
-    print("vetaa niita tarkoituksella lahelle nollaa. Tama on mallin oma arvio - ei viela")
-    print("testattu markkinaa vastaan (Tehtava 0 tauolla).")
+    leader_is_team = args.leader == args.team
+    p_elo_leader = p_elo_team if leader_is_team else (1 - p_elo_team)
+    print(f"Vertailu: {args.leader}:n pre-match Elo-todennakoisyys oli {p_elo_leader:.3f} "
+          f"(vain hieman suosikki/altavastaaja) - siis kartan 1 voitto ei ollut suuri yllatys,")
+    print("eika taman pitaisi antaa erityisen suurta lisaboostia empiirisen keskiarvon paalle.")
+    print(f"\nHUOM: {p_leader_wins_series*100:.1f}% on KESKIARVO kaiken tasoisten otteluiden yli - ei tieda mitaan")
+    print("TASTA nimenomaisesta ottelusta (esim. miten FURIA nayttaa juuri nyt). Jos oikea markkina")
+    print("hinnoittelee taman paljon lahemmas tasapelia, se sisaltaa tietoa jota mallillamme ei ole -")
+    print("EI todiste virheesta markkinassa, pikemminkin merkki siita etta oma tietomme on suppeampi.")
     return 0
 
 
