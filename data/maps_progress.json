@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-17T22:30:06.561557+00:00",
+  "updated_utc": "2026-09-17T22:42:58.436834+00:00",
   "tournaments_total": 481,
   "tournaments_done": 207,
   "tournaments_ok": 94,
   "tournaments_ok_no_brackets": 2,
   "tournaments_not_found": 111,
-  "tournaments_error": 0,
+  "tournaments_error": 79,
   "maps_collected": 1086,
   "last_tournament": {
-    "tournament": "PGL Bucharest 2026 - Playoffs",
-    "status": "not_found",
+    "tournament": "CCT SA Series #8 - Playoffs",
+    "status": "error",
     "maps_found": 0,
-    "at": "2026-09-17T22:30:06.559253+00:00"
+    "at": "2026-09-17T22:42:58.429005+00:00"
   }
 }
