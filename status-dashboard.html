@@ -178,9 +178,9 @@
       <div class="sub">CS2 · SEURANTALOKI · 17.9.2026</div>
       <a href="https://github.com/hermanni2007-prog/cs2voimat" target="_blank" rel="noopener">github.com/hermanni2007-prog/cs2voimat →</a>
       <div class="phasebar">
-        <i class="done"></i><i class="done"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i class="done"></i><i class="done"></i><i class="live"></i><i></i><i></i><i></i><i></i><i></i>
       </div>
-      <div class="phasebar-label">TEHTÄVÄ 2 / 8 SEURAAVANA</div>
+      <div class="phasebar-label">TEHTÄVÄ 2 OSITTAIN — MARKKINADATA PUUTTUU</div>
     </div>
 
     <div class="readouts">
@@ -215,7 +215,7 @@
 
     <div class="next">
       <h3>Seuraava askel</h3>
-      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen uudelleen. Rinnalla: Tehtävä 2, backtest-harness, nyt kun 1445 ottelua on jo tallessa.</p>
+      <p><strong>Vahvista Coolbet + Dev -tilaus</strong> oddspapi.io:ssa ($26/kk) — käynnistää Tehtävä 0:n ajastuksen uudelleen. Tämä on nyt myös Tehtävä 2:n pullonkaula: markkinavertailu vaatii Tehtävä 0:n omaa eteenpäin-kertymää, koska OddsPapin historia-arkisto ei kata passiivisesti seuraamattomia otteluita (ks. löydös alla).</p>
     </div>
   </div>
 
@@ -243,12 +243,13 @@
           <div class="desc">Laajuus pudotettu 24 kk:sta 4 kuukauteen ja top 50 joukkueeseen (Valve VRS -ranking). Ensimmäinen täysi kierros valmis: 50/50 joukkuetta, 1445 ottelua. <code>GitHub Actions</code> jatkaa 15 min välein - poimii uudet ottelut sitä mukaa kun niitä pelataan. Live-tila alla.</div>
         </div>
 
-        <div class="task">
+        <div class="task done">
           <div class="node">2</div>
           <div class="task-head">
             <div class="title">Backtest-harness</div>
-            <div class="stamp waiting">EI ALOITETTU</div>
+            <div class="stamp paused">OSITTAIN — MARKKINADATA PUUTTUU</div>
           </div>
+          <div class="desc">Log loss / Brier / kalibrointi / walk-forward toimivat, testattu 1243 ottelulla. "Korkeampi VRS-sija voittaa" -perusmalli log loss 6.69 (huonompi kuin 50/50 = 0.693!) koska se on deterministinen — kalibrointi paljastaa silti aidon signaalin (67 % osuma kun VRS-suosikkia ennustetaan). Markkinavertailu ei vielä toimi, ks. löydökset alla.</div>
         </div>
 
         <div class="task">
@@ -315,10 +316,10 @@
       <h2>Mitä tällä istunnolla selvisi</h2>
       <div class="findings">
 
-        <div class="finding fix">
-          <div class="finding-top"><div class="when">HISTORIALLISET KERTOIMET</div><div class="stamp-word">LÖYDETTY</div></div>
-          <div class="headline">OddsPapin arkisto ulottuu ennen tiliämme — Tehtävä 7 ei vaadi pelkkää eteenpäin-odottelua</div>
-          <p>Testattu ottelu 20.8.2026 (lähes kuukausi ennen tilin luontia) palautti täyden kerroinhistorian. Yhdistettynä Liquipedian tuloksiin voidaan ajaa walk-forward-backtest myös taaksepäin, ei vain kerätä dataa päivä kerrallaan eteenpäin.</p>
+        <div class="finding block">
+          <div class="finding-top"><div class="when">HISTORIALLISET KERTOIMET</div><div class="stamp-word">PERUTTU — LIIAN OPTIMISTINEN</div></div>
+          <div class="headline">Korjaus: OddsPapin arkisto EI kata menneitä otteluita laajasti</div>
+          <p>Aiempi löydös perustui yhteen-kahteen onnistuneeseen testiin (NAVI 20.8., Magic vs Vitality 14.9.) ja oli liian optimistinen yleistys. Testasin ~72 historical-odds-kutsua top-50-otteluille, myös S-Tier-otteluilla tunnetuilla joukkueilla (9z vs G2, BIG vs G2) — <b>0/72 palautti hinnan</b>. Todennäköisin selitys: arkisto kattaa vain otteluita joita joku on aktiivisesti pollannut ajantasaisena. Tehtävä 7 tarvitsee siis edelleen Tehtävä 0:n eteenpäin-keruuta, ei taaksepäin-oikotietä.</p>
         </div>
 
         <div class="finding note">
@@ -367,8 +368,8 @@
     </div>
 
     <div>
-      <h2>Otos: neljä testikutsua tältä istunnolta</h2>
-      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl bo3.gg/robots.txt</div><div class="line">  <span class="hit">Disallow: /api/</span></div><div class="line comment">  # → cs2api-kirjastoa ei käytetä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... brkts-opponent-score ...</span></div><div class="line comment">  # → sallittu reitti otteludataan löytyi</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/historical-odds?fixtureId=...(20.8.2026 ottelu)"</div><div class="line">  <span class="go">200 OK — hinnat 18.8.2026 lähtien</span></div><div class="line comment">  # → arkisto vanhempi kuin tili, backtest voi kattaa menneet kuukaudet</div></div>
+      <h2>Otos: testikutsuja tältä istunnolta</h2>
+      <div class="term"><div class="line"><span class="prompt">$</span> curl "api.oddspapi.io/v4/account?apiKey=***"</div><div class="line">  <span class="hit">"plan": "free", "request_count": 42, "request_limit": 250</span></div><div class="line comment">  # → kiintiö kuluu kuukaudessa, ei päivässä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl bo3.gg/robots.txt</div><div class="line">  <span class="hit">Disallow: /api/</span></div><div class="line comment">  # → cs2api-kirjastoa ei käytetä</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> curl "liquipedia.net/counterstrike/api.php?action=parse&amp;page=PGL/2024/Copenhagen"</div><div class="line">  <span class="go">200 OK — "Team Spirit" ... brkts-opponent-score ...</span></div><div class="line comment">  # → sallittu reitti otteludataan löytyi</div><div class="line">&nbsp;</div><div class="line"><span class="prompt">$</span> for fixture in 72_top50_ottelua: curl .../v4/historical-odds</div><div class="line">  <span class="hit">0 / 72 palautti hinnan</span></div><div class="line comment">  # → arkisto EI kata passiivisesti seuraamattomia otteluita, korjattu johtopäätös alla</div></div>
     </div>
 
     <footer>pelivoimat/status-dashboard · päivittyy pyynnöstä</footer>
