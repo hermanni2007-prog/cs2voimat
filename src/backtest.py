@@ -196,6 +196,55 @@ class VrsRankings:
         return lower_snapshot.get(resolved)
 
 
+class RosterHistory:
+    """Lukee team_rosters-taulun ja vastaa 'ketka pelasivat joukkueessa X
+    ajankohtana T' -kysymykseen. Perustuu src/collect_rosters.py:n
+    kerailemiin liittymis-/lahtopaiviin (ks. README: Inactive Date ja
+    laina-abbr-tekstit jatetty huomiotta v1:ssa - tama voi silloin tallon
+    aina-aktiivisena pelaajan joka oikeasti oli hetkellisesti lainassa
+    toisessa joukkueessa)."""
+
+    def __init__(self, conn):
+        rows = conn.execute(
+            "SELECT team, player_id, join_date, leave_date FROM team_rosters"
+        ).fetchall()
+        self.by_team: dict = {}
+        for team, player_id, join_date, leave_date in rows:
+            self.by_team.setdefault(team, []).append((player_id, join_date, leave_date))
+
+    def roster_as_of(self, team: str, as_of: datetime) -> list:
+        """Palauttaa listan pelaajaId:ita joilla join_date <= as_of JA
+        (leave_date IS NULL TAI leave_date > as_of). Ei takaa tasan 5:ta -
+        katso luokan docstring tunnetuista yksinkertaistuksista."""
+        as_of_str = as_of.date().isoformat()
+        out = []
+        for player_id, join_date, leave_date in self.by_team.get(team, []):
+            if join_date is None or join_date > as_of_str:
+                continue
+            if leave_date is not None and leave_date <= as_of_str:
+                continue
+            out.append(player_id)
+        return out
+
+    def roster_stability(self, team: str, as_of: datetime, lookback_days: int = 30) -> int:
+        """Kuinka moni NYKYISESTA roolista liittyi viimeisen lookback_days
+        paivan aikana - karkea 'tuore rosterimuutos' -lippu, jota briiffi
+        mainitsee Tehtava 7:n segmentoinnissa ('rosterimuutosliput paalla/pois')."""
+        from datetime import timedelta
+
+        as_of_str = as_of.date().isoformat()
+        cutoff_str = (as_of - timedelta(days=lookback_days)).date().isoformat()
+        recent_joins = 0
+        for player_id, join_date, leave_date in self.by_team.get(team, []):
+            if join_date is None or join_date > as_of_str:
+                continue
+            if leave_date is not None and leave_date <= as_of_str:
+                continue
+            if join_date >= cutoff_str:
+                recent_joins += 1
+        return recent_joins
+
+
 # ---------------------------------------------------------------------------
 # Tyhmat vertailumallit (hyvaksymiskriteeria varten)
 # ---------------------------------------------------------------------------
