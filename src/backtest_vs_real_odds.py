@@ -43,6 +43,14 @@ from backtest import (  # noqa: E402
 # yksi havainto ei riita kalibroimaan margin tarkasti kaikille hinnoille.
 ASSUMED_MARGIN = 2 / 1.90
 
+# Kayttajan pyynnosta 2026-09-18: suodatetaan pois vedot joissa jommalla-
+# kummalla joukkueella on liian vahan otteluhistoriaa taustalla ratingin
+# tueksi (esim. 5star eSports = 1 ottelu, DENDELE = 0 ottelua). Raja on
+# karkea nyrkkisaanto, ei tieteellisesti kalibroitu - tarkoitus on vain
+# erottaa "mallilla on jotain jarkevaa nahtavana" -tapaukset "mallin
+# arvio on kaytannossa arvaus" -tapauksista.
+MIN_GAMES_FOR_RELIABLE = 10
+
 # (pvm, team, opponent, kayttajan_kerroin_team:lle, veto_kohde, oikea_tulos)
 # kerroin on aina TEAM-sarakkeen (ensimmainen nimetty joukkue) kertoimena
 # jos veto oli suoraan tallä joukkueella; jos veto oli TOISELLA joukkueella,
@@ -235,7 +243,8 @@ def main() -> int:
                 if ev_side > 0:
                     won_side = bet["actual_winner"] == side
                     profit = (price - 1) if won_side else -1.0
-                    bankroll_log.append((bet["date"], f"{side}@{price}", ev_side, profit, won_side, False))
+                    bankroll_log.append((bet["date"], f"{side}@{price}", ev_side, profit, won_side, False,
+                                          min(n_team, n_opp)))
                     print(f"      Jos panostettu 1 yksikko: {'+' if profit>0 else ''}{profit:.2f} "
                           f"({'voitti' if won_side else 'havisi'})")
             print()
@@ -286,12 +295,13 @@ def main() -> int:
                 if ev_other_est > 0:
                     est_profit = (price_other_est - 1) if other_won else -1.0
                     bankroll_log.append((bet["date"], f"{other_side}@{price_other_est:.2f} (arvio)",
-                                          ev_other_est, est_profit, other_won, True))
+                                          ev_other_est, est_profit, other_won, True, min(n_team, n_opp)))
                     print(f"     Jos tama arvio pitaisi paikkansa ja panostettu 1 yksikko {other_side}:lle: "
                           f"{'VOITTI' if other_won else 'HAVISI'}")
             if ev > 0:
                 profit = (bet["price"] - 1) if priced_side_won else -1.0
-                bankroll_log.append((bet["date"], f"{priced_side}@{bet['price']}", ev, profit, priced_side_won, False))
+                bankroll_log.append((bet["date"], f"{priced_side}@{bet['price']}", ev, profit, priced_side_won, False,
+                                      min(n_team, n_opp)))
                 print(f"  Jos panostettu 1 yksikko: {'+' + format(profit, '.2f') if profit > 0 else format(profit, '.2f')} "
                       f"({'VOITTI' if priced_side_won else 'HAVISI'})")
         print()
@@ -301,20 +311,42 @@ def main() -> int:
     print(" YHDISTETAAN samaan nettotulokseen - '(arvio)'-merkki rivilla kertoo lahteen.)")
     if bankroll_log:
         bankroll_log_sorted = sorted(bankroll_log, key=lambda row: row[0])
-        total_profit = sum(p for _, _, _, p, _, _ in bankroll_log_sorted)
-        total_ev = sum(ev for _, _, ev, _, _, _ in bankroll_log_sorted)  # odotusarvo (1 yksikko/veto)
-        wins = sum(1 for *_, w, _ in bankroll_log_sorted if w)
+        total_profit = sum(p for _, _, _, p, _, _, _ in bankroll_log_sorted)
+        total_ev = sum(ev for _, _, ev, _, _, _, _ in bankroll_log_sorted)  # odotusarvo (1 yksikko/veto)
+        wins = sum(1 for *_, w, _, _ in bankroll_log_sorted if w)
         print(f"Panoksia tehty: {len(bankroll_log_sorted)}, joista voitti: {wins}")
-        for date, desc, ev, profit, won, is_est in bankroll_log_sorted:
+        for date, desc, ev, profit, won, is_est, min_games in bankroll_log_sorted:
             tag = " (arvio)" if is_est and "(arvio)" not in desc else ""
+            thin = "  [OHUT DATA]" if min_games < MIN_GAMES_FOR_RELIABLE else ""
             print(f"  {date[:10]}  {desc}{tag}  EV={ev:+.1%}  ->  "
-                  f"{'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'})")
+                  f"{'+' if profit>0 else ''}{profit:.2f}  ({'voitti' if won else 'havisi'}, "
+                  f"min_ottelut={min_games}){thin}")
         print(f"\nOdotusarvo (mallin mukainen, ennen tuloksia) {len(bankroll_log_sorted)} yksikon panoksella: "
               f"{'+' if total_ev>=0 else ''}{total_ev:.2f} yksikkoa "
               f"({total_ev/len(bankroll_log_sorted):+.1%} keskimaarin per panos)")
         print(f"Nettotulos (toteutunut) {len(bankroll_log_sorted)} yksikon panoksella (1 yksikko/veto): "
               f"{'+' if total_profit>=0 else ''}{total_profit:.2f} yksikkoa "
               f"({total_profit/len(bankroll_log_sorted):+.1%} keskimaarin per panos)")
+
+        # Kayttajan pyynnosta 2026-09-18: sama laskelma, mutta poistettu
+        # vedot joissa jommallakummalla joukkueella on alle
+        # MIN_GAMES_FOR_RELIABLE ottelua taustalla (esim. 5star=1 ottelu).
+        reliable = [row for row in bankroll_log_sorted if row[6] >= MIN_GAMES_FOR_RELIABLE]
+        excluded = len(bankroll_log_sorted) - len(reliable)
+        print(f"\n=== SAMA, MUTTA OHUTDATAISET VEDOT POISTETTU (alle {MIN_GAMES_FOR_RELIABLE} "
+              f"ottelua jommallakummalla joukkueella) ===")
+        print(f"Poistettu {excluded}/{len(bankroll_log_sorted)} vetoa.")
+        if reliable:
+            rel_profit = sum(p for _, _, _, p, _, _, _ in reliable)
+            rel_ev = sum(ev for _, _, ev, _, _, _, _ in reliable)
+            rel_wins = sum(1 for *_, w, _, _ in reliable if w)
+            print(f"Panoksia jaljella: {len(reliable)}, joista voitti: {rel_wins}")
+            print(f"Odotusarvo: {'+' if rel_ev>=0 else ''}{rel_ev:.2f} yksikkoa "
+                  f"({rel_ev/len(reliable):+.1%} keskimaarin per panos)")
+            print(f"Nettotulos: {'+' if rel_profit>=0 else ''}{rel_profit:.2f} yksikkoa "
+                  f"({rel_profit/len(reliable):+.1%} keskimaarin per panos)")
+        else:
+            print("Ei yhtaan vetoa jaljella suodatuksen jalkeen.")
     else:
         print("Ei yhtaan EV>0-tilannetta loytynyt naista otteluista.")
     print("\n(Tarkka tulos -vedot eivat olleet mukana arvopaatoksessa - eri bet-tyyppi,")
