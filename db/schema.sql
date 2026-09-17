@@ -80,3 +80,30 @@ CREATE TABLE IF NOT EXISTS history_team_progress (
     last_attempt_utc TEXT,
     error_message   TEXT
 );
+
+-- Kokoonpanot: pelaajan liittymis-/lahtopaiva per joukkue, Liquipedian
+-- paasivun "Player Roster" -osiosta (Active + kaikki Former-taulut).
+-- leave_date NULL = pelaaja on edelleen (sivun viimeisimman muokkauksen
+-- hetkella) aktiivinen. Taulukko korvataan kokonaan joukkueen osalta
+-- joka keruukerralla (ei UNIQUE-indeksia/dedupea - yksinkertaisin oikea
+-- malli kun koko rooli-lista haetaan aina uudelleen kerralla).
+CREATE TABLE IF NOT EXISTS team_rosters (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    team            TEXT NOT NULL,
+    player_id       TEXT NOT NULL,
+    join_date       TEXT,
+    leave_date      TEXT,
+    source_page     TEXT NOT NULL,
+    collected_utc   TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_roster_team ON team_rosters(team);
+
+CREATE TABLE IF NOT EXISTS roster_team_progress (
+    team            TEXT PRIMARY KEY,
+    liquipedia_page TEXT,
+    status          TEXT NOT NULL DEFAULT 'pending',  -- pending / ok / not_found / error
+    entries_found   INTEGER DEFAULT 0,
+    last_attempt_utc TEXT,
+    error_message   TEXT
+);

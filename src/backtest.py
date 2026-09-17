@@ -209,3 +209,91 @@ def market_walk_forward(matches: list) -> dict:
         "brier": brier_score(outcomes, probs) if outcomes else None,
         "calibration": calibration_curve(outcomes, probs) if outcomes else None,
     }
+
+
+# ---------------------------------------------------------------------------
+# Deduplikointi (Tehtava 3): sama ottelu esiintyy kahdesti historical_matches
+# -taulussa kun molemmat osapuolet ovat top-50 (kerran kummankin sivulta).
+# Tilallisille malleille (Elo) tama pitaa poistaa ETUKATEEN, koska muuten
+# rating paivittyisi kahdesti samasta ottelusta. Avain (pvm, turnaus) -
+# yksinkertaistus, ks. tiedoston yla kommentti mahdollisesta harvinaisesta
+# kollisiosta.
+# ---------------------------------------------------------------------------
+
+def deduplicate_matches(matches: list) -> list:
+    seen = set()
+    out = []
+    for m in matches:
+        key = (m.date.isoformat(), m.tournament)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(m)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Tehtava 3: karttatason Elo (round-taso pudotettu, ks. cs2-agenttibriiffi.md
+# -laajuuspaatos 2026-09-17 - CT/T-dataa ei saatu ilmaiseksi lahteeksi).
+#
+# p = 1 / (1 + e^(-(R_team - R_opp) / scale))
+# Paivitys: R += k * (actual - p), symmetrisesti molemmille joukkueille.
+# Eksponentiaalinen aikavaimennus: jos joukkue ei ole pelannut pitkaan,
+# sen rating "unohtuu" kohti keskiarvoa (1500) puoliintumisajalla
+# half_life_days - mallintaa rosterimuutosten ja ruostumisen vaikutusta.
+# ---------------------------------------------------------------------------
+
+MEAN_RATING = 1500.0
+
+
+class EloModel:
+    def __init__(self, scale: float = 400.0, k_factor: float = 24.0, half_life_days: float = 60.0):
+        self.scale = scale
+        self.k = k_factor
+        self.half_life_days = half_life_days
+        self.ratings: dict = {}  # team -> (rating, last_date)
+
+    def _decayed_rating(self, team: str, as_of: datetime) -> float:
+        if team not in self.ratings:
+            return MEAN_RATING
+        rating, last_date = self.ratings[team]
+        if self.half_life_days <= 0:
+            return rating
+        days = (as_of - last_date).total_seconds() / 86400.0
+        if days <= 0:
+            return rating
+        decay = 0.5 ** (days / self.half_life_days)
+        return MEAN_RATING + (rating - MEAN_RATING) * decay
+
+    def predict(self, team: str, opponent: str, as_of: datetime) -> float:
+        r_team = self._decayed_rating(team, as_of)
+        r_opp = self._decayed_rating(opponent, as_of)
+        return 1.0 / (1.0 + math.exp(-(r_team - r_opp) / self.scale))
+
+    def update(self, team: str, opponent: str, team_won: int, as_of: datetime) -> None:
+        r_team = self._decayed_rating(team, as_of)
+        r_opp = self._decayed_rating(opponent, as_of)
+        p = 1.0 / (1.0 + math.exp(-(r_team - r_opp) / self.scale))
+        actual = float(team_won)
+        self.ratings[team] = (r_team + self.k * (actual - p), as_of)
+        self.ratings[opponent] = (r_opp + self.k * ((1 - actual) - (1 - p)), as_of)
+
+
+def run_elo_walkforward(matches: list, elo: EloModel) -> dict:
+    """Aidosti tilallinen walk-forward: jokainen ottelu ENSIN ennustetaan
+    (vain aiempi data vaikuttaa), SITTEN paivitetaan rating. matches TAYTYY
+    olla deduplicate_matches():n lapikaynyt ja aikajarjestyksessa (jo
+    load_clean_matches():n ORDER BY ansiosta)."""
+    outcomes = []
+    probs = []
+    for m in matches:
+        p = elo.predict(m.team, m.opponent, m.date)
+        outcomes.append(m.team_won)
+        probs.append(p)
+        elo.update(m.team, m.opponent, m.team_won, m.date)
+    return {
+        "n": len(outcomes),
+        "log_loss": log_loss(outcomes, probs),
+        "brier": brier_score(outcomes, probs),
+        "calibration": calibration_curve(outcomes, probs),
+    }

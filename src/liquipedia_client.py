@@ -101,6 +101,24 @@ class LiquipediaClient:
                     return candidate2
         return None
 
+    def resolve_team_base_page(self, team_name: str) -> Optional[str]:
+        """Sama resoluutiologiikka kuin resolve_team_page, mutta palauttaa
+        joukkueen PAASIVUN otsikon (ei /Matches-alasivua) - kayttoon
+        roolituksen ("Player Roster") lukemiseen."""
+        if self.page_exists(team_name):
+            return team_name
+        resolved = self.resolve_redirect(team_name)
+        if resolved != team_name and self.page_exists(resolved):
+            return resolved
+        best = self.search_best_title(team_name)
+        if best and self.page_exists(best):
+            return best
+        if best:
+            resolved_best = self.resolve_redirect(best)
+            if resolved_best != best and self.page_exists(resolved_best):
+                return resolved_best
+        return None
+
     def fetch_rendered_html(self, page_title: str) -> str:
         self._wait("_last_parse_at", PARSE_COOLDOWN_SECONDS)
         r = self.session.get(
@@ -184,4 +202,66 @@ def parse_matches_table(html: str) -> list:
                 "opponent": opponent,
             }
         )
+    return out
+
+
+def parse_roster_page(html: str) -> list:
+    """Jasentaa joukkuesivun "Player Roster" -osion (Active + kaikki
+    Former-taulut) pelaajien liittymis-/lahtopaivamaariksi.
+
+    Havaittu rakenne 2026-09-17 (esim. Natus Vincere -sivu):
+      h3#Active            -> taulu: ID, Name, [], Join Date
+      h3#Former, #Former_2 -> taulu: ID, [], Name, [], Join Date, Inactive Date, Leave Date, New Team
+
+    YKSINKERTAISTUS (v1): Inactive Date / laina-abbr-tekstit (esim.
+    "Was on loan to X") jatetaan huomiotta - kaytetaan vain ensimmaista
+    ja viimeista YYYY-MM-DD-paivamaaraa rivilta (join / leave). Coach-
+    ja muu organisaatiohenkilosto EI ole taalla (eri h2-osio "Organization").
+    """
+    import re
+
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    out = []
+
+    for heading in soup.find_all("h3"):
+        hid = heading.get("id", "")
+        if hid != "Active" and not hid.startswith("Former"):
+            continue
+        is_active = hid == "Active"
+
+        wrapper = heading.find_parent("div", class_="mw-heading")
+        table_div = wrapper.find_next_sibling("div", class_="table2") if wrapper else None
+        if table_div is None:
+            continue
+        table = table_div.find("table")
+        if table is None:
+            continue
+
+        for row in table.find_all("tr", class_=lambda c: c and "row--body" in c):
+            tds = row.find_all("td", recursive=False)
+            if not tds:
+                continue
+            id_link = tds[0].find("a", title=True)
+            if not id_link:
+                continue
+            player_id = id_link["title"].replace(" (page does not exist)", "")
+
+            dates = []
+            for td in tds:
+                for sup in td.find_all("sup"):
+                    sup.decompose()
+                text = td.get_text(strip=True)
+                m = re.match(r"(\d{4}-\d{2}-\d{2})", text)
+                if m:
+                    dates.append(m.group(1))
+
+            join_date = dates[0] if dates else None
+            leave_date = None if is_active else (dates[-1] if len(dates) >= 2 else None)
+
+            if not join_date:
+                continue
+            out.append({"player_id": player_id, "join_date": join_date, "leave_date": leave_date})
+
     return out
