@@ -103,9 +103,19 @@ def write_progress_snapshot(conn) -> None:
     )
 
 
+# VRS:n lyhyt nimi tormaa Liquipediassa toiseen sivuun (yleensa pelaajan
+# nimimerkki) eika kyseessa ole uudelleenohjaus vaan kaksi eri sivua, joten
+# automaattinen resolveri ei loyda oikeaa. Havaittu kasin 2026-09-17.
+TEAM_ALIASES = {
+    "Spirit": "Team Spirit",
+    "Aurora": "Aurora Gaming",
+}
+
+
 def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: datetime) -> None:
     try:
-        page_title = client.resolve_team_page(team_name)
+        lookup_name = TEAM_ALIASES.get(team_name, team_name)
+        page_title = client.resolve_team_page(lookup_name)
         if not page_title:
             conn.execute(
                 "UPDATE history_team_progress SET status='not_found', last_attempt_utc=? WHERE team=?",

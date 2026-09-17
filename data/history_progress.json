@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-17T12:09:16.413195+00:00",
+  "updated_utc": "2026-09-17T12:34:52.662370+00:00",
   "window_days": 120,
   "teams_total": 50,
-  "teams_done": 4,
-  "teams_ok": 4,
+  "teams_done": 50,
+  "teams_ok": 50,
   "teams_not_found": 0,
   "teams_error": 0,
-  "matches_collected": 95,
+  "matches_collected": 1445,
   "last_team": {
-    "team": "9z",
+    "team": "Spirit",
     "status": "ok",
-    "matches_found": 29,
-    "at": "2026-09-17T12:09:16.404425+00:00"
+    "matches_found": 25,
+    "at": "2026-09-17T12:34:52.652038+00:00"
   }
 }

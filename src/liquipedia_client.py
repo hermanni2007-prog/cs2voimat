@@ -45,6 +45,26 @@ class LiquipediaClient:
         pages = r.json().get("query", {}).get("pages", {})
         return not any("missing" in p for p in pages.values())
 
+    def resolve_redirect(self, title: str) -> str:
+        """Jos "title" on uudelleenohjaussivu, palauttaa kohdesivun otsikon - muuten "title" sellaisenaan.
+
+        Tarpeellinen koska esim. "Spirit" ohjaa "Team Spirit" -sivulle, mutta
+        "Spirit/Matches" ei ole olemassa vaikka "Team Spirit/Matches" on -
+        alasivuja ei resolvoida automaattisesti perussivun uudelleenohjauksen kautta.
+        """
+        self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
+        r = self.session.get(
+            BASE_URL,
+            params={"action": "query", "format": "json", "titles": title, "redirects": 1},
+            timeout=20,
+        )
+        r.raise_for_status()
+        data = r.json().get("query", {})
+        redirects = data.get("redirects")
+        if redirects:
+            return redirects[0]["to"]
+        return title
+
     def search_best_title(self, query: str) -> Optional[str]:
         self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
         r = self.session.get(
@@ -61,11 +81,24 @@ class LiquipediaClient:
         direct = f"{team_name}/Matches"
         if self.page_exists(direct):
             return direct
+
+        # Kokeile perussivun uudelleenohjausta (esim. "Spirit" -> "Team Spirit").
+        resolved = self.resolve_redirect(team_name)
+        if resolved != team_name:
+            candidate = f"{resolved}/Matches"
+            if self.page_exists(candidate):
+                return candidate
+
         best = self.search_best_title(team_name)
         if best:
             candidate = f"{best}/Matches"
             if self.page_exists(candidate):
                 return candidate
+            resolved_best = self.resolve_redirect(best)
+            if resolved_best != best:
+                candidate2 = f"{resolved_best}/Matches"
+                if self.page_exists(candidate2):
+                    return candidate2
         return None
 
     def fetch_rendered_html(self, page_title: str) -> str:
