@@ -35,9 +35,13 @@ from backtest import (  # noqa: E402
 
 # Oletettu kokonaismarginaali (molempien puolien implisiittiset tn:t
 # yhteensa) VASTAPUOLEN kertoimen ARVIOINTIA varten kun oma puoli on
-# EV<=0 - tyypillinen esports-Money Line -marginaali. TAMA ON ARVAUS,
-# ei mitattu tasta datasta - ks. kayton yhteydessa oleva HUOM-merkinta.
-ASSUMED_MARGIN = 1.05
+# EV<=0. Kayttajan maaritys 2026-09-18: 50/50-tilanteessa molemmat
+# puolet hinnoitellaan 1.90 - eli margin = 2/1.90 = 1.0526 (~5.26%).
+# Ristiin tarkistettu oikealla kahden puolen esimerkilla (Legacy vs G2,
+# 13.9.2026: 2.020/1.806 -> implisiittinen marginaali 1.0487, hyvin
+# lahella tata oletusta) - jatetaan silti nimenomaiseksi ARVIOKSI koska
+# yksi havainto ei riita kalibroimaan margin tarkasti kaikille hinnoille.
+ASSUMED_MARGIN = 2 / 1.90
 
 # (pvm, team, opponent, kayttajan_kerroin_team:lle, veto_kohde, oikea_tulos)
 # kerroin on aina TEAM-sarakkeen (ensimmainen nimetty joukkue) kertoimena
@@ -71,6 +75,26 @@ BETS = [
      "bet_on": "Legacy", "price": 1.42, "actual_winner": "Legacy", "bet_type": "voittaja (Money Line)"},
     {"date": "2026-09-12T11:05:00+00:00", "team": "BETBOOM", "opponent": "G2",
      "bet_on": "BETBOOM", "price": 2.40, "actual_winner": "G2", "bet_type": "voittaja (Money Line)"},
+    # ENSIMMAINEN aidosti kaksipuolinen hinta (2026-09-18) - EI enaa
+    # tarvitse ASSUMED_MARGIN-arviota, koska molemmat oikeat kertoimet
+    # tunnetaan. "opponent_price" = team-sarakkeen VASTUSTAJAN kerroin.
+    {"date": "2026-09-13T09:10:00+00:00", "team": "Legacy", "opponent": "G2",
+     "price": 2.020, "opponent_price": 1.806,
+     "bet_on": None, "actual_winner": "Legacy", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    # Twitter/X-postaus (Bets io Sports, "BLAST OPEN PORTO - PLAYOFFS")
+    # 2026-09-18: postauksen oma paivamaara oli epaselva/ristiriitainen
+    # ("Sep 4" vs grafiikan "17 TODAY"). SELVITETTY ITSE (kayttajan
+    # ohje: ei kehapaatelmia, selvita ajankohta) hakemalla molemmat
+    # ottelut omasta datastamme nimien perusteella - loytyivat
+    # yksiselitteisesti 2026-09-04:lta ("BLAST Open Fall 2026 -
+    # Playoffs" - "Porto" on vain isantakaupunki, sama tapahtuma).
+    # Walk-forward kayttaa VAIN dataa ennen naita oikeita aikaleimoja.
+    {"date": "2026-09-04T14:00:00+00:00", "team": "Falcons", "opponent": "G2",
+     "price": 1.65, "opponent_price": 2.20,
+     "bet_on": None, "actual_winner": "Falcons", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
+    {"date": "2026-09-04T16:50:00+00:00", "team": "FURIA", "opponent": "Vitality",
+     "price": 2.50, "opponent_price": 1.52,
+     "bet_on": None, "actual_winner": "Vitality", "bet_type": "voittaja (Money Line, molemmat kertoimet tunnettu)"},
 ]
 
 
@@ -101,6 +125,37 @@ def main() -> int:
         n_team = elo_snapshot.games_played.get(bet["team"], 0)
         n_opp = elo_snapshot.games_played.get(bet["opponent"], 0)
 
+        print(f"{bet['date'][:16].replace('T',' ')}  {bet['team']} vs {bet['opponent']}  [{bet['bet_type']}]")
+        print(f"  Data ennen tata ottelua: {bet['team']}={n_team} ottelua, {bet['opponent']}={n_opp} ottelua")
+        model_fav_early = bet["team"] if p_team >= 0.5 else bet["opponent"]
+        print(f"  Mallin OMA suosikki: {model_fav_early} (P={max(p_team,1-p_team):.3f})")
+
+        if bet.get("opponent_price") is not None:
+            # MOLEMMAT oikeat kertoimet tunnetaan - EI mitaan margin-
+            # oletusta tarvita, kaytetaan backtest.remove_margin():a
+            # (sama funktio jota Tehtava 2 kayttaa) aidon marginaalin
+            # poistoon. Tama on paras mahdollinen vertailu tassa
+            # projektissa - ei mitaan arviointia, pelkkaa oikeaa dataa.
+            p_fair_team, p_fair_opp = remove_margin(bet["price"], bet["opponent_price"])
+            real_margin = 1 / bet["price"] + 1 / bet["opponent_price"]
+            print(f"  OIKEAT kertoimet: {bet['team']}@{bet['price']}  {bet['opponent']}@{bet['opponent_price']}  "
+                  f"(havaittu marginaali: {(real_margin-1)*100:.1f}%)")
+            print(f"  Markkinan marginaaliton tn: {bet['team']}={p_fair_team:.3f}  {bet['opponent']}={p_fair_opp:.3f}")
+            print(f"  Mallin tn:                  {bet['team']}={p_team:.3f}  {bet['opponent']}={1-p_team:.3f}")
+            for side, price, p_model in ((bet["team"], bet["price"], p_team),
+                                          (bet["opponent"], bet["opponent_price"], 1 - p_team)):
+                ev_side = p_model * price - 1
+                decision = "PANOSTAISIN (EV>0)" if ev_side > 0 else "EN PANOSTAISI (EV<=0)"
+                print(f"    {side}@{price}: EV = {ev_side:+.1%}  ->  {decision}")
+                if ev_side > 0:
+                    won_side = bet["actual_winner"] == side
+                    profit = (price - 1) if won_side else -1.0
+                    bankroll_log.append((bet["date"], f"{side}@{price}", profit, won_side))
+                    print(f"      Jos panostettu 1 yksikko: {'+' if profit>0 else ''}{profit:.2f} "
+                          f"({'voitti' if won_side else 'havisi'})")
+            print()
+            continue
+
         is_exact_score = "oikea tulos" in bet["bet_type"]
 
         # RIIPPUMATON arvio: hinnoiteltiin AINOASTAAN se puoli jolle
@@ -114,10 +169,6 @@ def main() -> int:
         ev = p_priced * bet["price"] - 1
         priced_side_won = bet["actual_winner"] == priced_side
 
-        print(f"{bet['date'][:16].replace('T',' ')}  {bet['team']} vs {bet['opponent']}  [{bet['bet_type']}]")
-        print(f"  Data ennen tata ottelua: {bet['team']}={n_team} ottelua, {bet['opponent']}={n_opp} ottelua")
-        model_fav = bet["team"] if p_team >= 0.5 else bet["opponent"]
-        print(f"  Mallin OMA suosikki: {model_fav} (P={max(p_team,1-p_team):.3f}) - riippumatta kertoimesta")
         if is_exact_score:
             print(f"  Ainoa tunnettu kerroin ({bet['price']}) oli TARKALLE TULOKSELLE - ei vertailukelpoinen"
                   f" voitto-tn:n kanssa, EI kaytetty arvopaatoksessa.")
