@@ -150,6 +150,41 @@ CREATE TABLE IF NOT EXISTS bracket_progress (
     error_message         TEXT
 );
 
+-- Rosterin siirtymataulukko (lisatty 2026-09-18, kayttajan pyynnosta
+-- "automatisoi tama" stand-in-havainnoinnin jalkeen): team_rosters (Active/
+-- Former -listaus, join_date/leave_date) EI tallenna tilapaisia stand-in-
+-- vaihtoja - Liquipedian paasivulla ("Former"-otsikon alla, ERI taulu kuin
+-- Active/Former-roolilistaus) on kuitenkin erillinen "siirtyma"-taulu joka
+-- listaa player_out -> player_in -parit TURNAUSKOHTAISESTI, usein sitaatilla
+-- (esim. "jL -> apEX @ PGL Masters Bucharest 2026", "jL -> mezii @ BLAST
+-- Open Fall 2026" Vitalylla - tasta nakyy stand-in-jakson alku ja loppu).
+-- HUOM: TAMA ON JALKIKATEEN DOKUMENTOITU LAHDE (vaatii sitaatin/lahteen),
+-- ei reaaliaikainen - ei sovellu "onko stand-in TASSA ottelussa juuri nyt"
+-- -kysymykseen, vain historiallisen datan retrospektiiviseen korjaukseen.
+CREATE TABLE IF NOT EXISTS roster_transitions (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    team            TEXT NOT NULL,
+    player_out      TEXT,
+    player_in       TEXT,
+    tournament      TEXT,               -- Liquipedian nayttonimi turnaukselle (linkin teksti)
+    has_citation    INTEGER NOT NULL DEFAULT 0,  -- 1 jos rivilla oli lahdeviite (yleensa stand-in/vaihto-syy)
+    source_page     TEXT NOT NULL,
+    collected_utc   TEXT NOT NULL,
+    UNIQUE(team, player_out, player_in, tournament)
+);
+
+CREATE INDEX IF NOT EXISTS idx_roster_trans_team ON roster_transitions(team);
+CREATE INDEX IF NOT EXISTS idx_roster_trans_tournament ON roster_transitions(tournament);
+
+CREATE TABLE IF NOT EXISTS roster_transition_progress (
+    team            TEXT PRIMARY KEY,
+    liquipedia_page TEXT,
+    status          TEXT NOT NULL DEFAULT 'pending',  -- pending / ok / not_found / error
+    entries_found   INTEGER DEFAULT 0,
+    last_attempt_utc TEXT,
+    error_message   TEXT
+);
+
 -- Tehtava 7 (valmisteltu etukateen, EI VIELA KAYTOSSA): CLV (closing line
 -- value) -loki. Rakenne valmis nyt jotta Tehtava 0:n kaynnistyessa (Coolbet-
 -- tilaus) sen voi ottaa suoraan kayttoon ilman skeemamuutosta. Tayttyy

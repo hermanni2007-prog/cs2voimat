@@ -571,3 +571,54 @@ def parse_roster_page(html: str) -> list:
             out.append({"player_id": player_id, "join_date": join_date, "leave_date": leave_date})
 
     return out
+
+
+def parse_roster_transitions(html: str) -> list:
+    """Jasentaa joukkuesivun "Former"-osion SIIRTYMA-taulukon (ERI taulu
+    kuin parse_roster_page:n Active/Former-roolilistaus) - rivit joissa on
+    kulmaikoni <i class="fas fa-angle-right"> pelaaja_pois <-> pelaaja_tilalle
+    -parin valissa, seka turnaus jonka yhteydessa siirtyma tapahtui.
+
+    LOYDETTY 2026-09-18 (kayttajan pyynnosta "automatisoi" stand-in-
+    havainnointi): tama taulu dokumentoi mm. tilapaiset stand-in-jaksot
+    turnauskohtaisesti (esim. Team Vitalylla "jL -> apEX @ PGL Masters
+    Bucharest 2026", "jL -> mezii @ BLAST Open Fall 2026" - jalkimmainen
+    on juuri se hetki kun alkuperainen pelaaja palasi stand-inin jalkeen).
+    HUOM: tama on JALKIKATEEN kirjoitettu/sitaatilla varustettu lahde -
+    EI reaaliaikainen, ei sovi "onko stand-in TASSA ottelussa" -kysymykseen,
+    vain historiallisen datan retrospektiiviseen tunnistukseen/korjaukseen.
+
+    has_citation=True kun rivilla on <sup>-viite (yleensa stand-in/vaihto-
+    syyn lahde) - kayttokelpoinen karkea suodatin, koska osa rivin
+    "siirtymista" ovat oikeita pysyvia vaihtoja (ei-siteerattyja) eika
+    tilapaisia stand-in-jaksoja; tama funktio EI erottele niita, se
+    jattaa sen kutsujan paateltavaksi (has_citation-lippu + tekstin
+    sisalto, esim. "stand-in" mainitseva sitaatti-ID, antavat viitteita)."""
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    out = []
+
+    # Ei navigoida otsikosta (h2/h3 "Former"/"Former_2"/...) tauluun sisarus-
+    # suhteen kautta - se osoittautui hauraaksi (siirtymataulu ei aina ole
+    # otsikon VALITON seuraava div.table2, useita "Former"-variantteja voi
+    # olla). Sen sijaan kaydaan KOKO sivun rivit lapi ja tunnistetaan
+    # siirtyma-rivit rakenteen (kulmaikoni) perusteella - yksiselitteinen
+    # merkki, ei esiinny tavallisessa roolilistaus- tai ottelutaulukossa.
+    for row in soup.find_all("tr"):
+        if not row.find("i", class_="fa-angle-right"):
+            continue
+        links = row.find_all("a")
+        texts = [a.get_text(strip=True) for a in links if a.get_text(strip=True)]
+        has_citation = bool(row.find("sup"))
+        if has_citation and texts and texts[-1].startswith("["):
+            texts = texts[:-1]  # viitenumero [54] pois nayttotekstista
+        if len(texts) < 3:
+            continue
+        player_out, player_in, tournament = texts[0], texts[1], texts[2]
+        out.append({
+            "player_out": player_out, "player_in": player_in,
+            "tournament": tournament, "has_citation": has_citation,
+        })
+
+    return out
