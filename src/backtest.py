@@ -677,15 +677,80 @@ def online_k_override(k_factor: float, match_type: Optional[str]) -> Optional[fl
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# Rank-tier-korjaus (lisatty 2026-09-18, kayttajan pyynnosta "top 70 tiimit
+# voi vaatia erilaisia kaavoja kuin top 20"): diagnoosi (run_tier_
+# calibration.py) loysi aidon kalibrointieron nykyisella yhdella globaalilla
+# mallilla - LEVEA-tason (molemmat joukkueet SENHETKISESSA Elo-rankingissa
+# sijalla >20) ottelut ennustettiin selvasti huonommin (test log loss 0.689)
+# kuin ELIITTI-tason (molemmat top20, 0.643) tai SEKA-tason (0.605) ottelut.
+#
+# ENSIMMAINEN YRITYS (K-kerroin-multiplier RATING-PAIVITYKSESSA, ks. run_
+# tier_calibration.py) EI KESTANYT rehellista testia - kun multiplier
+# rajattiin koskemaan VAIN LEVEA-otteluita (ei ELIITTI/SEKA-otteluita),
+# train-optimipiste litistyi kohtaan 1.0 (0.6940 vs 0.6942, kohinan
+# sisalla) ja test-tulos oli TAYSIN IDENTTINEN nykyiseen (0.6525 = 0.6525).
+# HYLATTY - ei aitoa signaalia, aiempi "parannus" johtui pelkastaan siita
+# etta multiplier vaikutti myos SEKA-otteluihin (jotka sisaltavat top20-
+# joukkueen), ei aidosta LEVEA-tier-efektista.
+#
+# TOINEN YRITYS (TASSA, run_tier_shrink.py) - eri mekanismi, sama periaate
+# kuin online-korjaus: EI kosketa Elo-ratingin PAIVITYSTA lainkaan, vain
+# kutistetaan lopullista ENNUSTETTA kohti 0.5:ta LEVEA-otteluille. Grid-
+# haku shrink [0.0, 1.5] VAIN train-datalla, paras arvo 0.5 (tasainen
+# minimi valilla 0.4-0.6, ei terava ylisovitus-piikki). NAKEMATTOMALLA
+# test-osiolla: KAIKKI 0.6525 -> 0.6505, LEVEA-test 0.6887 -> 0.6845,
+# ELIITTI+SEKA-test TAYSIN KOSKEMATON (0.6213 = 0.6213, koska shrink on
+# no-op kun is_levea=False) - eli parannus tulee PUHTAASTI LEVEA-
+# ottelusta, ei muiden tierien kustannuksella. Otettu kayttoon.
+#
+# HUOM: rank lasketaan SENHETKISESTA Elo-ratingista (elo.ratings, joukkue
+# jolla >=1 ottelu takana) - taysin kausaalinen, ei lookahead-vuotoa.
+# Peliaikaisesti epavakaa alussa (harvat joukkueet pelanneet), mutta sama
+# koskee koko Elo-mallia muutenkin.
+# ---------------------------------------------------------------------------
+LEVEA_RANK_CUTOFF = 20
+LEVEA_SHRINK = 0.5  # validoitu grid-haulla, ei arvaus
+
+
+def current_elo_rank(elo: "EloModel", team: str, as_of) -> int:
+    """1 = vahvin senhetkinen Elo-rating. Joukkueet joilla ei viela yhtaan
+    ottelua saavat sijan len(pelanneet)+1 (huonoin mahdollinen, koska
+    default-rating 1500 ei kerro mitaan oikeasta tasosta)."""
+    played = [(t, elo.rating_as_of(t, as_of)) for t in elo.ratings if elo.games_played.get(t, 0) >= 1]
+    if not played:
+        return 999
+    played.sort(key=lambda x: -x[1])
+    for i, (t, _) in enumerate(played):
+        if t == team:
+            return i + 1
+    return len(played) + 1
+
+
+def apply_tier_adjustment(p_team: float, rank_team: Optional[int], rank_opponent: Optional[int]) -> float:
+    """Kutistaa ennusteen kohti 0.5:ta JOS molemmat joukkueet ovat
+    senhetkisessa Elo-rankingissa sijalla > LEVEA_RANK_CUTOFF (ei kumpikaan
+    "eliittia"). rank=None (esim. rankia ei laskettu/saatavilla) -> ei
+    korjata, koska emme tieda kummasta on kyse."""
+    if rank_team is None or rank_opponent is None:
+        return p_team
+    if rank_team > LEVEA_RANK_CUTOFF and rank_opponent > LEVEA_RANK_CUTOFF:
+        return 0.5 + (p_team - 0.5) * LEVEA_SHRINK
+    return p_team
+
+
 def apply_all_adjustments(p_team: float, n_recent_team: int, n_recent_opponent: int,
-                           tier: Optional[str] = None, match_type: Optional[str] = None) -> float:
-    """Soveltaa ruostumis- ja online-korjaukset peräkkäin (molemmat ovat
-    kutistuksia kohti 0.5:ta, joten järjestys ei muuta lopputulosta
-    merkittävästi). Taso-korjaus poistettiin, ks. yla kommentti.
+                           tier: Optional[str] = None, match_type: Optional[str] = None,
+                           rank_team: Optional[int] = None, rank_opponent: Optional[int] = None) -> float:
+    """Soveltaa ruostumis-, online- ja rank-tier-korjaukset peräkkäin (kaikki
+    ovat kutistuksia kohti 0.5:ta, joten jarjestys ei muuta lopputulosta
+    merkittavasti). Taso-korjaus (S/A-Tier) poistettiin, ks. yla kommentti.
     `tier`-parametri jatetty rajapintaan taaksepain yhteensopivuuden
-    vuoksi, ei enaa kaytossa."""
+    vuoksi, ei enaa kaytossa. `rank_team`/`rank_opponent`: ks.
+    current_elo_rank() - jatetaan None:ksi jos ei saatavilla (ei korjata)."""
     p = apply_rust_adjustment(p_team, n_recent_team, n_recent_opponent)
     p = apply_online_adjustment(p, match_type)
+    p = apply_tier_adjustment(p, rank_team, rank_opponent)
     return p
 
 

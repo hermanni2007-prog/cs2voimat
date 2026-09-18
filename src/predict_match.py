@@ -48,6 +48,7 @@ from backtest import (  # noqa: E402
     RUST_WINDOW_DAYS,
     apply_all_adjustments,
     count_recent_matches,
+    current_elo_rank,
     deduplicate_matches,
     filter_top50_only,
     load_clean_matches,
@@ -102,22 +103,31 @@ def main() -> int:
 
     n_recent_team = count_recent_matches(args.team, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
     n_recent_opp = count_recent_matches(args.opponent, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
-    p_adjusted = apply_all_adjustments(r["p_mid"], n_recent_team, n_recent_opp, match_type=match_type)
+    rank_team = current_elo_rank(elo, args.team, last_date) if last_date else None
+    rank_opp = current_elo_rank(elo, args.opponent, last_date) if last_date else None
+    p_adjusted = apply_all_adjustments(r["p_mid"], n_recent_team, n_recent_opp, match_type=match_type,
+                                        rank_team=rank_team, rank_opponent=rank_opp)
+
+    is_levea = rank_team is not None and rank_opp is not None and rank_team > 20 and rank_opp > 20
 
     print(f"{args.team} vs {args.opponent}" + ("  [ONLINE-ottelu]" if match_type == "Online" else ""))
     print(f"  n_ottelua: {args.team}={r['n_team']}  {args.opponent}={r['n_opp']}  -> luottamus: {r['confidence']}")
+    if rank_team is not None:
+        print(f"  Elo-sija: {args.team}=#{rank_team}  {args.opponent}=#{rank_opp}" +
+              ("  [LEVEA-taso: molemmat top21-75]" if is_levea else ""))
     print(f"  P({args.team}) raaka = {r['p_mid']:.3f}  (haarukka [{r['p_low']:.3f}, {r['p_high']:.3f}])")
     if match_type == "Online":
         print(f"  P({args.team}) ONLINE-KORJATTU = {p_adjusted:.3f}  "
               f"(mallilla ei validoinnin mukaan ole online-otteluissa kaytannon ennustearvoa - "
               f"katso backtest.py:n ONLINE_SHRINK-kommentti)")
-        p_final = p_adjusted
+    elif is_levea:
+        print(f"  P({args.team}) LEVEA-TASO-KORJATTU = {p_adjusted:.3f}  "
+              f"(molemmat joukkueet top21-75: mallilla heikompi kalibrointi tassa poolissa - "
+              f"katso backtest.py:n LEVEA_SHRINK-kommentti)")
     elif p_adjusted != r["p_mid"]:
         print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
               f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - toistaiseksi tuettu, pieni otos)")
-        p_final = p_adjusted
-    else:
-        p_final = r["p_mid"]
+    p_final = p_adjusted
     print(f"  Reilu kerroin {args.team}: {1/p_final:.2f}")
     print(f"  Reilu kerroin {args.opponent}: {1/(1-p_final):.2f}")
     if r["confidence"] == "MATALA":
