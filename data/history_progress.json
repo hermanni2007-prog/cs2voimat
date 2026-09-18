@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-18T18:02:24.869084+00:00",
+  "updated_utc": "2026-09-18T20:13:16.645481+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 32,
-  "teams_ok": 25,
+  "teams_done": 57,
+  "teams_ok": 50,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 4831,
+  "matches_collected": 4837,
   "last_team": {
-    "team": "TYLOO",
+    "team": "QUAZAR",
     "status": "ok",
-    "matches_found": 0,
-    "at": "2026-09-18T18:02:24.866778+00:00"
+    "matches_found": 2,
+    "at": "2026-09-18T20:13:16.643512+00:00"
   }
 }
