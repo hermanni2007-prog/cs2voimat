@@ -124,6 +124,11 @@ def write_progress_snapshot(conn) -> None:
 TEAM_ALIASES = {
     "Spirit": "Team Spirit",
     "Aurora": "Aurora Gaming",
+    # top50->top75-laajennus (2026-09-18): kanoninen nimi ilman valilyontia
+    # (jo havaittu DB-kaytanto, ks. IEM Cologne Stage 1 -kertoimet), mutta
+    # Liquipedian oma sivunimi sisaltaa valilyonnin - haku epaonnistuisi
+    # ilman tata.
+    "THUNDERdOWNUNDER": "THUNDER dOWNUNDER",
 }
 
 

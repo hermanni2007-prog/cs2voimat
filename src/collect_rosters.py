@@ -50,6 +50,7 @@ PROGRESS_PATH = ROOT / "data" / "roster_progress.json"
 TEAM_ALIASES = {
     "Spirit": "Team Spirit",
     "Aurora": "Aurora Gaming",
+    "THUNDERdOWNUNDER": "THUNDER dOWNUNDER",
 }
 
 
