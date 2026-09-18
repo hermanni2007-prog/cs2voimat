@@ -651,6 +651,63 @@ def online_k_override(k_factor: float, match_type: Optional[str]) -> Optional[fl
 
 
 # ---------------------------------------------------------------------------
+# SOS-PEHMENNYS (lisatty 2026-09-18, kayttajan pyynnosta "yrita keksia
+# lisaa"): filter_top50_only() on TAYSI PAALLA/POIS-kytkin - ottelu top75-
+# listan ULKOPUOLISTA vastustajaa vastaan POISTETAAN kokonaan Elo-
+# paivityksesta. Tama hylkaa KAIKEN signaalin naista otteluista (esim.
+# selva lakaisu heikkoa karsintajoukkuetta vastaan kertoo silti JOTAIN,
+# vain vahemman luotettavasti).
+#
+# VALIDOITU OIKEIN (run_sos_soft_weight.py): grid-haku non-top75-vastustaja
+# -otteluiden K-multiplier [0.0, 1.0] VAIN train-datalla (multiplier=0.0
+# vastaa nykyista hard filtteria, multiplier=1.0 taysin suodattamatonta
+# esi-SOS-mallia). Paras arvo 0.5 (tasainen minimi valilla 0.4-0.7, ei
+# ylisovitus-piikki). NAKEMATTOMALLA top75-vs-top75-test-osiolla (n=265):
+# NYKYINEN hard filter log_loss=0.6654, EI SUODATUSTA=0.6580, PEHMEA
+# PAINOTUS (0.5)=0.6584 - molemmat selvasti parempia kuin hard filter.
+# HUOM MERKITTAVA: tama KUMOAA aiemman filter_top50_only-loydoksen (joka
+# validoitiin ALKUPERAISELLA top50-datasetilla ennen top75-laajennusta,
+# 2026-09-18 aiemmin samana paivana) - datasetin kasvaessa (top75, 8kk
+# historia 25 uudelle joukkueelle) "irrallisen poolin" ongelma on
+# lientynyt sen verran etta TAYSI poissuodatus on nyt liikaa - se heittaa
+# pois hyodyllista signaalia jota pehmea painotus sailyttaa. Tama on
+# esimerkki siita etta validointi pitaa TOISTAA kun data muuttuu
+# merkittavasti, ei luottaa vanhaan tulokseen ikuisesti.
+#
+# filter_top50_only() JATETTY KOODIIN silla se on yha kaytossa monessa jo
+# olemassa olevassa tutkimusskriptissa (run_tier_calibration.py, run_
+# tier_shrink.py, run_roster_shrink.py, run_mov_elo.py, run_map_level_
+# elo.py) niiden OMAN, jo raportoidun tuloksen toistettavuuden vuoksi -
+# UUSI tuotantopolku (predict_match.py, backtest_vs_real_odds.py) kayttaa
+# talta lahtien sos_k_override():a filter_top50_only():n SIJASTA.
+# ---------------------------------------------------------------------------
+SOS_NON_TOP50_K_WEIGHT = 0.5  # validoitu grid-haulla, ei arvaus
+
+
+def sos_k_override(k_factor: float, team: str, opponent: str, top50_names: set) -> float:
+    """Palauttaa RATING-PAIVITYKSEN K-kertoimen: taysi jos molemmat
+    top75-listalla, muuten skaalattu SOS_NON_TOP50_K_WEIGHT:lla."""
+    if team in top50_names and opponent in top50_names:
+        return k_factor
+    return k_factor * SOS_NON_TOP50_K_WEIGHT
+
+
+def production_k_override(k_factor: float, match_type: Optional[str], team: str, opponent: str,
+                           top50_names: set) -> float:
+    """Yhdistaa online- ja SOS-pehmennyskertoimet YHDEKSI K:ksi tuotanto-
+    ennusteille (predict_match.py, backtest_vs_real_odds.py). Molemmat ovat
+    itsenaisesti validoituja K-multipliereita samalle EloModel.update()-
+    kutsulle, joten ne kerrotaan yhteen (kumpikin skaalaa erikseen samaa
+    perus-K:ta, ei toisiaan)."""
+    k = k_factor
+    if match_type == "Online":
+        k *= ONLINE_UPDATE_WEIGHT
+    if not (team in top50_names and opponent in top50_names):
+        k *= SOS_NON_TOP50_K_WEIGHT
+    return k
+
+
+# ---------------------------------------------------------------------------
 # TASO-korjaus - RAKENNETTIIN JA SITTEN POISTETTIIN (2026-09-17).
 #
 # Kayttaja huomautti perustellusti: kaikki tama session'in "validointi" on
@@ -710,14 +767,39 @@ def online_k_override(k_factor: float, match_type: Optional[str]) -> Optional[fl
 # koskee koko Elo-mallia muutenkin.
 # ---------------------------------------------------------------------------
 LEVEA_RANK_CUTOFF = 20
-LEVEA_SHRINK = 0.5  # validoitu grid-haulla, ei arvaus
+# HUOM 2026-09-18 (SOS-pehmennyksen jalkeen, ks. sos_k_override()-kommentti):
+# LEVEA_SHRINK=0.5 validoitiin AIKAISEMMIN SAMANA PAIVANA hard filter_top50_
+# only -pohjalla. Kun SOS-suodatus vaihdettiin pehmeaksi painotukseksi,
+# LEVEA-tason kalibrointiero HAVIISI LAHES KOKONAAN itsestaan - uudelleen-
+# validointi (recheck_levea_on_soft_sos.py-tyylinen grid-haku) loysi
+# optimin siirtyneen ~1.0:aan (taysin litea kayra 1.0-1.4 valilla), ja
+# VANHA arvo 0.5 on NYT test-datalla HUONOMPI kuin ei korjausta lainkaan
+# (0.6618 vs 0.6584 log loss). Todennakoinen selitys: pehmea SOS-painotus
+# JO korjasi sen alikalibroinnin jota LEVEA_SHRINK yritti paikata erikseen
+# - kaksi korjausta samaan ongelmaan, jalkimmainen muuttui tarpeettomaksi/
+# haitalliseksi kun ensimmainen parani. POISTETTU KAYTOSTA (1.0 = ei
+# vaikutusta) mutta mekanismi jatetty koodiin dokumentoiduksi/uudelleen-
+# aktivoitavaksi jos joskus tarpeen. Opetus: yhden korjauksen validointi
+# EI ole pysyva jos jokin TOINEN, myohemmin lisatty korjaus muuttaa samaa
+# alla olevaa dataa - interaktiot pitaa tarkistaa uudelleen.
+LEVEA_SHRINK = 1.0  # POISTETTU KAYTOSTA - ks. yla kommentti
 
 
-def current_elo_rank(elo: "EloModel", team: str, as_of) -> int:
+def current_elo_rank(elo: "EloModel", team: str, as_of, candidate_names: Optional[set] = None) -> int:
     """1 = vahvin senhetkinen Elo-rating. Joukkueet joilla ei viela yhtaan
     ottelua saavat sijan len(pelanneet)+1 (huonoin mahdollinen, koska
-    default-rating 1500 ei kerro mitaan oikeasta tasosta)."""
+    default-rating 1500 ei kerro mitaan oikeasta tasosta).
+
+    `candidate_names`: rajaa ranking-poolin (esim. top75-listaan) - TARKEA
+    2026-09-18 SOS-pehmennyksen jalkeen, koska sos_k_override() EI enaa
+    poista top75-ulkopuolisia vastustajia Elo-paivityksesta (ne saavat vain
+    pienemman K:n) - ilman tata rajausta ranking-pooliin ilmestyisi satoja
+    heikkoja karsintajoukkueita, mika siirtaisi LEVEA_RANK_CUTOFF:n
+    merkitysta verrattuna siihen miten LEVEA_SHRINK aikanaan validoitiin
+    (top75-vs-top75-datalla, filter_top50_only-rajattuna)."""
     played = [(t, elo.rating_as_of(t, as_of)) for t in elo.ratings if elo.games_played.get(t, 0) >= 1]
+    if candidate_names is not None:
+        played = [(t, r) for t, r in played if t in candidate_names]
     if not played:
         return 999
     played.sort(key=lambda x: -x[1])

@@ -50,10 +50,9 @@ from backtest import (  # noqa: E402
     count_recent_matches,
     current_elo_rank,
     deduplicate_matches,
-    filter_top50_only,
     load_clean_matches,
     load_best_elo_params,
-    online_k_override,
+    production_k_override,
 )
 from run_tournament_effects import build_recent_match_index  # noqa: E402
 from team_names import load_top50_names  # noqa: E402
@@ -76,16 +75,16 @@ def main() -> int:
     matches = deduplicate_matches(load_clean_matches(conn))
     conn.close()
 
-    # SOS-suodatus (2026-09-18, validoitu ei-kehamaisesti run_sos_filter.py:ssa):
-    # top50-ulkopuoliset vastustajat pois Elo-paivityksesta - katso backtest.py:n
-    # filter_top50_only()-kommentti.
+    # SOS-PEHMENNYS (2026-09-18, korvasi taman paivan aiemman hard filter_
+    # top50_only:n - ks. backtest.py:n sos_k_override()-kommentti): KAIKKI
+    # ottelut mukana Elo-paivityksessa, top75-ulkopuoliset vastustajat vain
+    # pienemmalla K:lla (SOS_NON_TOP50_K_WEIGHT) taysin poissulkemisen sijaan.
     top50_names = load_top50_names()
-    matches = filter_top50_only(matches, top50_names)
 
     elo = EloModel(scale=SCALE, k_factor=K_FACTOR, half_life_days=HALF_LIFE)
     for m in matches:
         elo.update(m.team, m.opponent, m.team_won, m.date,
-                    k_override=online_k_override(K_FACTOR, m.match_type))
+                    k_override=production_k_override(K_FACTOR, m.match_type, m.team, m.opponent, top50_names))
     last_date = matches[-1].date if matches else None
     recent_idx = build_recent_match_index(matches)
 
@@ -103,8 +102,8 @@ def main() -> int:
 
     n_recent_team = count_recent_matches(args.team, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
     n_recent_opp = count_recent_matches(args.opponent, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
-    rank_team = current_elo_rank(elo, args.team, last_date) if last_date else None
-    rank_opp = current_elo_rank(elo, args.opponent, last_date) if last_date else None
+    rank_team = current_elo_rank(elo, args.team, last_date, candidate_names=top50_names) if last_date else None
+    rank_opp = current_elo_rank(elo, args.opponent, last_date, candidate_names=top50_names) if last_date else None
     p_adjusted = apply_all_adjustments(r["p_mid"], n_recent_team, n_recent_opp, match_type=match_type,
                                         rank_team=rank_team, rank_opponent=rank_opp)
 
@@ -120,10 +119,9 @@ def main() -> int:
         print(f"  P({args.team}) ONLINE-KORJATTU = {p_adjusted:.3f}  "
               f"(mallilla ei validoinnin mukaan ole online-otteluissa kaytannon ennustearvoa - "
               f"katso backtest.py:n ONLINE_SHRINK-kommentti)")
-    elif is_levea:
-        print(f"  P({args.team}) LEVEA-TASO-KORJATTU = {p_adjusted:.3f}  "
-              f"(molemmat joukkueet top21-75: mallilla heikompi kalibrointi tassa poolissa - "
-              f"katso backtest.py:n LEVEA_SHRINK-kommentti)")
+    # HUOM: LEVEA-tier-shrink on nykyaan no-op (LEVEA_SHRINK=1.0, ks.
+    # backtest.py:n kommentti) - SOS-pehmennys korvasi sen tarpeen, joten
+    # taalla ei enaa nayteta erillista "LEVEA-TASO-KORJATTU" -viestia.
     elif p_adjusted != r["p_mid"]:
         print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
               f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - toistaiseksi tuettu, pieni otos)")
