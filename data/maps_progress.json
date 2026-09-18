@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-18T00:46:38.328390+00:00",
+  "updated_utc": "2026-09-18T09:54:30.964122+00:00",
   "tournaments_total": 481,
-  "tournaments_done": 207,
-  "tournaments_ok": 94,
+  "tournaments_done": 227,
+  "tournaments_ok": 97,
   "tournaments_ok_no_brackets": 2,
-  "tournaments_not_found": 111,
+  "tournaments_not_found": 128,
   "tournaments_error": 20,
-  "maps_collected": 1086,
+  "maps_collected": 1131,
   "last_tournament": {
-    "tournament": "ESL Pro League S23 Stage 2 - Round 4",
-    "status": "error",
-    "maps_found": 0,
-    "at": "2026-09-18T00:46:38.324596+00:00"
+    "tournament": "BLAST Rivals Spring 2026 - Playoffs",
+    "status": "ok",
+    "maps_found": 12,
+    "at": "2026-09-18T09:54:30.958363+00:00"
   }
 }
