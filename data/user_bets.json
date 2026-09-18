@@ -1,20 +1,20 @@
 [
   {
-    "placed_utc": "2026-09-18T18:20:00+00:00",
-    "match_date_utc": "2026-09-18T18:20:00+00:00",
+    "placed_utc": "2026-09-18T17:40:00+00:00",
+    "match_date_utc": "2026-09-18T17:40:00+00:00",
     "tournament": "Logitech G Play Connect 2026",
-    "team": "INFINITE",
+    "team": "BBL",
     "opponent": "3DMAX",
-    "bet_on": "INFINITE",
-    "price": 2.90,
+    "bet_on": "BBL",
+    "price": 2.15,
     "stake_eur": 20.00,
-    "potential_win_eur": 58.00,
-    "model_p_bet_on": 0.470,
-    "model_ev": 0.363,
-    "model_confidence": "HYVA",
+    "potential_win_eur": 43.00,
+    "model_p_bet_on": 0.588,
+    "model_ev": 0.264,
+    "model_confidence": "MATALA (BBL:lla vain 8 ottelua datassa)",
     "status": "pending",
     "actual_winner": null,
     "profit_eur": null,
-    "note": "Karkein signaali paivan otteluista (+36.3% EV), kayttaja vahvisti etta harmaana nakynyt kortti oli silti auki"
+    "note": "Korvasi aiemman INFINITE@2.90-vedon (poistettu) - kayttaja vaihtoi koska INFINITE pelaa tanaan KAHDELLA stand-inilla, mika mitatoi mallin alkuperaisen +EV-signaalin taman ottelun osalta (malli ei nae stand-in-tietoa, ks. keskustelu 2026-09-18)."
   }
 ]
