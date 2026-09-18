@@ -45,6 +45,8 @@ sys.path.insert(0, str(ROOT / "src"))
 from db import get_connection  # noqa: E402
 from backtest import (  # noqa: E402
     EloModel,
+    FATIGUE_THRESHOLD,
+    FATIGUE_WINDOW_DAYS,
     RUST_WINDOW_DAYS,
     apply_all_adjustments,
     count_recent_matches,
@@ -102,12 +104,18 @@ def main() -> int:
 
     n_recent_team = count_recent_matches(args.team, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
     n_recent_opp = count_recent_matches(args.opponent, last_date, recent_idx, RUST_WINDOW_DAYS) if last_date else 0
+    n_fatigue_team = count_recent_matches(args.team, last_date, recent_idx, FATIGUE_WINDOW_DAYS) if last_date else 0
+    n_fatigue_opp = count_recent_matches(args.opponent, last_date, recent_idx, FATIGUE_WINDOW_DAYS) if last_date else 0
     rank_team = current_elo_rank(elo, args.team, last_date, candidate_names=top50_names) if last_date else None
     rank_opp = current_elo_rank(elo, args.opponent, last_date, candidate_names=top50_names) if last_date else None
     p_adjusted = apply_all_adjustments(r["p_mid"], n_recent_team, n_recent_opp, match_type=match_type,
-                                        rank_team=rank_team, rank_opponent=rank_opp)
+                                        rank_team=rank_team, rank_opponent=rank_opp,
+                                        n_fatigue_team=n_fatigue_team, n_fatigue_opponent=n_fatigue_opp)
 
     is_levea = rank_team is not None and rank_opp is not None and rank_team > 20 and rank_opp > 20
+    is_team_favorite = r["p_mid"] >= 0.5
+    favorite_n_fatigue = n_fatigue_team if is_team_favorite else n_fatigue_opp
+    is_fatigued = favorite_n_fatigue >= FATIGUE_THRESHOLD
 
     print(f"{args.team} vs {args.opponent}" + ("  [ONLINE-ottelu]" if match_type == "Online" else ""))
     print(f"  n_ottelua: {args.team}={r['n_team']}  {args.opponent}={r['n_opp']}  -> luottamus: {r['confidence']}")
@@ -122,6 +130,10 @@ def main() -> int:
     # HUOM: LEVEA-tier-shrink on nykyaan no-op (LEVEA_SHRINK=1.0, ks.
     # backtest.py:n kommentti) - SOS-pehmennys korvasi sen tarpeen, joten
     # taalla ei enaa nayteta erillista "LEVEA-TASO-KORJATTU" -viestia.
+    elif is_fatigued:
+        print(f"  P({args.team}) VASYMYSKORJATTU = {p_adjusted:.3f}  "
+              f"(suosikilla >={FATIGUE_THRESHOLD} ottelua viimeisen {FATIGUE_WINDOW_DAYS*24:.0f}h aikana - "
+              f"toistaiseksi tuettu, pieni otos, ks. backtest.py:n FATIGUE_SHRINK-kommentti)")
     elif p_adjusted != r["p_mid"]:
         print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
               f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - toistaiseksi tuettu, pieni otos)")

@@ -583,6 +583,41 @@ def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: 
 
 
 # ---------------------------------------------------------------------------
+# Vasymyskorjaus (lisatty 2026-09-18, kayttajan pyynnosta "think outside
+# the box" -kehitysideat): VASTAKOHTA ruostumiskorjaukselle - jos suosikki
+# on pelannut MONTA ottelua lyhyessa ajassa (esim. round-robin-turnauksen
+# 3.+ ottelu samana paivana, kuten Logitech G Play Connect 2026 tanaan),
+# ennuste saattaa olla epaluotettavampi kuin Elo-ero antaisi ymmartaa.
+#
+# VALIDOITU OIKEIN (run_fatigue_shrink.py): kiintea ikkuna (24h) ja kynnys
+# (>=2 ottelua = tama on jo 3.+ ottelu), shrink grid-haettu VAIN train-
+# datalla, paras arvo 0.4. NAKEMATTOMALLA test-osiolla: "vasynyt"-ryhma
+# parani selvasti (log loss 0.7064 -> 0.6909, n=61), "tuore"-ryhma TAYSIN
+# KOSKEMATON (0.6481 = 0.6481, koska shrink on no-op ei-vasyneille) - koko
+# parannus tulee puhtaasti vasyneesta ryhmasta, ei muiden kustannuksella
+# (sama puhdas kuvio kuin ONLINE_SHRINK/LEVEA_SHRINK aikanaan). HUOM: train-
+# kayra on melko litea (0.6844-0.6853 koko [0,1]-valilla) - pieni otos
+# (n=61), joten "toistaiseksi tuettu" samaan tapaan kuin ruostumiskorjaus,
+# ei "todistettu".
+# ---------------------------------------------------------------------------
+FATIGUE_WINDOW_DAYS = 1.0  # 24h
+FATIGUE_THRESHOLD = 2  # >=2 ottelua ikkunassa = tama on jo 3.+ ottelu
+FATIGUE_SHRINK = 0.4  # validoitu grid-haulla, ei arvaus
+
+
+def apply_fatigue_adjustment(p_team: float, n_fatigue_team: int, n_fatigue_opponent: int) -> float:
+    """Kutistaa ennusteen kohti 0.5:ta JOS suosikilla on >=FATIGUE_THRESHOLD
+    ottelua viimeisen FATIGUE_WINDOW_DAYS:n (24h) aikana - eri ikkuna kuin
+    ruostumiskorjaus (5 vrk), lasketaan erikseen `count_recent_matches`-
+    kutsulla FATIGUE_WINDOW_DAYS-parametrilla."""
+    is_team_favorite = p_team >= 0.5
+    favorite_n_fatigue = n_fatigue_team if is_team_favorite else n_fatigue_opponent
+    if favorite_n_fatigue >= FATIGUE_THRESHOLD:
+        return 0.5 + (p_team - 0.5) * FATIGUE_SHRINK
+    return p_team
+
+
+# ---------------------------------------------------------------------------
 # Online-korjaus (lisatty 2026-09-18, kayttajan pyynnosta - run_lan_online_
 # upsets.py:n loydos): online-otteluissa suosikki havisi selvasti useammin
 # kuin malli ennustaa (upset-rate 47.1% vs odotettu 40.6%, n=933 SOS-
@@ -823,16 +858,23 @@ def apply_tier_adjustment(p_team: float, rank_team: Optional[int], rank_opponent
 
 def apply_all_adjustments(p_team: float, n_recent_team: int, n_recent_opponent: int,
                            tier: Optional[str] = None, match_type: Optional[str] = None,
-                           rank_team: Optional[int] = None, rank_opponent: Optional[int] = None) -> float:
-    """Soveltaa ruostumis-, online- ja rank-tier-korjaukset peräkkäin (kaikki
-    ovat kutistuksia kohti 0.5:ta, joten jarjestys ei muuta lopputulosta
-    merkittavasti). Taso-korjaus (S/A-Tier) poistettiin, ks. yla kommentti.
-    `tier`-parametri jatetty rajapintaan taaksepain yhteensopivuuden
-    vuoksi, ei enaa kaytossa. `rank_team`/`rank_opponent`: ks.
-    current_elo_rank() - jatetaan None:ksi jos ei saatavilla (ei korjata)."""
+                           rank_team: Optional[int] = None, rank_opponent: Optional[int] = None,
+                           n_fatigue_team: Optional[int] = None, n_fatigue_opponent: Optional[int] = None) -> float:
+    """Soveltaa ruostumis-, online-, rank-tier- ja vasymyskorjaukset
+    peräkkäin (kaikki ovat kutistuksia kohti 0.5:ta, joten jarjestys ei
+    muuta lopputulosta merkittavasti). Taso-korjaus (S/A-Tier) poistettiin,
+    ks. yla kommentti. `tier`-parametri jatetty rajapintaan taaksepain
+    yhteensopivuuden vuoksi, ei enaa kaytossa. `rank_team`/`rank_opponent`:
+    ks. current_elo_rank() - jatetaan None:ksi jos ei saatavilla (ei
+    korjata). `n_fatigue_team`/`n_fatigue_opponent`: ottelumaara 24h
+    ikkunassa (ERI ikkuna kuin n_recent_team/n_recent_opponent, jotka
+    ovat RUST_WINDOW_DAYS=5 vrk:n ikkunassa) - jatetaan None:ksi (=ei
+    korjata) jos ei saatavilla."""
     p = apply_rust_adjustment(p_team, n_recent_team, n_recent_opponent)
     p = apply_online_adjustment(p, match_type)
     p = apply_tier_adjustment(p, rank_team, rank_opponent)
+    if n_fatigue_team is not None and n_fatigue_opponent is not None:
+        p = apply_fatigue_adjustment(p, n_fatigue_team, n_fatigue_opponent)
     return p
 
 
