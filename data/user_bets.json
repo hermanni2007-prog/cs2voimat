@@ -16,5 +16,23 @@
     "actual_winner": "3DMAX",
     "profit_eur": -20.0,
     "note": "Korvasi aiemman INFINITE@2.90-vedon (poistettu) - kayttaja vaihtoi koska INFINITE pelaa tanaan KAHDELLA stand-inilla, mika mitatoi mallin alkuperaisen +EV-signaalin taman ottelun osalta (malli ei nae stand-in-tietoa, ks. keskustelu 2026-09-18)."
+  },
+  {
+    "placed_utc": "2026-09-18T19:00:00+00:00",
+    "match_date_utc": "2026-09-19T10:00:00+00:00",
+    "tournament": "StarLadder StarSeries Fall 2026",
+    "team": "MIBR",
+    "opponent": "NRG",
+    "bet_on": "NRG",
+    "price": 2.50,
+    "stake_eur": 22.10,
+    "potential_win_eur": 55.25,
+    "model_p_bet_on": 0.456,
+    "model_ev": 0.140,
+    "model_confidence": "HYVA (MIBR n=67, NRG n=47)",
+    "status": "pending",
+    "actual_winner": null,
+    "profit_eur": null,
+    "note": "Kohtuullinen, ei rajkea signaali - markkina antoi NRG:lle vain ~38% kun malli antoi 45.6%."
   }
 ]
