@@ -1,0 +1,20 @@
+[
+  {
+    "placed_utc": "2026-09-18T18:20:00+00:00",
+    "match_date_utc": "2026-09-18T18:20:00+00:00",
+    "tournament": "Logitech G Play Connect 2026",
+    "team": "INFINITE",
+    "opponent": "3DMAX",
+    "bet_on": "INFINITE",
+    "price": 2.90,
+    "stake_eur": 20.00,
+    "potential_win_eur": 58.00,
+    "model_p_bet_on": 0.470,
+    "model_ev": 0.363,
+    "model_confidence": "HYVA",
+    "status": "pending",
+    "actual_winner": null,
+    "profit_eur": null,
+    "note": "Karkein signaali paivan otteluista (+36.3% EV), kayttaja vahvisti etta harmaana nakynyt kortti oli silti auki"
+  }
+]
