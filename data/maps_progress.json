@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-18T19:57:12.975015+00:00",
-  "tournaments_total": 701,
-  "tournaments_done": 700,
+  "updated_utc": "2026-09-18T22:32:02.614442+00:00",
+  "tournaments_total": 703,
+  "tournaments_done": 702,
   "tournaments_ok": 223,
   "tournaments_ok_no_brackets": 4,
-  "tournaments_not_found": 473,
+  "tournaments_not_found": 475,
   "tournaments_error": 1,
   "maps_collected": 1971,
   "last_tournament": {
-    "tournament": "United21 Season 47 - Playoffs",
-    "status": "ok",
+    "tournament": "GLuck Yungstar Series #3 Qual - Group A",
+    "status": "not_found",
     "maps_found": 0,
-    "at": "2026-09-18T12:28:07.102246+00:00"
+    "at": "2026-09-18T22:32:02.611280+00:00"
   }
 }
