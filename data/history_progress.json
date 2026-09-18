@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-09-18T10:42:32.493261+00:00",
+  "updated_utc": "2026-09-18T14:21:13.699923+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 4807,
+  "matches_collected": 4811,
   "last_team": {
     "team": "FUT",
     "status": "ok",
