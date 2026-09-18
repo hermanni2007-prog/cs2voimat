@@ -103,6 +103,25 @@ class MatchRow:
 
 
 def load_clean_matches(conn) -> list:
+    """HUOM 2026-09-18 (kayttajan huomio: "ero on liian suuri selvasti" 3DMAX
+    vs EYEBALLERS -ennusteessa, tutkittu ja loydetty aito bugi): opponent-
+    sarake historical_matches:ssa tallentaa Liquipedian HTML:sta parsitun
+    nayttonimen sellaisenaan, joka VAIHTELEE saman oikean joukkueen kohdalla
+    eri lahdesivujen valilla (esim. "SINNERS" vs "SINNERS Esports", "Omega"
+    vs "OMEGA", "WW TEAM" vs "WW", "Butterfly (Russian team)" vs "Butterfly").
+    Koska deduplicate_matches() avain kayttaa opponent-nimea sellaisenaan,
+    tama aiheutti SAMAN oikean ottelun tallentumisen KAHTEEN KERTAAN (112
+    tuplaparia loydetty koko datasetista top75-laajennuksen jalkeen, 2026-
+    09-18) - vaikutti kymmeniin joukkueisiin, mm. vaaristi 3DMAX:n ja
+    EYEBALLERS:n Elo-ratingin (3DMAX:lla tuplahavio, EYEBALLERS:lla
+    tuplavoitto, molemmat vaaraan suuntaan). Korjaus: normalisoidaan seka
+    team etta opponent kanoniseen top75-nimeen (resolve_to_canonical, sama
+    fuzzy-logiikka jota jo kaytettiin VrsRankingsissa ja historical_maps:n
+    aiemmassa migraatiossa) ENNEN deduplikointia, jolloin molemmat nimivariantit
+    osuvat samaan avaimeen ja tuplat poistuvat oikein."""
+    from team_names import load_top50_names, resolve_to_canonical
+
+    canonical_names = load_top50_names()
     rows = conn.execute(
         """SELECT match_date_utc, team, opponent, tier, match_type, tournament,
                   score_team, score_opponent
@@ -115,7 +134,9 @@ def load_clean_matches(conn) -> list:
     for r in rows:
         date = datetime.fromisoformat(r[0])
         team_won = 1 if r[6] > r[7] else 0
-        out.append(MatchRow(date=date, team=r[1], opponent=r[2], tier=r[3], match_type=r[4], tournament=r[5], team_won=team_won))
+        team = resolve_to_canonical(r[1], canonical_names)
+        opponent = resolve_to_canonical(r[2], canonical_names)
+        out.append(MatchRow(date=date, team=team, opponent=opponent, tier=r[3], match_type=r[4], tournament=r[5], team_won=team_won))
     return out
 
 
