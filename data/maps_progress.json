@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-18T09:54:30.964122+00:00",
-  "tournaments_total": 481,
-  "tournaments_done": 227,
-  "tournaments_ok": 97,
-  "tournaments_ok_no_brackets": 2,
-  "tournaments_not_found": 128,
-  "tournaments_error": 20,
-  "maps_collected": 1131,
+  "updated_utc": "2026-09-18T12:40:03.053145+00:00",
+  "tournaments_total": 701,
+  "tournaments_done": 700,
+  "tournaments_ok": 223,
+  "tournaments_ok_no_brackets": 4,
+  "tournaments_not_found": 473,
+  "tournaments_error": 1,
+  "maps_collected": 1971,
   "last_tournament": {
-    "tournament": "BLAST Rivals Spring 2026 - Playoffs",
+    "tournament": "United21 Season 47 - Playoffs",
     "status": "ok",
-    "maps_found": 12,
-    "at": "2026-09-18T09:54:30.958363+00:00"
+    "maps_found": 0,
+    "at": "2026-09-18T12:28:07.102246+00:00"
   }
 }
