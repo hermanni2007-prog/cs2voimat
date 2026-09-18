@@ -23,6 +23,24 @@ USER_AGENT = "CS2PelivoimatBot/0.1 (https://github.com/hermanni2007-prog/cs2voim
 QUERY_COOLDOWN_SECONDS = 2.1
 PARSE_COOLDOWN_SECONDS = 30.5
 
+# 429-varautuminen (lisatty 2026-09-18): alkuperainen koodi ei reagoinut
+# 429:aan mitenkaan - r.raise_for_status() heitti heti poikkeuksen, kutsuja
+# (collect_*.py) nappasi sen, merkitsi rivin 'error':ksi ja siirtyi
+# SEURAAVAAN tiimiin/turnaukseen VAIN normaalin 2.1s/30.5s cooldownin
+# jalkeen. BUGI HAVAITTU: kun Liquipedia alkoi palauttaa 429:aa laajemmin
+# (todennakoisesti aiemman samana paivana tapahtuneen rinnakkaisajon takia
+# saatu pidempi IP-tason rajoitus, ei vain per-pyynto-cooldown), skripti
+# jyrasi lapi kaikki 75/25/274 rivia muutamassa minuutissa - JOKAINEN
+# epaonnistui, ja jatkuva pommitus todennakoisesti PAHENSI/PIDENSI estoa.
+# Korjaus: eksponentiaalinen backoff 429:lla (Retry-After-otsikko jos
+# annettu) + "circuit breaker" joka lopettaa turhan pommittamisen kokonaan
+# hetkeksi kun esto on selvasti laaja-alainen, ei vain yksittainen huono tuuri.
+MAX_RETRIES = 4
+BACKOFF_START_SECONDS = 30.0
+BACKOFF_CAP_SECONDS = 240.0
+CIRCUIT_BREAK_AFTER = 3  # peräkkäistä täysin epäonnistunutta pyyntöä (kaikki uusintayritykset loppuun asti)
+CIRCUIT_COOLDOWN_SECONDS = 600.0  # 10 min tauko kun esto todetaan laaja-alaiseksi
+
 
 class LiquipediaClient:
     def __init__(self):
@@ -30,6 +48,8 @@ class LiquipediaClient:
         self.session.headers.update({"User-Agent": USER_AGENT, "Accept-Encoding": "gzip"})
         self._last_query_at = 0.0
         self._last_parse_at = 0.0
+        self._consecutive_exhaustions = 0
+        self._circuit_open_until = 0.0
 
     def _wait(self, last_attr: str, cooldown: float):
         last = getattr(self, last_attr)
@@ -38,10 +58,39 @@ class LiquipediaClient:
             time.sleep(cooldown - elapsed)
         setattr(self, last_attr, time.monotonic())
 
+    def _request(self, params: dict, cooldown_attr: str, cooldown_seconds: float, timeout: int):
+        now = time.monotonic()
+        if now < self._circuit_open_until:
+            remaining = self._circuit_open_until - now
+            raise RuntimeError(
+                f"Liquipedia-esto todettu laaja-alaiseksi, odotetaan viela {remaining:.0f}s ennen uutta yritysta"
+            )
+
+        backoff = BACKOFF_START_SECONDS
+        for attempt in range(MAX_RETRIES + 1):
+            self._wait(cooldown_attr, cooldown_seconds)
+            r = self.session.get(BASE_URL, params=params, timeout=timeout)
+            if r.status_code == 429:
+                if attempt == MAX_RETRIES:
+                    self._consecutive_exhaustions += 1
+                    if self._consecutive_exhaustions >= CIRCUIT_BREAK_AFTER:
+                        self._circuit_open_until = time.monotonic() + CIRCUIT_COOLDOWN_SECONDS
+                    r.raise_for_status()
+                retry_after = r.headers.get("Retry-After")
+                wait_s = float(retry_after) if retry_after and retry_after.strip().isdigit() else backoff
+                time.sleep(wait_s)
+                backoff = min(backoff * 2, BACKOFF_CAP_SECONDS)
+                continue
+            r.raise_for_status()
+            self._consecutive_exhaustions = 0
+            return r
+        raise RuntimeError("_request: saavuttamaton tila")
+
     def page_exists(self, title: str) -> bool:
-        self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
-        r = self.session.get(BASE_URL, params={"action": "query", "format": "json", "titles": title}, timeout=20)
-        r.raise_for_status()
+        r = self._request(
+            {"action": "query", "format": "json", "titles": title},
+            "_last_query_at", QUERY_COOLDOWN_SECONDS, 20,
+        )
         pages = r.json().get("query", {}).get("pages", {})
         return not any("missing" in p for p in pages.values())
 
@@ -52,13 +101,10 @@ class LiquipediaClient:
         "Spirit/Matches" ei ole olemassa vaikka "Team Spirit/Matches" on -
         alasivuja ei resolvoida automaattisesti perussivun uudelleenohjauksen kautta.
         """
-        self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
-        r = self.session.get(
-            BASE_URL,
-            params={"action": "query", "format": "json", "titles": title, "redirects": 1},
-            timeout=20,
+        r = self._request(
+            {"action": "query", "format": "json", "titles": title, "redirects": 1},
+            "_last_query_at", QUERY_COOLDOWN_SECONDS, 20,
         )
-        r.raise_for_status()
         data = r.json().get("query", {})
         redirects = data.get("redirects")
         if redirects:
@@ -66,13 +112,10 @@ class LiquipediaClient:
         return title
 
     def search_best_title(self, query: str) -> Optional[str]:
-        self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
-        r = self.session.get(
-            BASE_URL,
-            params={"action": "query", "format": "json", "list": "search", "srsearch": query, "srlimit": 5},
-            timeout=20,
+        r = self._request(
+            {"action": "query", "format": "json", "list": "search", "srsearch": query, "srlimit": 5},
+            "_last_query_at", QUERY_COOLDOWN_SECONDS, 20,
         )
-        r.raise_for_status()
         hits = r.json().get("query", {}).get("search", [])
         return hits[0]["title"] if hits else None
 
@@ -135,16 +178,13 @@ class LiquipediaClient:
         turnausnimille (esim. "Esports World Cup 2026" -> "FOKUS", pelaajan
         sivu jolla sana esiintyy usein) - intitle: on huomattavasti
         tarkempi kun etsitaan nimenomaan turnaussivua."""
-        self._wait("_last_query_at", QUERY_COOLDOWN_SECONDS)
-        r = self.session.get(
-            BASE_URL,
-            params={
+        r = self._request(
+            {
                 "action": "query", "format": "json", "list": "search",
                 "srsearch": f'intitle:"{phrase}"', "srlimit": 10,
             },
-            timeout=20,
+            "_last_query_at", QUERY_COOLDOWN_SECONDS, 20,
         )
-        r.raise_for_status()
         hits = r.json().get("query", {}).get("search", [])
         return [h["title"] for h in hits]
 
@@ -248,13 +288,10 @@ class LiquipediaClient:
         return None
 
     def fetch_rendered_html(self, page_title: str) -> str:
-        self._wait("_last_parse_at", PARSE_COOLDOWN_SECONDS)
-        r = self.session.get(
-            BASE_URL,
-            params={"action": "parse", "format": "json", "page": page_title, "prop": "text"},
-            timeout=30,
+        r = self._request(
+            {"action": "parse", "format": "json", "page": page_title, "prop": "text"},
+            "_last_parse_at", PARSE_COOLDOWN_SECONDS, 30,
         )
-        r.raise_for_status()
         data = r.json()
         if "error" in data:
             raise RuntimeError(f"Liquipedia API-virhe sivulla {page_title}: {data['error']}")
