@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-19T04:59:02.981010+00:00",
-  "tournaments_total": 703,
-  "tournaments_done": 702,
-  "tournaments_ok": 223,
+  "updated_utc": "2026-09-19T09:25:10.869020+00:00",
+  "tournaments_total": 704,
+  "tournaments_done": 703,
+  "tournaments_ok": 224,
   "tournaments_ok_no_brackets": 4,
   "tournaments_not_found": 475,
   "tournaments_error": 1,
-  "maps_collected": 1971,
+  "maps_collected": 1983,
   "last_tournament": {
-    "tournament": "GLuck Yungstar Series #3 Qual - Group A",
-    "status": "not_found",
-    "maps_found": 0,
-    "at": "2026-09-18T22:32:02.611280+00:00"
+    "tournament": "Circuit X Curitiba #3 - Playoffs",
+    "status": "ok",
+    "maps_found": 12,
+    "at": "2026-09-19T09:25:10.865117+00:00"
   }
 }
