@@ -34,5 +34,23 @@
     "actual_winner": null,
     "profit_eur": null,
     "note": "Kohtuullinen, ei rajkea signaali - markkina antoi NRG:lle vain ~38% kun malli antoi 45.6%."
+  },
+  {
+    "placed_utc": "2026-09-18T21:00:00+00:00",
+    "match_date_utc": "2026-09-19T11:00:00+00:00",
+    "tournament": "Logitech G Play Connect 2026",
+    "team": "Luminosity",
+    "opponent": "BBL",
+    "bet_on": "BBL",
+    "price": 2.60,
+    "stake_eur": 15.00,
+    "potential_win_eur": 39.00,
+    "model_p_bet_on": 0.561,
+    "model_ev": 0.459,
+    "model_confidence": "KOHTALAINEN (Luminosity n=14, BBL n=12) - laaja epavarmuushaarukka",
+    "status": "pending",
+    "actual_winner": null,
+    "profit_eur": null,
+    "note": "Ristiintarkistettu Bet365:lla (sharp-kirja) - Bet365 antoi BBL:lle marginaalittoman 41.1% kun EpicBet hinnoitteli vain 35.8% - sama suunta kuin mallimme, vahvistaa etta kyseessa todennakoisesti aito markkinatehottomuus EpicBetilla, ei vain mallin pienen otoksen kohinaa. Konservatiivisempi (Bet365-ankkuroitu) EV olisi ollut +6.9%, mallin oma +45.9%."
   }
 ]
