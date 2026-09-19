@@ -115,7 +115,11 @@ def main() -> int:
     is_levea = rank_team is not None and rank_opp is not None and rank_team > 20 and rank_opp > 20
     is_team_favorite = r["p_mid"] >= 0.5
     favorite_n_fatigue = n_fatigue_team if is_team_favorite else n_fatigue_opp
-    is_fatigued = favorite_n_fatigue >= FATIGUE_THRESHOLD
+    underdog_n_fatigue = n_fatigue_opp if is_team_favorite else n_fatigue_team
+    # HUOM 2026-09-20: taytyy olla AIDOSTI vasyneempi kuin altavastaaja, ei
+    # vain omilla ansioillaan yli kynnyksen - ks. backtest.py:n
+    # apply_fatigue_adjustment()-kommentti (Vitaly-FURIA-bugikorjaus).
+    is_fatigued = favorite_n_fatigue >= FATIGUE_THRESHOLD and favorite_n_fatigue > underdog_n_fatigue
 
     print(f"{args.team} vs {args.opponent}" + ("  [ONLINE-ottelu]" if match_type == "Online" else ""))
     print(f"  n_ottelua: {args.team}={r['n_team']}  {args.opponent}={r['n_opp']}  -> luottamus: {r['confidence']}")

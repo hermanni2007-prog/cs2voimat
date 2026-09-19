@@ -608,24 +608,41 @@ def apply_rust_adjustment(p_team: float, n_recent_team: int, n_recent_opponent: 
 # parani selvasti (log loss 0.7064 -> 0.6909, n=61), "tuore"-ryhma TAYSIN
 # KOSKEMATON (0.6481 = 0.6481, koska shrink on no-op ei-vasyneille) - koko
 # parannus tulee puhtaasti vasyneesta ryhmasta, ei muiden kustannuksella
-# (sama puhdas kuvio kuin ONLINE_SHRINK/LEVEA_SHRINK aikanaan). HUOM: train-
-# kayra on melko litea (0.6844-0.6853 koko [0,1]-valilla) - pieni otos
-# (n=61), joten "toistaiseksi tuettu" samaan tapaan kuin ruostumiskorjaus,
-# ei "todistettu".
+# (sama puhdas kuvio kuin ONLINE_SHRINK/LEVEA_SHRINK aikanaan).
+#
+# BUGI LOYDETTY JA KORJATTU (2026-09-20, kayttajan huomio Team Vitality vs
+# FURIA -ottelusta): alkuperainen ehto tarkisti VAIN suosikin vasymyksen
+# ABSOLUUTTISESTI (>=kynnys), EI VERRANNUT sita altavastaajan vasymykseen.
+# Vitaly-FURIA-ottelussa MOLEMMAT olivat pelanneet tasan 2 ottelua 24h
+# sisalla, silti korjaus kutisti VAIN Vitalya (suosikki) kohti 0.5:ta -
+# ei perusteltua kun altavastaaja on YHTA vasynyt. KORJAUS: lisatty ehto
+# etta suosikin taytyy olla AIDOSTI vasyneempi kuin altavastaaja (fav_n >
+# opp_n), ei vain omilla ansioillaan yli kynnyksen. Uudelleenvalidoitu
+# (run_fatigue_shrink.py, variantti B): n putosi 61:sta 32:een (odotettua,
+# koska ehto on tiukempi), mutta test-osiolla sama puhdas kuvio sailyi -
+# "vasynyt"-ryhma parani (0.7257 -> 0.7043), "tuore"-ryhma TAYSIN
+# KOSKEMATON (0.6523 = 0.6523). Paras shrink muuttui 0.4:sta 0.6:een.
+# HUOM: train-kayra on viela litea (n=32, pieni otos), "toistaiseksi
+# tuettu", ei "todistettu" - sama varaus kuin muillakin pienen otoksen
+# korjauksilla.
 # ---------------------------------------------------------------------------
 FATIGUE_WINDOW_DAYS = 1.0  # 24h
 FATIGUE_THRESHOLD = 2  # >=2 ottelua ikkunassa = tama on jo 3.+ ottelu
-FATIGUE_SHRINK = 0.4  # validoitu grid-haulla, ei arvaus
+FATIGUE_SHRINK = 0.6  # validoitu grid-haulla (differentiaalinen versio), ei arvaus
 
 
 def apply_fatigue_adjustment(p_team: float, n_fatigue_team: int, n_fatigue_opponent: int) -> float:
     """Kutistaa ennusteen kohti 0.5:ta JOS suosikilla on >=FATIGUE_THRESHOLD
-    ottelua viimeisen FATIGUE_WINDOW_DAYS:n (24h) aikana - eri ikkuna kuin
-    ruostumiskorjaus (5 vrk), lasketaan erikseen `count_recent_matches`-
-    kutsulla FATIGUE_WINDOW_DAYS-parametrilla."""
+    ottelua viimeisen FATIGUE_WINDOW_DAYS:n (24h) aikana JA suosikki on
+    AIDOSTI vasyneempi kuin altavastaaja (ei vain omilla ansioillaan yli
+    kynnyksen - symmetrinen vasymys ei laukaise korjausta, ks. yla
+    kommentti). Eri ikkuna kuin ruostumiskorjaus (5 vrk), lasketaan
+    erikseen `count_recent_matches`-kutsulla FATIGUE_WINDOW_DAYS-
+    parametrilla."""
     is_team_favorite = p_team >= 0.5
     favorite_n_fatigue = n_fatigue_team if is_team_favorite else n_fatigue_opponent
-    if favorite_n_fatigue >= FATIGUE_THRESHOLD:
+    underdog_n_fatigue = n_fatigue_opponent if is_team_favorite else n_fatigue_team
+    if favorite_n_fatigue >= FATIGUE_THRESHOLD and favorite_n_fatigue > underdog_n_fatigue:
         return 0.5 + (p_team - 0.5) * FATIGUE_SHRINK
     return p_team
 
