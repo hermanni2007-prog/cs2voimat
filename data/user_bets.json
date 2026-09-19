@@ -51,6 +51,10 @@
     "status": "pending",
     "actual_winner": null,
     "profit_eur": null,
-    "note": "Ristiintarkistettu Bet365:lla (sharp-kirja) - Bet365 antoi BBL:lle marginaalittoman 41.1% kun EpicBet hinnoitteli vain 35.8% - sama suunta kuin mallimme, vahvistaa etta kyseessa todennakoisesti aito markkinatehottomuus EpicBetilla, ei vain mallin pienen otoksen kohinaa. Konservatiivisempi (Bet365-ankkuroitu) EV olisi ollut +6.9%, mallin oma +45.9%."
+    "note": "Ristiintarkistettu Bet365:lla (sharp-kirja) - Bet365 antoi BBL:lle marginaalittoman 41.1% kun EpicBet hinnoitteli vain 35.8% - sama suunta kuin mallimme, vahvistaa etta kyseessa todennakoisesti aito markkinatehottomuus EpicBetilla, ei vain mallin pienen otoksen kohinaa. Konservatiivisempi (Bet365-ankkuroitu) EV olisi ollut +6.9%, mallin oma +45.9%.",
+    "line_movement_observed": [
+      {"observed_utc": "2026-09-18T21:30:00+00:00", "bookmaker": "EpicBet", "price": 2.60},
+      {"observed_utc": "2026-09-19T06:00:00+00:00", "bookmaker": "EpicBet", "price": 2.50, "note": "kayttaja havaitsi kertoimen laskeneen hyvissa ajoin ennen closingia, ilman selvaa uutissyyta - suunta tukee etta veto oli aito arvo (epavirallinen CLV-havainto, ei viela osa muodollista CLV-jarjestelmaa)"}
+    ]
   }
 ]
