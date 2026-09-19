@@ -43,10 +43,22 @@ jobs:
         run: python src/collect_odds.py
 
       - name: Committaa tietokanta ja valimuisti takaisin repoon
+        # HUOM 2026-09-20: ks. collect_history.yml:n saman kohdan kommentti -
+        # sama binaarikonflikti-uusintayritys+siisti-luovutus -logiikka.
         run: |
           git config user.name "cs2-odds-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/odds.db data/cache_sport_id.json data/cache_tournaments.json data/cache_participants.json
           git diff --cached --quiet || git commit -m "collector: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push origin main; then
+              echo "Push onnistui (yritys $i)."
+              exit 0
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((RANDOM % 10 + 3))
+          done
+          echo "Push epaonnistui $i yrityksen jalkeen (binaarikonflikti toisen collectorin kanssa) - luovutaan taman ajon omasta datasta siististi, seuraava ajo yrittaa uudelleen."
+          git reset --hard origin/main
+          exit 0
