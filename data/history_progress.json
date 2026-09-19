@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-19T00:45:23.992254+00:00",
+  "updated_utc": "2026-09-19T05:10:49.956071+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 57,
   "teams_ok": 50,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 4850,
+  "matches_collected": 4856,
   "last_team": {
-    "team": "INFINITE",
+    "team": "Aurora",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-09-19T00:45:23.989470+00:00"
+    "at": "2026-09-19T05:10:49.953573+00:00"
   }
 }
