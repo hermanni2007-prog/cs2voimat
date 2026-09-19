@@ -360,13 +360,26 @@ def market_walk_forward(matches: list) -> dict:
 # ottelun toiseksi puoleksi" ja pudotettiin kokonaan - yhden joukkueen
 # rating ei paivittynyt ollenkaan. Korjattu lisaamalla joukkuepari
 # (frozenset, jarjestyksesta riippumaton) avaimeen.
+#
+# BUGI #2 (loydetty 2026-09-20, kayttajan pyytaessa "siivousajoa"):
+# `tournament`-kentan JATTAMINEN avaimeen loi PAINVASTAISEN ongelman -
+# sama oikea ottelu (sama pvm+joukkueet+tulos) tallentui kahteen kertaan
+# jos Liquipedia-collector ja kasin lisatty rivi kayttivat ERI turnaus-
+# nimimerkintaa samalle turnaukselle (esim. "SL StarSeries Fall 2026"
+# collectorilta vs "StarLadder StarSeries Fall 2026" kasin lisattyna) -
+# viisi tallaista paria loytyi ja siivottiin 2026-09-20. Koska KAKSI
+# joukkuetta EI VOI pelata toisiaan kahdesti TASMALLEEN samalla aika-
+# leimalla (fysikaalinen mahdottomuus), `tournament` on turha avaimessa
+# kun joukkuepari+aikaleima ovat jo mukana - POISTETTU avaimesta
+# kokonaan, alkuperainen bugi (KAKSI ERI ottelua samaan aikaleimaan)
+# pysyy silti korjattuna koska frozenset(team,opponent) jo erottaa ne.
 # ---------------------------------------------------------------------------
 
 def deduplicate_matches(matches: list) -> list:
     seen = set()
     out = []
     for m in matches:
-        key = (m.date.isoformat(), m.tournament, frozenset({m.team, m.opponent}))
+        key = (m.date.isoformat(), frozenset({m.team, m.opponent}))
         if key in seen:
             continue
         seen.add(key)
