@@ -1,0 +1,52 @@
+name: CS2 roster transitions collector
+
+on:
+  schedule:
+    # 20 min valein - itserajoittuva: kun kaikki 75 joukkuetta on kerätty,
+    # ajo loytaa 0 pending-riviä ja paattyy heti (ei jatkuvaa Liquipedia-
+    # kuormaa). Ei --reset: jatkaa siitä missä edellinen ajo (paikallinen tai
+    # CI) jai, koska data on jalkikateista/harvoin muuttuvaa (ei paivittaista
+    # taysuudelleenkeruuta tarvita kuten collect_rosters.yml:ssa).
+    - cron: "*/20 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cs2-roster-transitions-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - name: Aja rosterin siirtyma-/stand-in-historian keruu (jatkaa pending-riveista)
+        run: python src/collect_roster_transitions.py
+
+      - name: Committaa tietokanta ja edistymistiedosto takaisin repoon
+        run: |
+          git config user.name "cs2-roster-transitions-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/odds.db data/roster_transition_progress.json
+          git diff --cached --quiet || git commit -m "roster transitions collector: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push origin main; then
+              echo "Push onnistui (yritys $i)."
+              exit 0
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((RANDOM % 10 + 3))
+          done
+          echo "Push epaonnistui $i yrityksen jalkeen (binaarikonflikti toisen collectorin kanssa) - luovutaan taman ajon omasta datasta siististi, seuraava ajo yrittaa uudelleen."
+          git reset --hard origin/main
+          exit 0
