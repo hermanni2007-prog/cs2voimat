@@ -1,0 +1,88 @@
+name: CS2 core collectors (history + maps + market snapshot)
+
+on:
+  schedule:
+    # KONSOLIDOITU 2026-09-20: yhdistetty collect_history.yml + collect_maps.yml
+    # + collect_market_snapshot.yml YHDEKSI ajastukseksi. Syy: CI:n ajastettu
+    # (cron-) laukaisu meni TAYSIN hiljaiseksi >2h:ksi juuri sen jalkeen kun
+    # ajastettujen workflowien maara nousi 4:sta 6:een (lisattiin roster_
+    # transitions + market_snapshot samana paivana) - ei todistettu syy-
+    # yhteys (voi olla myos GitHubin dokumentoitu "high load" -viive, joka
+    # taman session'in aikana osoittautui odotettua paljon pahemmaksi), mutta
+    # ajastusten maaran vahentaminen 6:sta 3:een (tama + roster + roster_
+    # transitions) on turvallinen, jarkeva kokeilu joka myos vahentaa
+    # odds.db:n rinnakkaisten kirjoittajien maaraa (pienentaa aiemmin jo
+    # kerran korjattua binaarikonfliktiongelmaa entisestaan).
+    - cron: "8,23,38,53 * * * *"
+  workflow_dispatch:
+    inputs:
+      teams:
+        description: >-
+          Valinnainen: valitetaan history-collectorille --teams-lippuna
+          (esim. "Vitality FURIA Aurora") pakottaaksesi niiden valittoman
+          uudelleenhaun. Tyhjana normaali max-teams-ajo.
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cs2-core-collectors
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - run: python -m playwright install --with-deps chromium
+
+      - name: 1) Markkinasnapshot (oddsportal, ei Liquipedia-riippuvuutta - ajetaan ENSIN)
+        continue-on-error: true
+        run: python src/collect_market_snapshot.py
+
+      - name: 2) Historiakeruu (kohdennettu jos "teams"-syote annettu, muuten max 25 joukkuetta)
+        continue-on-error: true
+        env:
+          TEAMS_INPUT: ${{ github.event.inputs.teams }}
+        run: |
+          if [ -n "$TEAMS_INPUT" ]; then
+            python src/collect_history.py --teams $TEAMS_INPUT
+          else
+            python src/collect_history.py --max-teams 25
+          fi
+
+      - name: 3) Karttakeruu (max 20 turnausta / ajo)
+        continue-on-error: true
+        run: python src/collect_maps.py --max-tournaments 20
+
+      - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
+        continue-on-error: true
+        run: python src/check_pipeline_health.py || true
+
+      - name: Committaa tietokanta ja kaikki edistymistiedostot takaisin repoon
+        run: |
+          git config user.name "cs2-core-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/odds.db data/history_progress.json data/maps_progress.json
+          git diff --cached --quiet || git commit -m "core collectors: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push origin main; then
+              echo "Push onnistui (yritys $i)."
+              exit 0
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((RANDOM % 10 + 3))
+          done
+          echo "Push epaonnistui $i yrityksen jalkeen (binaarikonflikti) - luovutaan taman ajon omasta datasta siististi, seuraava ajo yrittaa uudelleen."
+          git reset --hard origin/main
+          exit 0
