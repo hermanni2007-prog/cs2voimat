@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-20T01:25:07.197302+00:00",
+  "updated_utc": "2026-09-20T06:35:14.681652+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 75,
-  "teams_ok": 68,
+  "teams_done": 50,
+  "teams_ok": 43,
   "teams_not_found": 7,
   "teams_error": 0,
   "matches_collected": 4875,
   "last_team": {
-    "team": "Lynn Vision",
+    "team": "INOX Division",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-09-20T01:25:07.195222+00:00"
+    "at": "2026-09-20T06:35:14.679998+00:00"
   }
 }
