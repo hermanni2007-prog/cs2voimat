@@ -10,7 +10,17 @@ on:
     # YAML oli validi. Liquipedian action=parse sallii 1 pyynnon/30s, joten
     # 25 joukkuetta/ajo (~12.5 min) mahtuu turvallisesti 15 min ikkunaan.
     - cron: "6,21,36,51 * * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      teams:
+        description: >-
+          Valinnainen: tasmalliset joukkuenimet valilyonnilla erotettuna
+          (esim. "Vitality FURIA Aurora") pakottaaksesi niiden valittoman
+          uudelleenhaun ohi normaalin jonon/6h-staleness-tarkistuksen -
+          kayttoon kun saman paivan pudotuspelibracket etenee nopeasti
+          eika voida odottaa normaalia kiertoa. Tyhjana normaali ajo.
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -31,8 +41,15 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Aja historiakeruu (max 25 joukkuetta / ajo)
-        run: python src/collect_history.py --max-teams 25
+      - name: Aja historiakeruu (kohdennettu jos "teams"-syote annettu, muuten max 25 joukkuetta / ajo)
+        env:
+          TEAMS_INPUT: ${{ github.event.inputs.teams }}
+        run: |
+          if [ -n "$TEAMS_INPUT" ]; then
+            python src/collect_history.py --teams $TEAMS_INPUT
+          else
+            python src/collect_history.py --max-teams 25
+          fi
 
       - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
         run: python src/check_pipeline_health.py || true

@@ -196,6 +196,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--max-teams", type=int, default=None,
                          help="Kasittele korkeintaan N kasittelematonta joukkuetta tassa ajossa.")
+    parser.add_argument("--teams", nargs="+", default=None,
+                         help="Pakota TASMALLEEN nama joukkueet valittomasti (ohittaa pending-jonon "
+                              "JA staleness-tarkistuksen) - kayttoon kun tiedetaan etta tietty joukkue "
+                              "on juuri pelannut (esim. saman paivan pudotuspelibracket) eika voida "
+                              "odottaa sen normaalia 6h-uudelleenhakuvuoroa.")
     args = parser.parse_args()
 
     init_db()
@@ -206,25 +211,33 @@ def main() -> int:
 
     cutoff_utc = datetime.now(timezone.utc) - timedelta(days=HISTORY_WINDOW_DAYS)
 
-    stale_cutoff = (datetime.now(timezone.utc) - timedelta(hours=STALE_HOURS)).isoformat()
-    reset = conn.execute(
-        "UPDATE history_team_progress SET status='pending' "
-        "WHERE status='ok' AND last_attempt_utc < ?",
-        (stale_cutoff,),
-    )
-    conn.commit()
-    if reset.rowcount:
-        log.info("Nollattu %d vanhentunutta (>%dh) joukkuetta takaisin pendingiksi", reset.rowcount, STALE_HOURS)
+    if args.teams:
+        known = {r[0] for r in conn.execute("SELECT team FROM history_team_progress").fetchall()}
+        pending = [t for t in args.teams if t in known]
+        unknown = [t for t in args.teams if t not in known]
+        if unknown:
+            log.warning("Tuntemattomia joukkuenimia (ei top75-listalla): %s", unknown)
+        log.info("Pakotettu kohdennettu haku %d joukkueelle (ohittaa jonon/staleness): %s", len(pending), pending)
+    else:
+        stale_cutoff = (datetime.now(timezone.utc) - timedelta(hours=STALE_HOURS)).isoformat()
+        reset = conn.execute(
+            "UPDATE history_team_progress SET status='pending' "
+            "WHERE status='ok' AND last_attempt_utc < ?",
+            (stale_cutoff,),
+        )
+        conn.commit()
+        if reset.rowcount:
+            log.info("Nollattu %d vanhentunutta (>%dh) joukkuetta takaisin pendingiksi", reset.rowcount, STALE_HOURS)
 
-    # Vanhin last_attempt_utc ensin (NULL = ei koskaan haettu = kiireisin) -
-    # varmistaa etta AINA vanhentunein data paivittyy ensin, ei aakkosjarjestys.
-    pending = conn.execute(
-        "SELECT team FROM history_team_progress WHERE status='pending' "
-        "ORDER BY last_attempt_utc IS NOT NULL, last_attempt_utc ASC"
-    ).fetchall()
-    pending = [r[0] for r in pending]
-    if args.max_teams:
-        pending = pending[: args.max_teams]
+        # Vanhin last_attempt_utc ensin (NULL = ei koskaan haettu = kiireisin) -
+        # varmistaa etta AINA vanhentunein data paivittyy ensin, ei aakkosjarjestys.
+        pending = conn.execute(
+            "SELECT team FROM history_team_progress WHERE status='pending' "
+            "ORDER BY last_attempt_utc IS NOT NULL, last_attempt_utc ASC"
+        ).fetchall()
+        pending = [r[0] for r in pending]
+        if args.max_teams:
+            pending = pending[: args.max_teams]
 
     log.info("Kasitellaan %d joukkuetta tassa ajossa (8 kk ikkuna, alkaen %s)", len(pending), cutoff_utc.date())
 
