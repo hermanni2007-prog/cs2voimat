@@ -203,3 +203,29 @@ CREATE TABLE IF NOT EXISTS clv_log (
 );
 
 CREATE INDEX IF NOT EXISTS idx_clv_fixture ON clv_log(fixture_id);
+
+-- Markkinasnapshotit oddsportal.com:sta (lisatty 2026-09-20, kayttajan
+-- pyynnosta "improve idea #1" - CLV-seuranta ilman maksullista oddspapi.io-
+-- tilausta). EI sidottu matches(fixture_id):hin (eri lahde, ei fixture_id:ta
+-- saatavilla) - joukkueet tunnistetaan nimella (resolve_to_canonical
+-- kaytossa lukuvaiheessa, ei tallennettaessa - raaka nimi sailytetaan).
+-- Useita rivejä per (ottelu, hetki) - yksi per kirja, koska oddsportal
+-- nayttaa usean kirjan hinnat samalla sivulla. Ajetaan Playwright'lla
+-- (renderoi sivun kuten oikea selain - EI reverse-engineeraa oddsportalin
+-- salattua sisaista /proxy/api/home-data -paatepistetta, joka on
+-- tarkoituksella hamartetty automaatiota vastaan).
+CREATE TABLE IF NOT EXISTS market_snapshots (
+    id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+    captured_utc       TEXT NOT NULL,
+    sport               TEXT NOT NULL DEFAULT 'counterstrike',
+    tournament          TEXT,
+    team1_raw           TEXT NOT NULL,
+    team2_raw           TEXT NOT NULL,
+    match_time_raw      TEXT,               -- oddsportalin nayttama aika (esim. "15:00" tai "20 Sep")
+    bookmaker           TEXT NOT NULL,
+    price_team1         REAL,
+    price_team2         REAL,
+    source              TEXT NOT NULL DEFAULT 'oddsportal'
+);
+
+CREATE INDEX IF NOT EXISTS idx_market_snapshots_teams ON market_snapshots(team1_raw, team2_raw, captured_utc);

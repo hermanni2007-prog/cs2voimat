@@ -1,0 +1,52 @@
+name: CS2 market snapshot collector
+
+on:
+  schedule:
+    # 30 min valein - riittava CLV-seurantaan (avaus vs sulkeutuva hinta),
+    # ei liian tihea (oddsportal ei ole meidan ylapuolellamme kuin
+    # Liquipedia - kohtelias kadenssi).
+    - cron: "12,42 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cs2-market-snapshot-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - run: python -m playwright install --with-deps chromium
+
+      - name: Aja markkinasnapshot-keruu (oddsportal.com, renderoitu selaimella)
+        run: python src/collect_market_snapshot.py
+
+      - name: Committaa tietokanta takaisin repoon
+        run: |
+          git config user.name "cs2-market-snapshot-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/odds.db
+          git diff --cached --quiet || git commit -m "market snapshot collector: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase origin/main && git push origin main; then
+              echo "Push onnistui (yritys $i)."
+              exit 0
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((RANDOM % 10 + 3))
+          done
+          echo "Push epaonnistui $i yrityksen jalkeen (binaarikonflikti toisen collectorin kanssa) - luovutaan taman ajon omasta datasta siististi, seuraava ajo yrittaa uudelleen."
+          git reset --hard origin/main
+          exit 0
