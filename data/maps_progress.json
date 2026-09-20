@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-20T19:54:20.304783+00:00",
-  "tournaments_total": 708,
-  "tournaments_done": 707,
+  "updated_utc": "2026-09-20T22:03:27.720600+00:00",
+  "tournaments_total": 709,
+  "tournaments_done": 708,
   "tournaments_ok": 227,
   "tournaments_ok_no_brackets": 4,
-  "tournaments_not_found": 476,
+  "tournaments_not_found": 477,
   "tournaments_error": 1,
   "maps_collected": 1998,
   "last_tournament": {
-    "tournament": "Circuito Retake Season 12 - Playoffs",
-    "status": "ok",
-    "maps_found": 4,
-    "at": "2026-09-20T01:00:19.264610+00:00"
+    "tournament": "CCT EU 2026 Series #9 - Round 3",
+    "status": "not_found",
+    "maps_found": 0,
+    "at": "2026-09-20T22:03:27.718189+00:00"
   }
 }
