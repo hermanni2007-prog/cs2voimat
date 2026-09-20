@@ -2,10 +2,13 @@ name: CS2 market snapshot collector
 
 on:
   schedule:
-    # 30 min valein - riittava CLV-seurantaan (avaus vs sulkeutuva hinta),
-    # ei liian tihea (oddsportal ei ole meidan ylapuolellamme kuin
-    # Liquipedia - kohtelias kadenssi).
-    - cron: "12,42 * * * *"
+    # 15 min valein (tiivistetty 30min:sta 2026-09-20, kayttajan huomio:
+    # saman paivan pudotuspelibracket voi edeta seuraavaan otteluun alle
+    # 30 minuutissa - liian hidas kadenssi tarkoittaisi ettemme nae uuden
+    # ottelun avaushintaa ajoissa). Ei per-ottelu-staleness-porttia kuten
+    # historiakeruulla - joka ajo lukee KAIKKI sivulla nakyvat ottelut, joten
+    # tihentaminen ei vaadi muuta logiikkaa, vain kadenssin.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch: {}
 
 permissions:
