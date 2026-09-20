@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-20T17:43:35.976038+00:00",
+  "updated_utc": "2026-09-20T19:54:20.099399+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 57,
   "teams_ok": 50,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 4879,
+  "matches_collected": 4885,
   "last_team": {
-    "team": "Ninjas in Pyjamas",
+    "team": "SportsBetExpert",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-09-20T17:43:35.974189+00:00"
+    "at": "2026-09-20T19:54:20.097728+00:00"
   }
 }
