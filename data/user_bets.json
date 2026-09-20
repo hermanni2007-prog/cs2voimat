@@ -104,5 +104,20 @@
         "note": "1xBet 2.87, Betfury 2.88, Rainbet 2.88, Roobet 2.94, Stake.com 2.80 - kaikki klusteroituvat samaan alueeseen Betssonin kanssa, laajempi vahvistus etta liike ei ole yhden kirjan kohinaa"
       }
     ]
+  },
+  {
+    "placed_utc": "2026-09-20T14:09:19+00:00",
+    "match_date_utc": "2026-09-20T15:00:00+00:00",
+    "tournament": "StarLadder StarSeries Fall 2026",
+    "team": "Vitality",
+    "opponent": "Aurora",
+    "bet_on": "Aurora",
+    "price": 3.2,
+    "stake_eur": 50.0,
+    "potential_win_eur": 160.0,
+    "model_p_bet_on": 0.375,
+    "model_ev": 0.2,
+    "model_confidence": "KOHTALAINEN - n-maara HYVA (Aurora n=61, Vitality n=55, Elo-sija Aurora #9 Vitality #2), mutta itse EDGE on heikommin tuettu kuin BBL-tapaus: 6.6pp ero mallin (37.5%) ja 5 riippumattoman kirjan tiiviin konsensuksen (~29.5-33%, ka. 30.9%) valilla - pienempi ja vahvemmin markkinan yksimielisyyden tukema erimielisyys kuin FURIA-veto (13.7pp vs Bet365) joka havisi TASSA SAMASSA turnauksessa vain tunteja aiemmin. Markkinan hinnoittelu nayttaa perustellulta (Vitalyn suosikkuus laski jarkevasti 78.7%:sta eilisen Aurora-tappion jalkeen 69-73%:iin, ei ylireagointia). BO5-EPAVARMUUS: jos ottelu on Bo5 (ei varmistettu), mallin 37.5% on TODENNAKOISESTI YLIARVIO Auroralle - pidempi sarja pienentaa yllatystn, mutta emme voineet kvantifioida korjausta (vain n=36 Bo5-ottelua koko datassa). Kayttajan oma paatos tietoisena naista varauksista - malli ei itsessaan anna vahvaa 'osu tahan' -suositusta.",
+    "status": "pending"
   }
 ]
