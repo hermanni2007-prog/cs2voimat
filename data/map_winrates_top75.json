@@ -1,0 +1,2788 @@
+[
+  {
+    "team": "100 Thieves",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "100 Thieves",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "100 Thieves",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "100 Thieves",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "100 Thieves",
+    "map": "Mirage",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "100 Thieves",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "3DMAX",
+    "map": "Inferno",
+    "n": 5,
+    "wins": 1,
+    "win_pct": 20.0
+  },
+  {
+    "team": "3DMAX",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "3DMAX",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "3DMAX",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "3DMAX",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "9INE",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "9INE",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "9INE",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "9INE",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "9INE",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "9INE",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "9z",
+    "map": "Nuke",
+    "n": 13,
+    "wins": 6,
+    "win_pct": 46.2
+  },
+  {
+    "team": "9z",
+    "map": "Dust II",
+    "n": 12,
+    "wins": 6,
+    "win_pct": 50.0
+  },
+  {
+    "team": "9z",
+    "map": "Inferno",
+    "n": 10,
+    "wins": 6,
+    "win_pct": 60.0
+  },
+  {
+    "team": "9z",
+    "map": "Mirage",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "9z",
+    "map": "Overpass",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "9z",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "9z",
+    "map": "Cache",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "9z",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "ASTRAL",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "ASTRAL",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "ASTRAL",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "ASTRAL",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "ASTRAL",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Acend",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Acend",
+    "map": "Mirage",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Acend",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Acend",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Acend",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Acend",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Alliance",
+    "map": "Inferno",
+    "n": 10,
+    "wins": 6,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Alliance",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 6,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Alliance",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "Alliance",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Alliance",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Alliance",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Alliance",
+    "map": "Cache",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Inferno",
+    "n": 7,
+    "wins": 4,
+    "win_pct": 57.1
+  },
+  {
+    "team": "Astralis",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Mirage",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Astralis",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Aurora",
+    "map": "Inferno",
+    "n": 10,
+    "wins": 7,
+    "win_pct": 70.0
+  },
+  {
+    "team": "Aurora",
+    "map": "Dust II",
+    "n": 7,
+    "wins": 6,
+    "win_pct": 85.7
+  },
+  {
+    "team": "Aurora",
+    "map": "Anubis",
+    "n": 7,
+    "wins": 3,
+    "win_pct": 42.9
+  },
+  {
+    "team": "Aurora",
+    "map": "Nuke",
+    "n": 7,
+    "wins": 3,
+    "win_pct": 42.9
+  },
+  {
+    "team": "Aurora",
+    "map": "Mirage",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Aurora",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Aurora",
+    "map": "Cache",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Aurora",
+    "map": "Ancient",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "B8",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "B8",
+    "map": "Mirage",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "B8",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "B8",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "B8",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "B8",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "B8",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BBL",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BBL",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BC.Game",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "BC.Game",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BC.Game",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BC.Game",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BC.Game",
+    "map": "Ancient",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Nuke",
+    "n": 8,
+    "wins": 2,
+    "win_pct": 25.0
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Anubis",
+    "n": 7,
+    "wins": 2,
+    "win_pct": 28.6
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Mirage",
+    "n": 6,
+    "wins": 5,
+    "win_pct": 83.3
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Cache",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "BETBOOM",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "BIG",
+    "map": "Ancient",
+    "n": 10,
+    "wins": 4,
+    "win_pct": 40.0
+  },
+  {
+    "team": "BIG",
+    "map": "Overpass",
+    "n": 9,
+    "wins": 5,
+    "win_pct": 55.6
+  },
+  {
+    "team": "BIG",
+    "map": "Mirage",
+    "n": 7,
+    "wins": 3,
+    "win_pct": 42.9
+  },
+  {
+    "team": "BIG",
+    "map": "Cache",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "BIG",
+    "map": "Dust II",
+    "n": 6,
+    "wins": 2,
+    "win_pct": 33.3
+  },
+  {
+    "team": "BIG",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 4,
+    "win_pct": 80.0
+  },
+  {
+    "team": "BIG",
+    "map": "Inferno",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "BIG",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Betclic",
+    "map": "Nuke",
+    "n": 6,
+    "wins": 1,
+    "win_pct": 16.7
+  },
+  {
+    "team": "Betclic",
+    "map": "Anubis",
+    "n": 5,
+    "wins": 1,
+    "win_pct": 20.0
+  },
+  {
+    "team": "Betclic",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Betclic",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Betclic",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Betclic",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Nuke",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Overpass",
+    "n": 5,
+    "wins": 1,
+    "win_pct": 20.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Cache",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "DENDELE",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "DEPO",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "DEPO",
+    "map": "Mirage",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "DEPO",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "DEPO",
+    "map": "Ancient",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "DEPO",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "DEPO",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "EYEBALLERS",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "EYEBALLERS",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "EYEBALLERS",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "EYEBALLERS",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "EYEBALLERS",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "EYEBALLERS",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FOKUS",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FOKUS",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "FOKUS",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "FOKUS",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FOKUS",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FOKUS",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "FURIA",
+    "map": "Dust II",
+    "n": 14,
+    "wins": 8,
+    "win_pct": 57.1
+  },
+  {
+    "team": "FURIA",
+    "map": "Mirage",
+    "n": 12,
+    "wins": 5,
+    "win_pct": 41.7
+  },
+  {
+    "team": "FURIA",
+    "map": "Nuke",
+    "n": 9,
+    "wins": 6,
+    "win_pct": 66.7
+  },
+  {
+    "team": "FURIA",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FURIA",
+    "map": "Inferno",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "FURIA",
+    "map": "Cache",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "FURIA",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FURIA",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "FUT",
+    "map": "Ancient",
+    "n": 7,
+    "wins": 4,
+    "win_pct": 57.1
+  },
+  {
+    "team": "FUT",
+    "map": "Dust II",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "FUT",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FUT",
+    "map": "Mirage",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "FUT",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FUT",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "FaZe",
+    "map": "Dust II",
+    "n": 8,
+    "wins": 3,
+    "win_pct": 37.5
+  },
+  {
+    "team": "FaZe",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 3,
+    "win_pct": 37.5
+  },
+  {
+    "team": "FaZe",
+    "map": "Cache",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "FaZe",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "FaZe",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FaZe",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FaZe",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "FaZe",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Falcons",
+    "map": "Dust II",
+    "n": 18,
+    "wins": 13,
+    "win_pct": 72.2
+  },
+  {
+    "team": "Falcons",
+    "map": "Ancient",
+    "n": 12,
+    "wins": 5,
+    "win_pct": 41.7
+  },
+  {
+    "team": "Falcons",
+    "map": "Inferno",
+    "n": 12,
+    "wins": 6,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Falcons",
+    "map": "Mirage",
+    "n": 12,
+    "wins": 6,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Falcons",
+    "map": "Nuke",
+    "n": 6,
+    "wins": 5,
+    "win_pct": 83.3
+  },
+  {
+    "team": "Falcons",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Fluxo",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Fluxo",
+    "map": "Inferno",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Fluxo",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Fluxo",
+    "map": "Mirage",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Fluxo",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "FlyQuest",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "FlyQuest",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FlyQuest",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FlyQuest",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "FlyQuest",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "G2",
+    "map": "Ancient",
+    "n": 11,
+    "wins": 6,
+    "win_pct": 54.5
+  },
+  {
+    "team": "G2",
+    "map": "Dust II",
+    "n": 11,
+    "wins": 4,
+    "win_pct": 36.4
+  },
+  {
+    "team": "G2",
+    "map": "Mirage",
+    "n": 10,
+    "wins": 4,
+    "win_pct": 40.0
+  },
+  {
+    "team": "G2",
+    "map": "Inferno",
+    "n": 8,
+    "wins": 6,
+    "win_pct": 75.0
+  },
+  {
+    "team": "G2",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "G2",
+    "map": "Cache",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "G2",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Mirage",
+    "n": 6,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "GamerLegion",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "HEROIC",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 4,
+    "win_pct": 80.0
+  },
+  {
+    "team": "HEROIC",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "HEROIC",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "HEROIC",
+    "map": "Inferno",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "HEROIC",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "HEROIC",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "HOTU",
+    "map": "Dust II",
+    "n": 6,
+    "wins": 2,
+    "win_pct": 33.3
+  },
+  {
+    "team": "HOTU",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "HOTU",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "HOTU",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "HOTU",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "HOTU",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "HOTU",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "INFINITE",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "INFINITE",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "INFINITE",
+    "map": "Mirage",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "INFINITE",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "INFINITE",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "INFINITE",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Imperial",
+    "map": "Mirage",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Imperial",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Imperial",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Imperial",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Inferno",
+    "n": 5,
+    "wins": 5,
+    "win_pct": 100.0
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Mirage",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Cache",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "JiJieHao",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "K27",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "K27",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "K27",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "K27",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "K27",
+    "map": "Cache",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "K27",
+    "map": "Ancient",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "K27",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Legacy",
+    "map": "Ancient",
+    "n": 12,
+    "wins": 8,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Legacy",
+    "map": "Dust II",
+    "n": 12,
+    "wins": 7,
+    "win_pct": 58.3
+  },
+  {
+    "team": "Legacy",
+    "map": "Mirage",
+    "n": 11,
+    "wins": 7,
+    "win_pct": 63.6
+  },
+  {
+    "team": "Legacy",
+    "map": "Nuke",
+    "n": 8,
+    "wins": 5,
+    "win_pct": 62.5
+  },
+  {
+    "team": "Legacy",
+    "map": "Inferno",
+    "n": 7,
+    "wins": 7,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Legacy",
+    "map": "Cache",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Legacy",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Legacy",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Liquid",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 1,
+    "win_pct": 20.0
+  },
+  {
+    "team": "Liquid",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Liquid",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Liquid",
+    "map": "Ancient",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "Liquid",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Liquid",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Luminosity",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Luminosity",
+    "map": "Ancient",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Luminosity",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Luminosity",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Lynn Vision",
+    "map": "Dust II",
+    "n": 9,
+    "wins": 3,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Lynn Vision",
+    "map": "Inferno",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "Lynn Vision",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "Lynn Vision",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Lynn Vision",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "M80",
+    "map": "Inferno",
+    "n": 9,
+    "wins": 4,
+    "win_pct": 44.4
+  },
+  {
+    "team": "M80",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "M80",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "M80",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "M80",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "M80",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "M80",
+    "map": "Cache",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "MIBR",
+    "map": "Inferno",
+    "n": 7,
+    "wins": 3,
+    "win_pct": 42.9
+  },
+  {
+    "team": "MIBR",
+    "map": "Mirage",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "MIBR",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "MIBR",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "MIBR",
+    "map": "Cache",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "MIBR",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "MIBR",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "MOUZ",
+    "map": "Nuke",
+    "n": 14,
+    "wins": 7,
+    "win_pct": 50.0
+  },
+  {
+    "team": "MOUZ",
+    "map": "Dust II",
+    "n": 10,
+    "wins": 6,
+    "win_pct": 60.0
+  },
+  {
+    "team": "MOUZ",
+    "map": "Ancient",
+    "n": 10,
+    "wins": 3,
+    "win_pct": 30.0
+  },
+  {
+    "team": "MOUZ",
+    "map": "Mirage",
+    "n": 10,
+    "wins": 8,
+    "win_pct": 80.0
+  },
+  {
+    "team": "MOUZ",
+    "map": "Inferno",
+    "n": 7,
+    "wins": 3,
+    "win_pct": 42.9
+  },
+  {
+    "team": "MOUZ",
+    "map": "Overpass",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "MOUZ",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "MOUZ",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Metizport",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Metizport",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Metizport",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Metizport",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Metizport",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "NOVAQ",
+    "map": "Mirage",
+    "n": 3,
+    "wins": 1,
+    "win_pct": 33.3
+  },
+  {
+    "team": "NOVAQ",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "NOVAQ",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "NOVAQ",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "NOVAQ",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "NRG",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "NRG",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "NRG",
+    "map": "Mirage",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "NRG",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "NRG",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Natus Vincere",
+    "map": "Inferno",
+    "n": 8,
+    "wins": 3,
+    "win_pct": 37.5
+  },
+  {
+    "team": "Natus Vincere",
+    "map": "Mirage",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Natus Vincere",
+    "map": "Dust II",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Natus Vincere",
+    "map": "Ancient",
+    "n": 5,
+    "wins": 1,
+    "win_pct": 20.0
+  },
+  {
+    "team": "Natus Vincere",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Natus Vincere",
+    "map": "Nuke",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Nemesis",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 2,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Nemesis",
+    "map": "Mirage",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Nemesis",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Nemesis",
+    "map": "Dust II",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Nemesis",
+    "map": "Inferno",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Nemesis",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Nemiga",
+    "map": "Dust II",
+    "n": 5,
+    "wins": 1,
+    "win_pct": 20.0
+  },
+  {
+    "team": "Nemiga",
+    "map": "Ancient",
+    "n": 4,
+    "wins": 4,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Nemiga",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Nemiga",
+    "map": "Mirage",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Nemiga",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Nemiga",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Nemiga",
+    "map": "Cache",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 2,
+    "win_pct": 33.3
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 4,
+    "win_pct": 80.0
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Anubis",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Cache",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Ninjas in Pyjamas",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Nuclear TigeRES",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Nuclear TigeRES",
+    "map": "Inferno",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Nuclear TigeRES",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Nuclear TigeRES",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Nuclear TigeRES",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Omega",
+    "map": "Mirage",
+    "n": 5,
+    "wins": 4,
+    "win_pct": 80.0
+  },
+  {
+    "team": "Omega",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 3,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Omega",
+    "map": "Ancient",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Omega",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Omega",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Omega",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Omega",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Mirage",
+    "n": 11,
+    "wins": 5,
+    "win_pct": 45.5
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Ancient",
+    "n": 11,
+    "wins": 8,
+    "win_pct": 72.7
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Dust II",
+    "n": 10,
+    "wins": 6,
+    "win_pct": 60.0
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Inferno",
+    "n": 9,
+    "wins": 4,
+    "win_pct": 44.4
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Cache",
+    "n": 3,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "PARIVISION",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "QUAZAR",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "QUAZAR",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "SINNERS",
+    "map": "Overpass",
+    "n": 6,
+    "wins": 6,
+    "win_pct": 100.0
+  },
+  {
+    "team": "SINNERS",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "SINNERS",
+    "map": "Mirage",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "SINNERS",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "SINNERS",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Sashi",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 5,
+    "win_pct": 62.5
+  },
+  {
+    "team": "Sashi",
+    "map": "Nuke",
+    "n": 5,
+    "wins": 3,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Sashi",
+    "map": "Dust II",
+    "n": 5,
+    "wins": 2,
+    "win_pct": 40.0
+  },
+  {
+    "team": "Sashi",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Sashi",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Sashi",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Sashi",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Spirit",
+    "map": "Dust II",
+    "n": 12,
+    "wins": 10,
+    "win_pct": 83.3
+  },
+  {
+    "team": "Spirit",
+    "map": "Ancient",
+    "n": 11,
+    "wins": 9,
+    "win_pct": 81.8
+  },
+  {
+    "team": "Spirit",
+    "map": "Mirage",
+    "n": 10,
+    "wins": 6,
+    "win_pct": 60.0
+  },
+  {
+    "team": "Spirit",
+    "map": "Cache",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Spirit",
+    "map": "Anubis",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Spirit",
+    "map": "Nuke",
+    "n": 6,
+    "wins": 3,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Spirit",
+    "map": "Overpass",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "THUNDERdOWNUNDER",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "THUNDERdOWNUNDER",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "THUNDERdOWNUNDER",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "TYLOO",
+    "map": "Inferno",
+    "n": 10,
+    "wins": 3,
+    "win_pct": 30.0
+  },
+  {
+    "team": "TYLOO",
+    "map": "Ancient",
+    "n": 10,
+    "wins": 3,
+    "win_pct": 30.0
+  },
+  {
+    "team": "TYLOO",
+    "map": "Mirage",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "TYLOO",
+    "map": "Nuke",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "TYLOO",
+    "map": "Overpass",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "The MongolZ",
+    "map": "Mirage",
+    "n": 11,
+    "wins": 5,
+    "win_pct": 45.5
+  },
+  {
+    "team": "The MongolZ",
+    "map": "Inferno",
+    "n": 8,
+    "wins": 3,
+    "win_pct": 37.5
+  },
+  {
+    "team": "The MongolZ",
+    "map": "Nuke",
+    "n": 7,
+    "wins": 5,
+    "win_pct": 71.4
+  },
+  {
+    "team": "The MongolZ",
+    "map": "Ancient",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "The MongolZ",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "The MongolZ",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Mirage",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Ancient",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Virtus.pro",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "Vitality",
+    "map": "Dust II",
+    "n": 12,
+    "wins": 9,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Vitality",
+    "map": "Nuke",
+    "n": 8,
+    "wins": 7,
+    "win_pct": 87.5
+  },
+  {
+    "team": "Vitality",
+    "map": "Mirage",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Vitality",
+    "map": "Inferno",
+    "n": 8,
+    "wins": 6,
+    "win_pct": 75.0
+  },
+  {
+    "team": "Vitality",
+    "map": "Anubis",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Vitality",
+    "map": "Overpass",
+    "n": 3,
+    "wins": 3,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Vitality",
+    "map": "Cache",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "WW",
+    "map": "Mirage",
+    "n": 7,
+    "wins": 3,
+    "win_pct": 42.9
+  },
+  {
+    "team": "WW",
+    "map": "Dust II",
+    "n": 6,
+    "wins": 5,
+    "win_pct": 83.3
+  },
+  {
+    "team": "WW",
+    "map": "Anubis",
+    "n": 4,
+    "wins": 1,
+    "win_pct": 25.0
+  },
+  {
+    "team": "WW",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "WW",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "WW",
+    "map": "Cache",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "WW",
+    "map": "Inferno",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "WW",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "Wildcard",
+    "map": "Inferno",
+    "n": 6,
+    "wins": 4,
+    "win_pct": 66.7
+  },
+  {
+    "team": "Wildcard",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Wildcard",
+    "map": "Nuke",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "Wildcard",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "ex-Zero Tenacity",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "ex-Zero Tenacity",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "ex-Zero Tenacity",
+    "map": "Nuke",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "fnatic",
+    "map": "Ancient",
+    "n": 2,
+    "wins": 2,
+    "win_pct": 100.0
+  },
+  {
+    "team": "fnatic",
+    "map": "Inferno",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "fnatic",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "fnatic",
+    "map": "Dust II",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "fnatic",
+    "map": "Mirage",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "fnatic",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "magic",
+    "map": "Ancient",
+    "n": 8,
+    "wins": 5,
+    "win_pct": 62.5
+  },
+  {
+    "team": "magic",
+    "map": "Mirage",
+    "n": 4,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "magic",
+    "map": "Dust II",
+    "n": 4,
+    "wins": 2,
+    "win_pct": 50.0
+  },
+  {
+    "team": "magic",
+    "map": "Inferno",
+    "n": 3,
+    "wins": 2,
+    "win_pct": 66.7
+  },
+  {
+    "team": "magic",
+    "map": "Anubis",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "magic",
+    "map": "Cache",
+    "n": 1,
+    "wins": 1,
+    "win_pct": 100.0
+  },
+  {
+    "team": "magic",
+    "map": "Overpass",
+    "n": 1,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "paiN",
+    "map": "Nuke",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "paiN",
+    "map": "Mirage",
+    "n": 8,
+    "wins": 4,
+    "win_pct": 50.0
+  },
+  {
+    "team": "paiN",
+    "map": "Inferno",
+    "n": 5,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "paiN",
+    "map": "Cache",
+    "n": 2,
+    "wins": 0,
+    "win_pct": 0.0
+  },
+  {
+    "team": "paiN",
+    "map": "Dust II",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "paiN",
+    "map": "Anubis",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  },
+  {
+    "team": "paiN",
+    "map": "Overpass",
+    "n": 2,
+    "wins": 1,
+    "win_pct": 50.0
+  }
+]

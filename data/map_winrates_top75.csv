@@ -1,0 +1,399 @@
+team,map,n,wins,win_pct
+100 Thieves,Nuke,4,2,50.0
+100 Thieves,Anubis,3,1,33.3
+100 Thieves,Ancient,3,2,66.7
+100 Thieves,Dust II,2,0,0.0
+100 Thieves,Mirage,2,0,0.0
+100 Thieves,Inferno,1,1,100.0
+3DMAX,Inferno,5,1,20.0
+3DMAX,Dust II,4,3,75.0
+3DMAX,Ancient,3,0,0.0
+3DMAX,Nuke,2,0,0.0
+3DMAX,Anubis,1,0,0.0
+9INE,Ancient,5,2,40.0
+9INE,Dust II,2,0,0.0
+9INE,Nuke,2,2,100.0
+9INE,Overpass,2,1,50.0
+9INE,Mirage,1,1,100.0
+9INE,Anubis,1,0,0.0
+9z,Nuke,13,6,46.2
+9z,Dust II,12,6,50.0
+9z,Inferno,10,6,60.0
+9z,Mirage,8,4,50.0
+9z,Overpass,6,3,50.0
+9z,Ancient,5,2,40.0
+9z,Cache,2,1,50.0
+9z,Anubis,1,1,100.0
+ASTRAL,Nuke,5,3,60.0
+ASTRAL,Anubis,2,2,100.0
+ASTRAL,Ancient,2,0,0.0
+ASTRAL,Dust II,1,1,100.0
+ASTRAL,Inferno,1,1,100.0
+Acend,Ancient,6,3,50.0
+Acend,Mirage,5,3,60.0
+Acend,Dust II,4,2,50.0
+Acend,Inferno,3,2,66.7
+Acend,Anubis,2,1,50.0
+Acend,Overpass,1,1,100.0
+Alliance,Inferno,10,6,60.0
+Alliance,Ancient,8,6,75.0
+Alliance,Nuke,5,2,40.0
+Alliance,Dust II,3,0,0.0
+Alliance,Overpass,3,1,33.3
+Alliance,Anubis,3,3,100.0
+Alliance,Cache,1,0,0.0
+Astralis,Inferno,7,4,57.1
+Astralis,Ancient,6,3,50.0
+Astralis,Nuke,5,3,60.0
+Astralis,Mirage,5,2,40.0
+Astralis,Dust II,4,1,25.0
+Astralis,Cache,1,1,100.0
+Astralis,Anubis,1,0,0.0
+Astralis,Overpass,1,0,0.0
+Aurora,Inferno,10,7,70.0
+Aurora,Dust II,7,6,85.7
+Aurora,Anubis,7,3,42.9
+Aurora,Nuke,7,3,42.9
+Aurora,Mirage,5,3,60.0
+Aurora,Overpass,3,1,33.3
+Aurora,Cache,2,1,50.0
+Aurora,Ancient,1,0,0.0
+B8,Ancient,6,3,50.0
+B8,Mirage,5,2,40.0
+B8,Inferno,3,1,33.3
+B8,Dust II,3,1,33.3
+B8,Cache,1,1,100.0
+B8,Nuke,1,0,0.0
+B8,Overpass,1,0,0.0
+BBL,Nuke,1,0,0.0
+BBL,Mirage,1,0,0.0
+BC.Game,Dust II,3,1,33.3
+BC.Game,Anubis,1,0,0.0
+BC.Game,Mirage,1,0,0.0
+BC.Game,Nuke,1,0,0.0
+BC.Game,Ancient,1,1,100.0
+BETBOOM,Nuke,8,2,25.0
+BETBOOM,Anubis,7,2,28.6
+BETBOOM,Mirage,6,5,83.3
+BETBOOM,Ancient,5,3,60.0
+BETBOOM,Dust II,3,2,66.7
+BETBOOM,Cache,2,1,50.0
+BETBOOM,Overpass,2,0,0.0
+BIG,Ancient,10,4,40.0
+BIG,Overpass,9,5,55.6
+BIG,Mirage,7,3,42.9
+BIG,Cache,6,4,66.7
+BIG,Dust II,6,2,33.3
+BIG,Nuke,5,4,80.0
+BIG,Inferno,2,1,50.0
+BIG,Anubis,2,1,50.0
+Betclic,Nuke,6,1,16.7
+Betclic,Anubis,5,1,20.0
+Betclic,Dust II,3,1,33.3
+Betclic,Overpass,2,2,100.0
+Betclic,Ancient,2,0,0.0
+Betclic,Mirage,1,0,0.0
+DENDELE,Ancient,8,4,50.0
+DENDELE,Nuke,8,4,50.0
+DENDELE,Overpass,5,1,20.0
+DENDELE,Mirage,4,2,50.0
+DENDELE,Anubis,4,3,75.0
+DENDELE,Cache,2,0,0.0
+DENDELE,Inferno,1,0,0.0
+DEPO,Dust II,2,0,0.0
+DEPO,Mirage,2,1,50.0
+DEPO,Anubis,1,0,0.0
+DEPO,Ancient,1,0,0.0
+DEPO,Overpass,1,1,100.0
+DEPO,Inferno,1,0,0.0
+EYEBALLERS,Ancient,2,0,0.0
+EYEBALLERS,Overpass,2,2,100.0
+EYEBALLERS,Anubis,1,1,100.0
+EYEBALLERS,Nuke,1,1,100.0
+EYEBALLERS,Dust II,1,1,100.0
+EYEBALLERS,Inferno,1,0,0.0
+FOKUS,Nuke,4,2,50.0
+FOKUS,Dust II,4,3,75.0
+FOKUS,Inferno,3,1,33.3
+FOKUS,Ancient,2,0,0.0
+FOKUS,Mirage,1,0,0.0
+FOKUS,Overpass,1,1,100.0
+FURIA,Dust II,14,8,57.1
+FURIA,Mirage,12,5,41.7
+FURIA,Nuke,9,6,66.7
+FURIA,Ancient,8,4,50.0
+FURIA,Inferno,5,2,40.0
+FURIA,Cache,5,2,40.0
+FURIA,Anubis,2,0,0.0
+FURIA,Overpass,2,2,100.0
+FUT,Ancient,7,4,57.1
+FUT,Dust II,5,2,40.0
+FUT,Anubis,4,2,50.0
+FUT,Mirage,3,3,100.0
+FUT,Nuke,3,0,0.0
+FUT,Cache,1,1,100.0
+FaZe,Dust II,8,3,37.5
+FaZe,Ancient,8,3,37.5
+FaZe,Cache,6,4,66.7
+FaZe,Nuke,4,3,75.0
+FaZe,Mirage,4,2,50.0
+FaZe,Anubis,3,0,0.0
+FaZe,Overpass,3,0,0.0
+FaZe,Inferno,1,0,0.0
+Falcons,Dust II,18,13,72.2
+Falcons,Ancient,12,5,41.7
+Falcons,Inferno,12,6,50.0
+Falcons,Mirage,12,6,50.0
+Falcons,Nuke,6,5,83.3
+Falcons,Anubis,4,3,75.0
+Fluxo,Nuke,3,0,0.0
+Fluxo,Inferno,2,1,50.0
+Fluxo,Anubis,2,1,50.0
+Fluxo,Mirage,2,0,0.0
+Fluxo,Dust II,1,1,100.0
+FlyQuest,Nuke,3,1,33.3
+FlyQuest,Dust II,2,1,50.0
+FlyQuest,Anubis,2,1,50.0
+FlyQuest,Ancient,2,1,50.0
+FlyQuest,Mirage,1,0,0.0
+G2,Ancient,11,6,54.5
+G2,Dust II,11,4,36.4
+G2,Mirage,10,4,40.0
+G2,Inferno,8,6,75.0
+G2,Anubis,4,3,75.0
+G2,Cache,3,1,33.3
+G2,Overpass,3,1,33.3
+GamerLegion,Ancient,6,3,50.0
+GamerLegion,Mirage,6,0,0.0
+GamerLegion,Dust II,4,2,50.0
+GamerLegion,Nuke,3,1,33.3
+GamerLegion,Inferno,3,1,33.3
+GamerLegion,Overpass,2,1,50.0
+GamerLegion,Cache,1,1,100.0
+HEROIC,Nuke,5,4,80.0
+HEROIC,Dust II,4,3,75.0
+HEROIC,Ancient,3,3,100.0
+HEROIC,Inferno,2,1,50.0
+HEROIC,Overpass,1,1,100.0
+HEROIC,Mirage,1,1,100.0
+HOTU,Dust II,6,2,33.3
+HOTU,Ancient,5,3,60.0
+HOTU,Mirage,4,0,0.0
+HOTU,Nuke,3,1,33.3
+HOTU,Anubis,3,3,100.0
+HOTU,Overpass,2,1,50.0
+HOTU,Cache,1,1,100.0
+INFINITE,Dust II,4,1,25.0
+INFINITE,Nuke,3,2,66.7
+INFINITE,Mirage,3,1,33.3
+INFINITE,Ancient,2,0,0.0
+INFINITE,Inferno,1,0,0.0
+INFINITE,Overpass,1,0,0.0
+Imperial,Mirage,2,1,50.0
+Imperial,Dust II,1,0,0.0
+Imperial,Inferno,1,0,0.0
+Imperial,Nuke,1,0,0.0
+JiJieHao,Ancient,8,4,50.0
+JiJieHao,Inferno,5,5,100.0
+JiJieHao,Dust II,4,1,25.0
+JiJieHao,Mirage,3,2,66.7
+JiJieHao,Anubis,3,1,33.3
+JiJieHao,Cache,1,0,0.0
+JiJieHao,Nuke,1,0,0.0
+JiJieHao,Overpass,1,0,0.0
+K27,Dust II,4,1,25.0
+K27,Mirage,4,1,25.0
+K27,Nuke,3,1,33.3
+K27,Anubis,2,1,50.0
+K27,Cache,1,0,0.0
+K27,Ancient,1,1,100.0
+K27,Overpass,1,0,0.0
+Legacy,Ancient,12,8,66.7
+Legacy,Dust II,12,7,58.3
+Legacy,Mirage,11,7,63.6
+Legacy,Nuke,8,5,62.5
+Legacy,Inferno,7,7,100.0
+Legacy,Cache,2,1,50.0
+Legacy,Overpass,1,1,100.0
+Legacy,Anubis,1,0,0.0
+Liquid,Nuke,5,1,20.0
+Liquid,Dust II,4,0,0.0
+Liquid,Mirage,4,2,50.0
+Liquid,Ancient,4,1,25.0
+Liquid,Inferno,3,1,33.3
+Liquid,Anubis,2,0,0.0
+Luminosity,Nuke,2,1,50.0
+Luminosity,Ancient,1,0,0.0
+Luminosity,Dust II,1,0,0.0
+Luminosity,Mirage,1,1,100.0
+Lynn Vision,Dust II,9,3,33.3
+Lynn Vision,Inferno,5,2,40.0
+Lynn Vision,Ancient,5,2,40.0
+Lynn Vision,Nuke,4,2,50.0
+Lynn Vision,Anubis,2,0,0.0
+M80,Inferno,9,4,44.4
+M80,Mirage,4,2,50.0
+M80,Dust II,4,0,0.0
+M80,Anubis,3,1,33.3
+M80,Ancient,3,2,66.7
+M80,Overpass,3,2,66.7
+M80,Cache,1,0,0.0
+MIBR,Inferno,7,3,42.9
+MIBR,Mirage,6,3,50.0
+MIBR,Ancient,5,3,60.0
+MIBR,Nuke,4,2,50.0
+MIBR,Cache,2,2,100.0
+MIBR,Anubis,2,1,50.0
+MIBR,Overpass,1,0,0.0
+MOUZ,Nuke,14,7,50.0
+MOUZ,Dust II,10,6,60.0
+MOUZ,Ancient,10,3,30.0
+MOUZ,Mirage,10,8,80.0
+MOUZ,Inferno,7,3,42.9
+MOUZ,Overpass,6,4,66.7
+MOUZ,Cache,1,1,100.0
+MOUZ,Anubis,1,0,0.0
+Metizport,Nuke,3,2,66.7
+Metizport,Dust II,3,1,33.3
+Metizport,Inferno,3,0,0.0
+Metizport,Ancient,3,1,33.3
+Metizport,Overpass,2,0,0.0
+NOVAQ,Mirage,3,1,33.3
+NOVAQ,Ancient,2,2,100.0
+NOVAQ,Overpass,1,0,0.0
+NOVAQ,Dust II,1,1,100.0
+NOVAQ,Nuke,1,0,0.0
+NRG,Nuke,3,0,0.0
+NRG,Ancient,3,2,66.7
+NRG,Mirage,2,1,50.0
+NRG,Dust II,2,0,0.0
+NRG,Inferno,1,1,100.0
+Natus Vincere,Inferno,8,3,37.5
+Natus Vincere,Mirage,6,4,66.7
+Natus Vincere,Dust II,6,4,66.7
+Natus Vincere,Ancient,5,1,20.0
+Natus Vincere,Anubis,4,2,50.0
+Natus Vincere,Nuke,3,2,66.7
+Nemesis,Ancient,6,2,33.3
+Nemesis,Mirage,5,3,60.0
+Nemesis,Nuke,4,3,75.0
+Nemesis,Dust II,3,2,66.7
+Nemesis,Inferno,2,0,0.0
+Nemesis,Cache,1,1,100.0
+Nemiga,Dust II,5,1,20.0
+Nemiga,Ancient,4,4,100.0
+Nemiga,Anubis,4,3,75.0
+Nemiga,Mirage,3,2,66.7
+Nemiga,Overpass,3,2,66.7
+Nemiga,Nuke,2,0,0.0
+Nemiga,Cache,1,0,0.0
+Ninjas in Pyjamas,Ancient,6,2,33.3
+Ninjas in Pyjamas,Nuke,5,4,80.0
+Ninjas in Pyjamas,Mirage,4,2,50.0
+Ninjas in Pyjamas,Anubis,3,3,100.0
+Ninjas in Pyjamas,Cache,2,0,0.0
+Ninjas in Pyjamas,Dust II,2,0,0.0
+Ninjas in Pyjamas,Inferno,1,1,100.0
+Nuclear TigeRES,Anubis,2,2,100.0
+Nuclear TigeRES,Inferno,2,1,50.0
+Nuclear TigeRES,Dust II,2,1,50.0
+Nuclear TigeRES,Ancient,2,1,50.0
+Nuclear TigeRES,Nuke,1,1,100.0
+Omega,Mirage,5,4,80.0
+Omega,Dust II,4,3,75.0
+Omega,Ancient,3,0,0.0
+Omega,Nuke,2,1,50.0
+Omega,Anubis,1,1,100.0
+Omega,Overpass,1,0,0.0
+Omega,Inferno,1,1,100.0
+PARIVISION,Mirage,11,5,45.5
+PARIVISION,Ancient,11,8,72.7
+PARIVISION,Dust II,10,6,60.0
+PARIVISION,Inferno,9,4,44.4
+PARIVISION,Cache,3,0,0.0
+PARIVISION,Anubis,2,2,100.0
+PARIVISION,Overpass,1,0,0.0
+QUAZAR,Mirage,1,1,100.0
+QUAZAR,Nuke,1,0,0.0
+SINNERS,Overpass,6,6,100.0
+SINNERS,Nuke,4,2,50.0
+SINNERS,Mirage,3,3,100.0
+SINNERS,Dust II,2,0,0.0
+SINNERS,Ancient,2,2,100.0
+Sashi,Ancient,8,5,62.5
+Sashi,Nuke,5,3,60.0
+Sashi,Dust II,5,2,40.0
+Sashi,Overpass,2,0,0.0
+Sashi,Anubis,2,1,50.0
+Sashi,Inferno,1,1,100.0
+Sashi,Mirage,1,0,0.0
+Spirit,Dust II,12,10,83.3
+Spirit,Ancient,11,9,81.8
+Spirit,Mirage,10,6,60.0
+Spirit,Cache,6,3,50.0
+Spirit,Anubis,6,4,66.7
+Spirit,Nuke,6,3,50.0
+Spirit,Overpass,4,2,50.0
+THUNDERdOWNUNDER,Dust II,1,1,100.0
+THUNDERdOWNUNDER,Nuke,1,0,0.0
+THUNDERdOWNUNDER,Inferno,1,0,0.0
+TYLOO,Inferno,10,3,30.0
+TYLOO,Ancient,10,3,30.0
+TYLOO,Mirage,8,4,50.0
+TYLOO,Nuke,4,2,50.0
+TYLOO,Overpass,4,1,25.0
+The MongolZ,Mirage,11,5,45.5
+The MongolZ,Inferno,8,3,37.5
+The MongolZ,Nuke,7,5,71.4
+The MongolZ,Ancient,6,4,66.7
+The MongolZ,Dust II,2,1,50.0
+The MongolZ,Overpass,2,1,50.0
+Virtus.pro,Mirage,2,2,100.0
+Virtus.pro,Ancient,1,0,0.0
+Virtus.pro,Overpass,1,1,100.0
+Virtus.pro,Nuke,1,0,0.0
+Virtus.pro,Dust II,1,0,0.0
+Virtus.pro,Cache,1,1,100.0
+Virtus.pro,Anubis,1,0,0.0
+Vitality,Dust II,12,9,75.0
+Vitality,Nuke,8,7,87.5
+Vitality,Mirage,8,4,50.0
+Vitality,Inferno,8,6,75.0
+Vitality,Anubis,6,4,66.7
+Vitality,Overpass,3,3,100.0
+Vitality,Cache,2,2,100.0
+WW,Mirage,7,3,42.9
+WW,Dust II,6,5,83.3
+WW,Anubis,4,1,25.0
+WW,Ancient,2,0,0.0
+WW,Nuke,2,1,50.0
+WW,Cache,1,0,0.0
+WW,Inferno,1,1,100.0
+WW,Overpass,1,1,100.0
+Wildcard,Inferno,6,4,66.7
+Wildcard,Dust II,4,2,50.0
+Wildcard,Nuke,2,1,50.0
+Wildcard,Mirage,1,0,0.0
+ex-Zero Tenacity,Overpass,1,0,0.0
+ex-Zero Tenacity,Mirage,1,1,100.0
+ex-Zero Tenacity,Nuke,1,0,0.0
+fnatic,Ancient,2,2,100.0
+fnatic,Inferno,2,0,0.0
+fnatic,Anubis,2,1,50.0
+fnatic,Dust II,1,0,0.0
+fnatic,Mirage,1,1,100.0
+fnatic,Overpass,1,1,100.0
+magic,Ancient,8,5,62.5
+magic,Mirage,4,0,0.0
+magic,Dust II,4,2,50.0
+magic,Inferno,3,2,66.7
+magic,Anubis,1,0,0.0
+magic,Cache,1,1,100.0
+magic,Overpass,1,0,0.0
+paiN,Nuke,8,4,50.0
+paiN,Mirage,8,4,50.0
+paiN,Inferno,5,0,0.0
+paiN,Cache,2,0,0.0
+paiN,Dust II,2,1,50.0
+paiN,Anubis,2,1,50.0
+paiN,Overpass,2,1,50.0
