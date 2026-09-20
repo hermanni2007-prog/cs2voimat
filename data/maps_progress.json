@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-19T22:57:30.567087+00:00",
-  "tournaments_total": 707,
-  "tournaments_done": 706,
-  "tournaments_ok": 226,
+  "updated_utc": "2026-09-20T01:00:19.307009+00:00",
+  "tournaments_total": 708,
+  "tournaments_done": 707,
+  "tournaments_ok": 227,
   "tournaments_ok_no_brackets": 4,
   "tournaments_not_found": 476,
   "tournaments_error": 1,
-  "maps_collected": 1994,
+  "maps_collected": 1998,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #12 - Round 3",
-    "status": "not_found",
-    "maps_found": 0,
-    "at": "2026-09-19T18:50:54.165495+00:00"
+    "tournament": "Circuito Retake Season 12 - Playoffs",
+    "status": "ok",
+    "maps_found": 4,
+    "at": "2026-09-20T01:00:19.264610+00:00"
   }
 }
