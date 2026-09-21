@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-21T10:27:06.299794+00:00",
+  "updated_utc": "2026-09-21T16:42:37.785851+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 57,
-  "teams_ok": 50,
+  "teams_done": 32,
+  "teams_ok": 25,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 4886,
+  "matches_collected": 4888,
   "last_team": {
-    "team": "G2",
+    "team": "Vitality",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-09-21T10:27:06.228668+00:00"
+    "at": "2026-09-21T16:42:37.784419+00:00"
   }
 }
