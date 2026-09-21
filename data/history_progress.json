@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-09-20T22:03:27.064053+00:00",
+  "updated_utc": "2026-09-21T00:20:46.495016+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -8,9 +8,9 @@
   "teams_error": 0,
   "matches_collected": 4886,
   "last_team": {
-    "team": "Betclic",
+    "team": "Ninjas in Pyjamas",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-09-20T22:03:27.062407+00:00"
+    "at": "2026-09-21T00:20:46.493133+00:00"
   }
 }
