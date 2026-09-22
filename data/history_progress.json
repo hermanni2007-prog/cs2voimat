@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-22T17:14:53.109152+00:00",
+  "updated_utc": "2026-09-22T20:07:32.187647+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 32,
   "teams_ok": 25,
   "teams_not_found": 7,
   "teams_error": 25,
-  "matches_collected": 4896,
+  "matches_collected": 4900,
   "last_team": {
-    "team": "FlyQuest",
-    "status": "error",
-    "matches_found": 0,
-    "at": "2026-09-22T17:14:53.107452+00:00"
+    "team": "B8",
+    "status": "ok",
+    "matches_found": 1,
+    "at": "2026-09-22T20:07:32.185430+00:00"
   }
 }

@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-22T17:14:53.253427+00:00",
-  "tournaments_total": 713,
-  "tournaments_done": 712,
+  "updated_utc": "2026-09-22T20:07:32.705700+00:00",
+  "tournaments_total": 714,
+  "tournaments_done": 713,
   "tournaments_ok": 227,
   "tournaments_ok_no_brackets": 4,
-  "tournaments_not_found": 481,
+  "tournaments_not_found": 482,
   "tournaments_error": 1,
   "maps_collected": 1998,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #12 - Round 4",
+    "tournament": "EPL Series 9 - Playoffs",
     "status": "not_found",
     "maps_found": 0,
-    "at": "2026-09-21T20:44:07.231140+00:00"
+    "at": "2026-09-22T20:07:32.702017+00:00"
   }
 }
