@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-22T20:07:32.705700+00:00",
-  "tournaments_total": 714,
-  "tournaments_done": 713,
+  "updated_utc": "2026-09-22T23:02:35.995707+00:00",
+  "tournaments_total": 715,
+  "tournaments_done": 714,
   "tournaments_ok": 227,
   "tournaments_ok_no_brackets": 4,
-  "tournaments_not_found": 482,
+  "tournaments_not_found": 483,
   "tournaments_error": 1,
   "maps_collected": 1998,
   "last_tournament": {
-    "tournament": "EPL Series 9 - Playoffs",
+    "tournament": "Stake Pulse Beat II - Group B",
     "status": "not_found",
     "maps_found": 0,
-    "at": "2026-09-22T20:07:32.702017+00:00"
+    "at": "2026-09-22T23:02:35.992673+00:00"
   }
 }
