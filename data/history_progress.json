@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-24T01:14:13.691114+00:00",
+  "updated_utc": "2026-09-24T05:56:28.108351+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 25,
-  "teams_ok": 18,
+  "teams_done": 7,
+  "teams_ok": 0,
   "teams_not_found": 7,
-  "teams_error": 50,
+  "teams_error": 68,
   "matches_collected": 4908,
   "last_team": {
-    "team": "B8",
+    "team": "K27",
     "status": "error",
     "matches_found": 0,
-    "at": "2026-09-24T01:14:13.689451+00:00"
+    "at": "2026-09-24T05:56:28.106773+00:00"
   }
 }
