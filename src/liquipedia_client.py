@@ -11,6 +11,7 @@ Kayttoehdot joita tama moduuli noudattaa:
 """
 from __future__ import annotations
 
+import os
 import time
 from datetime import datetime, timezone
 from typing import Optional
@@ -64,6 +65,14 @@ def _is_hard_block(r: requests.Response) -> bool:
 
 class LiquipediaClient:
     def __init__(self):
+        # Kotiverkon IP estettiin 2026-09 paikallisen keruun takia. Liquipediaan
+        # saa pyytaa vain CI:sta (GitHub Actions asettaa GITHUB_ACTIONS=true),
+        # ellei paikallista ajoa sallita tietoisesti ALLOW_LOCAL_LIQUIPEDIA=1.
+        if os.environ.get("GITHUB_ACTIONS") != "true" and os.environ.get("ALLOW_LOCAL_LIQUIPEDIA") != "1":
+            raise RuntimeError(
+                "Liquipedia-pyynnot sallittu vain GitHub Actionsissa (kotiverkon IP on estetty). "
+                "Aseta ALLOW_LOCAL_LIQUIPEDIA=1 vain jos tiedat mita teet."
+            )
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT, "Accept-Encoding": "gzip"})
         # Aloitetaan "juuri pyydetty" -tilasta: sama CI-ajo kaynnistaa useita
