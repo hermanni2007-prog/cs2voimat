@@ -24,14 +24,14 @@ import argparse
 import json
 import logging
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
-from liquipedia_client import LiquipediaClient, parse_bracket_matches  # noqa: E402
+from liquipedia_client import LiquipediaBlocked, LiquipediaClient, parse_bracket_matches  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
@@ -101,9 +101,21 @@ def write_progress_snapshot(conn) -> None:
     )
 
 
-def process_tournament(conn, client: LiquipediaClient, tournament: str) -> None:
+def known_tournament_page(conn, tournament: str):
+    """Joukkueiden /Matches-taulukon turnauslinkista talteen otettu tarkka
+    sivunimi (yleisin, jos saman naytto-nimen alla on useampi)."""
+    row = conn.execute(
+        """SELECT tournament_page FROM historical_matches
+           WHERE tournament=? AND tournament_page IS NOT NULL
+           GROUP BY tournament_page ORDER BY COUNT(*) DESC LIMIT 1""",
+        (tournament,),
+    ).fetchone()
+    return row[0] if row else None
+
+
+def process_tournament(conn, client: LiquipediaClient, tournament: str, html_cache: dict) -> None:
     try:
-        page_title = client.resolve_tournament_page(tournament)
+        page_title = known_tournament_page(conn, tournament) or client.resolve_tournament_page(tournament)
         if not page_title:
             conn.execute(
                 "UPDATE bracket_progress SET status='not_found', last_attempt_utc=? WHERE tournament=?",
@@ -113,7 +125,11 @@ def process_tournament(conn, client: LiquipediaClient, tournament: str) -> None:
             log.warning("Turnaussivua ei loytynyt: %s", tournament)
             return
 
-        html = client.fetch_rendered_html(page_title)
+        # Usea naytto-nimi (esim. "... - Group A" ja "... - Group B") voi
+        # osoittaa samalle sivulle - ei haeta samaa sivua kahdesti yhdessa ajossa.
+        if page_title not in html_cache:
+            html_cache[page_title] = client.fetch_rendered_html(page_title)
+        html = html_cache[page_title]
         matches = parse_bracket_matches(html)
         top50_names = load_top50_names()
 
@@ -158,6 +174,8 @@ def process_tournament(conn, client: LiquipediaClient, tournament: str) -> None:
             status.upper(), tournament, page_title, len(matches), maps_inserted,
         )
 
+    except LiquipediaBlocked:
+        raise
     except Exception as exc:
         conn.execute(
             "UPDATE bracket_progress SET status='error', last_attempt_utc=?, error_message=? WHERE tournament=?",
@@ -178,6 +196,34 @@ def main() -> int:
 
     ensure_progress_rows(conn)
 
+    # BUGI (loydetty 2026-09-28): 'error' ei palannut koskaan jonoon, JA
+    # kerran 'ok':ksi haettu turnaus jai lopullisesti kasittelyksi - jos haku
+    # osui kesken turnausta (esim. SL StarSeries Fall 2026), myohempien
+    # otteluiden karttoja ei kerätty koskaan (karttadata loppui 19.9:aan).
+    # Nyt: turnaus palaa jonoon kun historiassa on sille UUDEMPI ottelu kuin
+    # viimeisin bracket-haku - ei turhia uudelleenhakuja valmiille turnauksille.
+    retry_cutoff = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    retried = conn.execute(
+        "UPDATE bracket_progress SET status='pending' WHERE status='error' AND last_attempt_utc < ?",
+        (retry_cutoff,),
+    ).rowcount
+    requeued = conn.execute(
+        """UPDATE bracket_progress SET status='pending'
+           WHERE status IN ('ok','ok_no_brackets') AND last_attempt_utc < (
+               SELECT MAX(hm.match_date_utc) FROM historical_matches hm
+               WHERE hm.tournament = bracket_progress.tournament)"""
+    ).rowcount
+    found_now = conn.execute(
+        """UPDATE bracket_progress SET status='pending'
+           WHERE status='not_found' AND EXISTS (
+               SELECT 1 FROM historical_matches hm
+               WHERE hm.tournament = bracket_progress.tournament AND hm.tournament_page IS NOT NULL)"""
+    ).rowcount
+    conn.commit()
+    if retried or requeued or found_now:
+        log.info("Jonoon palautettu: %d virhetilaista, %d turnausta joissa uusia otteluita, "
+                 "%d aiemmin not_found joille tarkka sivunimi nyt tiedossa", retried, requeued, found_now)
+
     pending = conn.execute(
         """SELECT bp.tournament FROM bracket_progress bp
            JOIN (SELECT tournament, COUNT(*) c FROM historical_matches
@@ -192,8 +238,13 @@ def main() -> int:
     log.info("Kasitellaan %d turnausta tassa ajossa", len(pending))
 
     client = LiquipediaClient()
+    html_cache: dict = {}
     for tournament in pending:
-        process_tournament(conn, client, tournament)
+        try:
+            process_tournament(conn, client, tournament, html_cache)
+        except LiquipediaBlocked as exc:
+            log.warning("Liquipedia estaa taman IP:n (%s) - lopetetaan ajo, jaljella olevat jaavat jonoon", exc)
+            break
         write_progress_snapshot(conn)
 
     write_progress_snapshot(conn)

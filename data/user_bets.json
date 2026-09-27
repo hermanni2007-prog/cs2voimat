@@ -118,6 +118,10 @@
     "model_p_bet_on": 0.375,
     "model_ev": 0.2,
     "model_confidence": "KOHTALAINEN - n-maara HYVA (Aurora n=61, Vitality n=55, Elo-sija Aurora #9 Vitality #2), mutta itse EDGE on heikommin tuettu kuin BBL-tapaus: 6.6pp ero mallin (37.5%) ja 5 riippumattoman kirjan tiiviin konsensuksen (~29.5-33%, ka. 30.9%) valilla - pienempi ja vahvemmin markkinan yksimielisyyden tukema erimielisyys kuin FURIA-veto (13.7pp vs Bet365) joka havisi TASSA SAMASSA turnauksessa vain tunteja aiemmin. Markkinan hinnoittelu nayttaa perustellulta (Vitalyn suosikkuus laski jarkevasti 78.7%:sta eilisen Aurora-tappion jalkeen 69-73%:iin, ei ylireagointia). BO5-EPAVARMUUS: jos ottelu on Bo5 (ei varmistettu), mallin 37.5% on TODENNAKOISESTI YLIARVIO Auroralle - pidempi sarja pienentaa yllatystn, mutta emme voineet kvantifioida korjausta (vain n=36 Bo5-ottelua koko datassa). Kayttajan oma paatos tietoisena naista varauksista - malli ei itsessaan anna vahvaa 'osu tahan' -suositusta.",
-    "status": "pending"
+    "status": "lost",
+    "actual_winner": "Vitality",
+    "actual_score": "3:1 (Bo5)",
+    "profit_eur": -50.0,
+    "note": "Ratkaistu 2026-09-28 CI:n keräämästä datasta (Team Vitality/Matches, Aurora Gaming/Matches). Ottelu oli Bo5 - juuri se formaattiepävarmuus joka kirjattiin vedon yhteyteen: pidempi sarja suosii vahvempaa joukkuetta, eikä mallimme ota formaattia huomioon (vain n=36 Bo5-ottelua datassa)."
   }
 ]

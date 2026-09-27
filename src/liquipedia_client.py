@@ -42,6 +42,24 @@ CIRCUIT_BREAK_AFTER = 3  # peräkkäistä täysin epäonnistunutta pyyntöä (ka
 CIRCUIT_COOLDOWN_SECONDS = 600.0  # 10 min tauko kun esto todetaan laaja-alaiseksi
 
 
+class LiquipediaBlocked(RuntimeError):
+    """Tama IP on estetty (Cloudflare Turnstile -sivu) tai circuit breaker on
+    auki. Kutsujan pitaa LOPETTAA ajo eika merkita jaljella olevia kohteita
+    virheiksi - vika ei ole kohteessa vaan IP:ssa (2026-09-28: aiemmin jokainen
+    jaljella oleva joukkue merkittiin 'error':ksi samassa sekunnissa, eika
+    'error'-tilaa koskaan palautettu jonoon -> putki kuoli pysyvasti yhdesta
+    estojaksosta)."""
+
+
+def _is_hard_block(r: requests.Response) -> bool:
+    # Cloudflaren IP-tason esto palauttaa 429:n HTML-sivuna (ei MediaWikin
+    # omaa JSON-rajoitusta) - uudelleenyrittaminen backoffilla on turhaa ja
+    # Liquipedian ehtojen mukaan toistuva laukaisu voi tehda estosta pysyvan.
+    return r.status_code == 429 and (
+        "challenges.cloudflare.com/turnstile" in r.text or "Rate Limited - Liquipedia" in r.text
+    )
+
+
 class LiquipediaClient:
     def __init__(self):
         self.session = requests.Session()
@@ -62,7 +80,7 @@ class LiquipediaClient:
         now = time.monotonic()
         if now < self._circuit_open_until:
             remaining = self._circuit_open_until - now
-            raise RuntimeError(
+            raise LiquipediaBlocked(
                 f"Liquipedia-esto todettu laaja-alaiseksi, odotetaan viela {remaining:.0f}s ennen uutta yritysta"
             )
 
@@ -70,11 +88,15 @@ class LiquipediaClient:
         for attempt in range(MAX_RETRIES + 1):
             self._wait(cooldown_attr, cooldown_seconds)
             r = self.session.get(BASE_URL, params=params, timeout=timeout)
+            if _is_hard_block(r):
+                self._circuit_open_until = time.monotonic() + CIRCUIT_COOLDOWN_SECONDS
+                raise LiquipediaBlocked("Cloudflare-tason IP-esto (Turnstile-sivu) - ei uusintayrityksia")
             if r.status_code == 429:
                 if attempt == MAX_RETRIES:
                     self._consecutive_exhaustions += 1
                     if self._consecutive_exhaustions >= CIRCUIT_BREAK_AFTER:
                         self._circuit_open_until = time.monotonic() + CIRCUIT_COOLDOWN_SECONDS
+                        raise LiquipediaBlocked("429 jatkui kaikkien uusintayritysten lapi useasti perakkain")
                     r.raise_for_status()
                 retry_after = r.headers.get("Retry-After")
                 wait_s = float(retry_after) if retry_after and retry_after.strip().isdigit() else backoff
@@ -351,6 +373,13 @@ def parse_matches_table(html: str, team_name: str = None) -> list:
 
         tourn_link = tds[5].find("a")
         tournament = (tourn_link.get_text(strip=True) if tourn_link else tds[5].get_text(strip=True)) or None
+        # Linkin title = TARKKA Liquipedia-sivun nimi (sama MediaWiki-rakenne
+        # jota vastustajan nimi alla jo kayttaa). Aiemmin heitettiin pois ja
+        # collect_maps.py arvasi sivun nimihaulla -> 60 % otteluista jai
+        # 'not_found':ksi (IEM Krakow/Atlanta/Rio, SL StarSeries...).
+        tournament_page = tourn_link.get("title") if tourn_link else None
+        if tournament_page and ("page does not exist" in tournament_page or "new" in (tourn_link.get("class") or [])):
+            tournament_page = None
 
         score_idx = None
         score_team = score_opponent = None
@@ -391,6 +420,7 @@ def parse_matches_table(html: str, team_name: str = None) -> list:
                 "tier": tier,
                 "match_type": match_type,
                 "tournament": tournament,
+                "tournament_page": tournament_page,
                 "score_team": score_team,
                 "score_opponent": score_opponent,
                 "raw_score": raw_score,

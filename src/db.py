@@ -22,6 +22,10 @@ def init_db() -> None:
     try:
         schema = SCHEMA_PATH.read_text(encoding="utf-8")
         conn.executescript(schema)
+        # CREATE TABLE IF NOT EXISTS ei lisaa sarakkeita olemassa olevaan tauluun.
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(historical_matches)")}
+        if "tournament_page" not in cols:
+            conn.execute("ALTER TABLE historical_matches ADD COLUMN tournament_page TEXT")
         conn.commit()
     finally:
         conn.close()

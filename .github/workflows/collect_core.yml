@@ -14,6 +14,19 @@ on:
     # odds.db:n rinnakkaisten kirjoittajien maaraa (pienentaa aiemmin jo
     # kerran korjattua binaarikonfliktiongelmaa entisestaan).
     - cron: "8,23,38,53 * * * *"
+  # Keruukoodin muutos ajaa keruun heti (ei odoteta GitHubin cronia, joka
+  # 2026-09 laukesi kaytannossa vain muutaman tunnin valein). Bottien omat
+  # data-commitit eivat osu naihin polkuihin -> ei silmukkaa.
+  push:
+    branches: [main]
+    paths:
+      - "src/collect_history.py"
+      - "src/collect_maps.py"
+      - "src/collect_market_snapshot.py"
+      - "src/liquipedia_client.py"
+      - "src/db.py"
+      - "db/schema.sql"
+      - ".github/workflows/collect_core.yml"
   workflow_dispatch:
     inputs:
       teams:
@@ -49,7 +62,10 @@ jobs:
         continue-on-error: true
         run: python src/collect_market_snapshot.py
 
-      - name: 2) Historiakeruu (kohdennettu jos "teams"-syote annettu, muuten max 25 joukkuetta)
+      # Eramaarat nostettu 2026-09-28 (25->75 / 20->40): cron laukeaa
+      # kaytannossa tuntien valein, ei 15 min. Nopeusrajat (30.5s/parse,
+      # 2.1s/query) pysyvat ennallaan, ja estotilanteessa ajo katkeaa heti.
+      - name: 2) Historiakeruu (kohdennettu jos "teams"-syote annettu, muuten kaikki jonossa olevat)
         continue-on-error: true
         env:
           TEAMS_INPUT: ${{ github.event.inputs.teams }}
@@ -57,12 +73,12 @@ jobs:
           if [ -n "$TEAMS_INPUT" ]; then
             python src/collect_history.py --teams $TEAMS_INPUT
           else
-            python src/collect_history.py --max-teams 25
+            python src/collect_history.py --max-teams 75
           fi
 
-      - name: 3) Karttakeruu (max 20 turnausta / ajo)
+      - name: 3) Karttakeruu (max 40 turnausta / ajo)
         continue-on-error: true
-        run: python src/collect_maps.py --max-tournaments 20
+        run: python src/collect_maps.py --max-tournaments 40
 
       - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
         continue-on-error: true

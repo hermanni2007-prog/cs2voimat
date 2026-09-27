@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS historical_matches (
     raw_score       TEXT,               -- alkuperainen tekstimuotoinen tulos
     source_page     TEXT NOT NULL,      -- esim. "Natus Vincere/Matches"
     collected_utc   TEXT NOT NULL,
+    tournament_page TEXT,               -- turnauslinkin tarkka Liquipedia-sivunimi (lisatty 2026-09-28)
     UNIQUE(match_date_utc, team, opponent, tournament)
 );
 

@@ -18,14 +18,17 @@ import argparse
 import json
 import logging
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
-from liquipedia_client import LiquipediaClient, parse_roster_transitions  # noqa: E402
+from liquipedia_client import LiquipediaBlocked, LiquipediaClient, parse_roster_transitions  # noqa: E402
+
+ERROR_RETRY_HOURS = 1
+OK_REFRESH_DAYS = 7  # siirtymat muuttuvat harvoin - viikoittainen uudelleenhaku riittaa
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -123,6 +126,8 @@ def process_team(conn, client: LiquipediaClient, team_name: str) -> None:
         conn.commit()
         log.info("OK %s (%s): %d siirtymaa", team_name, page_title, len(entries))
 
+    except LiquipediaBlocked:
+        raise
     except Exception as exc:
         conn.execute(
             "UPDATE roster_transition_progress SET status='error', last_attempt_utc=?, error_message=? WHERE team=?",
@@ -147,8 +152,20 @@ def main() -> int:
         conn.execute("UPDATE roster_transition_progress SET status='pending'")
         conn.commit()
 
+    now = datetime.now(timezone.utc)
+    conn.execute(
+        "UPDATE roster_transition_progress SET status='pending' WHERE status='error' AND last_attempt_utc < ?",
+        ((now - timedelta(hours=ERROR_RETRY_HOURS)).isoformat(),),
+    )
+    conn.execute(
+        "UPDATE roster_transition_progress SET status='pending' WHERE status='ok' AND last_attempt_utc < ?",
+        ((now - timedelta(days=OK_REFRESH_DAYS)).isoformat(),),
+    )
+    conn.commit()
+
     pending = [r[0] for r in conn.execute(
-        "SELECT team FROM roster_transition_progress WHERE status='pending' ORDER BY team"
+        "SELECT team FROM roster_transition_progress WHERE status='pending' "
+        "ORDER BY last_attempt_utc IS NOT NULL, last_attempt_utc ASC"
     ).fetchall()]
     if args.max_teams:
         pending = pending[: args.max_teams]
@@ -157,7 +174,11 @@ def main() -> int:
 
     client = LiquipediaClient()
     for team_name in pending:
-        process_team(conn, client, team_name)
+        try:
+            process_team(conn, client, team_name)
+        except LiquipediaBlocked as exc:
+            log.warning("Liquipedia estaa taman IP:n (%s) - lopetetaan ajo, jaljella olevat jaavat jonoon", exc)
+            break
         write_progress_snapshot(conn)
 
     write_progress_snapshot(conn)

@@ -32,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
-from liquipedia_client import LiquipediaClient, parse_matches_table  # noqa: E402
+from liquipedia_client import LiquipediaBlocked, LiquipediaClient, parse_matches_table  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
@@ -63,6 +63,10 @@ PROGRESS_PATH = ROOT / "data" / "history_progress.json"
 # STALE_HOURS vanha, jotta keraus OIKEASTI jatkuu taustalla kuten status-
 # sivu jo vaitti sen tekevan.
 STALE_HOURS = 6
+# BUGI (loydetty 2026-09-28): 'error'-tilaa ei palautettu KOSKAAN jonoon -
+# yksi Liquipedia-estojakso (24.9.) merkitsi kaikki 68 joukkuetta virheiksi
+# ja sen jalkeen jokainen CI-ajo ajoi tyhjaa neljan paivan ajan.
+ERROR_RETRY_HOURS = 1
 
 
 def now_utc_iso() -> str:
@@ -163,16 +167,23 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
             cur = conn.execute(
                 """INSERT OR IGNORE INTO historical_matches
                    (match_date_utc, team, opponent, tier, match_type, tournament,
-                    score_team, score_opponent, raw_score, source_page, collected_utc)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    score_team, score_opponent, raw_score, source_page, collected_utc, tournament_page)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     row["match_date_utc"], team_name, opponent, row["tier"], row["match_type"],
                     row["tournament"], row["score_team"], row["score_opponent"], row["raw_score"],
-                    page_title, now_utc_iso(),
+                    page_title, now_utc_iso(), row.get("tournament_page"),
                 ),
             )
             if cur.rowcount:
                 inserted += 1
+            elif row.get("tournament_page"):
+                conn.execute(
+                    """UPDATE historical_matches SET tournament_page=?
+                       WHERE match_date_utc=? AND team=? AND opponent=? AND tournament=?
+                         AND tournament_page IS NULL""",
+                    (row["tournament_page"], row["match_date_utc"], team_name, opponent, row["tournament"]),
+                )
 
         conn.execute(
             """UPDATE history_team_progress
@@ -183,6 +194,8 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
         conn.commit()
         log.info("OK %s (%s): %d uutta ottelua (8 kk ikkunassa)", team_name, page_title, inserted)
 
+    except LiquipediaBlocked:
+        raise
     except Exception as exc:
         conn.execute(
             "UPDATE history_team_progress SET status='error', last_attempt_utc=?, error_message=? WHERE team=?",
@@ -225,9 +238,17 @@ def main() -> int:
             "WHERE status='ok' AND last_attempt_utc < ?",
             (stale_cutoff,),
         )
+        error_cutoff = (datetime.now(timezone.utc) - timedelta(hours=ERROR_RETRY_HOURS)).isoformat()
+        retried = conn.execute(
+            "UPDATE history_team_progress SET status='pending' "
+            "WHERE status='error' AND last_attempt_utc < ?",
+            (error_cutoff,),
+        )
         conn.commit()
         if reset.rowcount:
             log.info("Nollattu %d vanhentunutta (>%dh) joukkuetta takaisin pendingiksi", reset.rowcount, STALE_HOURS)
+        if retried.rowcount:
+            log.info("Palautettu %d virhetilaista (>%dh) joukkuetta jonoon", retried.rowcount, ERROR_RETRY_HOURS)
 
         # Vanhin last_attempt_utc ensin (NULL = ei koskaan haettu = kiireisin) -
         # varmistaa etta AINA vanhentunein data paivittyy ensin, ei aakkosjarjestys.
@@ -243,7 +264,11 @@ def main() -> int:
 
     client = LiquipediaClient()
     for team_name in pending:
-        process_team(conn, client, team_name, cutoff_utc)
+        try:
+            process_team(conn, client, team_name, cutoff_utc)
+        except LiquipediaBlocked as exc:
+            log.warning("Liquipedia estaa taman IP:n (%s) - lopetetaan ajo, jaljella olevat jaavat jonoon", exc)
+            break
         write_progress_snapshot(conn)
 
     write_progress_snapshot(conn)
