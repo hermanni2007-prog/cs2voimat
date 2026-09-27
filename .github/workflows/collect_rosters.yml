@@ -10,7 +10,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: cs2-roster-collector
+  # Sama ryhma kuin collect_core.yml - kaikki odds.db:n kirjoittajat sarjassa.
+  group: cs2-core-collectors
   cancel-in-progress: false
 
 jobs:
@@ -18,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main  # jonossa odottanut ajo saisi muuten vanhan odds.db:n
 
       - uses: actions/setup-python@v5
         with:

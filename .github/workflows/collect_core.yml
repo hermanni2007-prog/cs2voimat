@@ -39,6 +39,7 @@ on:
 
 permissions:
   contents: write
+  actions: write  # itsensa jatkaminen (gh workflow run) kun karttajonoa on jaljella
 
 concurrency:
   group: cs2-core-collectors
@@ -49,7 +50,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350  # GitHubin raja 360 - jatetaan tilaa commit-vaiheelle
     steps:
+      # ref: main (ei laukaisuhetken SHA): jonossa tunteja odottanut ajo saisi
+      # muuten VANHAN odds.db:n, ja lopun push-konflikti heittaisi koko ajon
+      # datan pois.
       - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Ajon aloitusaika (edistymisen mittaamiseen)
+        run: echo "RUN_START=$(date -u +%Y-%m-%dT%H:%M:%S)" >> "$GITHUB_ENV"
 
       - uses: actions/setup-python@v5
         with:
@@ -89,11 +98,33 @@ jobs:
         continue-on-error: true
         run: python src/check_pipeline_health.py || true
 
+      - name: Jonon tila
+        id: queue
+        continue-on-error: true
+        run: |
+          read attempted remaining < <(python src/ci_queue_status.py "$RUN_START")
+          echo "Tassa ajossa yritetty $attempted turnausta, jonossa jaljella $remaining"
+          echo "attempted=$attempted" >> "$GITHUB_OUTPUT"
+          echo "remaining=$remaining" >> "$GITHUB_OUTPUT"
+
+      # Kun karttajono on tyhja, xR-validointi ajetaan automaattisesti ja
+      # raportti tallennetaan repoon (ei tarvitse odottaa ihmista).
+      - name: xR-validointi (vain kun karttajono on tyhja)
+        if: steps.queue.outputs.remaining == '0'
+        continue-on-error: true
+        timeout-minutes: 30
+        run: |
+          {
+            echo "Ajettu: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            python src/run_xr.py
+          } > data/xr_report.txt 2>&1
+
       - name: Committaa tietokanta ja kaikki edistymistiedostot takaisin repoon
         run: |
           git config user.name "cs2-core-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/odds.db data/history_progress.json data/maps_progress.json
+          [ -f data/xr_report.txt ] && git add data/xr_report.txt
           git diff --cached --quiet || git commit -m "core collectors: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for i in 1 2 3 4 5; do
             git fetch origin main
@@ -107,3 +138,12 @@ jobs:
           echo "Push epaonnistui $i yrityksen jalkeen (binaarikonflikti) - luovutaan taman ajon omasta datasta siististi, seuraava ajo yrittaa uudelleen."
           git reset --hard origin/main
           exit 0
+
+      # GitHubin cron laukeaa kaytannossa vain tuntien valein - jos karttajonoa
+      # jai (aikaraja) JA ajo eteni, kaynnistetaan seuraava heti. Ei edistysta
+      # (esim. IP-esto) -> ketju pysahtyy, cron jatkaa myohemmin.
+      - name: Jatka seuraavaan ajoon jos jonoa jaljella
+        if: always() && steps.queue.outputs.remaining != '0' && steps.queue.outputs.attempted != '0' && steps.queue.outputs.remaining != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run collect_core.yml --ref main --repo "$GITHUB_REPOSITORY"

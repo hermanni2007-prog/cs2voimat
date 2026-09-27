@@ -14,7 +14,10 @@ permissions:
   contents: write
 
 concurrency:
-  group: cs2-roster-transitions-collector
+  # Sama ryhma kuin collect_core.yml / collect_rosters.yml: kaikki odds.db:hen
+  # kirjoittavat ajot sarjassa, jottei pitkan ajon push kaadu binaarikonfliktiin
+  # (konfliktissa ajo luovuttaa ja sen data katoaa).
+  group: cs2-core-collectors
   cancel-in-progress: false
 
 jobs:
@@ -22,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main  # jonossa odottanut ajo saisi muuten vanhan odds.db:n
 
       - uses: actions/setup-python@v5
         with:
