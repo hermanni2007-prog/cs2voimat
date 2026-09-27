@@ -133,6 +133,25 @@ class LiquipediaClient:
             return redirects[0]["to"]
         return title
 
+    def page_touched_batch(self, titles: list) -> dict:
+        """Sivujen 'touched'-aikaleimat kevyella action=query-kutsulla, max 50
+        otsikkoa / pyynto (MediaWikin raja). Palauttaa {pyydetty_otsikko: touched}.
+        Kaytetaan ohittamaan raskas action=parse (30 s) muuttumattomille sivuille."""
+        out = {}
+        for i in range(0, len(titles), 50):
+            chunk = titles[i:i + 50]
+            r = self._request(
+                {"action": "query", "format": "json", "prop": "info", "titles": "|".join(chunk)},
+                "_last_query_at", QUERY_COOLDOWN_SECONDS, 20,
+            )
+            q = r.json().get("query", {})
+            alias = {n["to"]: n["from"] for n in q.get("normalized", [])}
+            for p in q.get("pages", {}).values():
+                if "missing" in p or "touched" not in p:
+                    continue
+                out[alias.get(p["title"], p["title"])] = p["touched"]
+        return out
+
     def search_best_title(self, query: str) -> Optional[str]:
         r = self._request(
             {"action": "query", "format": "json", "list": "search", "srsearch": query, "srlimit": 5},

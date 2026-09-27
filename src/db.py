@@ -26,6 +26,10 @@ def init_db() -> None:
         cols = {r[1] for r in conn.execute("PRAGMA table_info(historical_matches)")}
         if "tournament_page" not in cols:
             conn.execute("ALTER TABLE historical_matches ADD COLUMN tournament_page TEXT")
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(history_team_progress)")}
+        for col in ("page_touched", "content_hash"):
+            if col not in cols:
+                conn.execute(f"ALTER TABLE history_team_progress ADD COLUMN {col} TEXT")
         conn.commit()
     finally:
         conn.close()

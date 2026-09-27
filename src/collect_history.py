@@ -22,8 +22,10 @@ status-sivu lukee etenemisen.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import logging
+import random
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -67,6 +69,18 @@ STALE_HOURS = 6
 # yksi Liquipedia-estojakso (24.9.) merkitsi kaikki 68 joukkuetta virheiksi
 # ja sen jalkeen jokainen CI-ajo ajoi tyhjaa neljan paivan ajan.
 ERROR_RETRY_HOURS = 1
+
+# Raskaan action=parse-haun (30 s) ohitus muuttumattomille sivuille (2026-09-28,
+# Liquipedia-estojen ehkaisy). /Matches-sivut kootaan todennakoisesti LPDB:sta,
+# jolloin sisalto voi muuttua ILMAN sivun muokkausta -> 'touched'-aikaleimaan
+# ei luoteta ennen kuin mittaus osoittaa sen luotettavaksi:
+#   - ohitus paalla vasta kun >= SKIP_MIN_EVIDENCE vertailua, 0 ohilyontia
+#   - ohitustilassakin CANARY_RATE osuus haetaan silti (jatkuva valvonta:
+#     yksikin ohilyonti kytkee ohituksen pois)
+#   - joukkuetta joka pelasi viim. ACTIVE_HOURS aikana ei ohiteta koskaan
+SKIP_MIN_EVIDENCE = 50
+CANARY_RATE = 0.10
+ACTIVE_HOURS = 72
 
 
 def now_utc_iso() -> str:
@@ -136,8 +150,37 @@ TEAM_ALIASES = {
 }
 
 
-def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: datetime) -> None:
+def touched_skip_enabled(conn) -> bool:
+    evidence, misses = conn.execute(
+        "SELECT COALESCE(SUM(touched_same), 0), COALESCE(SUM(touched_same * content_changed), 0) "
+        "FROM history_touched_validation"
+    ).fetchone()
+    return evidence >= SKIP_MIN_EVIDENCE and misses == 0
+
+
+def active_teams(conn) -> set:
+    since = (datetime.now(timezone.utc) - timedelta(hours=ACTIVE_HOURS)).isoformat()
+    rows = conn.execute(
+        "SELECT team, opponent FROM historical_matches WHERE match_date_utc >= ?", (since,)
+    ).fetchall()
+    return {t for r in rows for t in r}
+
+
+def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: datetime,
+                 touched: str = None, skip_if_unchanged: bool = False) -> None:
     try:
+        prev_touched, prev_hash = conn.execute(
+            "SELECT page_touched, content_hash FROM history_team_progress WHERE team=?", (team_name,)
+        ).fetchone() or (None, None)
+        if skip_if_unchanged and touched and prev_touched == touched:
+            conn.execute(
+                "UPDATE history_team_progress SET status='ok', last_attempt_utc=?, error_message=NULL WHERE team=?",
+                (now_utc_iso(), team_name),
+            )
+            conn.commit()
+            log.info("OHITETTU %s: sivu ei muuttunut (touched %s)", team_name, touched)
+            return
+
         lookup_name = TEAM_ALIASES.get(team_name, team_name)
         page_title = client.resolve_team_page(lookup_name)
         if not page_title:
@@ -185,11 +228,22 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
                     (row["tournament_page"], row["match_date_utc"], team_name, opponent, row["tournament"]),
                 )
 
+        content_hash = hashlib.sha1(json.dumps(rows, sort_keys=True).encode("utf-8")).hexdigest()
+        if touched and prev_touched and prev_hash:
+            conn.execute(
+                """INSERT INTO history_touched_validation (checked_utc, team, touched_same, content_changed)
+                   VALUES (?, ?, ?, ?)""",
+                (now_utc_iso(), team_name, int(touched == prev_touched), int(content_hash != prev_hash)),
+            )
+            if touched == prev_touched and content_hash != prev_hash:
+                log.warning("OHILYONTI %s: sisalto muuttui vaikka touched ei - ohitus kytkeytyy pois", team_name)
+
         conn.execute(
             """UPDATE history_team_progress
-               SET status='ok', liquipedia_page=?, matches_found=?, last_attempt_utc=?, error_message=NULL
+               SET status='ok', liquipedia_page=?, matches_found=?, last_attempt_utc=?, error_message=NULL,
+                   page_touched=COALESCE(?, page_touched), content_hash=?
                WHERE team=?""",
-            (page_title, inserted, now_utc_iso(), team_name),
+            (page_title, inserted, now_utc_iso(), touched, content_hash, team_name),
         )
         conn.commit()
         log.info("OK %s (%s): %d uutta ottelua (8 kk ikkunassa)", team_name, page_title, inserted)
@@ -214,6 +268,9 @@ def main() -> int:
                               "JA staleness-tarkistuksen) - kayttoon kun tiedetaan etta tietty joukkue "
                               "on juuri pelannut (esim. saman paivan pudotuspelibracket) eika voida "
                               "odottaa sen normaalia 6h-uudelleenhakuvuoroa.")
+    parser.add_argument("--allow-skip", action="store_true",
+                         help="Salli muuttumattomien sivujen ohitus (vain jos mittaus osoittaa "
+                              "touched-aikaleiman luotettavaksi). EI kayteta CI:ssa.")
     args = parser.parse_args()
 
     init_db()
@@ -263,9 +320,30 @@ def main() -> int:
     log.info("Kasitellaan %d joukkuetta tassa ajossa (8 kk ikkuna, alkaen %s)", len(pending), cutoff_utc.date())
 
     client = LiquipediaClient()
+
+    # Kevyt touched-kysely (1 pyynto / 50 sivua) kaikille tunnetuille sivuille.
+    pages = dict(conn.execute(
+        "SELECT team, liquipedia_page FROM history_team_progress WHERE liquipedia_page IS NOT NULL"
+    ).fetchall())
+    try:
+        touched_by_page = client.page_touched_batch(sorted({pages[t] for t in pending if t in pages}))
+    except LiquipediaBlocked as exc:
+        log.warning("Liquipedia estaa taman IP:n (%s) - lopetetaan ajo", exc)
+        write_progress_snapshot(conn)
+        conn.close()
+        return 0
+    # Ohitus on OLETUKSENA POIS (kayttajan linjaus 2026-09-28: yhtaan ottelua
+    # ei saa missata tai viivastyttaa). CI ei anna --allow-skip -lippua, joten
+    # nyt vain MITATAAN touched-aikaleiman luotettavuutta - mitaan ei ohiteta.
+    skip_on = args.allow_skip and touched_skip_enabled(conn) and not args.teams
+    active = active_teams(conn)
+    log.info("touched-ohitus %s (aktiivisia joukkueita %d, ei ohiteta)", "PAALLA" if skip_on else "mittaustilassa", len(active))
+
     for team_name in pending:
+        touched = touched_by_page.get(pages.get(team_name))
+        skip = skip_on and team_name not in active and random.random() >= CANARY_RATE
         try:
-            process_team(conn, client, team_name, cutoff_utc)
+            process_team(conn, client, team_name, cutoff_utc, touched=touched, skip_if_unchanged=skip)
         except LiquipediaBlocked as exc:
             log.warning("Liquipedia estaa taman IP:n (%s) - lopetetaan ajo, jaljella olevat jaavat jonoon", exc)
             break

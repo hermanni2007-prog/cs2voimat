@@ -79,7 +79,21 @@ CREATE TABLE IF NOT EXISTS history_team_progress (
     status          TEXT NOT NULL DEFAULT 'pending',  -- pending / ok / not_found / error
     matches_found   INTEGER DEFAULT 0,
     last_attempt_utc TEXT,
-    error_message   TEXT
+    error_message   TEXT,
+    page_touched    TEXT,               -- sivun 'touched' viime haussa (lisatty 2026-09-28)
+    content_hash    TEXT                -- jasennettyjen rivien tiiviste viime haussa
+);
+
+-- Mittaus: kertooko sivun 'touched'-aikaleima luotettavasti sisallon
+-- muutoksesta (/Matches-sivut kootaan todennakoisesti LPDB:sta, jolloin
+-- sisalto voi muuttua ilman muokkausta). Ohitus kytkeytyy vasta kun tama
+-- nayttaa nolla ohilyontia. Ks. collect_history.touched_skip_enabled().
+CREATE TABLE IF NOT EXISTS history_touched_validation (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    checked_utc     TEXT NOT NULL,
+    team            TEXT NOT NULL,
+    touched_same    INTEGER NOT NULL,   -- 1 = touched ei muuttunut edellisesta hausta
+    content_changed INTEGER NOT NULL    -- 1 = jasennetty sisalto muuttui
 );
 
 -- Kokoonpanot: pelaajan liittymis-/lahtopaiva per joukkue, Liquipedian
