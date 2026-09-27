@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-27T22:51:18.379266+00:00",
+  "updated_utc": "2026-09-27T23:42:26.587289+00:00",
   "tournaments_total": 738,
-  "tournaments_done": 291,
-  "tournaments_ok": 265,
-  "tournaments_ok_no_brackets": 2,
+  "tournaments_done": 441,
+  "tournaments_ok": 405,
+  "tournaments_ok_no_brackets": 12,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 3917,
+  "maps_collected": 6480,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #7 - Playoffs",
+    "tournament": "Parken Championship #3 - Group A",
     "status": "ok",
-    "maps_found": 34,
-    "at": "2026-09-27T22:51:18.375728+00:00"
+    "maps_found": 0,
+    "at": "2026-09-27T23:42:26.585131+00:00"
   }
 }
