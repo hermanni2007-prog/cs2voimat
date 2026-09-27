@@ -189,6 +189,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--max-tournaments", type=int, default=None,
                          help="Kasittele korkeintaan N kasittelematonta turnausta tassa ajossa.")
+    parser.add_argument("--max-minutes", type=float, default=None,
+                         help="Lopeta siististi kun aikaa on kulunut N min (jo haetut on tallennettu).")
     args = parser.parse_args()
 
     init_db()
@@ -239,7 +241,11 @@ def main() -> int:
 
     client = LiquipediaClient()
     html_cache: dict = {}
+    started = datetime.now(timezone.utc)
     for tournament in pending:
+        if args.max_minutes and (datetime.now(timezone.utc) - started).total_seconds() > args.max_minutes * 60:
+            log.info("Aikaraja %.0f min taynna - lopetetaan, loput jaavat jonoon", args.max_minutes)
+            break
         try:
             process_tournament(conn, client, tournament, html_cache)
         except LiquipediaBlocked as exc:

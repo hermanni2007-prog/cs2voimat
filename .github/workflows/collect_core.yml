@@ -47,6 +47,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
+    timeout-minutes: 350  # GitHubin raja 360 - jatetaan tilaa commit-vaiheelle
     steps:
       - uses: actions/checkout@v4
 
@@ -65,6 +66,7 @@ jobs:
       # 2.1s/query) pysyvat ennallaan, ja estotilanteessa ajo katkeaa heti.
       - name: 2) Historiakeruu (kohdennettu jos "teams"-syote annettu, muuten kaikki jonossa olevat)
         continue-on-error: true
+        timeout-minutes: 70
         env:
           TEAMS_INPUT: ${{ github.event.inputs.teams }}
         run: |
@@ -74,10 +76,14 @@ jobs:
             python src/collect_history.py --max-teams 75
           fi
 
-      # 150 turnausta ~ 80 min (30.5 s / parse). Jono purkautuu ~3 ajossa.
-      - name: 3) Karttakeruu (max 150 turnausta / ajo)
+      # Koko jono yhdella ajolla aikarajan puitteissa: cron laukeaa kaytannossa
+      # tuntien valein, joten pienet erat hidastivat purkua moninkertaisesti.
+      # Skripti lopettaa itse 250 min kohdalla (jokainen turnaus on jo
+      # tallennettu kantaan), step-timeout on varmistus sen ylle.
+      - name: 3) Karttakeruu (koko jono, aikaraja 250 min)
         continue-on-error: true
-        run: python src/collect_maps.py --max-tournaments 150
+        timeout-minutes: 265
+        run: python src/collect_maps.py --max-minutes 250
 
       - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
         continue-on-error: true
