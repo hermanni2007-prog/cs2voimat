@@ -20,8 +20,10 @@ import requests
 BASE_URL = "https://liquipedia.net/counterstrike/api.php"
 USER_AGENT = "CS2PelivoimatBot/0.1 (https://github.com/hermanni2007-prog/cs2voimat; hermanni2007@gmail.com)"
 
-QUERY_COOLDOWN_SECONDS = 2.1
-PARSE_COOLDOWN_SECONDS = 30.5
+# Turvamarginaali ehtojen rajoihin (2 s / 30 s) nostettu 2026-09-28: CI ajaa
+# tunteja yhtajaksoisesti, ja kotiverkon IP estettiin jo kerran.
+QUERY_COOLDOWN_SECONDS = 2.5
+PARSE_COOLDOWN_SECONDS = 35.0
 
 # 429-varautuminen (lisatty 2026-09-18): alkuperainen koodi ei reagoinut
 # 429:aan mitenkaan - r.raise_for_status() heitti heti poikkeuksen, kutsuja
@@ -64,8 +66,12 @@ class LiquipediaClient:
     def __init__(self):
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT, "Accept-Encoding": "gzip"})
-        self._last_query_at = 0.0
-        self._last_parse_at = 0.0
+        # Aloitetaan "juuri pyydetty" -tilasta: sama CI-ajo kaynnistaa useita
+        # keruuprosesseja perakkain, eika uusi prosessi tieda edellisen
+        # viimeisesta pyynnosta - ilman tata ensimmainen parse voisi lahtea
+        # alle 30 s edellisen prosessin viimeisen jalkeen.
+        self._last_query_at = time.monotonic()
+        self._last_parse_at = time.monotonic()
         self._consecutive_exhaustions = 0
         self._circuit_open_until = 0.0
 
