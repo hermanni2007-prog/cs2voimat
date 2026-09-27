@@ -56,11 +56,9 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python -m playwright install --with-deps chromium
-
-      - name: 1) Markkinasnapshot (oddsportal, ei Liquipedia-riippuvuutta - ajetaan ENSIN)
-        continue-on-error: true
-        run: python src/collect_market_snapshot.py
+      # Markkinasnapshot (collect_market_snapshot.py) poistettu ajosta
+      # 2026-09-28: kertoimia ei kayteta talla hetkella, ja Playwright-asennus
+      # hidasti jokaista ajoa. Skripti sailyy, lisataan takaisin tarvittaessa.
 
       # Eramaarat nostettu 2026-09-28 (25->75 / 20->40): cron laukeaa
       # kaytannossa tuntien valein, ei 15 min. Nopeusrajat (30.5s/parse,
@@ -76,9 +74,10 @@ jobs:
             python src/collect_history.py --max-teams 75
           fi
 
-      - name: 3) Karttakeruu (max 40 turnausta / ajo)
+      # 150 turnausta ~ 80 min (30.5 s / parse). Jono purkautuu ~3 ajossa.
+      - name: 3) Karttakeruu (max 150 turnausta / ajo)
         continue-on-error: true
-        run: python src/collect_maps.py --max-tournaments 40
+        run: python src/collect_maps.py --max-tournaments 150
 
       - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
         continue-on-error: true
