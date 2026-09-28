@@ -198,10 +198,13 @@ def series_win_prob(p_map: float, best_of: int) -> float:
 # ---------------------------------------------------------------------------
 
 class XRModel:
-    def __init__(self, k: float, ct_adv: dict, tau: float = 1.0):
+    def __init__(self, k: float, ct_adv: dict, tau: float = 1.0, gamma: float = 1.0):
         self.k = k
         self.ct_adv = ct_adv
         self.tau = tau
+        # gamma < 1 kutistaa rating-eron vaikutusta kierrokseen: diagnostiikka
+        # (2026-09-29) nayti etta taysi ero yliarvioi tasavakisten eroja.
+        self.gamma = gamma
         self.r = defaultdict(float)
         self.n_maps = defaultdict(int)
 
@@ -210,7 +213,7 @@ class XRModel:
 
     def p_round(self, team: str, opp: str, side: str, map_name: str | None) -> float:
         c = self._c(map_name)
-        return sigmoid((self.r[team] - self.r[opp]) / SCALE + (c if side == "CT" else -c))
+        return sigmoid(self.gamma * (self.r[team] - self.r[opp]) / SCALE + (c if side == "CT" else -c))
 
     def expected_rounds(self, team: str, opp: str, map_name: str | None, played_per_side: int = REGULATION_HALF) -> float:
         """xR: odotettu kierrosmaara 12 CT- ja 12 T-kierroksesta (ei jatkoaikaa)."""
