@@ -100,6 +100,8 @@ class MatchRow:
     tournament: Optional[str]
     team_won: int  # 1/0
     market_prob_team: Optional[float] = None  # taytetaan jos kerroin loytyy
+    score_team: Optional[int] = None
+    score_opponent: Optional[int] = None
 
 
 def load_clean_matches(conn) -> list:
@@ -136,7 +138,8 @@ def load_clean_matches(conn) -> list:
         team_won = 1 if r[6] > r[7] else 0
         team = resolve_to_canonical(r[1], canonical_names)
         opponent = resolve_to_canonical(r[2], canonical_names)
-        out.append(MatchRow(date=date, team=team, opponent=opponent, tier=r[3], match_type=r[4], tournament=r[5], team_won=team_won))
+        out.append(MatchRow(date=date, team=team, opponent=opponent, tier=r[3], match_type=r[4], tournament=r[5],
+                            team_won=team_won, score_team=r[6], score_opponent=r[7]))
     return out
 
 
@@ -375,14 +378,35 @@ def market_walk_forward(matches: list) -> dict:
 # pysyy silti korjattuna koska frozenset(team,opponent) jo erottaa ne.
 # ---------------------------------------------------------------------------
 
+# HUOM 2026-09-28 (kayttajan huomio magic vs GamerLegion -ennusteessa): sama
+# ottelu voi esiintya ERI kellonajalla kahdesti - Liquipedia siirsi alkamisajan
+# (GL-magic 18:00 -> 18:10, vanha rivi jai) tai kasin syotetty rivi jai
+# kaavitun rinnalle (Logitech 09-18, MOUZ-NAVI). Tarkistettu turnauskaavioiden
+# karttadataa vasten: kaikki aidot tuplat ovat <= 4 h paassa samalla tuloksella,
+# kun taas samanlaiset parit 5-72 h paassa ovat kaavion mukaan oikeita
+# uusintaotteluita (esim. alkulohko + ratkaisuottelu). Bo3-ottelu kestaa ~2-3 h,
+# joten sama pari ei voi pelata kahta erillista ottelua 4 h sisalla.
+DUPLICATE_WINDOW_HOURS = 4.0
+
+
 def deduplicate_matches(matches: list) -> list:
     seen = set()
+    by_pair: dict = {}  # frozenset(pari) -> [(date, voittaja, pisteet voittaja/haviaja)]
     out = []
     for m in matches:
         key = (m.date.isoformat(), frozenset({m.team, m.opponent}))
         if key in seen:
             continue
         seen.add(key)
+        if m.score_team is not None and m.score_opponent is not None:
+            pair = frozenset({m.team, m.opponent})
+            winner = m.team if m.team_won else m.opponent
+            score = (max(m.score_team, m.score_opponent), min(m.score_team, m.score_opponent))
+            prev = by_pair.setdefault(pair, [])
+            if any(w == winner and s == score and abs((m.date - d).total_seconds()) <= DUPLICATE_WINDOW_HOURS * 3600
+                   for d, w, s in prev):
+                continue
+            prev.append((m.date, winner, score))
         out.append(m)
     return out
 

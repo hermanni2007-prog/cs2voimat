@@ -57,7 +57,7 @@ from backtest import (  # noqa: E402
     production_k_override,
 )
 from run_tournament_effects import build_recent_match_index  # noqa: E402
-from team_names import load_top50_names  # noqa: E402
+from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 _params = load_best_elo_params()
 SCALE, K_FACTOR, HALF_LIFE = _params["scale"], _params["k_factor"], _params["half_life_days"]
@@ -82,6 +82,10 @@ def main() -> int:
     # ottelut mukana Elo-paivityksessa, top75-ulkopuoliset vastustajat vain
     # pienemmalla K:lla (SOS_NON_TOP50_K_WEIGHT) taysin poissulkemisen sijaan.
     top50_names = load_top50_names()
+    # 2026-09-28: "Magic" -> "magic" (kanoninen nimi on pienella) - ilman tata
+    # kirjoitusasu erosi hiljaa ja ennuste laskettiin 1500-oletusratingilla.
+    args.team = resolve_to_canonical(args.team, top50_names)
+    args.opponent = resolve_to_canonical(args.opponent, top50_names)
 
     elo = EloModel(scale=SCALE, k_factor=K_FACTOR, half_life_days=HALF_LIFE)
     for m in matches:
