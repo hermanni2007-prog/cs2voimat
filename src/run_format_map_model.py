@@ -139,20 +139,26 @@ def walk(matches, maps_of, top, k, a, collect_maps=False, state=None):
     return series, maps
 
 
-# Rinnakkaisajo (kayttajan valinta B, 2026-09-28): M naytetaan predict_match.py:ssa
-# tuotannon rinnalla, tuotantoennuste ei muutu. K=96 = testin kolmen viimeisimman
-# ikkunan train-valinta. Uusi paatos kun testi ajetaan uudelleen ~2-3 viikon paasta.
-SHADOW_K = 96
+# TUOTANNOSSA 2026-09-28 (kayttajan paatos A, ensin valittiin rinnakkaisajo B):
+# M on predict_match.py:n paaennuste, vanha sarjatason Elo naytetaan vertailuna.
+# K=96 = testin kolmen viimeisimman ikkunan train-valinta. Testi ajetaan silti
+# uudelleen ~2-3 viikon paasta: jos etu katoaa, palataan vanhaan.
+PROD_MAP_K = 96
 
 
-def shadow_series_prob(matches, games, top, team, opponent, best_of):
-    """Karttatason Elon sarjaennuste, kalibroitu koko historian top75-sarjoilla."""
+def map_elo_series_prob(matches, games, top, team, opponent, best_of, rd_team=0.0, rd_opp=0.0):
+    """Karttatason Elon sarjaennuste (p, p_alaraja, p_ylaraja), kalibroitu koko
+    historian top75-sarjoilla. Haarukka samalla karkealla RD-periaatteella kuin
+    EloModel.predict_with_confidence: kumpaakin ratingia siirretaan yhden RD:n verran."""
     state = {}
-    series, _ = walk(matches, attach_maps(matches, games), top, SHADOW_K, 0.0, state=state)
+    series, _ = walk(matches, attach_maps(matches, games), top, PROD_MAP_K, 0.0, state=state)
     tau = fit_tau([(p, y) for p, _, y, _ in series])
     r = state["r"]
-    p_map = 1 / (1 + math.exp(-(r[team] - r[opponent]) / SCALE))
-    return cal(series_win_prob(p_map, best_of), tau)
+
+    def p_of(diff):
+        return cal(series_win_prob(1 / (1 + math.exp(-diff / SCALE)), best_of), tau)
+    diff = r[team] - r[opponent]
+    return p_of(diff), p_of(diff - rd_team - rd_opp), p_of(diff + rd_team + rd_opp)
 
 
 def prod_walk(matches, top):

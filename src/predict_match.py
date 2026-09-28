@@ -3,6 +3,10 @@ Nopea ottelukohtainen ennustetyokalu, kayttoon ad-hoc kysymyksiin
 ("mitka kertoimet pitaisi olla X vs Y") ilman etukateen tallennettua
 sarjatilannetta (ks. analyze_series.py Bo3-sarjatilanteille).
 
+2026-09-28 ALKAEN PAAMALLI ON KARTTATASON ELO (run_format_map_model.py,
+map_elo_series_prob): paivittyy jokaisesta kartasta ja laskee sarjaennusteen
+sarjan pituuden (--bo) mukaan. Alla kuvattu sarjatason Elo naytetaan vertailuna.
+
 Kayttaa Tehtava 3:n ottelutason Elo-mallia (historical_matches, korjattu
 dedup-bugi 2026-09-17) ja EloModel.predict_with_confidence() -metodia
 (lisatty 2026-09-17) epavarmuushaarukan nayttamiseen - katso backtest.py:n
@@ -56,7 +60,7 @@ from backtest import (  # noqa: E402
     load_best_elo_params,
     production_k_override,
 )
-from run_format_map_model import shadow_series_prob  # noqa: E402
+from run_format_map_model import map_elo_series_prob  # noqa: E402
 from run_tournament_effects import build_recent_match_index  # noqa: E402
 from xr_model import load_map_games  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
@@ -73,8 +77,8 @@ def main() -> int:
                          help="Ottelu pelataan onlinena (ei LANilla) - soveltaa validoidun "
                               "online-korjauksen (ks. yla kommentti).")
     parser.add_argument("--bo", type=int, choices=(1, 3, 5), default=3,
-                         help="Sarjan pituus (oletus 3) - kaytetaan rinnakkaisen karttatason "
-                              "Elon ennusteeseen (tuotantoennuste ei riipu tasta).")
+                         help="Sarjan pituus (oletus 3) - karttatason Elo laskee sarjan "
+                              "voittotodennakoisyyden taman mukaan. ANNA AINA OIKEA ARVO.")
     args = parser.parse_args()
     match_type = "Online" if args.online else None
 
@@ -118,12 +122,23 @@ def main() -> int:
     n_fatigue_opp = count_recent_matches(args.opponent, last_date, recent_idx, FATIGUE_WINDOW_DAYS) if last_date else 0
     rank_team = current_elo_rank(elo, args.team, last_date, candidate_names=top50_names) if last_date else None
     rank_opp = current_elo_rank(elo, args.opponent, last_date, candidate_names=top50_names) if last_date else None
-    p_adjusted = apply_all_adjustments(r["p_mid"], n_recent_team, n_recent_opp, match_type=match_type,
-                                        rank_team=rank_team, rank_opponent=rank_opp,
-                                        n_fatigue_team=n_fatigue_team, n_fatigue_opponent=n_fatigue_opp)
+    # TUOTANTOMALLI 2026-09-28: karttatason Elo (huomioi sarjan pituuden --bo).
+    # Rolling origin (run_format_map_model.py): parempi kuin vanha sarjatason Elo
+    # 4/5 ikkunassa, P(parannus>0)=0.85, mutta heikompi Bo1:ssa (n=130). Vanha
+    # malli naytetaan vertailuna alla. Korjaukset (online/ruostuminen/vasymys)
+    # validoitiin vanhalla mallilla - sovelletaan samoina.
+    p_mid, p_low, p_high = map_elo_series_prob(matches, games, top50_names, args.team, args.opponent, args.bo,
+                                               r["rd_team"], r["rd_opp"])
+
+    def adjust(p):
+        return apply_all_adjustments(p, n_recent_team, n_recent_opp, match_type=match_type,
+                                     rank_team=rank_team, rank_opponent=rank_opp,
+                                     n_fatigue_team=n_fatigue_team, n_fatigue_opponent=n_fatigue_opp)
+    p_adjusted = adjust(p_mid)
+    p_old = adjust(r["p_mid"])
 
     is_levea = rank_team is not None and rank_opp is not None and rank_team > 20 and rank_opp > 20
-    is_team_favorite = r["p_mid"] >= 0.5
+    is_team_favorite = p_mid >= 0.5
     favorite_n_fatigue = n_fatigue_team if is_team_favorite else n_fatigue_opp
     underdog_n_fatigue = n_fatigue_opp if is_team_favorite else n_fatigue_team
     # HUOM 2026-09-20: taytyy olla AIDOSTI vasyneempi kuin altavastaaja, ei
@@ -131,12 +146,12 @@ def main() -> int:
     # apply_fatigue_adjustment()-kommentti (Vitaly-FURIA-bugikorjaus).
     is_fatigued = favorite_n_fatigue >= FATIGUE_THRESHOLD and favorite_n_fatigue > underdog_n_fatigue
 
-    print(f"{args.team} vs {args.opponent}" + ("  [ONLINE-ottelu]" if match_type == "Online" else ""))
+    print(f"{args.team} vs {args.opponent}  [Bo{args.bo}]" + ("  [ONLINE-ottelu]" if match_type == "Online" else ""))
     print(f"  n_ottelua: {args.team}={r['n_team']}  {args.opponent}={r['n_opp']}  -> luottamus: {r['confidence']}")
     if rank_team is not None:
         print(f"  Elo-sija: {args.team}=#{rank_team}  {args.opponent}=#{rank_opp}" +
               ("  [LEVEA-taso: molemmat top21-75]" if is_levea else ""))
-    print(f"  P({args.team}) raaka = {r['p_mid']:.3f}  (haarukka [{r['p_low']:.3f}, {r['p_high']:.3f}])")
+    print(f"  P({args.team}) raaka = {p_mid:.3f}  (haarukka [{p_low:.3f}, {p_high:.3f}])  - karttatason Elo")
     if match_type == "Online":
         print(f"  P({args.team}) ONLINE-KORJATTU = {p_adjusted:.3f}  "
               f"(mallilla ei validoinnin mukaan ole online-otteluissa kaytannon ennustearvoa - "
@@ -148,27 +163,20 @@ def main() -> int:
         print(f"  P({args.team}) VASYMYSKORJATTU = {p_adjusted:.3f}  "
               f"(suosikilla >={FATIGUE_THRESHOLD} ottelua viimeisen {FATIGUE_WINDOW_DAYS*24:.0f}h aikana - "
               f"toistaiseksi tuettu, pieni otos, ks. backtest.py:n FATIGUE_SHRINK-kommentti)")
-    elif p_adjusted != r["p_mid"]:
+    elif p_adjusted != p_mid:
         print(f"  P({args.team}) RUOSTUMISKORJATTU = {p_adjusted:.3f}  "
               f"(suosikilla 0 ottelua viimeisen {RUST_WINDOW_DAYS} vrk:n aikana - toistaiseksi tuettu, pieni otos)")
     p_final = p_adjusted
     print(f"  Reilu kerroin {args.team}: {1/p_final:.2f}")
     print(f"  Reilu kerroin {args.opponent}: {1/(1-p_final):.2f}")
 
-    # RINNAKKAISAJO (2026-09-28, kayttajan valinta B): karttatason Elo huomioi
-    # sarjan pituuden. Rolling origin: parempi 4/5 ikkunassa, P(parannus>0)=0.85,
-    # mutta heikompi Bo1:ssa - EI viela tuotannossa, reilut kertoimet yllä ovat tuotannon.
-    # Samat validoidut korjaukset (online/ruostuminen/vasymys) sovelletaan vertailtavuuden vuoksi.
-    p_shadow_raw = shadow_series_prob(matches, games, top50_names, args.team, args.opponent, args.bo)
-    p_shadow = apply_all_adjustments(p_shadow_raw, n_recent_team, n_recent_opp, match_type=match_type,
-                                     rank_team=rank_team, rank_opponent=rank_opp,
-                                     n_fatigue_team=n_fatigue_team, n_fatigue_opponent=n_fatigue_opp)
-    print(f"\n  [RINNAKKAISMALLI, ei tuotannossa] karttatason Elo, Bo{args.bo}: "
-          f"P({args.team}) = {p_shadow:.3f}  -> reilut kertoimet {1/p_shadow:.2f} / {1/(1-p_shadow):.2f}")
+    print(f"\n  [vertailu] vanha sarjatason Elo (ei huomioi formaattia): P({args.team}) = {p_old:.3f}  "
+          f"-> reilut kertoimet {1/p_old:.2f} / {1/(1-p_old):.2f}")
     if args.bo == 1:
-        print("  (Bo1: rinnakkaismalli oli testissa HEIKOMPI kuin tuotanto - luota tuotantoon)")
-    if abs(p_shadow - p_final) >= 0.05:
-        print(f"  HUOM: mallit eroavat {abs(p_shadow - p_final) * 100:.0f} %-yksikkoa - ennuste epavarmempi kuin haarukka antaa ymmartaa")
+        print("  HUOM Bo1: karttatason Elo oli testissa Bo1-otteluissa HEIKOMPI kuin vanha malli (n=130) -"
+              " jos mallit eroavat, ala luota kumpaankaan vahvasti")
+    if abs(p_old - p_final) >= 0.05:
+        print(f"  HUOM: mallit eroavat {abs(p_old - p_final) * 100:.0f} %-yksikkoa - ennuste epavarmempi kuin haarukka antaa ymmartaa")
     if r["confidence"] == "MATALA":
         print("\n  HUOM: MATALA luottamus - jommallakummalla joukkueella alle 10 kelvollista ottelua."
               " Piste-ennustetta ei pida kayttaa yhta luottavaisesti kuin HYVA-luokan ennusteita.")
