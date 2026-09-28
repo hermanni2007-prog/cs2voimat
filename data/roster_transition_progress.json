@@ -1,8 +1,8 @@
 {
-  "updated_utc": "2026-09-27T23:43:29.178246+00:00",
+  "updated_utc": "2026-09-28T02:41:23.290479+00:00",
   "teams_total": 75,
-  "teams_done": 0,
-  "teams_ok": 0,
-  "transitions_found": 0,
-  "transitions_with_citation": 0
+  "teams_done": 75,
+  "teams_ok": 75,
+  "transitions_found": 228,
+  "transitions_with_citation": 140
 }
