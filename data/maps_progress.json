@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-28T11:47:03.508305+00:00",
+  "updated_utc": "2026-09-28T17:39:31.789615+00:00",
   "tournaments_total": 738,
   "tournaments_done": 738,
   "tournaments_ok": 682,
   "tournaments_ok_no_brackets": 32,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 8802,
+  "maps_collected": 8809,
   "last_tournament": {
-    "tournament": "eXTREMESLAND 2026: OCE OQ",
+    "tournament": "NODWIN Clutch Series #12 - Playoffs",
     "status": "ok",
-    "maps_found": 14,
-    "at": "2026-09-28T01:26:18.647397+00:00"
+    "maps_found": 7,
+    "at": "2026-09-28T17:39:31.786265+00:00"
   }
 }
