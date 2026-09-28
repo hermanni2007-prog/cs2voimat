@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -49,6 +50,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from db import get_connection  # noqa: E402
 from backtest import (  # noqa: E402
     EloModel,
+    MatchRow,
     FATIGUE_THRESHOLD,
     FATIGUE_WINDOW_DAYS,
     RUST_WINDOW_DAYS,
@@ -79,13 +81,30 @@ def main() -> int:
     parser.add_argument("--bo", type=int, choices=(1, 3, 5), default=3,
                          help="Sarjan pituus (oletus 3) - karttatason Elo laskee sarjan "
                               "voittotodennakoisyyden taman mukaan. ANNA AINA OIKEA ARVO.")
+    parser.add_argument("--extra", action="append", default=[],
+                         help='Tuore tulos jota CI ei ole viela kerannyt, muodossa '
+                              '"Joukkue A;Joukkue B;2-0;2026-09-28T11:00". Kaytetaan VAIN taman '
+                              'ennusteen ajan, EI tallenneta tietokantaan (kasin syotetyt rivit '
+                              'aiheuttivat tuplia). Jos sama ottelu on jo datassa, dedup poistaa sen.')
     args = parser.parse_args()
     match_type = "Online" if args.online else None
 
     conn = get_connection()
-    matches = deduplicate_matches(load_clean_matches(conn))
+    matches = load_clean_matches(conn)
     games = load_map_games(conn, load_top50_names())
     conn.close()
+    for spec in args.extra:
+        a, b, score, when = [x.strip() for x in spec.split(";")]
+        sa, sb = (int(x) for x in score.split("-"))
+        when_dt = datetime.fromisoformat(when)
+        if when_dt.tzinfo is None:
+            when_dt = when_dt.replace(tzinfo=timezone.utc)
+        ca, cb = resolve_to_canonical(a, load_top50_names()), resolve_to_canonical(b, load_top50_names())
+        matches.append(MatchRow(date=when_dt, team=ca, opponent=cb, tier=None, match_type="Offline",
+                                tournament="--extra", team_won=int(sa > sb), score_team=sa, score_opponent=sb))
+        print(f"  (lisatty vain tahan ennusteeseen: {ca} {sa}-{sb} {cb}, {when_dt.isoformat()[:16]} UTC)")
+    matches.sort(key=lambda m: m.date)
+    matches = deduplicate_matches(matches)
 
     # SOS-PEHMENNYS (2026-09-18, korvasi taman paivan aiemman hard filter_
     # top50_only:n - ks. backtest.py:n sos_k_override()-kommentti): KAIKKI
