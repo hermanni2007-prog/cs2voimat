@@ -180,6 +180,45 @@ def _map_win_cached(p1: float, p2: float) -> float:
     return win + tie_mass * _overtime_win(p2, p1)
 
 
+def map_score_distribution(p1: float, p2: float, max_ot: int = 4) -> dict:
+    """Koko loppulukemajakauma {(omat, vastustajan): tn} kierrostodennakoisyyksista
+    (p1 = oma 1. puoliskon puoli, p2 = 2. puoliskon puoli). Jatkoajat MR3,
+    ensimmainen 4:aan per jatkoaika, 3-3 -> uusi. Yli max_ot jatkoajan massa
+    (hyvin pieni) normalisoidaan pois."""
+    dist = {(0, 0): 1.0}
+    final = defaultdict(float)
+    for i in range(2 * REGULATION_HALF):
+        p = p1 if i < REGULATION_HALF else p2
+        nxt = defaultdict(float)
+        for (x, y), pr in dist.items():
+            for dx, q in ((1, p), (0, 1 - p)):
+                nx, ny = x + dx, y + (1 - dx)
+                if nx == WIN_ROUNDS or ny == WIN_ROUNDS:
+                    final[(nx, ny)] += pr * q
+                else:
+                    nxt[(nx, ny)] += pr * q
+        dist = nxt
+    tie = dist.get((REGULATION_HALF, REGULATION_HALF), 0.0)
+    for n in range(max_ot):
+        base = REGULATION_HALF + 3 * n
+        od = {(0, 0): tie}
+        tie = 0.0
+        for i in range(6):
+            p = p2 if i < 3 else p1
+            nxt = defaultdict(float)
+            for (x, y), pr in od.items():
+                for dx, q in ((1, p), (0, 1 - p)):
+                    nx, ny = x + dx, y + (1 - dx)
+                    if nx == 4 or ny == 4:
+                        final[(base + nx, base + ny)] += pr * q
+                    else:
+                        nxt[(nx, ny)] += pr * q
+            od = nxt
+        tie = od.get((3, 3), 0.0)
+    total = sum(final.values())
+    return {k: v / total for k, v in final.items()}
+
+
 def map_win_prob(p_first_half: float, p_second_half: float) -> float:
     return _map_win_cached(round(p_first_half, 4), round(p_second_half, 4))
 
