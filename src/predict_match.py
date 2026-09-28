@@ -56,7 +56,9 @@ from backtest import (  # noqa: E402
     load_best_elo_params,
     production_k_override,
 )
+from run_format_map_model import shadow_series_prob  # noqa: E402
 from run_tournament_effects import build_recent_match_index  # noqa: E402
+from xr_model import load_map_games  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 _params = load_best_elo_params()
@@ -70,11 +72,15 @@ def main() -> int:
     parser.add_argument("--online", action="store_true",
                          help="Ottelu pelataan onlinena (ei LANilla) - soveltaa validoidun "
                               "online-korjauksen (ks. yla kommentti).")
+    parser.add_argument("--bo", type=int, choices=(1, 3, 5), default=3,
+                         help="Sarjan pituus (oletus 3) - kaytetaan rinnakkaisen karttatason "
+                              "Elon ennusteeseen (tuotantoennuste ei riipu tasta).")
     args = parser.parse_args()
     match_type = "Online" if args.online else None
 
     conn = get_connection()
     matches = deduplicate_matches(load_clean_matches(conn))
+    games = load_map_games(conn, load_top50_names())
     conn.close()
 
     # SOS-PEHMENNYS (2026-09-18, korvasi taman paivan aiemman hard filter_
@@ -148,6 +154,21 @@ def main() -> int:
     p_final = p_adjusted
     print(f"  Reilu kerroin {args.team}: {1/p_final:.2f}")
     print(f"  Reilu kerroin {args.opponent}: {1/(1-p_final):.2f}")
+
+    # RINNAKKAISAJO (2026-09-28, kayttajan valinta B): karttatason Elo huomioi
+    # sarjan pituuden. Rolling origin: parempi 4/5 ikkunassa, P(parannus>0)=0.85,
+    # mutta heikompi Bo1:ssa - EI viela tuotannossa, reilut kertoimet yllä ovat tuotannon.
+    # Samat validoidut korjaukset (online/ruostuminen/vasymys) sovelletaan vertailtavuuden vuoksi.
+    p_shadow_raw = shadow_series_prob(matches, games, top50_names, args.team, args.opponent, args.bo)
+    p_shadow = apply_all_adjustments(p_shadow_raw, n_recent_team, n_recent_opp, match_type=match_type,
+                                     rank_team=rank_team, rank_opponent=rank_opp,
+                                     n_fatigue_team=n_fatigue_team, n_fatigue_opponent=n_fatigue_opp)
+    print(f"\n  [RINNAKKAISMALLI, ei tuotannossa] karttatason Elo, Bo{args.bo}: "
+          f"P({args.team}) = {p_shadow:.3f}  -> reilut kertoimet {1/p_shadow:.2f} / {1/(1-p_shadow):.2f}")
+    if args.bo == 1:
+        print("  (Bo1: rinnakkaismalli oli testissa HEIKOMPI kuin tuotanto - luota tuotantoon)")
+    if abs(p_shadow - p_final) >= 0.05:
+        print(f"  HUOM: mallit eroavat {abs(p_shadow - p_final) * 100:.0f} %-yksikkoa - ennuste epavarmempi kuin haarukka antaa ymmartaa")
     if r["confidence"] == "MATALA":
         print("\n  HUOM: MATALA luottamus - jommallakummalla joukkueella alle 10 kelvollista ottelua."
               " Piste-ennustetta ei pida kayttaa yhta luottavaisesti kuin HYVA-luokan ennusteita.")

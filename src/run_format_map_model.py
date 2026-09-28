@@ -91,10 +91,13 @@ def attach_maps(matches, games):
     return out
 
 
-def walk(matches, maps_of, top, k, a, collect_maps=False):
+def walk(matches, maps_of, top, k, a, collect_maps=False, state=None):
     """Karttatason Elo. Palauttaa (sarjat, kartat):
-    sarjat: top-vs-top (p_sarja, bo, y, date); kartat: (p_kartta, {ks: dev_ero}, y, date)."""
+    sarjat: top-vs-top (p_sarja, bo, y, date); kartat: (p_kartta, {ks: dev_ero}, y, date).
+    state: jos annettu dict, siihen tallennetaan lopulliset ratingit avaimella "r"."""
     r = defaultdict(lambda: 1500.0)
+    if state is not None:
+        state["r"] = r
     dev = {ks: defaultdict(float) for ks in DEV_SHRINK} if collect_maps else {}
     devn = defaultdict(int)
     series, maps = [], []
@@ -134,6 +137,22 @@ def walk(matches, maps_of, top, k, a, collect_maps=False):
                 devn[(m.team, mname)] += 1
                 devn[(m.opponent, mname)] += 1
     return series, maps
+
+
+# Rinnakkaisajo (kayttajan valinta B, 2026-09-28): M naytetaan predict_match.py:ssa
+# tuotannon rinnalla, tuotantoennuste ei muutu. K=96 = testin kolmen viimeisimman
+# ikkunan train-valinta. Uusi paatos kun testi ajetaan uudelleen ~2-3 viikon paasta.
+SHADOW_K = 96
+
+
+def shadow_series_prob(matches, games, top, team, opponent, best_of):
+    """Karttatason Elon sarjaennuste, kalibroitu koko historian top75-sarjoilla."""
+    state = {}
+    series, _ = walk(matches, attach_maps(matches, games), top, SHADOW_K, 0.0, state=state)
+    tau = fit_tau([(p, y) for p, _, y, _ in series])
+    r = state["r"]
+    p_map = 1 / (1 + math.exp(-(r[team] - r[opponent]) / SCALE))
+    return cal(series_win_prob(p_map, best_of), tau)
 
 
 def prod_walk(matches, top):
