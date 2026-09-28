@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-27T23:42:26.587289+00:00",
+  "updated_utc": "2026-09-28T01:26:18.649883+00:00",
   "tournaments_total": 738,
-  "tournaments_done": 441,
-  "tournaments_ok": 405,
-  "tournaments_ok_no_brackets": 12,
+  "tournaments_done": 738,
+  "tournaments_ok": 682,
+  "tournaments_ok_no_brackets": 32,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 6480,
+  "maps_collected": 8802,
   "last_tournament": {
-    "tournament": "Parken Championship #3 - Group A",
+    "tournament": "eXTREMESLAND 2026: OCE OQ",
     "status": "ok",
-    "maps_found": 0,
-    "at": "2026-09-27T23:42:26.585131+00:00"
+    "maps_found": 14,
+    "at": "2026-09-28T01:26:18.647397+00:00"
   }
 }
