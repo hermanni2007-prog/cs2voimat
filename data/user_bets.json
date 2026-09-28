@@ -123,5 +123,23 @@
     "actual_score": "3:1 (Bo5)",
     "profit_eur": -50.0,
     "note": "Ratkaistu 2026-09-28 CI:n keräämästä datasta (Team Vitality/Matches, Aurora Gaming/Matches). Ottelu oli Bo5 - juuri se formaattiepävarmuus joka kirjattiin vedon yhteyteen: pidempi sarja suosii vahvempaa joukkuetta, eikä mallimme ota formaattia huomioon (vain n=36 Bo5-ottelua datassa)."
+  },
+  {
+    "placed_utc": "2026-09-28",
+    "match_date_utc": "2026-09-28",
+    "tournament": "1win Private Club Season 1 - Grand Final (Bo5, LAN)",
+    "team": "Ninjas in Pyjamas",
+    "opponent": "GamerLegion",
+    "bet_on": "Ninjas in Pyjamas",
+    "price": 2.4,
+    "stake_eur": 18.0,
+    "potential_win_eur": 43.2,
+    "model_p_bet_on": 0.459,
+    "model_ev": 0.10,
+    "model_confidence": "HYVA n-maara (NiP n=75, GL n=60), mutta EDGE HEIKKO: ensimmainen veto uudella karttatason Elolla (Bo5). Ilman vasymyskorjausta P=0.431 -> EV +3 %, haarukka [0.377, 0.486] sisaltaa kannattavuusrajan 0.417. Vasymyskorjaus testattiin samana paivana rolling originilla: suunta oikea, suuruus epavarma (P(parannus>0)=0.66 rehellisesti sovitettuna). Markkina (marginaaliton) NiP 38.5 % vs malli 45.9 % - 7-8 pp erimielisyys. Arvio vedon hetkella: 'ei selva arvoveto' (etu syntyy vain vasymyskorjauksesta).",
+    "status": "pending",
+    "actual_winner": null,
+    "profit_eur": null,
+    "note": "GL:n 2-0 voitto magicista samana paivana annettiin ennusteeseen --extra-valinnalla (ei tallennettu DB:hen tuplien valttamiseksi). Panos 18 EUR (kayttaja). Tarkka asetusaika ei tiedossa (ennen ottelun alkua 2026-09-28). Mahdollinen ylemman kaavion karttaetu NiP:lle ei tiedossa, malli ei huomioi sita."
   }
 ]
