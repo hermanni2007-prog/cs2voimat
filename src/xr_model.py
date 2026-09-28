@@ -250,8 +250,43 @@ class XRModel:
             self.n_maps[team] += 1
 
     def rounds_above_expected(self, g: MapGame) -> dict:
-        """Toteutunut - odotettu kierrosmaara varsinaisella peliajalla, per joukkue."""
-        out = defaultdict(float)
+        return _rounds_above_expected(self, g)
+
+
+class SideXRModel(XRModel):
+    """Puolikohtaiset ratingit: joukkueen vahvuus = perusrating + oma CT- tai
+    T-poikkeama. Motivaatio (2026-09-29): joukkueilla havaittiin 30-50 pp
+    CT/T-eroja (map_side_profile.py), joita yksi rating ei pysty kuvaamaan.
+    k_side = 0 -> identtinen XRModelin kanssa."""
+
+    def __init__(self, k: float, ct_adv: dict, tau: float = 1.0, gamma: float = 1.0, k_side: float = 0.0):
+        super().__init__(k, ct_adv, tau, gamma)
+        self.k_side = k_side
+        self.d = {"CT": defaultdict(float), "T": defaultdict(float)}
+
+    def p_round(self, team: str, opp: str, side: str, map_name: str | None) -> float:
+        other = "T" if side == "CT" else "CT"
+        c = self._c(map_name)
+        diff = (self.r[team] + self.d[side][team]) - (self.r[opp] + self.d[other][opp])
+        return sigmoid(self.gamma * diff / SCALE + (c if side == "CT" else -c))
+
+    def update_game(self, g: MapGame) -> None:
+        base = defaultdict(float)
+        side = []
         for h in g.halves:
-            out[h.team] += h.won - h.played * self.p_round(h.team, h.opponent, h.side, h.map_name)
-        return dict(out)
+            err = h.won - h.played * self.p_round(h.team, h.opponent, h.side, h.map_name)
+            base[h.team] += self.k * err
+            side.append((h.side, h.team, self.k_side * err))
+        for team, d in base.items():
+            self.r[team] += d
+            self.n_maps[team] += 1
+        for s, team, d in side:
+            self.d[s][team] += d
+
+
+def _rounds_above_expected(model: XRModel, g: MapGame) -> dict:
+    """Toteutunut - odotettu kierrosmaara varsinaisella peliajalla, per joukkue."""
+    out = defaultdict(float)
+    for h in g.halves:
+        out[h.team] += h.won - h.played * model.p_round(h.team, h.opponent, h.side, h.map_name)
+    return dict(out)
