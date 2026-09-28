@@ -85,6 +85,19 @@ def check_dedup_sanity(conn) -> list:
     return problems
 
 
+def check_duplicate_matches(conn) -> list:
+    """2026-09-28: tuplaotteluita ei saa olla (kayttajan vaatimus). Keraaja
+    poistaa ne itse (src/match_dedup.py) - jos niita silti on, poisto ei ole
+    toiminut ja ajo merkitaan epaonnistuneeksi."""
+    from match_dedup import find_duplicates
+
+    dups = find_duplicates(conn)
+    if not dups:
+        return []
+    examples = [f"{g[0][2]} {g[0][1][:16]} ({len(g)} rivia)" for g in dups[:5]]
+    return [("VIRHE", f"{len(dups)} tuplaottelua historical_matches-taulussa, esim. {examples}")]
+
+
 def check_bracket_progress_stuck(conn) -> list:
     problems = []
     row = conn.execute(
@@ -105,6 +118,7 @@ def main() -> int:
     all_problems = []
     all_problems += check_history_freshness(conn)
     all_problems += check_dedup_sanity(conn)
+    all_problems += check_duplicate_matches(conn)
     all_problems += check_bracket_progress_stuck(conn)
     conn.close()
 

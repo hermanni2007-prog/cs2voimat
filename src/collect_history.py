@@ -35,6 +35,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
 from liquipedia_client import LiquipediaBlocked, LiquipediaClient, parse_matches_table  # noqa: E402
+from match_dedup import remove_rescheduled_rows, remove_superseded_manual_rows  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
@@ -228,6 +229,16 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
                     (row["tournament_page"], row["match_date_utc"], team_name, opponent, row["tournament"]),
                 )
 
+        # Tuplien esto (2026-09-28): siirretyn ajan / muuttuneen nimen jattamat vanhat rivit pois.
+        current = [
+            (r["match_date_utc"], resolve_to_canonical(r["opponent"], top50_names), r["tournament"],
+             r["score_team"], r["score_opponent"])
+            for r in rows if datetime.fromisoformat(r["match_date_utc"]) >= cutoff_utc
+        ]
+        removed = remove_rescheduled_rows(conn, team_name, page_title, current, cutoff_utc.isoformat())
+        if removed:
+            log.info("%s: poistettu %d vanhentunutta tuplariviä (siirretty aika / muuttunut nimi)", team_name, removed)
+
         content_hash = hashlib.sha1(json.dumps(rows, sort_keys=True).encode("utf-8")).hexdigest()
         if touched and prev_touched and prev_hash:
             conn.execute(
@@ -278,6 +289,11 @@ def main() -> int:
 
     teams = load_top50()
     ensure_progress_rows(conn, teams)
+
+    manual_removed = remove_superseded_manual_rows(conn)  # pelkka DB-operaatio, ei Liquipedia-pyyntoja
+    conn.commit()
+    if manual_removed:
+        log.info("Poistettu %d kasin syotettya riviä joille on nyt kaavittu vastine", manual_removed)
 
     cutoff_utc = datetime.now(timezone.utc) - timedelta(days=HISTORY_WINDOW_DAYS)
 
