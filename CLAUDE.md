@@ -269,7 +269,9 @@ tappiota, yhteensä −111.90 €.
   `history_team_progress.error`-kenttään (uusi yritys 24 h välein). Lue ne ja
   korjaa `TEAM_ALIASES`, jos oikea sivunimi selviää.
 - **Karttatason Elo kertoimia vastaan:** tehty 30.9. (ks. kohta 6), ei etua
-  vanhaan. Käyttäjä päättää, pidetäänkö karttamalli tuotannossa.
+  vanhaan. **Käyttäjän päätös 30.9.:** karttamalli pysyy tuotannossa, koska
+  rolling origin perustuu isompaan dataan (702 sarjaa vs 83 ottelua).
+  Arvioidaan uudelleen 12.–19.10.
 - **Mallin uudelleentesti noin 12.–19.10.:** aja `run_format_map_model.py` (ks.
   kohta 5).
 - **Käyttäjän harkitsemat vedot (eivät vielä lyötyjä):**
