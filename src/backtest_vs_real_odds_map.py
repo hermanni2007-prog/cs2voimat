@@ -46,6 +46,7 @@ from db import get_connection  # noqa: E402
 from run_format_map_model import (  # noqa: E402
     MATCH_WINDOW, PROD_MAP_K, SCALE, attach_maps, cal, fit_tau, series_shape, walk,
 )
+from odds_log import load_logged_bets  # noqa: E402
 from team_names import load_top50_names  # noqa: E402
 from xr_model import load_map_games, series_win_prob  # noqa: E402
 
@@ -138,7 +139,11 @@ def main() -> int:
     ll = {"vanha": [], "kartta": [], "markkina": []}
     seen_matches = set()
     print(f"{'pvm':10} {'ottelu':32} {'bo':>3} {'vanha':>6} {'kartta':>6} {'mark.':>6}  voittaja")
-    for bet in BETS:
+    # Kerroinloki (data/odds_log.json, 2026-09-30 alkaen): mukaan ne rivit,
+    # joiden tulos on jo datassa.
+    logged, pending = load_logged_bets(matches)
+    print(f"Kerroinlokista {len(logged)} rivia testissa, {len(pending)} odottaa tulosta\n")
+    for bet in BETS + logged:
         d = datetime.fromisoformat(bet["date"])
         prior = [m for m in matches if m.date < d]
         prior_games = [g for g in games if g.date < d]

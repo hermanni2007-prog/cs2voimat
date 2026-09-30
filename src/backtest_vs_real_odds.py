@@ -33,6 +33,7 @@ from backtest import (  # noqa: E402
     production_k_override,
     remove_margin,
 )
+from odds_log import load_logged_bets  # noqa: E402
 from team_names import load_top50_names  # noqa: E402
 
 # Oletettu kokonaismarginaali (molempien puolien implisiittiset tn:t
@@ -457,7 +458,11 @@ def main() -> int:
 
     bankroll_log = []
 
-    for bet in BETS:
+    # Kerroinloki (data/odds_log.json, 2026-09-30 alkaen): mukaan ne rivit,
+    # joiden tulos on jo datassa.
+    logged, pending = load_logged_bets(matches)
+    print(f"Kerroinlokista {len(logged)} rivia testissa, {len(pending)} odottaa tulosta\n")
+    for bet in BETS + logged:
         bet_date = datetime.fromisoformat(bet["date"])
 
         # Aja Elo VAIN otteluiden lapi jotka tapahtuivat ENNEN tata vetoa -

@@ -228,6 +228,13 @@ ennustetta kohti 0.5:tä:
      (1/k1) / (1/k1 + 1/k2).
 5. Esitä taulukko: veto, kerroin, malli, markkina ja mallin odotusarvo. Kerro
    selvästi kaikki mallin +EV-vedot ja erikseen omat varauksesi.
+6. **Kirjaa AINA kaikki kuvakaappauksen Money Line -kertoimet molemmilta
+   puolilta** tiedostoon `data/odds_log.json` (myös ne, joista ei tule vetoa),
+   ja tee commit ja push. Kentät: logged_utc, match_date_utc (UTC; kuvien
+   ajat ovat Suomen aikaa), tournament, team, opponent, price,
+   opponent_price, source (`user_query` tai `user_bet`) ja note. Kerrointestit
+   (`backtest_vs_real_odds.py` ja `_map.py`) lukevat lokin `src/odds_log.py`:n
+   kautta ja ottavat ottelun mukaan, kun CI on kerännyt sen tuloksen.
 
 **Mitä tiedetään mallista kertoimia vastaan:**
 
@@ -241,7 +248,8 @@ ennustetta kohti 0.5:tä:
     virheeksi. Näyttö on kuitenkin vasta suuntaa antava, ei lopullinen.
 - **Karttatason Elo samoilla kertoimilla** (`src/backtest_vs_real_odds_map.py`,
   30.9.): +EV-valinnat 83 vetoa, +1.0 yksikköä (+1 % per veto), kun vanhalla
-  +11.7. Log loss 0.6888 vs vanha 0.6824 (n = 83, P(kartta parempi) = 0.31).
+  +11.7. Kun käyttäjän kuusi lyötyä vetoa (18.–28.9.) lisättiin lokista:
+  vanha +8.1 (83 vetoa), kartta −2.6 (89 vetoa). Log loss 0.6888 vs vanha 0.6824 (n = 83, P(kartta parempi) = 0.31).
   Ero on kohinatasoa, eikä karttamalli näytä kertoimilla etua. Markkina
   (log loss 0.6594) on selvästi tarkempi kuin kumpikaan malli. Otetaan
   huomioon uudelleentestissä 12.–19.10.
@@ -274,11 +282,12 @@ tappiota, yhteensä −111.90 €.
   Arvioidaan uudelleen 12.–19.10.
 - **Mallin uudelleentesti noin 12.–19.10.:** aja `run_format_map_model.py` (ks.
   kohta 5).
-- **Käyttäjän harkitsemat vedot (eivät vielä lyötyjä):**
-  - ESL Pro League S24 3.10.: mallin +EV:t TYLOO @ 5.30, M80 @ 4.80,
-    Legacy @ 1.72, BetBoom @ 2.40, G2 @ 1.72 ja ShindeN @ 11.00 (vain 10
-    ottelua dataa).
-  - Stake Ranked Ep. 4 1.10.: Nemiga @ 2.40, fnatic @ 2.40, Alliance @ 2.35.
+- **Käyttäjän harkitsemat vedot (eivät vielä lyötyjä):** Stake Ranked Ep. 4
+  1.10. (4 ottelua) ja ESL Pro League S24 3.10. (8 ottelua). Kaikki kertoimet
+  molemmilta puolilta ovat tiedostossa `data/odds_log.json`. Aiemmin mainitut
+  +EV:t: TYLOO @ 5.30, M80 @ 4.80, Legacy, BetBoom, G2 @ 1.72, ShindeN,
+  Nemiga, fnatic ja Alliance @ 2.35. Legacyn, BetBoomin, Nemigan ja fnaticin
+  kertoimet olivat 30.9. illan kuvassa korkeammat kuin aiemmin kirjatut.
 - **Paras seuraava datalähde karttojen ja karttavalintojen tutkimiseen:**
   yksittäisten ottelusivujen veto-järjestys ("1. X removed Map ..."). Keräintä
   ei ole rakennettu. Se tehdään vain CI:n kautta ja API-ehtoja noudattaen.

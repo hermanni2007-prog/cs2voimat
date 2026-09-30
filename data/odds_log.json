@@ -1,0 +1,200 @@
+[
+ {
+  "logged_utc": "2026-09-18T17:40:00+00:00",
+  "match_date_utc": "2026-09-18T17:40:00+00:00",
+  "tournament": "Logitech G Play Connect 2026",
+  "team": "BBL",
+  "opponent": "3DMAX",
+  "price": 2.15,
+  "opponent_price": null,
+  "source": "user_bet",
+  "note": "Lyöty veto (data/user_bets.json)."
+ },
+ {
+  "logged_utc": "2026-09-18T19:00:00+00:00",
+  "match_date_utc": "2026-09-19T10:00:00+00:00",
+  "tournament": "StarLadder StarSeries Fall 2026",
+  "team": "NRG",
+  "opponent": "MIBR",
+  "price": 2.5,
+  "opponent_price": null,
+  "source": "user_bet",
+  "note": "Lyöty veto (data/user_bets.json)."
+ },
+ {
+  "logged_utc": "2026-09-18T21:00:00+00:00",
+  "match_date_utc": "2026-09-19T11:00:00+00:00",
+  "tournament": "Logitech G Play Connect 2026",
+  "team": "BBL",
+  "opponent": "Luminosity",
+  "price": 2.6,
+  "opponent_price": null,
+  "source": "user_bet",
+  "note": "Lyöty veto (data/user_bets.json)."
+ },
+ {
+  "logged_utc": "2026-09-19T22:27:00+00:00",
+  "match_date_utc": "2026-09-20T12:00:00+00:00",
+  "tournament": "StarLadder StarSeries Fall 2026",
+  "team": "FURIA",
+  "opponent": "Vitality",
+  "price": 3.3,
+  "opponent_price": null,
+  "source": "user_bet",
+  "note": "Lyöty veto (data/user_bets.json)."
+ },
+ {
+  "logged_utc": "2026-09-20T14:09:19+00:00",
+  "match_date_utc": "2026-09-20T15:00:00+00:00",
+  "tournament": "StarLadder StarSeries Fall 2026",
+  "team": "Aurora",
+  "opponent": "Vitality",
+  "price": 3.2,
+  "opponent_price": null,
+  "source": "user_bet",
+  "note": "Lyöty veto (data/user_bets.json)."
+ },
+ {
+  "logged_utc": "2026-09-28",
+  "match_date_utc": "2026-09-28",
+  "tournament": "1win Private Club Season 1 - Grand Final (Bo5, LAN)",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "GamerLegion",
+  "price": 2.4,
+  "opponent_price": null,
+  "source": "user_bet",
+  "note": "Lyöty veto (data/user_bets.json)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-01T10:00:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "Luminosity Gaming",
+  "opponent": "B8",
+  "price": 2.1,
+  "opponent_price": 1.65,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-01T12:30:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "BIG",
+  "opponent": "fnatic",
+  "price": 1.45,
+  "opponent_price": 2.6,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-01T15:00:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "Alliance",
+  "opponent": "Astralis",
+  "price": 2.35,
+  "opponent_price": 1.52,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-01T17:30:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "FaZe",
+  "opponent": "Nemiga Gaming",
+  "price": 1.45,
+  "opponent_price": 2.6,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "Team Spirit",
+  "opponent": "ShindeN",
+  "price": 1.02,
+  "opponent_price": 10.0,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "Team Vitality",
+  "opponent": "1win",
+  "price": 1.05,
+  "opponent_price": 7.5,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "Team Falcons",
+  "opponent": "TYLOO",
+  "price": 1.12,
+  "opponent_price": 5.3,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "MOUZ",
+  "opponent": "M80",
+  "price": 1.15,
+  "opponent_price": 4.8,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T14:00:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "Legacy",
+  "opponent": "PARIVISION",
+  "price": 1.82,
+  "opponent_price": 1.88,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T14:00:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "FURIA Esports",
+  "opponent": "BetBoom Team",
+  "price": 1.45,
+  "opponent_price": 2.6,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T16:30:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "Aurora Gaming",
+  "opponent": "9z Team",
+  "price": 1.35,
+  "opponent_price": 2.9,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-09-30T18:00:00+00:00",
+  "match_date_utc": "2026-10-03T16:30:00+00:00",
+  "tournament": "ESL Pro League Season 24",
+  "team": "G2 Esports",
+  "opponent": "Natus Vincere",
+  "price": 1.72,
+  "opponent_price": 2.0,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 30.9., Money Line. Aika Suomen ajasta (UTC+3)."
+ }
+]
