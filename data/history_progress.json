@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-30T09:36:40.578129+00:00",
+  "updated_utc": "2026-09-30T15:27:33.413393+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
-  "teams_ok": 68,
-  "teams_not_found": 7,
+  "teams_ok": 69,
+  "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 4943,
+  "matches_collected": 5026,
   "last_team": {
-    "team": "NRG",
+    "team": "K27",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-09-30T09:36:40.575374+00:00"
+    "at": "2026-09-30T15:27:33.411025+00:00"
   }
 }
