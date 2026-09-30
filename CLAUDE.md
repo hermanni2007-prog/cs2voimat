@@ -262,10 +262,12 @@ tappiota, yhteensä −111.90 €.
 
 ## 7. Avoimet asiat (2026-09-30)
 
-- **Jumissa olleet joukkueet:** tarkista, saiko CI 30.9. haettua seitsemän
-  joukkuetta (BBL, Color, Imperial, Butterfly, ASTRAL, ex-Zero Tenacity ja
-  THUNDERdOWNUNDER). Katso `data/pipeline_health.txt`; `not_found`-rivejä ei
-  pitäisi enää olla.
+- **Jumissa olleet joukkueet:** CI 30.9. haki Imperialin (87 ottelua), mutta
+  kuudelle (BBL, Color, Butterfly, ASTRAL, ex-Zero Tenacity,
+  THUNDERdOWNUNDER) ei löydy `/Matches`-sivua. Niiden ottelut top75-joukkueita
+  vastaan ovat datassa. Keräin kirjaa nyt kokeillut sivunimet
+  `history_team_progress.error`-kenttään (uusi yritys 24 h välein). Lue ne ja
+  korjaa `TEAM_ALIASES`, jos oikea sivunimi selviää.
 - **Karttatason Elo kertoimia vastaan:** tehty 30.9. (ks. kohta 6), ei etua
   vanhaan. Käyttäjä päättää, pidetäänkö karttamalli tuotannossa.
 - **Mallin uudelleentesti noin 12.–19.10.:** aja `run_format_map_model.py` (ks.
