@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-30T02:27:15.119181+00:00",
-  "tournaments_total": 740,
-  "tournaments_done": 740,
-  "tournaments_ok": 682,
-  "tournaments_ok_no_brackets": 34,
+  "updated_utc": "2026-09-30T09:38:26.318653+00:00",
+  "tournaments_total": 743,
+  "tournaments_done": 743,
+  "tournaments_ok": 683,
+  "tournaments_ok_no_brackets": 36,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 8819,
+  "maps_collected": 8825,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #10 - Round 1",
+    "tournament": "CIS LAN Championship #8 - Group B",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-09-30T00:19:40.126721+00:00"
+    "at": "2026-09-30T09:38:26.316153+00:00"
   }
 }
