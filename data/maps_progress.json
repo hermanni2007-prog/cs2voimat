@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-09-29T19:57:48.987698+00:00",
-  "tournaments_total": 738,
-  "tournaments_done": 738,
+  "updated_utc": "2026-09-30T00:19:40.130485+00:00",
+  "tournaments_total": 740,
+  "tournaments_done": 740,
   "tournaments_ok": 682,
-  "tournaments_ok_no_brackets": 32,
+  "tournaments_ok_no_brackets": 34,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 8815,
+  "maps_collected": 8819,
   "last_tournament": {
-    "tournament": "1win Private Club #1",
-    "status": "ok",
-    "maps_found": 6,
-    "at": "2026-09-29T02:54:51.206649+00:00"
+    "tournament": "CCT EU 2026 Series #10 - Round 1",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-09-30T00:19:40.126721+00:00"
   }
 }
