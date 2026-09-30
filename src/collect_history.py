@@ -196,14 +196,18 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
             return
 
         lookup_name = TEAM_ALIASES.get(team_name, team_name)
-        page_title = client.resolve_team_page(lookup_name)
+        tried = []
+        page_title = client.resolve_team_page(lookup_name, tried)
         if not page_title:
+            # error-kentta paivitetaan: muuten siihen jaa vanha virhe (esim.
+            # 18.9. 429), joka johtaa harhaan tilaa tarkistettaessa.
+            err = "Sivua ei loytynyt, kokeiltu: " + " | ".join(tried)
             conn.execute(
-                "UPDATE history_team_progress SET status='not_found', last_attempt_utc=? WHERE team=?",
-                (now_utc_iso(), team_name),
+                "UPDATE history_team_progress SET status='not_found', last_attempt_utc=?, error=? WHERE team=?",
+                (now_utc_iso(), err, team_name),
             )
             conn.commit()
-            log.warning("Joukkuetta ei loytynyt Liquipediasta: %s", team_name)
+            log.warning("Joukkuetta ei loytynyt Liquipediasta: %s (%s)", team_name, err)
             return
 
         html = client.fetch_rendered_html(page_title)
