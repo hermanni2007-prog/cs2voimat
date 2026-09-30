@@ -175,9 +175,12 @@ class LiquipediaClient:
         hits = r.json().get("query", {}).get("search", [])
         return hits[0]["title"] if hits else None
 
-    def resolve_team_page(self, team_name: str) -> Optional[str]:
-        """Palauttaa joukkueen "<Sivu>/Matches"-alasivun otsikon, tai None jos ei loydy."""
+    def resolve_team_page(self, team_name: str, tried: Optional[list] = None) -> Optional[str]:
+        """Palauttaa joukkueen "<Sivu>/Matches"-alasivun otsikon, tai None jos ei loydy.
+        tried: jos annettu, siihen lisataan kaikki kokeillut otsikot (diagnostiikka)."""
+        tried = tried if tried is not None else []
         direct = f"{team_name}/Matches"
+        tried.append(direct)
         if self.page_exists(direct):
             return direct
 
@@ -185,17 +188,21 @@ class LiquipediaClient:
         resolved = self.resolve_redirect(team_name)
         if resolved != team_name:
             candidate = f"{resolved}/Matches"
+            tried.append(candidate)
             if self.page_exists(candidate):
                 return candidate
 
         best = self.search_best_title(team_name)
+        tried.append(f"haku -> {best}")
         if best:
             candidate = f"{best}/Matches"
+            tried.append(candidate)
             if self.page_exists(candidate):
                 return candidate
             resolved_best = self.resolve_redirect(best)
             if resolved_best != best:
                 candidate2 = f"{resolved_best}/Matches"
+                tried.append(candidate2)
                 if self.page_exists(candidate2):
                     return candidate2
         return None

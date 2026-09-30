@@ -239,8 +239,12 @@ ennustetta kohti 0.5:tä:
     +18 %.
   - Isoja eroja markkinaan EI siis pidä automaattisesti leimata mallin
     virheeksi. Näyttö on kuitenkin vasta suuntaa antava, ei lopullinen.
-- **Uusi karttatason Elo** on testaamatta näillä kertoimilla. Tämä on avoin
-  tehtävä: aja sama testi uudella mallilla.
+- **Karttatason Elo samoilla kertoimilla** (`src/backtest_vs_real_odds_map.py`,
+  30.9.): +EV-valinnat 83 vetoa, +1.0 yksikköä (+1 % per veto), kun vanhalla
+  +11.7. Log loss 0.6888 vs vanha 0.6824 (n = 83, P(kartta parempi) = 0.31).
+  Ero on kohinatasoa, eikä karttamalli näytä kertoimilla etua. Markkina
+  (log loss 0.6594) on selvästi tarkempi kuin kumpikaan malli. Otetaan
+  huomioon uudelleentestissä 12.–19.10.
 - **Suositeltu panostus:** pienet ja tasaiset panokset kaikkiin mallin
   +EV-vetoihin. Älä anna henkilökohtaisia sijoitusneuvoja.
 
@@ -262,8 +266,8 @@ tappiota, yhteensä −111.90 €.
   joukkuetta (BBL, Color, Imperial, Butterfly, ASTRAL, ex-Zero Tenacity ja
   THUNDERdOWNUNDER). Katso `data/pipeline_health.txt`; `not_found`-rivejä ei
   pitäisi enää olla.
-- **Karttatason Elo kertoimia vastaan:** aja `backtest_vs_real_odds`-testi
-  uudella mallilla.
+- **Karttatason Elo kertoimia vastaan:** tehty 30.9. (ks. kohta 6), ei etua
+  vanhaan. Käyttäjä päättää, pidetäänkö karttamalli tuotannossa.
 - **Mallin uudelleentesti noin 12.–19.10.:** aja `run_format_map_model.py` (ks.
   kohta 5).
 - **Käyttäjän harkitsemat vedot (eivät vielä lyötyjä):**
