@@ -35,7 +35,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from db import get_connection, init_db  # noqa: E402
 from liquipedia_client import LiquipediaBlocked, LiquipediaClient, parse_matches_table  # noqa: E402
-from match_dedup import remove_rescheduled_rows, remove_superseded_manual_rows  # noqa: E402
+from match_dedup import remove_exact_variant_rows, remove_rescheduled_rows, remove_superseded_manual_rows  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
 
 LOG_DIR = ROOT / "logs"
@@ -70,6 +70,13 @@ STALE_HOURS = 6
 # yksi Liquipedia-estojakso (24.9.) merkitsi kaikki 68 joukkuetta virheiksi
 # ja sen jalkeen jokainen CI-ajo ajoi tyhjaa neljan paivan ajan.
 ERROR_RETRY_HOURS = 1
+# BUGI (loydetty 2026-09-30): 7 joukkuetta (BBL, Color, Imperial, Butterfly,
+# ASTRAL, ex-Zero Tenacity, THUNDERdOWNUNDER) merkittiin 18.9. 'not_found':ksi
+# koska sivunimen haku sai 429-virheen (silloinen client palautti None), eika
+# 'not_found'-tilaa yritetty KOSKAAN uudelleen -> niiden omia sivuja ei haettu
+# 12 paivaan. Nykyinen client nostaa 429:sta poikkeuksen, mutta 'not_found'
+# yritetaan silti uudelleen (sivu voi myos syntya/nimeta uudelleen).
+NOT_FOUND_RETRY_HOURS = 24
 
 # Raskaan action=parse-haun (30 s) ohitus muuttumattomille sivuille (2026-09-28,
 # Liquipedia-estojen ehkaisy). /Matches-sivut kootaan todennakoisesti LPDB:sta,
@@ -148,6 +155,12 @@ TEAM_ALIASES = {
     # Liquipedian oma sivunimi sisaltaa valilyonnin - haku epaonnistuisi
     # ilman tata.
     "THUNDERdOWNUNDER": "THUNDER dOWNUNDER",
+    # 2026-09-30: Liquipedian nayttonimet (nahty vastustajasarakkeessa ennen
+    # nimien normalisointia) - lyhyt nimi ei ohjaudu oikealle sivulle.
+    "BBL": "BBL Esports",
+    "ASTRAL": "ASTRAL Esports",
+    "Imperial": "Imperial Esports",
+    "Butterfly": "Butterfly (Russian team)",
 }
 
 
@@ -291,9 +304,12 @@ def main() -> int:
     ensure_progress_rows(conn, teams)
 
     manual_removed = remove_superseded_manual_rows(conn)  # pelkka DB-operaatio, ei Liquipedia-pyyntoja
+    variant_removed = remove_exact_variant_rows(conn)
     conn.commit()
     if manual_removed:
         log.info("Poistettu %d kasin syotettya riviä joille on nyt kaavittu vastine", manual_removed)
+    if variant_removed:
+        log.info("Poistettu %d nimivarianttituplaa (sama joukkue, sivu, aika ja tulos)", variant_removed)
 
     cutoff_utc = datetime.now(timezone.utc) - timedelta(days=HISTORY_WINDOW_DAYS)
 
@@ -317,7 +333,15 @@ def main() -> int:
             "WHERE status='error' AND last_attempt_utc < ?",
             (error_cutoff,),
         )
+        nf_cutoff = (datetime.now(timezone.utc) - timedelta(hours=NOT_FOUND_RETRY_HOURS)).isoformat()
+        nf_retried = conn.execute(
+            "UPDATE history_team_progress SET status='pending' "
+            "WHERE status='not_found' AND (last_attempt_utc IS NULL OR last_attempt_utc < ?)",
+            (nf_cutoff,),
+        )
         conn.commit()
+        if nf_retried.rowcount:
+            log.info("Palautettu %d 'not_found'-joukkuetta jonoon (>%dh)", nf_retried.rowcount, NOT_FOUND_RETRY_HOURS)
         if reset.rowcount:
             log.info("Nollattu %d vanhentunutta (>%dh) joukkuetta takaisin pendingiksi", reset.rowcount, STALE_HOURS)
         if retried.rowcount:

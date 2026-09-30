@@ -24,6 +24,7 @@ on:
       - "src/collect_maps.py"
       - "src/collect_market_snapshot.py"
       - "src/liquipedia_client.py"
+      - "src/match_dedup.py"
       - "src/db.py"
       - "db/schema.sql"
       - ".github/workflows/collect_core.yml"
@@ -94,9 +95,16 @@ jobs:
         timeout-minutes: 265
         run: python src/collect_maps.py --max-minutes 250
 
-      - name: Putken jarkevyystarkistus (ei pysayta committia, vain nakyviin lokiin)
+      # Tulos tallennetaan repoon (2026-09-30): pelkka CI-loki jai huomaamatta
+      # 12 paivaa (7 joukkuetta 'not_found'). Tarkistetaan paikallisesti tiedostosta.
+      - name: Putken jarkevyystarkistus (ei pysayta committia)
         continue-on-error: true
-        run: python src/check_pipeline_health.py || true
+        run: |
+          {
+            echo "Ajettu: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            python src/check_pipeline_health.py
+          } > data/pipeline_health.txt 2>&1 || true
+          cat data/pipeline_health.txt
 
       - name: Jonon tila
         id: queue
@@ -125,6 +133,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/odds.db data/history_progress.json data/maps_progress.json
           [ -f data/xr_report.txt ] && git add data/xr_report.txt
+          [ -f data/pipeline_health.txt ] && git add data/pipeline_health.txt
           git diff --cached --quiet || git commit -m "core collectors: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for i in 1 2 3 4 5; do
             git fetch origin main

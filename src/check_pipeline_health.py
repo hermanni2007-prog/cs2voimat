@@ -42,6 +42,10 @@ def check_history_freshness(conn) -> list:
         elif age_h > STALE_WARN_HOURS:
             stale_warn.append((team, age_h))
 
+    not_found = [r[0] for r in conn.execute("SELECT team FROM history_team_progress WHERE status='not_found'")]
+    if not_found:
+        problems.append(("VIRHE", f"{len(not_found)} joukkueen omaa sivua ei loydy (niiden ottelut muita "
+                                   f"kuin top75-joukkueita vastaan puuttuvat): {not_found}"))
     if never:
         problems.append(("VAROITUS", f"{len(never)} joukkuetta ei ole KOSKAAN haettu: {never[:10]}"))
     if stale_warn:

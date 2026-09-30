@@ -137,9 +137,10 @@
     "model_p_bet_on": 0.459,
     "model_ev": 0.10,
     "model_confidence": "HYVA n-maara (NiP n=75, GL n=60), mutta EDGE HEIKKO: ensimmainen veto uudella karttatason Elolla (Bo5). Ilman vasymyskorjausta P=0.431 -> EV +3 %, haarukka [0.377, 0.486] sisaltaa kannattavuusrajan 0.417. Vasymyskorjaus testattiin samana paivana rolling originilla: suunta oikea, suuruus epavarma (P(parannus>0)=0.66 rehellisesti sovitettuna). Markkina (marginaaliton) NiP 38.5 % vs malli 45.9 % - 7-8 pp erimielisyys. Arvio vedon hetkella: 'ei selva arvoveto' (etu syntyy vain vasymyskorjauksesta).",
-    "status": "pending",
-    "actual_winner": null,
-    "profit_eur": null,
+    "status": "won",
+    "actual_winner": "Ninjas in Pyjamas",
+    "actual_score": "3:1 (Bo5)",
+    "profit_eur": 25.2,
     "note": "GL:n 2-0 voitto magicista samana paivana annettiin ennusteeseen --extra-valinnalla (ei tallennettu DB:hen tuplien valttamiseksi). Panos 18 EUR (kayttaja). Tarkka asetusaika ei tiedossa (ennen ottelun alkua 2026-09-28). Mahdollinen ylemman kaavion karttaetu NiP:lle ei tiedossa, malli ei huomioi sita."
   }
 ]

@@ -63,6 +63,30 @@ def remove_rescheduled_rows(conn, team: str, source_page: str, current_rows: lis
     return removed
 
 
+def remove_exact_variant_rows(conn) -> int:
+    """Poistaa rivit jotka ovat TASMALLEEN sama ottelu samalta sivulta eri
+    vastustajan nimimuodolla ("SINNERS Esports" vs "SINNERS", ennen 18.9.
+    nimien normalisointia tallentuneet). Sama joukkue + sama lahdesivu + sama
+    aika + sama tulos + sama kanoninen vastustaja = sama ottelu varmasti.
+    Toimii myos hakuikkunan (8 kk) ulkopuolella, jota remove_rescheduled_rows
+    ei kasittele. Sailyttaa kanonisella nimella tallennetun (tai uusimman) rivin."""
+    top = load_top50_names()
+    groups = defaultdict(list)
+    for rid, d, t, o, st, so, src, tn in conn.execute(
+        """SELECT id, match_date_utc, team, opponent, score_team, score_opponent, source_page, tournament
+           FROM historical_matches WHERE score_team IS NOT NULL AND score_opponent IS NOT NULL"""
+    ):
+        groups[(t, src, d, st, so, tn, resolve_to_canonical(o, top))].append((o == resolve_to_canonical(o, top), rid))
+    ids = []
+    for rows in groups.values():
+        if len(rows) > 1:
+            rows.sort(reverse=True)  # kanoninen nimi ensin, sitten suurin id
+            ids.extend(rid for _, rid in rows[1:])
+    for rid in ids:
+        conn.execute("DELETE FROM historical_matches WHERE id=?", (rid,))
+    return len(ids)
+
+
 def _match_groups(conn):
     """Ryhmittelee kelvolliset rivit oikeiksi otteluiksi: palauttaa listan ryhmista,
     jokainen ryhma = lista (id, match_date_utc, team, source_page)."""
