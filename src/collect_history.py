@@ -203,7 +203,7 @@ def process_team(conn, client: LiquipediaClient, team_name: str, cutoff_utc: dat
             # 18.9. 429), joka johtaa harhaan tilaa tarkistettaessa.
             err = "Sivua ei loytynyt, kokeiltu: " + " | ".join(tried)
             conn.execute(
-                "UPDATE history_team_progress SET status='not_found', last_attempt_utc=?, error=? WHERE team=?",
+                "UPDATE history_team_progress SET status='not_found', last_attempt_utc=?, error_message=? WHERE team=?",
                 (now_utc_iso(), err, team_name),
             )
             conn.commit()

@@ -42,6 +42,12 @@ def check_history_freshness(conn) -> list:
         elif age_h > STALE_WARN_HOURS:
             stale_warn.append((team, age_h))
 
+    # 2026-10-01: 'error'-tila jai huomaamatta (raportti sanoi OK, vaikka 6
+    # joukkuetta oli virheessa keraimen SQL-bugin takia).
+    errored = conn.execute("SELECT team, error_message FROM history_team_progress WHERE status='error'").fetchall()
+    if errored:
+        problems.append(("VIRHE", f"{len(errored)} joukkuetta 'error'-tilassa: "
+                                   f"{[(t, (m or '')[:80]) for t, m in errored[:10]]}"))
     not_found = [r[0] for r in conn.execute("SELECT team FROM history_team_progress WHERE status='not_found'")]
     if not_found:
         problems.append(("VIRHE", f"{len(not_found)} joukkueen omaa sivua ei loydy (niiden ottelut muita "
