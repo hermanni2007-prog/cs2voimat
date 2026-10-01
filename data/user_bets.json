@@ -304,5 +304,23 @@
   "actual_winner": null,
   "profit_eur": null,
   "note": "Journey-kärkivalinta."
+ },
+ {
+  "placed_utc": "2026-10-01T23:33:00+00:00",
+  "match_date_utc": "2026-10-02T12:30:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "B8",
+  "opponent": "fnatic",
+  "bet_on": "fnatic",
+  "price": 2.61,
+  "stake_eur": 20.0,
+  "potential_win_eur": 52.2,
+  "model_p_bet_on": 0.489,
+  "model_ev": 0.276,
+  "model_confidence": "HYVA (karttatason Elo, LAN Bo3, --extra 1.10. tulokset; vanha malli myos +EV)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Kuvakaappauksen kerroin oli 2.70, lyoty 2.61."
  }
 ]
