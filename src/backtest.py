@@ -698,7 +698,14 @@ def apply_fatigue_adjustment(p_team: float, n_fatigue_team: int, n_fatigue_oppon
 # (0.6995 -> 0.6931). HUOM: pieni otos (n=179/61, yksi train/test-jako) -
 # vahva tulos mutta ei yhta laajasti testattu kuin ruostumiskorjaus.
 # ---------------------------------------------------------------------------
-ONLINE_SHRINK = 0.0  # "ei kaytannon ennustearvoa" - validoitu, ei arvaus
+# PAIVITETTY 2026-10-02 (kayttajan paatos): rolling origin tuotantomallilla
+# (src/run_online_rolling.py, 268 test-online-sarjaa) - s=0 oli liian jyrkka,
+# train-sovitettu s = 0.15-0.40, test log loss 0.6892 vs 50/50 0.6931.
+# Sovittu saanto: online-arvovetoja vain tasaisiin otteluihin
+# (ONLINE_EVEN_MAX, ks. predict_match.py) - kutistus on sovitettu paaosin
+# tasaisilla otteluilla eika sovellu isoihin altavastaajiin.
+ONLINE_SHRINK = 0.3
+ONLINE_EVEN_MAX = 0.65  # raakaennusteen suosikki-tn, jonka ylittyessa online-EV:ta ei uskota
 
 
 def apply_online_adjustment(p_team: float, match_type: Optional[str]) -> float:

@@ -54,6 +54,8 @@ from backtest import (  # noqa: E402
     FATIGUE_THRESHOLD,
     FATIGUE_WINDOW_DAYS,
     RUST_WINDOW_DAYS,
+    ONLINE_EVEN_MAX,
+    ONLINE_SHRINK,
     apply_all_adjustments,
     count_recent_matches,
     current_elo_rank,
@@ -173,8 +175,10 @@ def main() -> int:
     print(f"  P({args.team}) raaka = {p_mid:.3f}  (haarukka [{p_low:.3f}, {p_high:.3f}])  - karttatason Elo")
     if match_type == "Online":
         print(f"  P({args.team}) ONLINE-KORJATTU = {p_adjusted:.3f}  "
-              f"(mallilla ei validoinnin mukaan ole online-otteluissa kaytannon ennustearvoa - "
-              f"katso backtest.py:n ONLINE_SHRINK-kommentti)")
+              f"(kutistus {ONLINE_SHRINK} kohti 0.5:ta - heikko signaali, ks. backtest.py:n ONLINE_SHRINK)")
+        if max(p_mid, 1 - p_mid) > ONLINE_EVEN_MAX:
+            print(f"  HUOM ONLINE + iso ero (raaka suosikki > {ONLINE_EVEN_MAX}): EV ei luotettava,"
+                  " EI arvovetoa (sovittu saanto 2.10.)")
     # HUOM: LEVEA-tier-shrink on nykyaan no-op (LEVEA_SHRINK=1.0, ks.
     # backtest.py:n kommentti) - SOS-pehmennys korvasi sen tarpeen, joten
     # taalla ei enaa nayteta erillista "LEVEA-TASO-KORJATTU" -viestia.

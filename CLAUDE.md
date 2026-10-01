@@ -151,8 +151,9 @@ python src/predict_match.py "Joukkue A" "Joukkue B" --bo 3 [--online] [--extra "
 (Windowsilla `py -3`. Pilvessä ja Macilla `python3`.)
 
 - **`--bo 1/3/5`:** anna AINA oikea sarjan pituus. Oletus on 3.
-- **`--online`:** online-ottelu. Mallilla ei ole online-otteluissa ennustearvoa,
-  joten ennuste on 50/50. Älä anna online-otteluista arvovetoja.
+- **`--online`:** online-ottelu. Ennuste kutistetaan kohti 0.5:tä
+  (`ONLINE_SHRINK = 0.3`), ja arvovetoja annetaan vain tasaisiin otteluihin
+  (ks. korjaukset alla).
 - **Nimet:** kirjoitusasu normalisoidaan automaattisesti.
 
 **Päämalli (tuotannossa 2026-09-28 alkaen, käyttäjän päätös):**
@@ -171,11 +172,14 @@ Vertailurivinä näytetään vanha sarjatason Elo.
 **Ennusteen korjaukset** (`backtest.apply_all_adjustments`), kaikki vetävät
 ennustetta kohti 0.5:tä:
 
-- **Online:** kutistus kokonaan 0.5:een. Painotus rating-päivityksessä 0.2.
-  Rolling origin 1.10. (`src/run_online_rolling.py`, tuotantomalli, 268
-  testiottelua): kokonaan kutistaminen on liian jyrkkää, ja train-sovitettu
-  s = 0.15–0.40 on paras (log loss 0.6892 vs 50/50 0.6931). Signaali on
-  kuitenkin heikko. Käyttäjä päättää, muutetaanko `ONLINE_SHRINK`.
+- **Online (muutettu 2.10., käyttäjän päätös):** `ONLINE_SHRINK = 0.3`, eli
+  ennuste kutistetaan 70 % kohti 0.5:tä. Aiemmin kutistettiin kokonaan
+  0.5:een. Painotus rating-päivityksessä on 0.2. Peruste: rolling origin
+  1.10. (`src/run_online_rolling.py`, tuotantomalli, 268 testiottelua),
+  log loss 0.6892 vs 50/50 0.6931; signaali on heikko. **Sääntö:**
+  online-arvovetoja annetaan vain tasaisiin otteluihin. Jos raaka suosikki
+  on yli 0.65 (`ONLINE_EVEN_MAX`), `predict_match` varoittaa eikä EV:tä
+  uskota.
 - **Ruostuminen:** jos suosikilla ei ole otteluita viiteen vuorokauteen,
   kerroin 0.79. Pieni otos (n = 28), ei testattu uudelleen rolling originilla.
 - **Väsymys:** jos suosikilla on vähintään kaksi ottelua 24 tunnin sisällä ja
@@ -292,6 +296,11 @@ tappiota, yhteensä −111.90 €.
   +EV:t: TYLOO @ 5.30, M80 @ 4.80, Legacy, BetBoom, G2 @ 1.72, ShindeN,
   Nemiga, fnatic ja Alliance @ 2.35. Legacyn, BetBoomin, Nemigan ja fnaticin
   kertoimet olivat 30.9. illan kuvassa korkeammat kuin aiemmin kirjatut.
+- **Tier-2/3-otteluiden (esim. CS 2. Journey 2.10.) kertoimet ovat lokissa.**
+  Mallilla ei ole näistä käytännössä tietoa: top75-listan ulkopuolisten
+  joukkueiden rating perustuu vain otteluihin top75-joukkueita vastaan, ja
+  ennuste jää lähelle 50/50:tä. Silloin kaikki altavastaajat näyttävät
+  +EV:ltä. Lokin tulokset kertovat myöhemmin, pitääkö tämä paikkansa.
 - **Paras seuraava datalähde karttojen ja karttavalintojen tutkimiseen:**
   yksittäisten ottelusivujen veto-järjestys ("1. X removed Map ..."). Keräintä
   ei ole rakennettu. Se tehdään vain CI:n kautta ja API-ehtoja noudattaen.
