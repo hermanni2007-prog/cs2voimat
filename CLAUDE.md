@@ -290,11 +290,10 @@ ja Nemiga @ 2.53) ja kuusi tappiota, yhteensä −74.90 €.
   Arvioidaan uudelleen 12.–19.10.
 - **Mallin uudelleentesti noin 12.–19.10.:** aja `run_format_map_model.py` (ks.
   kohta 5).
-- **Käyttäjän harkitsemat vedot (eivät vielä lyötyjä):** Stake Ranked Ep. 4
-  1.10. (4 ottelua) ja ESL Pro League S24 3.10. (8 ottelua). Kaikki kertoimet
+- **Käyttäjän harkitsemat vedot (eivät vielä lyötyjä):** ESL Pro League S24 3.10. (8 ottelua). Kaikki kertoimet
   molemmilta puolilta ovat tiedostossa `data/odds_log.json`. Aiemmin mainitut
-  +EV:t: TYLOO @ 5.30, M80 @ 4.80, Legacy, BetBoom, G2 @ 1.72, ShindeN,
-  Nemiga, fnatic ja Alliance @ 2.35. Legacyn, BetBoomin, Nemigan ja fnaticin
+  +EV:t (LAN): TYLOO @ 5.30, M80 @ 4.80, Legacy, BetBoom, G2 @ 1.72 ja ShindeN.
+  Stake Ranked 1.10.: Nemiga, Alliance ja fnatic lyötiin (ks. `user_bets.json`). Legacyn, BetBoomin, Nemigan ja fnaticin
   kertoimet olivat 30.9. illan kuvassa korkeammat kuin aiemmin kirjatut.
 - **Tier-2/3-otteluiden (esim. CS 2. Journey 2.10.) kertoimet ovat lokissa.**
   Mallilla ei ole näistä käytännössä tietoa: top75-listan ulkopuolisten
