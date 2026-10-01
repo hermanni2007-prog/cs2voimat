@@ -261,6 +261,11 @@ ennustetta kohti 0.5:tä:
   Ero on kohinatasoa, eikä karttamalli näytä kertoimilla etua. Markkina
   (log loss 0.6594) on selvästi tarkempi kuin kumpikaan malli. Otetaan
   huomioon uudelleentestissä 12.–19.10.
+- **EV-raja** (`src/run_ev_threshold.py`, 2.10.): datasta ei löydy selvää
+  rajaa (noin 80 vetoa, 95 %:n välit noin ±40 %). Karttamallilla alle 10 %:n
+  EV-vedot hävisivät (n = 26, −41 % per veto). Koska malli on markkinaa
+  epätarkempi, alle 10 %:n etu on mallin virhemarginaalin sisällä. Ajetaan
+  uudelleen, kun kerroinlokiin on kertynyt tuloksia.
 - **Suositeltu panostus:** pienet ja tasaiset panokset kaikkiin mallin
   +EV-vetoihin. Älä anna henkilökohtaisia sijoitusneuvoja.
 
