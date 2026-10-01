@@ -322,5 +322,41 @@
   "actual_winner": null,
   "profit_eur": null,
   "note": "Kuvakaappauksen kerroin oli 2.70, lyoty 2.61."
+ },
+ {
+  "placed_utc": "2026-10-01T23:36:00+00:00",
+  "match_date_utc": "2026-10-02T13:00:00+00:00",
+  "tournament": "CS 2. Journey (Bo1, oletus LAN)",
+  "team": "SINNERS",
+  "opponent": "Eternal Fire",
+  "bet_on": "SINNERS",
+  "price": 1.92,
+  "stake_eur": 10.0,
+  "potential_win_eur": 19.2,
+  "model_p_bet_on": 0.547,
+  "model_ev": 0.05,
+  "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Journey-valinta #5, pieni etu."
+ },
+ {
+  "placed_utc": "2026-10-01T23:35:00+00:00",
+  "match_date_utc": "2026-10-02T12:00:00+00:00",
+  "tournament": "CS 2. Journey (Bo1, oletus LAN)",
+  "team": "9INE",
+  "opponent": "Johnny Speeds",
+  "bet_on": "Johnny Speeds",
+  "price": 2.17,
+  "stake_eur": 10.0,
+  "potential_win_eur": 21.7,
+  "model_p_bet_on": 0.503,
+  "model_ev": 0.092,
+  "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Journey-valinta #4."
  }
 ]
