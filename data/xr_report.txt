@@ -1,6 +1,6 @@
-Ajettu: 2026-10-01T11:51:26Z
-Kartat: 9201 (top75-vs-top75 1996), train/test-raja 2026-09-03
-Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.487, 'Cache': 0.529, 'Dust II': 0.511, 'Inferno': 0.514, 'Mirage': 0.547, 'Nuke': 0.548, 'Overpass': 0.551, '_all': 0.528}
+Ajettu: 2026-10-01T18:13:06Z
+Kartat: 9211 (top75-vs-top75 2001), train/test-raja 2026-09-03
+Kentan CT-etu (train): {'Ancient': 0.526, 'Anubis': 0.487, 'Cache': 0.529, 'Dust II': 0.51, 'Inferno': 0.514, 'Mirage': 0.547, 'Nuke': 0.548, 'Overpass': 0.551, '_all': 0.528}
 
 === K-haku (train, log loss / kierros) ===
   K=  0.5  train_round_ll=0.69009
@@ -8,7 +8,7 @@ Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.487, 'Cache': 0.529, 'Dust
   K=    2  train_round_ll=0.68919
   K=    3  train_round_ll=0.68900
   K=    4  train_round_ll=0.68897
-  K=    6  train_round_ll=0.68920
+  K=    6  train_round_ll=0.68921
   K=    8  train_round_ll=0.68970
   K=   12  train_round_ll=0.69120
   K=   16  train_round_ll=0.69324
@@ -16,11 +16,11 @@ Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.487, 'Cache': 0.529, 'Dust
 Valittu (train): K=4, tau=0.3
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.69155 vs pelkka CT/T-perustaso 0.69121  (n=16994 kierrosta)
-2) Kartat:     xR 0.6857 vs 50/50 0.6931  (n=404)
-3) SARJAT (samat 224 sarjaa, train-sarjoja kalibrointiin 929):
-     raaka:        xR 0.6680  vs tuotanto-Elo 0.6994
-     kalibroitu:   xR 0.6799 (tau=0.4)  vs tuotanto-Elo 0.6917 (tau=0.65)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.571  vs tuotanto-Elo 0.567
+1) Kierrokset: xR 0.69176 vs pelkka CT/T-perustaso 0.69123  (n=16932 kierrosta)
+2) Kartat:     xR 0.6874 vs 50/50 0.6931  (n=402)
+3) SARJAT (samat 221 sarjaa, train-sarjoja kalibrointiin 933):
+     raaka:        xR 0.6691  vs tuotanto-Elo 0.7016
+     kalibroitu:   xR 0.6804 (tau=0.4)  vs tuotanto-Elo 0.6930 (tau=0.65)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.570  vs tuotanto-Elo 0.561
 
 -> xR PARANTAA sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.

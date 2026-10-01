@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-01T11:51:26.209255+00:00",
-  "tournaments_total": 770,
-  "tournaments_done": 770,
-  "tournaments_ok": 707,
+  "updated_utc": "2026-10-01T18:13:06.084816+00:00",
+  "tournaments_total": 772,
+  "tournaments_done": 772,
+  "tournaments_ok": 709,
   "tournaments_ok_no_brackets": 39,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9226,
+  "maps_collected": 9236,
   "last_tournament": {
-    "tournament": "eXTREMESLAND 2026: OCE Qual - Group A",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-10-01T00:39:31.648046+00:00"
+    "tournament": "Stake Ranked Episode 4",
+    "status": "ok",
+    "maps_found": 5,
+    "at": "2026-10-01T18:13:06.080974+00:00"
   }
 }
