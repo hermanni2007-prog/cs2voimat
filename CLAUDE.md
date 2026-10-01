@@ -271,8 +271,8 @@ model_ev, model_confidence, status, actual_winner, profit_eur ja note.
 Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
-Tilanne 2026-09-30: kuusi vetoa, yksi voitto (NiP @ 2.40, +25.20 €) ja viisi
-tappiota, yhteensä −111.90 €.
+Tilanne 2026-10-02: yhdeksän vetoa, kolme voittoa (NiP @ 2.40, Alliance @ 2.32
+ja Nemiga @ 2.53) ja kuusi tappiota, yhteensä −74.90 €.
 
 ---
 
