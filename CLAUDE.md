@@ -172,6 +172,10 @@ Vertailurivinä näytetään vanha sarjatason Elo.
 ennustetta kohti 0.5:tä:
 
 - **Online:** kutistus kokonaan 0.5:een. Painotus rating-päivityksessä 0.2.
+  Rolling origin 1.10. (`src/run_online_rolling.py`, tuotantomalli, 268
+  testiottelua): kokonaan kutistaminen on liian jyrkkää, ja train-sovitettu
+  s = 0.15–0.40 on paras (log loss 0.6892 vs 50/50 0.6931). Signaali on
+  kuitenkin heikko. Käyttäjä päättää, muutetaanko `ONLINE_SHRINK`.
 - **Ruostuminen:** jos suosikilla ei ole otteluita viiteen vuorokauteen,
   kerroin 0.79. Pieni otos (n = 28), ei testattu uudelleen rolling originilla.
 - **Väsymys:** jos suosikilla on vähintään kaksi ottelua 24 tunnin sisällä ja
