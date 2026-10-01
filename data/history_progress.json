@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-01T23:15:12.496861+00:00",
+  "updated_utc": "2026-10-01T23:19:01.823394+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 69,
   "teams_ok": 69,
   "teams_not_found": 0,
   "teams_error": 0,
-  "matches_collected": 5033,
+  "matches_collected": 5034,
   "last_team": {
-    "team": "THUNDERdOWNUNDER",
-    "status": "pending",
+    "team": "Nemiga",
+    "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-01T21:59:36.856793+00:00"
+    "at": "2026-10-01T23:19:01.821506+00:00"
   }
 }
