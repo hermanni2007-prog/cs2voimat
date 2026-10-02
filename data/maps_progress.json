@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-02T02:13:54.112483+00:00",
+  "updated_utc": "2026-10-02T07:33:01.760961+00:00",
   "tournaments_total": 774,
   "tournaments_done": 774,
   "tournaments_ok": 710,
   "tournaments_ok_no_brackets": 40,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9245,
+  "maps_collected": 9250,
   "last_tournament": {
-    "tournament": "CyberClash Season 1 - Playoffs",
+    "tournament": "Stake Ranked Episode 4",
     "status": "ok",
-    "maps_found": 4,
-    "at": "2026-10-02T02:13:54.109709+00:00"
+    "maps_found": 5,
+    "at": "2026-10-02T07:33:01.757779+00:00"
   }
 }
