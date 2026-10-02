@@ -625,5 +625,71 @@
   "opponent_price": 1.12,
   "source": "user_query",
   "note": "Kayttajan kuvakaappaus 2.10. ilta (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T23:06:00+00:00",
+  "match_date_utc": "2026-10-03T09:00:00+00:00",
+  "tournament": "Journey Autumn 2026 (playoffs Bo3)",
+  "team": "SINNERS",
+  "opponent": "Ninjas in Pyjamas",
+  "price": 2.67,
+  "opponent_price": 1.41,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T23:06:00+00:00",
+  "match_date_utc": "2026-10-03T09:00:00+00:00",
+  "tournament": "Journey Autumn 2026 (playoffs Bo3)",
+  "team": "BC.Game",
+  "opponent": "BBL Esports",
+  "price": 1.44,
+  "opponent_price": 2.59,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T23:06:00+00:00",
+  "match_date_utc": "2026-10-03T09:00:00+00:00",
+  "tournament": "Journey Autumn 2026 (playoffs Bo3)",
+  "team": "Sangal Esports",
+  "opponent": "Eternal Fire",
+  "price": 2.06,
+  "opponent_price": 1.7,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T23:06:00+00:00",
+  "match_date_utc": "2026-10-03T10:00:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "Astralis",
+  "opponent": "BIG",
+  "price": 1.64,
+  "opponent_price": 2.19,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T23:06:00+00:00",
+  "match_date_utc": "2026-10-03T12:30:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "fnatic",
+  "opponent": "Alliance",
+  "price": 1.58,
+  "opponent_price": 2.17,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T23:06:00+00:00",
+  "match_date_utc": "2026-10-03T15:00:00+00:00",
+  "tournament": "Stake Ranked Episode 4",
+  "team": "Luminosity",
+  "opponent": "Nemiga Gaming",
+  "price": 2.06,
+  "opponent_price": 1.72,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
  }
 ]

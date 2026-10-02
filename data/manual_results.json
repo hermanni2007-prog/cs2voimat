@@ -668,5 +668,15 @@
   "tournament": "CIS LAN Championship #8 - Final (aika arvioitu)",
   "match_type": "Offline",
   "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T10:00:00+00:00",
+  "team": "Astralis",
+  "opponent": "FaZe",
+  "score_team": 2,
+  "score_opponent": 1,
+  "tournament": "Stake Ranked Episode 4",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (aika kertoimista)"
  }
 ]
