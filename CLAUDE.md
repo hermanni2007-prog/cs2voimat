@@ -133,11 +133,11 @@ tilajakauma.
 - **Pysyvä vaihtoehto `--extra`-riveille (2.10. alkaen):** kirjaa käyttäjän
   antamat tuoreet tulokset (esim. HLTV-kuvat) tiedostoon
   `data/manual_results.json`. `predict_match` lukee ne automaattisesti
-  (`src/manual_results.py`) vain muistiin ja ohittaa rivin, jos datassa on jo
-  sama joukkuepari enintään 24 tunnin päässä. Kun CI kerää ottelun, rivi
-  putoaa pois itsestään. Ohita tiedosto valinnalla `--no-manual`. Rajoitus:
-  saman parin uusintaottelu 24 tunnin sisällä (esim. lohko ja pudotuspeli)
-  ohitetaan.
+  (`src/manual_results.py`) vain muistiin ja ohittaa rivin vain, jos datassa
+  on jo SAMA ottelu: sama pari, sama tulos ja enintään 24 tunnin ero. Saman
+  parin uusintaottelu eri tuloksella (esim. Bo1-lohko 13–9 ja Bo3-pudotuspeli
+  2–1) säilyy. Kun CI kerää ottelun, rivi putoaa pois itsestään. Ohita
+  tiedosto valinnalla `--no-manual`.
 - **ÄLÄ muokkaa `data/odds.db`:tä paikallisesti ja committaa sitä.** Se on
   binääri, jonka CI omistaa, joten konflikti heittää dataa pois. Testaa
   muutokset aina tietokannan kopiolla, esim. scratch-hakemistossa.
@@ -234,9 +234,13 @@ ennustetta kohti 0.5:tä:
 
 1. `git pull` ja tarkista, että joukkueiden tuoreet ottelut ovat datassa.
    Katso myös keskinäiset ottelut ja mahdolliset tuplat.
-2. Selvitä sarjan pituus ja LAN vs online. Käytä turnauksen aiempia rivejä
-   `historical_matches`-taulussa: `match_type` ja tuloksen suuruus (2 = Bo3,
-   3 = Bo5, 13+ = Bo1). Kerro oletuksesi.
+2. Selvitä sarjan pituus ja LAN vs online JOKAISELLE OTTELULLE ERIKSEEN.
+   Käytä turnauksen saman vaiheen rivejä `historical_matches`-taulussa:
+   `match_type` ja tuloksen suuruus (2 = Bo3, 3 = Bo5, 13+ = Bo1). **Lohkon
+   formaatti ei kerro pudotuspelien formaattia.** 2.10. illan Journey-
+   pudotuspelit ajettiin virheellisesti Bo1:nä, vaikka ne olivat Bo3:ia.
+   Vihjeitä ovat otteluiden määrä ja porrastetut alkuajat. **Jos sarjan
+   pituutta ei voi varmistaa, kysy käyttäjältä ennen analyysiä. Älä arvaa.**
 3. Aja `predict_match.py` jokaiselle ottelulle.
 4. Laske:
    - Odotusarvo = P(malli) × kerroin − 1.
