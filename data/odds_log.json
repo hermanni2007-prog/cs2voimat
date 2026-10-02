@@ -581,5 +581,49 @@
   "opponent_price": 1.38,
   "source": "user_query",
   "note": "Kayttajan kuvakaappaus 2.10., Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T18:00:00+00:00",
+  "match_date_utc": "2026-10-02T18:00:00+00:00",
+  "tournament": "Journey Autumn 2026 (Bo1, LAN)",
+  "team": "FOKUS",
+  "opponent": "BBL Esports",
+  "price": 1.63,
+  "opponent_price": 2.12,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 2.10. ilta (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T18:00:00+00:00",
+  "match_date_utc": "2026-10-02T18:00:00+00:00",
+  "tournament": "Journey Autumn 2026 (Bo1, LAN)",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "Johnny Speeds",
+  "price": 1.06,
+  "opponent_price": 6.7,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 2.10. ilta (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T18:00:00+00:00",
+  "match_date_utc": "2026-10-02T18:30:00+00:00",
+  "tournament": "Journey Autumn 2026 (Bo1, LAN)",
+  "team": "Eternal Fire",
+  "opponent": "BASEMENT BOYS",
+  "price": 1.17,
+  "opponent_price": 4.3,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 2.10. ilta (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-02T18:00:00+00:00",
+  "match_date_utc": "2026-10-02T18:30:00+00:00",
+  "tournament": "Journey Autumn 2026 (Bo1, LAN)",
+  "team": "Team Voca",
+  "opponent": "100 Thieves",
+  "price": 5.2,
+  "opponent_price": 1.12,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 2.10. ilta (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
  }
 ]
