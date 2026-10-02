@@ -430,5 +430,23 @@
   "actual_winner": null,
   "profit_eur": null,
   "note": "bet_id 11029301."
+ },
+ {
+  "placed_utc": "2026-10-02T18:00:00+00:00",
+  "match_date_utc": "2026-10-02T18:30:00+00:00",
+  "tournament": "Journey Autumn 2026 (playoffs Bo3, LAN)",
+  "team": "Team Voca",
+  "opponent": "100 Thieves",
+  "bet_on": "Team Voca",
+  "price": 6.3,
+  "stake_eur": 10.0,
+  "potential_win_eur": 63.0,
+  "model_p_bet_on": 0.3,
+  "model_ev": 0.89,
+  "model_confidence": "HYVA (karttatason Elo Bo3, ennen ottelua ollut data; arvio tehtiin silloin virheellisesti Bo1:na)",
+  "status": "lost",
+  "actual_winner": "100 Thieves",
+  "profit_eur": -10.0,
+  "note": "Epicbet ID 197. Lyontiaika ei tiedossa (ennen 18:30 UTC, kirjattu arviona). Tulos 100 Thieves 2-0."
  }
 ]
