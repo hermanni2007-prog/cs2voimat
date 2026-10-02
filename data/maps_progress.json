@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-02T19:11:14.968931+00:00",
-  "tournaments_total": 776,
-  "tournaments_done": 776,
-  "tournaments_ok": 710,
-  "tournaments_ok_no_brackets": 42,
+  "updated_utc": "2026-10-02T23:44:24.535599+00:00",
+  "tournaments_total": 780,
+  "tournaments_done": 780,
+  "tournaments_ok": 716,
+  "tournaments_ok_no_brackets": 40,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9257,
+  "maps_collected": 9291,
   "last_tournament": {
-    "tournament": "Journey Autumn 2026 - Group A",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-10-02T14:46:04.246230+00:00"
+    "tournament": "eXTREMESLAND 2026: OCE Qual - Playoffs",
+    "status": "ok",
+    "maps_found": 5,
+    "at": "2026-10-02T23:44:24.532809+00:00"
   }
 }
