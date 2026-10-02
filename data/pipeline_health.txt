@@ -1,2 +1,2 @@
-Ajettu: 2026-10-01T23:19:02Z
-OK - ei loytynyt huolestuttavia signaaleja.
+Ajettu: 2026-10-02T02:13:54Z
+[VIRHE] 7 joukkueen omaa sivua ei loydy (niiden ottelut muita kuin top75-joukkueita vastaan puuttuvat): ['BBL', 'Jam', 'Color', 'Butterfly', 'ASTRAL', 'ex-Zero Tenacity', 'THUNDERdOWNUNDER']
