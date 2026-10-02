@@ -264,10 +264,10 @@
   "model_p_bet_on": 0.445,
   "model_ev": 0.148,
   "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Journey-valinta."
+  "status": "lost",
+  "actual_winner": "Sashi",
+  "profit_eur": -10.0,
+  "note": "Journey-valinta. Tulos Sashi 13-9 BASEMENT BOYS (kayttajan HLTV-kuvakaappaus 2.10.)."
  },
  {
   "placed_utc": "2026-10-01T23:28:00+00:00",
@@ -282,10 +282,10 @@
   "model_p_bet_on": 0.411,
   "model_ev": 0.151,
   "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Journey-valinta."
+  "status": "won",
+  "actual_winner": "Sangal Esports",
+  "profit_eur": 18.0,
+  "note": "Journey-valinta. Tulos NiP 4-13 Sangal (kayttajan HLTV-kuvakaappaus 2.10.)."
  },
  {
   "placed_utc": "2026-10-01T23:28:00+00:00",
@@ -300,10 +300,10 @@
   "model_p_bet_on": 0.489,
   "model_ev": 0.262,
   "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Journey-kärkivalinta."
+  "status": "lost",
+  "actual_winner": "Team Voca",
+  "profit_eur": -10.0,
+  "note": "Journey-kärkivalinta. Tulos BASEMENT BOYS 14-16 Voca (kayttajan HLTV-kuvakaappaus 2.10.)."
  },
  {
   "placed_utc": "2026-10-01T23:33:00+00:00",
@@ -354,9 +354,9 @@
   "model_p_bet_on": 0.503,
   "model_ev": 0.092,
   "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Journey-valinta #4."
+  "status": "won",
+  "actual_winner": "Johnny Speeds",
+  "profit_eur": 11.7,
+  "note": "Journey-valinta #4. Tulos 9INE 9-13 Johnny Speeds (kayttajan HLTV-kuvakaappaus 2.10.)."
  }
 ]
