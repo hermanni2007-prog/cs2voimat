@@ -307,7 +307,7 @@
  },
  {
   "placed_utc": "2026-10-01T23:33:00+00:00",
-  "match_date_utc": "2026-10-02T12:30:00+00:00",
+  "match_date_utc": "2026-10-02T10:00:00+00:00",
   "tournament": "Stake Ranked Episode 4",
   "team": "B8",
   "opponent": "fnatic",
@@ -318,10 +318,10 @@
   "model_p_bet_on": 0.489,
   "model_ev": 0.276,
   "model_confidence": "HYVA (karttatason Elo, LAN Bo3, --extra 1.10. tulokset; vanha malli myos +EV)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Kuvakaappauksen kerroin oli 2.70, lyoty 2.61."
+  "status": "won",
+  "actual_winner": "fnatic",
+  "profit_eur": 32.2,
+  "note": "Kuvakaappauksen kerroin oli 2.70, lyoty 2.61. Tulos fnatic 2-0 (data)."
  },
  {
   "placed_utc": "2026-10-01T23:36:00+00:00",
@@ -336,10 +336,10 @@
   "model_p_bet_on": 0.547,
   "model_ev": 0.05,
   "model_confidence": "MATALA-KOHTALAINEN (tier-2, Bo1, malli varovainen)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Journey-valinta #5, pieni etu."
+  "status": "lost",
+  "actual_winner": "Eternal Fire",
+  "profit_eur": -10.0,
+  "note": "Journey-valinta #5, pieni etu. Tulos 13-16 (data)."
  },
  {
   "placed_utc": "2026-10-01T23:35:00+00:00",
