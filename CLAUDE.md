@@ -288,9 +288,9 @@ model_ev, model_confidence, status, actual_winner, profit_eur ja note.
 Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
-Tilanne 2026-10-02 ilta: 15 ratkennutta vetoa, kuusi voittoa (NiP @ 2.40,
-Alliance @ 2.32, Nemiga @ 2.53, fnatic @ 2.61, Sangal @ 2.80, Johnny Speeds
-@ 2.17) ja yhdeksän tappiota, yhteensä −43.00 €. Avoinna kolme ESL-vetoa (3.10.).
+Tilanne 2026-10-03 yö: 16 ratkennutta vetoa, kuusi voittoa ja kymmenen
+tappiota, yhteensä −53.00 €. Avoinna kuusi vetoa: ESL 3.10. (Legacy, BetBoom,
+G2), Journey 3.10. (BBL, Sangal) ja Stake Ranked 3.10. (BIG).
 
 ---
 
