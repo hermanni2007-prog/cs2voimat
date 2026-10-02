@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-02T07:32:25.910895+00:00",
+  "updated_utc": "2026-10-02T14:44:18.154669+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5045,
+  "matches_collected": 5053,
   "last_team": {
     "team": "Nemiga",
     "status": "ok",
-    "matches_found": 1,
-    "at": "2026-10-02T07:32:25.908614+00:00"
+    "matches_found": 0,
+    "at": "2026-10-02T14:44:18.152498+00:00"
   }
 }

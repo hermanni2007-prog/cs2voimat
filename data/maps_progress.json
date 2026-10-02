@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-02T07:33:01.760961+00:00",
-  "tournaments_total": 774,
-  "tournaments_done": 774,
+  "updated_utc": "2026-10-02T14:46:04.248729+00:00",
+  "tournaments_total": 776,
+  "tournaments_done": 776,
   "tournaments_ok": 710,
-  "tournaments_ok_no_brackets": 40,
+  "tournaments_ok_no_brackets": 42,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9250,
+  "maps_collected": 9257,
   "last_tournament": {
-    "tournament": "Stake Ranked Episode 4",
-    "status": "ok",
-    "maps_found": 5,
-    "at": "2026-10-02T07:33:01.757779+00:00"
+    "tournament": "Journey Autumn 2026 - Group A",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-10-02T14:46:04.246230+00:00"
   }
 }
