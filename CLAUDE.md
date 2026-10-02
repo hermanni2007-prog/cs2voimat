@@ -130,6 +130,14 @@ tilajakauma.
   (CI ei ole ehtinyt kerätä sitä), anna se ennusteelle muistissa:
   `--extra "Joukkue A;Joukkue B;2-0;2026-09-28T11:00"` (UTC). Sitä ei
   tallenneta, ja dedup pudottaa sen, jos sama ottelu on jo datassa.
+- **Pysyvä vaihtoehto `--extra`-riveille (2.10. alkaen):** kirjaa käyttäjän
+  antamat tuoreet tulokset (esim. HLTV-kuvat) tiedostoon
+  `data/manual_results.json`. `predict_match` lukee ne automaattisesti
+  (`src/manual_results.py`) vain muistiin ja ohittaa rivin, jos datassa on jo
+  sama joukkuepari enintään 24 tunnin päässä. Kun CI kerää ottelun, rivi
+  putoaa pois itsestään. Ohita tiedosto valinnalla `--no-manual`. Rajoitus:
+  saman parin uusintaottelu 24 tunnin sisällä (esim. lohko ja pudotuspeli)
+  ohitetaan.
 - **ÄLÄ muokkaa `data/odds.db`:tä paikallisesti ja committaa sitä.** Se on
   binääri, jonka CI omistaa, joten konflikti heittää dataa pois. Testaa
   muutokset aina tietokannan kopiolla, esim. scratch-hakemistossa.

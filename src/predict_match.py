@@ -65,6 +65,7 @@ from backtest import (  # noqa: E402
     production_k_override,
 )
 from run_format_map_model import map_elo_series_prob  # noqa: E402
+from manual_results import load_manual_results  # noqa: E402
 from run_tournament_effects import build_recent_match_index  # noqa: E402
 from xr_model import load_map_games  # noqa: E402
 from team_names import load_top50_names, resolve_to_canonical  # noqa: E402
@@ -88,6 +89,8 @@ def main() -> int:
                               '"Joukkue A;Joukkue B;2-0;2026-09-28T11:00". Kaytetaan VAIN taman '
                               'ennusteen ajan, EI tallenneta tietokantaan (kasin syotetyt rivit '
                               'aiheuttivat tuplia). Jos sama ottelu on jo datassa, dedup poistaa sen.')
+    parser.add_argument("--no-manual", action="store_true",
+                         help="Ala lue data/manual_results.json-tiedostoa.")
     args = parser.parse_args()
     match_type = "Online" if args.online else None
 
@@ -105,6 +108,13 @@ def main() -> int:
         matches.append(MatchRow(date=when_dt, team=ca, opponent=cb, tier=None, match_type="Offline",
                                 tournament="--extra", team_won=int(sa > sb), score_team=sa, score_opponent=sb))
         print(f"  (lisatty vain tahan ennusteeseen: {ca} {sa}-{sb} {cb}, {when_dt.isoformat()[:16]} UTC)")
+    # 2026-10-02: kayttajan antamat tuoreet tulokset (data/manual_results.json),
+    # vain muistissa; jo datassa olevat ohitetaan (ks. manual_results.py).
+    if not args.no_manual:
+        manual, skipped = load_manual_results(matches, load_top50_names())
+        matches.extend(manual)
+        if manual or skipped:
+            print(f"  (manual_results.json: {len(manual)} tulosta lisatty muistiin, {skipped} jo datassa -> ohitettu)")
     matches.sort(key=lambda m: m.date)
     matches = deduplicate_matches(matches)
 

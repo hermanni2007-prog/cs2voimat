@@ -1,0 +1,672 @@
+[
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "100 Thieves",
+  "opponent": "Anteiku",
+  "score_team": 13,
+  "score_opponent": 3,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "BC.Game",
+  "opponent": "Glitch",
+  "score_team": 13,
+  "score_opponent": 3,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "X3pt",
+  "score_team": 13,
+  "score_opponent": 2,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "JiJieHao",
+  "opponent": "Esport Academy Copenhagen Extra",
+  "score_team": 13,
+  "score_opponent": 6,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "SINNERS",
+  "opponent": "Lilmix",
+  "score_team": 13,
+  "score_opponent": 6,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "Sashi",
+  "opponent": "Prestige Esport",
+  "score_team": 7,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "SB Expert",
+  "opponent": "HAVU",
+  "score_team": 13,
+  "score_opponent": 9,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "Eternal Fire",
+  "opponent": "Nordic Partners Gaming",
+  "score_team": 13,
+  "score_opponent": 7,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "FOKUS",
+  "opponent": "Matrix (Ukrainian team)",
+  "score_team": 13,
+  "score_opponent": 9,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "9INE",
+  "opponent": "Johnny Speeds",
+  "score_team": 9,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "BASEMENT BOYS",
+  "opponent": "Team Voca",
+  "score_team": 14,
+  "score_opponent": 16,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T12:00:00+00:00",
+  "team": "BBL",
+  "opponent": "Sangal Esports",
+  "score_team": 10,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "100 Thieves",
+  "opponent": "Lilmix",
+  "score_team": 13,
+  "score_opponent": 3,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "X3pt",
+  "opponent": "HAVU",
+  "score_team": 4,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "Glitch",
+  "opponent": "Team Voca",
+  "score_team": 1,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "Esport Academy Copenhagen Extra",
+  "opponent": "Johnny Speeds",
+  "score_team": 7,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "Anteiku",
+  "opponent": "Nordic Partners Gaming",
+  "score_team": 8,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "JiJieHao",
+  "opponent": "Matrix (Ukrainian team)",
+  "score_team": 13,
+  "score_opponent": 10,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "Sashi",
+  "opponent": "BASEMENT BOYS",
+  "score_team": 13,
+  "score_opponent": 9,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "SINNERS",
+  "opponent": "Eternal Fire",
+  "score_team": 13,
+  "score_opponent": 16,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "BBL",
+  "opponent": "SB Expert",
+  "score_team": 13,
+  "score_opponent": 4,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "FOKUS",
+  "opponent": "9INE",
+  "score_team": 13,
+  "score_opponent": 9,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "Sangal Esports",
+  "score_team": 4,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T13:00:00+00:00",
+  "team": "BC.Game",
+  "opponent": "Prestige Esport",
+  "score_team": 14,
+  "score_opponent": 16,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "JiJieHao",
+  "opponent": "Johnny Speeds",
+  "score_team": 13,
+  "score_opponent": 3,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "X3pt",
+  "opponent": "BBL",
+  "score_team": 2,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Anteiku",
+  "opponent": "SINNERS",
+  "score_team": 3,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "100 Thieves",
+  "opponent": "Nordic Partners Gaming",
+  "score_team": 13,
+  "score_opponent": 1,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Esport Academy Copenhagen Extra",
+  "opponent": "FOKUS",
+  "score_team": 1,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Sangal Esports",
+  "opponent": "SB Expert",
+  "score_team": 13,
+  "score_opponent": 4,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Lilmix",
+  "opponent": "Eternal Fire",
+  "score_team": 8,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Glitch",
+  "opponent": "Sashi",
+  "score_team": 13,
+  "score_opponent": 8,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "BC.Game",
+  "opponent": "Team Voca",
+  "score_team": 13,
+  "score_opponent": 6,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Matrix (Ukrainian team)",
+  "opponent": "9INE",
+  "score_team": 10,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "HAVU",
+  "score_team": 13,
+  "score_opponent": 10,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T14:00:00+00:00",
+  "team": "Prestige Esport",
+  "opponent": "BASEMENT BOYS",
+  "score_team": 11,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Johnny Speeds",
+  "opponent": "FOKUS",
+  "score_team": 1,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Sangal Esports",
+  "opponent": "X3pt",
+  "score_team": 13,
+  "score_opponent": 7,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Nordic Partners Gaming",
+  "opponent": "SINNERS",
+  "score_team": 6,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "SB Expert",
+  "score_team": 13,
+  "score_opponent": 1,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Matrix (Ukrainian team)",
+  "opponent": "Esport Academy Copenhagen Extra",
+  "score_team": 3,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "HAVU",
+  "opponent": "BBL",
+  "score_team": 6,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "BC.Game",
+  "opponent": "BASEMENT BOYS",
+  "score_team": 13,
+  "score_opponent": 2,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Team Voca",
+  "opponent": "Sashi",
+  "score_team": 13,
+  "score_opponent": 9,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Prestige Esport",
+  "opponent": "Glitch",
+  "score_team": 7,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "JiJieHao",
+  "opponent": "9INE",
+  "score_team": 13,
+  "score_opponent": 11,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Lilmix",
+  "opponent": "Anteiku",
+  "score_team": 16,
+  "score_opponent": 12,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "100 Thieves",
+  "opponent": "Eternal Fire",
+  "score_team": 16,
+  "score_opponent": 12,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "SB Expert",
+  "opponent": "X3pt",
+  "score_team": 13,
+  "score_opponent": 2,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "Team Voca",
+  "opponent": "Prestige Esport",
+  "score_team": 13,
+  "score_opponent": 3,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "BASEMENT BOYS",
+  "opponent": "Glitch",
+  "score_team": 13,
+  "score_opponent": 3,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "Johnny Speeds",
+  "opponent": "Matrix (Ukrainian team)",
+  "score_team": 12,
+  "score_opponent": 16,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "Eternal Fire",
+  "opponent": "Anteiku",
+  "score_team": 13,
+  "score_opponent": 4,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "Nordic Partners Gaming",
+  "opponent": "Lilmix",
+  "score_team": 13,
+  "score_opponent": 7,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "100 Thieves",
+  "opponent": "SINNERS",
+  "score_team": 5,
+  "score_opponent": 13,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "JiJieHao",
+  "opponent": "FOKUS",
+  "score_team": 13,
+  "score_opponent": 8,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "BC.Game",
+  "opponent": "Sashi",
+  "score_team": 13,
+  "score_opponent": 11,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "HAVU",
+  "opponent": "Sangal Esports",
+  "score_team": 16,
+  "score_opponent": 12,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "9INE",
+  "opponent": "Esport Academy Copenhagen Extra",
+  "score_team": 13,
+  "score_opponent": 11,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T16:00:00+00:00",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "BBL",
+  "score_team": 16,
+  "score_opponent": 12,
+  "tournament": "Journey Autumn 2026 (Bo1)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 2.10. (kierroksen aika arvioitu)"
+ },
+ {
+  "date_utc": "2026-10-02T15:00:00+00:00",
+  "team": "Luminosity",
+  "opponent": "BIG",
+  "score_team": 2,
+  "score_opponent": 1,
+  "tournament": "Stake Ranked Episode 4",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T17:30:00+00:00",
+  "team": "Alliance",
+  "opponent": "Nemiga",
+  "score_team": 0,
+  "score_opponent": 2,
+  "tournament": "Stake Ranked Episode 4",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T18:00:00+00:00",
+  "team": "Ninjas in Pyjamas",
+  "opponent": "Johnny Speeds",
+  "score_team": 2,
+  "score_opponent": 0,
+  "tournament": "Journey Autumn 2026 (Bo3)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T18:00:00+00:00",
+  "team": "FOKUS",
+  "opponent": "BBL",
+  "score_team": 1,
+  "score_opponent": 2,
+  "tournament": "Journey Autumn 2026 (Bo3)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T18:30:00+00:00",
+  "team": "Team Voca",
+  "opponent": "100 Thieves",
+  "score_team": 0,
+  "score_opponent": 2,
+  "tournament": "Journey Autumn 2026 (Bo3)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T18:30:00+00:00",
+  "team": "Eternal Fire",
+  "opponent": "BASEMENT BOYS",
+  "score_team": 2,
+  "score_opponent": 1,
+  "tournament": "Journey Autumn 2026 (Bo3)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ },
+ {
+  "date_utc": "2026-10-02T22:00:00+00:00",
+  "team": "K27",
+  "opponent": "Nemesis",
+  "score_team": 3,
+  "score_opponent": 2,
+  "tournament": "CIS LAN Championship #8 - Final (aika arvioitu)",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 3.10. klo 2.02"
+ }
+]
