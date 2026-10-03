@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-03T07:08:30.295614+00:00",
-  "tournaments_total": 780,
-  "tournaments_done": 780,
-  "tournaments_ok": 716,
-  "tournaments_ok_no_brackets": 40,
+  "updated_utc": "2026-10-03T13:21:15.153219+00:00",
+  "tournaments_total": 782,
+  "tournaments_done": 782,
+  "tournaments_ok": 717,
+  "tournaments_ok_no_brackets": 41,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9291,
+  "maps_collected": 9320,
   "last_tournament": {
     "tournament": "eXTREMESLAND 2026: OCE Qual - Playoffs",
     "status": "ok",
-    "maps_found": 5,
-    "at": "2026-10-02T23:44:24.532809+00:00"
+    "maps_found": 2,
+    "at": "2026-10-03T13:21:15.150607+00:00"
   }
 }
