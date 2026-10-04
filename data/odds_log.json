@@ -856,5 +856,27 @@
   "opponent_price": 2.5,
   "source": "user_query",
   "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T21:00:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "ShindeN",
+  "opponent": "G2",
+  "price": 5.8,
+  "opponent_price": 1.1,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10. ilta, kirja B (BB-bonus), paivitetty kerroin, Money Line."
+ },
+ {
+  "logged_utc": "2026-10-04T21:00:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "ShindeN",
+  "opponent": "G2",
+  "price": 4.5,
+  "opponent_price": 1.16,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10. ilta, TonyBet, Money Line."
  }
 ]
