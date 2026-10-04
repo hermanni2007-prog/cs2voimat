@@ -448,5 +448,41 @@
   "actual_winner": "100 Thieves",
   "profit_eur": -10.0,
   "note": "Epicbet ID 197. Lyontiaika ei tiedossa (ennen 18:30 UTC, kirjattu arviona). Tulos 100 Thieves 2-0."
+ },
+ {
+  "placed_utc": "2026-10-04T20:30:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "ShindeN",
+  "opponent": "G2",
+  "bet_on": "ShindeN",
+  "price": 5.25,
+  "stake_eur": 10.0,
+  "potential_win_eur": 52.5,
+  "model_p_bet_on": 0.42,
+  "model_ev": 1.205,
+  "model_confidence": "KOHTALAINEN (ShindeN 18 ottelua; vasymyskorjattu, raaka 0.367 -> EV +93 %)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio."
+ },
+ {
+  "placed_utc": "2026-10-04T20:30:00+00:00",
+  "match_date_utc": "2026-10-05T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Legacy",
+  "opponent": "1win",
+  "bet_on": "Legacy",
+  "price": 1.58,
+  "stake_eur": 15.0,
+  "potential_win_eur": 23.7,
+  "model_p_bet_on": 0.735,
+  "model_ev": 0.161,
+  "model_confidence": "HYVA (vanha malli myos +15 %)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio."
  }
 ]
