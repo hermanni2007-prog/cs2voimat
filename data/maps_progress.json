@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-04T18:16:32.199863+00:00",
-  "tournaments_total": 783,
-  "tournaments_done": 783,
-  "tournaments_ok": 717,
+  "updated_utc": "2026-10-04T19:40:14.773582+00:00",
+  "tournaments_total": 785,
+  "tournaments_done": 785,
+  "tournaments_ok": 719,
   "tournaments_ok_no_brackets": 42,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9365,
+  "maps_collected": 9382,
   "last_tournament": {
-    "tournament": "eXTREMESLAND 2026: OCE Qual - Playoffs",
+    "tournament": "GLuck StarPearl Season 1 - Group B",
     "status": "ok",
-    "maps_found": 4,
-    "at": "2026-10-04T18:16:32.196979+00:00"
+    "maps_found": 8,
+    "at": "2026-10-04T19:40:14.770997+00:00"
   }
 }

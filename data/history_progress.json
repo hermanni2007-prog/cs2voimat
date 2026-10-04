@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-04T18:14:46.578609+00:00",
+  "updated_utc": "2026-10-04T19:39:02.181104+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5152,
+  "matches_collected": 5242,
   "last_team": {
-    "team": "Nemiga",
+    "team": "EYEBALLERS",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-04T18:14:46.511029+00:00"
+    "at": "2026-10-04T19:39:02.178689+00:00"
   }
 }
