@@ -484,5 +484,23 @@
   "actual_winner": null,
   "profit_eur": null,
   "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio."
+ },
+ {
+  "placed_utc": "2026-10-04T20:35:00+00:00",
+  "match_date_utc": "2026-10-05T16:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Vitality",
+  "opponent": "Falcons",
+  "bet_on": "Falcons",
+  "price": 2.28,
+  "stake_eur": 20.0,
+  "potential_win_eur": 45.6,
+  "model_p_bet_on": 0.493,
+  "model_ev": 0.124,
+  "model_confidence": "HYVA (vanha malli +7 %)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Kerroin oletettu kirjan A mukaan (kirja B 2.20); lyontiaika arvio."
  }
 ]

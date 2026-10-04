@@ -289,7 +289,7 @@ Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
 Tilanne 2026-10-04 ilta: 23 ratkennutta vetoa, seitsemän voittoa ja 16
-tappiota, yhteensä −129.00 €. Avoinna ShindeN @ 5.25 ja Legacy @ 1.58 (ESL 5.10.).
+tappiota, yhteensä −129.00 €. Avoinna ShindeN @ 5.25, Legacy @ 1.58 ja Falcons @ 2.28 (ESL 5.10.).
 
 ---
 
