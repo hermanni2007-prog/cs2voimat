@@ -288,9 +288,8 @@ model_ev, model_confidence, status, actual_winner, profit_eur ja note.
 Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
-Tilanne 2026-10-04 ilta: 22 ratkennutta vetoa, seitsemän voittoa ja 15
-tappiota, yhteensä −109.00 €. Avoinna Sangal (vs Eternal Fire, Journey 3.10.):
-tulos puuttuu.
+Tilanne 2026-10-04 ilta: 23 ratkennutta vetoa, seitsemän voittoa ja 16
+tappiota, yhteensä −129.00 €. Ei avoimia vetoja.
 
 ---
 

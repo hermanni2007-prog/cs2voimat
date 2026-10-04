@@ -408,10 +408,10 @@
   "model_p_bet_on": 0.551,
   "model_ev": 0.135,
   "model_confidence": "HYVA (vanha malli vain +2 %)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "bet_id 11029294."
+  "status": "lost",
+  "actual_winner": "Eternal Fire",
+  "profit_eur": -20.0,
+  "note": "bet_id 11029294. Tulos Eternal Fire 2-0 (HLTV-kuvakaappaus)."
  },
  {
   "placed_utc": "2026-10-02T23:13:00+00:00",

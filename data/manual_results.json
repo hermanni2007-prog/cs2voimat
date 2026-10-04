@@ -738,5 +738,15 @@
   "tournament": "ESL Pro League Season 24",
   "match_type": "Offline",
   "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
+ },
+ {
+  "date_utc": "2026-10-03T09:00:00+00:00",
+  "team": "Sangal Esports",
+  "opponent": "Eternal Fire",
+  "score_team": 0,
+  "score_opponent": 2,
+  "tournament": "Journey Autumn 2026 - Playoffs",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10."
  }
 ]
