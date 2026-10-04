@@ -210,10 +210,10 @@
   "model_p_bet_on": 0.734,
   "model_ev": 0.431,
   "model_confidence": "HYVA (karttatason Elo, korjattu, LAN Bo3)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Varmin valinta mallin mukaan."
+  "status": "lost",
+  "actual_winner": "PARIVISION",
+  "profit_eur": -22.8,
+  "note": "Varmin valinta mallin mukaan. Tulos PARIVISION 2-1 (data)."
  },
  {
   "placed_utc": "2026-10-01T23:16:00+00:00",
@@ -246,10 +246,10 @@
   "model_p_bet_on": 0.617,
   "model_ev": 0.037,
   "model_confidence": "HYVA (karttatason Elo, korjattu, LAN Bo3)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Pieni etu (+4 %), ei varmimpien listalla."
+  "status": "lost",
+  "actual_winner": "Natus Vincere",
+  "profit_eur": -25.0,
+  "note": "Pieni etu (+4 %), ei varmimpien listalla. Tulos NaVi 2-0 (data)."
  },
  {
   "placed_utc": "2026-10-01T23:29:00+00:00",
@@ -390,10 +390,10 @@
   "model_p_bet_on": 0.487,
   "model_ev": 0.261,
   "model_confidence": "KOHTALAINEN (BBL 22 ottelua; vanha malli myos +EV)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "bet_id 11029288."
+  "status": "won",
+  "actual_winner": "BBL",
+  "profit_eur": 31.8,
+  "note": "bet_id 11029288. Tulos BBL 2-1 (data)."
  },
  {
   "placed_utc": "2026-10-02T23:13:00+00:00",
@@ -426,10 +426,10 @@
   "model_p_bet_on": 0.494,
   "model_ev": 0.082,
   "model_confidence": "HYVA (pieni etu, alle 10 %)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "bet_id 11029301."
+  "status": "lost",
+  "actual_winner": "Astralis",
+  "profit_eur": -10.0,
+  "note": "bet_id 11029301. Tulos Astralis 2-1 (data)."
  },
  {
   "placed_utc": "2026-10-02T18:00:00+00:00",

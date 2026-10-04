@@ -288,9 +288,9 @@ model_ev, model_confidence, status, actual_winner, profit_eur ja note.
 Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
-Tilanne 2026-10-03 yö: 17 ratkennutta vetoa, kuusi voittoa ja 11
-tappiota, yhteensä −63.00 €. Avoinna kuusi vetoa: ESL 3.10. (Legacy, BetBoom,
-G2), Journey 3.10. (BBL, Sangal) ja Stake Ranked 3.10. (BIG).
+Tilanne 2026-10-04: 21 ratkennutta vetoa, seitsemän voittoa ja 14 tappiota,
+yhteensä −89.00 €. Avoinna kaksi vetoa, joiden tulos puuttuu datasta:
+BetBoom (vs FURIA, ESL 3.10.) ja Sangal (vs Eternal Fire, Journey 3.10.).
 
 ---
 
