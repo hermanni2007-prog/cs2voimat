@@ -691,5 +691,170 @@
   "opponent_price": 1.72,
   "source": "user_query",
   "note": "Kayttajan kuvakaappaus 3.10. klo 2.06 (TonyBet), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "ShindeN",
+  "opponent": "G2",
+  "price": 5.25,
+  "opponent_price": 1.15,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "PARIVISION",
+  "opponent": "FURIA",
+  "price": 2.48,
+  "opponent_price": 1.52,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Legacy",
+  "opponent": "1win",
+  "price": 1.58,
+  "opponent_price": 2.35,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Natus Vincere",
+  "opponent": "9z",
+  "price": 1.5,
+  "opponent_price": 2.55,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T14:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Spirit",
+  "opponent": "MOUZ",
+  "price": 1.5,
+  "opponent_price": 2.55,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T14:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "TYLOO",
+  "opponent": "M80",
+  "price": 1.88,
+  "opponent_price": 1.88,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T16:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Vitality",
+  "opponent": "Falcons",
+  "price": 1.62,
+  "opponent_price": 2.28,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T16:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Aurora",
+  "opponent": "BETBOOM",
+  "price": 1.5,
+  "opponent_price": 2.55,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja A (suomenkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "ShindeN",
+  "opponent": "G2",
+  "price": 5.0,
+  "opponent_price": 1.13,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Legacy",
+  "opponent": "1win",
+  "price": 1.55,
+  "opponent_price": 2.3,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Vitality",
+  "opponent": "Falcons",
+  "price": 1.58,
+  "opponent_price": 2.2,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T11:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Spirit",
+  "opponent": "MOUZ",
+  "price": 1.48,
+  "opponent_price": 2.5,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T14:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Natus Vincere",
+  "opponent": "9z",
+  "price": 1.48,
+  "opponent_price": 2.5,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T14:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "TYLOO",
+  "opponent": "M80",
+  "price": 1.85,
+  "opponent_price": 1.85,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
+ },
+ {
+  "logged_utc": "2026-10-04T20:00:00+00:00",
+  "match_date_utc": "2026-10-05T16:30:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "Aurora",
+  "opponent": "BETBOOM",
+  "price": 1.48,
+  "opponent_price": 2.5,
+  "source": "user_query",
+  "note": "Kayttajan kuvakaappaus 4.10., kirja B (BB-bonus, englanninkielinen), Money Line. Aika Suomen ajasta (UTC+3)."
  }
 ]
