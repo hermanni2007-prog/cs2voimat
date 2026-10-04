@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-04T13:39:08.230765+00:00",
-  "tournaments_total": 782,
-  "tournaments_done": 782,
+  "updated_utc": "2026-10-04T18:16:32.199863+00:00",
+  "tournaments_total": 783,
+  "tournaments_done": 783,
   "tournaments_ok": 717,
-  "tournaments_ok_no_brackets": 41,
+  "tournaments_ok_no_brackets": 42,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9356,
+  "maps_collected": 9365,
   "last_tournament": {
-    "tournament": "FOX Legacy Cup #1 - Playoffs",
+    "tournament": "eXTREMESLAND 2026: OCE Qual - Playoffs",
     "status": "ok",
-    "maps_found": 8,
-    "at": "2026-10-04T13:39:08.228030+00:00"
+    "maps_found": 4,
+    "at": "2026-10-04T18:16:32.196979+00:00"
   }
 }
