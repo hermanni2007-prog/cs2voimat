@@ -502,5 +502,23 @@
   "actual_winner": null,
   "profit_eur": null,
   "note": "Kerroin oletettu kirjan A mukaan (kirja B 2.20); lyontiaika arvio."
+ },
+ {
+  "placed_utc": "2026-10-04T21:05:00+00:00",
+  "match_date_utc": "2026-10-05T09:00:00+00:00",
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "team": "ShindeN",
+  "opponent": "G2",
+  "bet_on": "ShindeN",
+  "price": 5.8,
+  "stake_eur": 10.0,
+  "potential_win_eur": 58.0,
+  "model_p_bet_on": 0.42,
+  "model_ev": 1.436,
+  "model_confidence": "KOHTALAINEN (ShindeN 18 ottelua; vasymyskorjattu, raaka 0.367 -> EV +113 %)",
+  "status": "pending",
+  "actual_winner": null,
+  "profit_eur": null,
+  "note": "Toinen ShindeN-veto, kirja B (BB-bonus) @5.80. Lyontiaika arvio."
  }
 ]
