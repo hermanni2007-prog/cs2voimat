@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-04T01:56:50.224218+00:00",
+  "updated_utc": "2026-10-04T07:54:26.954513+00:00",
   "tournaments_total": 782,
   "tournaments_done": 782,
   "tournaments_ok": 717,
   "tournaments_ok_no_brackets": 41,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9339,
+  "maps_collected": 9348,
   "last_tournament": {
-    "tournament": "FOX Legacy Cup #1 - Playoffs",
+    "tournament": "CyberClash Season 1 - Playoffs",
     "status": "ok",
-    "maps_found": 7,
-    "at": "2026-10-03T20:12:43.758496+00:00"
+    "maps_found": 9,
+    "at": "2026-10-04T07:54:26.950529+00:00"
   }
 }
