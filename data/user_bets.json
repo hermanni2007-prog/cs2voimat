@@ -228,10 +228,10 @@
   "model_p_bet_on": 0.489,
   "model_ev": 0.183,
   "model_confidence": "HYVA (karttatason Elo, korjattu, LAN Bo3)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Kerroin laski 2.60 -> 2.42, edelleen +EV."
+  "status": "lost",
+  "actual_winner": "FURIA",
+  "profit_eur": -20.0,
+  "note": "Kerroin laski 2.60 -> 2.42, edelleen +EV. Tulos FURIA 2-0 (HLTV-kuvakaappaus 4.10.)."
  },
  {
   "placed_utc": "2026-10-01T23:16:00+00:00",

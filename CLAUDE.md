@@ -288,9 +288,9 @@ model_ev, model_confidence, status, actual_winner, profit_eur ja note.
 Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
-Tilanne 2026-10-04: 21 ratkennutta vetoa, seitsemän voittoa ja 14 tappiota,
-yhteensä −89.00 €. Avoinna kaksi vetoa, joiden tulos puuttuu datasta:
-BetBoom (vs FURIA, ESL 3.10.) ja Sangal (vs Eternal Fire, Journey 3.10.).
+Tilanne 2026-10-04 ilta: 22 ratkennutta vetoa, seitsemän voittoa ja 15
+tappiota, yhteensä −109.00 €. Avoinna Sangal (vs Eternal Fire, Journey 3.10.):
+tulos puuttuu.
 
 ---
 
@@ -302,6 +302,10 @@ BetBoom (vs FURIA, ESL 3.10.) ja Sangal (vs Eternal Fire, Journey 3.10.).
   vastaan ovat datassa. Keräin kirjaa nyt kokeillut sivunimet
   `history_team_progress.error`-kenttään (uusi yritys 24 h välein). Lue ne ja
   korjaa `TEAM_ALIASES`, jos oikea sivunimi selviää.
+- **Nimivirhe korjattu 4.10.:** 1win esiintyy Liquipediassa nimellä
+  "1w Team", joten mallilla oli 1winille 0 ottelua (46 korjauksen jälkeen).
+  Korjauksena `team_names.EXPLICIT_ALIASES` ja `TEAM_ALIASES`. Tarkista
+  samanlaiset tapaukset: joukkueet, joilla on 0 omaa riviä (WW, Fluxo).
 - **Karttatason Elo kertoimia vastaan:** tehty 30.9. (ks. kohta 6), ei etua
   vanhaan. **Käyttäjän päätös 30.9.:** karttamalli pysyy tuotannossa, koska
   rolling origin perustuu isompaan dataan (702 sarjaa vs 83 ottelua).

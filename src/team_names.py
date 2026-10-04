@@ -44,6 +44,11 @@ def load_top50_names() -> set:
 SUBTEAM_MARKERS = {"academy", "young", "blud", "reserve", "female", "next", "ares", "white", "black"}
 
 
+# Nimet, joita sanarajavertailu ei tunnista (2026-10-04: 1win esiintyy
+# Liquipediassa nimella "1w Team", joten mallilla oli 1winille 0 ottelua).
+EXPLICIT_ALIASES = {"1w team": "1win"}
+
+
 def resolve_to_canonical(name: str, canonical_names: set) -> str:
     """Palauttaa canonical_names-joukosta parhaiten tasmaavan (lyhyimman)
     nimen, tai `name` sellaisenaan jos mikaan ei tasmaa (esim. joukkue joka
@@ -53,6 +58,9 @@ def resolve_to_canonical(name: str, canonical_names: set) -> str:
     if name in canonical_names:
         return name
     key = name.lower()
+    alias = EXPLICIT_ALIASES.get(key)
+    if alias in canonical_names:
+        return alias
     words = set(re.findall(r"[a-z0-9]+", key))
     if words & SUBTEAM_MARKERS:
         return name  # todennakoisesti eri (vara-/nuoriso-)roosteri, ei yhdisteta

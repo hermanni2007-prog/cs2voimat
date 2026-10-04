@@ -161,6 +161,8 @@ TEAM_ALIASES = {
     "ASTRAL": "ASTRAL Esports",
     "Imperial": "Imperial Esports",
     "Butterfly": "Butterfly (Russian team)",
+    # 2026-10-04: 1winin sivu Liquipediassa on "1w Team" (vastustajasarakkeen nimi).
+    "1win": "1w Team",
 }
 
 

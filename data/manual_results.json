@@ -678,5 +678,65 @@
   "tournament": "Stake Ranked Episode 4",
   "match_type": "Offline",
   "source": "HLTV-kuvakaappaus 2.10. (aika kertoimista)"
+ },
+ {
+  "date_utc": "2026-10-03T14:00:00+00:00",
+  "team": "FURIA",
+  "opponent": "BETBOOM",
+  "score_team": 2,
+  "score_opponent": 0,
+  "tournament": "ESL Pro League Season 24",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
+ },
+ {
+  "date_utc": "2026-10-04T11:30:00+00:00",
+  "team": "Falcons",
+  "opponent": "Aurora",
+  "score_team": 2,
+  "score_opponent": 0,
+  "tournament": "ESL Pro League Season 24",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
+ },
+ {
+  "date_utc": "2026-10-04T14:00:00+00:00",
+  "team": "FURIA",
+  "opponent": "MOUZ",
+  "score_team": 0,
+  "score_opponent": 2,
+  "tournament": "ESL Pro League Season 24",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
+ },
+ {
+  "date_utc": "2026-10-04T14:00:00+00:00",
+  "team": "G2",
+  "opponent": "1win",
+  "score_team": 1,
+  "score_opponent": 2,
+  "tournament": "ESL Pro League Season 24",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
+ },
+ {
+  "date_utc": "2026-10-04T16:30:00+00:00",
+  "team": "Vitality",
+  "opponent": "Natus Vincere",
+  "score_team": 2,
+  "score_opponent": 1,
+  "tournament": "ESL Pro League Season 24",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
+ },
+ {
+  "date_utc": "2026-10-04T16:30:00+00:00",
+  "team": "BETBOOM",
+  "opponent": "M80",
+  "score_team": 2,
+  "score_opponent": 0,
+  "tournament": "ESL Pro League Season 24",
+  "match_type": "Offline",
+  "source": "HLTV-kuvakaappaus 4.10. (aika arvioitu kierroksen mukaan)"
  }
 ]
