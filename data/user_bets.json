@@ -498,10 +498,10 @@
   "model_p_bet_on": 0.493,
   "model_ev": 0.124,
   "model_confidence": "HYVA (vanha malli +7 %)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Kerroin oletettu kirjan A mukaan (kirja B 2.20); lyontiaika arvio."
+  "status": "lost",
+  "actual_winner": "Vitality",
+  "profit_eur": -20.0,
+  "note": "Kerroin oletettu kirjan A mukaan (kirja B 2.20); lyontiaika arvio. Tulos Vitality 2-1 (kayttaja)."
  },
  {
   "placed_utc": "2026-10-04T21:05:00+00:00",

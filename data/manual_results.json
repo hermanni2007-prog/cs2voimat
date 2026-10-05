@@ -748,5 +748,15 @@
   "tournament": "Journey Autumn 2026 - Playoffs",
   "match_type": "Offline",
   "source": "HLTV-kuvakaappaus 4.10."
+ },
+ {
+  "date_utc": "2026-10-05T16:30:00+00:00",
+  "team": "Vitality",
+  "opponent": "Falcons",
+  "score_team": 2,
+  "score_opponent": 1,
+  "tournament": "ESL Pro League Season 24 - Round 3",
+  "match_type": "Offline",
+  "source": "kayttaja 5.10. (aika arvioitu)"
  }
 ]
