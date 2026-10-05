@@ -1,4 +1,4 @@
-Ajettu: 2026-10-05T02:53:55Z
+Ajettu: 2026-10-05T09:53:43Z
 Kartat: 9345 (top75-vs-top75 2126), train/test-raja 2026-09-05
 Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.486, 'Cache': 0.528, 'Dust II': 0.51, 'Inferno': 0.514, 'Mirage': 0.547, 'Nuke': 0.549, 'Overpass': 0.551, '_all': 0.528}
 
