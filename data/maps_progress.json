@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-05T09:53:42.481876+00:00",
-  "tournaments_total": 785,
-  "tournaments_done": 785,
+  "updated_utc": "2026-10-05T19:15:42.097288+00:00",
+  "tournaments_total": 787,
+  "tournaments_done": 787,
   "tournaments_ok": 719,
-  "tournaments_ok_no_brackets": 42,
+  "tournaments_ok_no_brackets": 44,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 9387,
   "last_tournament": {
-    "tournament": "CyberClash Season 1 - Playoffs",
-    "status": "ok",
-    "maps_found": 5,
-    "at": "2026-10-05T02:53:55.225246+00:00"
+    "tournament": "CCT EU 2026 Series #10 - Round 4",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-10-05T19:15:42.095231+00:00"
   }
 }
