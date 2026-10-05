@@ -288,8 +288,8 @@ model_ev, model_confidence, status, actual_winner, profit_eur ja note.
 Tulokset päivitetään datasta tai käyttäjän kuvakaappauksesta, ja lopuksi
 tehdään commit ja push.
 
-Tilanne 2026-10-04 ilta: 23 ratkennutta vetoa, seitsemän voittoa ja 16
-tappiota, yhteensä −129.00 €. Avoinna ShindeN @ 5.25 ja @ 5.80, Legacy @ 1.58 ja Falcons @ 2.28 (ESL 5.10.).
+Tilanne 2026-10-05 ilta: 26 ratkennutta vetoa, seitsemän voittoa ja 19
+tappiota, yhteensä −164.00 €. Avoinna Falcons @ 2.28 (vs Vitality, ESL 5.10.).
 
 ---
 

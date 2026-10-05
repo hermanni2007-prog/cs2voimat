@@ -462,10 +462,10 @@
   "model_p_bet_on": 0.42,
   "model_ev": 1.205,
   "model_confidence": "KOHTALAINEN (ShindeN 18 ottelua; vasymyskorjattu, raaka 0.367 -> EV +93 %)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio."
+  "status": "lost",
+  "actual_winner": "G2",
+  "profit_eur": -10.0,
+  "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio. Tulos G2 2-0 (data)."
  },
  {
   "placed_utc": "2026-10-04T20:30:00+00:00",
@@ -480,10 +480,10 @@
   "model_p_bet_on": 0.735,
   "model_ev": 0.161,
   "model_confidence": "HYVA (vanha malli myos +15 %)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio."
+  "status": "lost",
+  "actual_winner": "1win",
+  "profit_eur": -15.0,
+  "note": "Kerroin oletettu kirjan A mukaan (kayttaja ei kertonut kirjaa); lyontiaika arvio. Tulos 1win 2-0 (data)."
  },
  {
   "placed_utc": "2026-10-04T20:35:00+00:00",
@@ -516,9 +516,9 @@
   "model_p_bet_on": 0.42,
   "model_ev": 1.436,
   "model_confidence": "KOHTALAINEN (ShindeN 18 ottelua; vasymyskorjattu, raaka 0.367 -> EV +113 %)",
-  "status": "pending",
-  "actual_winner": null,
-  "profit_eur": null,
-  "note": "Toinen ShindeN-veto, kirja B (BB-bonus) @5.80. Lyontiaika arvio."
+  "status": "lost",
+  "actual_winner": "G2",
+  "profit_eur": -10.0,
+  "note": "Toinen ShindeN-veto, kirja B (BB-bonus) @5.80. Lyontiaika arvio. Tulos G2 2-0 (data)."
  }
 ]
