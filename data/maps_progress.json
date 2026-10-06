@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-06T07:10:03.413896+00:00",
-  "tournaments_total": 787,
-  "tournaments_done": 787,
+  "updated_utc": "2026-10-06T14:13:36.634943+00:00",
+  "tournaments_total": 788,
+  "tournaments_done": 788,
   "tournaments_ok": 719,
-  "tournaments_ok_no_brackets": 44,
+  "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 9387,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #10 - Round 4",
+    "tournament": "ESL Pro League Season 24 - Round 4",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-10-05T19:15:42.095231+00:00"
+    "at": "2026-10-06T14:13:36.631829+00:00"
   }
 }
