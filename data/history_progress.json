@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-06T14:13:00.335224+00:00",
+  "updated_utc": "2026-10-06T19:02:38.865960+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -8,9 +8,9 @@
   "teams_error": 0,
   "matches_collected": 5272,
   "last_team": {
-    "team": "EYEBALLERS",
-    "status": "ok",
+    "team": "THUNDERdOWNUNDER",
+    "status": "not_found",
     "matches_found": 0,
-    "at": "2026-10-06T14:13:00.333239+00:00"
+    "at": "2026-10-06T19:02:38.863836+00:00"
   }
 }
