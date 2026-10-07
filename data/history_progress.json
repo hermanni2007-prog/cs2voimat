@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-07T09:21:16.782582+00:00",
+  "updated_utc": "2026-10-07T16:28:08.783114+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5285,
+  "matches_collected": 5288,
   "last_team": {
     "team": "FaZe",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-07T09:21:16.780189+00:00"
+    "at": "2026-10-07T16:28:08.781280+00:00"
   }
 }
