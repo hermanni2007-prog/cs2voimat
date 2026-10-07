@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-06T22:58:01.167137+00:00",
-  "tournaments_total": 788,
-  "tournaments_done": 788,
-  "tournaments_ok": 719,
+  "updated_utc": "2026-10-07T02:56:24.472442+00:00",
+  "tournaments_total": 789,
+  "tournaments_done": 789,
+  "tournaments_ok": 720,
   "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9387,
+  "maps_collected": 9391,
   "last_tournament": {
-    "tournament": "ESL Pro League Season 24 - Round 4",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-10-06T14:13:36.631829+00:00"
+    "tournament": "eXTREMESLAND 2026: CA OQ1",
+    "status": "ok",
+    "maps_found": 4,
+    "at": "2026-10-07T02:56:24.469499+00:00"
   }
 }
