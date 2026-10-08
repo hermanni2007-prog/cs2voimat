@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-07T20:50:30.806862+00:00",
-  "tournaments_total": 791,
-  "tournaments_done": 791,
-  "tournaments_ok": 721,
-  "tournaments_ok_no_brackets": 46,
+  "updated_utc": "2026-10-08T01:08:32.684455+00:00",
+  "tournaments_total": 792,
+  "tournaments_done": 792,
+  "tournaments_ok": 723,
+  "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9394,
+  "maps_collected": 9403,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #10 - Playoffs",
+    "tournament": "1win Private Club #2: CQ",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-10-07T16:29:19.659108+00:00"
+    "maps_found": 9,
+    "at": "2026-10-08T01:08:32.681185+00:00"
   }
 }
