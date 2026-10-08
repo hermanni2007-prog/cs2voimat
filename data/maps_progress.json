@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-08T06:41:02.074906+00:00",
-  "tournaments_total": 792,
-  "tournaments_done": 792,
-  "tournaments_ok": 723,
+  "updated_utc": "2026-10-08T14:38:08.535763+00:00",
+  "tournaments_total": 793,
+  "tournaments_done": 793,
+  "tournaments_ok": 724,
   "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9403,
+  "maps_collected": 9415,
   "last_tournament": {
-    "tournament": "1win Private Club #2: CQ",
+    "tournament": "eXTREMESLAND 2026: CA OQ2",
     "status": "ok",
-    "maps_found": 9,
-    "at": "2026-10-08T01:08:32.681185+00:00"
+    "maps_found": 4,
+    "at": "2026-10-08T14:38:08.533024+00:00"
   }
 }
