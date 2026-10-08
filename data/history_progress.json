@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-08T01:07:22.011833+00:00",
+  "updated_utc": "2026-10-08T06:41:01.827792+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -8,9 +8,9 @@
   "teams_error": 0,
   "matches_collected": 5294,
   "last_team": {
-    "team": "FaZe",
+    "team": "DENDELE",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-08T01:07:22.009505+00:00"
+    "at": "2026-10-08T06:41:01.824840+00:00"
   }
 }
