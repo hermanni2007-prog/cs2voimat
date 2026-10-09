@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-08T19:49:40.059877+00:00",
-  "tournaments_total": 793,
-  "tournaments_done": 793,
-  "tournaments_ok": 724,
+  "updated_utc": "2026-10-09T00:41:37.255003+00:00",
+  "tournaments_total": 795,
+  "tournaments_done": 795,
+  "tournaments_ok": 726,
   "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9415,
+  "maps_collected": 9467,
   "last_tournament": {
-    "tournament": "eXTREMESLAND 2026: CA OQ2",
+    "tournament": "Roman Imperium Cup IX - Playoffs",
     "status": "ok",
-    "maps_found": 4,
-    "at": "2026-10-08T14:38:08.533024+00:00"
+    "maps_found": 14,
+    "at": "2026-10-09T00:41:37.252639+00:00"
   }
 }
