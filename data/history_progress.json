@@ -1,15 +1,15 @@
 {
-  "updated_utc": "2026-10-09T05:56:20.423115+00:00",
+  "updated_utc": "2026-10-09T13:05:57.252132+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 75,
-  "teams_ok": 68,
+  "teams_done": 7,
+  "teams_ok": 0,
   "teams_not_found": 7,
   "teams_error": 0,
   "matches_collected": 5307,
   "last_team": {
     "team": "DENDELE",
-    "status": "ok",
+    "status": "pending",
     "matches_found": 0,
     "at": "2026-10-09T00:39:51.641955+00:00"
   }
