@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-10T15:04:30.173799+00:00",
+  "updated_utc": "2026-10-10T19:12:04.992735+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5332,
+  "matches_collected": 5336,
   "last_team": {
-    "team": "HEROIC",
+    "team": "Wildcard",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-10T15:04:30.171594+00:00"
+    "at": "2026-10-10T19:12:04.990343+00:00"
   }
 }
