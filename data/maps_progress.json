@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-10T19:12:41.250170+00:00",
-  "tournaments_total": 798,
-  "tournaments_done": 798,
-  "tournaments_ok": 729,
+  "updated_utc": "2026-10-10T22:50:37.278129+00:00",
+  "tournaments_total": 800,
+  "tournaments_done": 800,
+  "tournaments_ok": 731,
   "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9518,
+  "maps_collected": 9588,
   "last_tournament": {
-    "tournament": "ESL Pro League Season 24 - Playoffs",
+    "tournament": "Stake Ranked Ep. 6 OQ",
     "status": "ok",
-    "maps_found": 4,
-    "at": "2026-10-10T19:12:41.246933+00:00"
+    "maps_found": 24,
+    "at": "2026-10-10T22:50:37.275575+00:00"
   }
 }
