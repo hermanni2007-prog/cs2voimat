@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-10T02:55:50.113714+00:00",
+  "updated_utc": "2026-10-10T08:58:23.156912+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5328,
+  "matches_collected": 5329,
   "last_team": {
-    "team": "DENDELE",
+    "team": "Wildcard",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-10T02:55:50.110951+00:00"
+    "at": "2026-10-10T08:58:23.154399+00:00"
   }
 }
