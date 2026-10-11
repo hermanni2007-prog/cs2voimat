@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-10T22:47:41.704902+00:00",
+  "updated_utc": "2026-10-11T01:28:25.410567+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5347,
+  "matches_collected": 5349,
   "last_team": {
-    "team": "HEROIC",
+    "team": "FlyQuest",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-10T22:47:41.703081+00:00"
+    "at": "2026-10-11T01:28:25.408294+00:00"
   }
 }
