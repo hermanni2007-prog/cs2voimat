@@ -1,2 +1,2 @@
-Ajettu: 2026-10-11T14:08:26Z
-[HUOMIO] 7 joukkuetta yli 24h vanhaa (esim. BBL, 36h)
+Ajettu: 2026-10-11T19:33:06Z
+[VIRHE] 7 joukkueen omaa sivua ei loydy (niiden ottelut muita kuin top75-joukkueita vastaan puuttuvat): ['BBL', 'Jam', 'Color', 'Butterfly', 'ASTRAL', 'ex-Zero Tenacity', 'THUNDERdOWNUNDER']
