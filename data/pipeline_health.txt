@@ -1,2 +1,2 @@
-Ajettu: 2026-10-12T02:21:59Z
+Ajettu: 2026-10-12T08:29:05Z
 [VIRHE] 7 joukkueen omaa sivua ei loydy (niiden ottelut muita kuin top75-joukkueita vastaan puuttuvat): ['BBL', 'Jam', 'Color', 'Butterfly', 'ASTRAL', 'ex-Zero Tenacity', 'THUNDERdOWNUNDER']
