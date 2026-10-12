@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-11T22:31:19.705635+00:00",
+  "updated_utc": "2026-10-12T02:21:59.628688+00:00",
   "tournaments_total": 804,
   "tournaments_done": 804,
   "tournaments_ok": 735,
   "tournaments_ok_no_brackets": 45,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9660,
+  "maps_collected": 9675,
   "last_tournament": {
-    "tournament": "Exort Series #33 - Playoffs",
+    "tournament": "Stake Ranked Ep. 6 OQ",
     "status": "ok",
-    "maps_found": 20,
-    "at": "2026-10-11T19:33:06.416335+00:00"
+    "maps_found": 10,
+    "at": "2026-10-12T02:21:59.625065+00:00"
   }
 }
