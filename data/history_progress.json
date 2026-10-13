@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-12T17:47:18.099814+00:00",
+  "updated_utc": "2026-10-13T00:28:46.922155+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 7,
-  "teams_ok": 0,
+  "teams_done": 75,
+  "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5392,
+  "matches_collected": 5407,
   "last_team": {
     "team": "HOTU",
-    "status": "pending",
+    "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-12T08:29:04.881204+00:00"
+    "at": "2026-10-13T00:28:46.920086+00:00"
   }
 }

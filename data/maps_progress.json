@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-12T17:47:18.595149+00:00",
-  "tournaments_total": 804,
-  "tournaments_done": 804,
+  "updated_utc": "2026-10-13T00:31:07.652006+00:00",
+  "tournaments_total": 806,
+  "tournaments_done": 806,
   "tournaments_ok": 735,
-  "tournaments_ok_no_brackets": 45,
+  "tournaments_ok_no_brackets": 47,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9675,
+  "maps_collected": 9719,
   "last_tournament": {
-    "tournament": "Stake Ranked Ep. 6 OQ",
+    "tournament": "ECL Season 52: AS Cup #3",
     "status": "ok",
-    "maps_found": 10,
-    "at": "2026-10-12T02:21:59.625065+00:00"
+    "maps_found": 28,
+    "at": "2026-10-13T00:31:07.649535+00:00"
   }
 }
