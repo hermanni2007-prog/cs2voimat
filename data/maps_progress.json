@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-14T17:32:45.476730+00:00",
-  "tournaments_total": 808,
-  "tournaments_done": 808,
-  "tournaments_ok": 736,
-  "tournaments_ok_no_brackets": 48,
+  "updated_utc": "2026-10-14T21:39:07.516694+00:00",
+  "tournaments_total": 812,
+  "tournaments_done": 812,
+  "tournaments_ok": 737,
+  "tournaments_ok_no_brackets": 51,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9743,
+  "maps_collected": 9757,
   "last_tournament": {
-    "tournament": "Stake Pulse Beat III - Group B",
+    "tournament": "NODWIN Clutch Series #13 - Round 1",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-10-14T13:08:21.931318+00:00"
+    "at": "2026-10-14T21:39:07.514414+00:00"
   }
 }
