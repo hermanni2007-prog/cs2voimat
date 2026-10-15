@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-15T12:42:30.335804+00:00",
-  "tournaments_total": 814,
-  "tournaments_done": 814,
-  "tournaments_ok": 737,
-  "tournaments_ok_no_brackets": 53,
+  "updated_utc": "2026-10-15T18:05:25.088825+00:00",
+  "tournaments_total": 816,
+  "tournaments_done": 816,
+  "tournaments_ok": 738,
+  "tournaments_ok_no_brackets": 54,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 9757,
   "last_tournament": {
-    "tournament": "Thunderpick World Champ. '26 - Group B",
+    "tournament": "Elisa BreakOut Series #2 - Group A",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-10-15T07:59:28.523966+00:00"
+    "at": "2026-10-15T18:05:25.086056+00:00"
   }
 }
