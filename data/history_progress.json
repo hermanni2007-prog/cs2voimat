@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-14T23:51:48.649237+00:00",
+  "updated_utc": "2026-10-15T01:56:05.105082+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -8,9 +8,9 @@
   "teams_error": 0,
   "matches_collected": 5443,
   "last_team": {
-    "team": "HOTU",
-    "status": "ok",
-    "matches_found": 3,
-    "at": "2026-10-14T21:35:36.896184+00:00"
+    "team": "THUNDERdOWNUNDER",
+    "status": "not_found",
+    "matches_found": 0,
+    "at": "2026-10-15T01:56:05.102989+00:00"
   }
 }
