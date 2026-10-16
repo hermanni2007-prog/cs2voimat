@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-16T06:19:16.141885+00:00",
-  "tournaments_total": 816,
-  "tournaments_done": 816,
-  "tournaments_ok": 738,
+  "updated_utc": "2026-10-16T12:16:08.251918+00:00",
+  "tournaments_total": 819,
+  "tournaments_done": 819,
+  "tournaments_ok": 741,
   "tournaments_ok_no_brackets": 54,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9757,
+  "maps_collected": 9770,
   "last_tournament": {
-    "tournament": "Thunderpick World Champ. '26 - Group B",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-10-16T02:08:35.641430+00:00"
+    "tournament": "Stake Pulse Beat III - Playoffs",
+    "status": "ok",
+    "maps_found": 3,
+    "at": "2026-10-16T12:16:08.249220+00:00"
   }
 }
