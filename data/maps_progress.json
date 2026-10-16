@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-16T15:29:42.299945+00:00",
-  "tournaments_total": 819,
-  "tournaments_done": 819,
-  "tournaments_ok": 741,
-  "tournaments_ok_no_brackets": 54,
+  "updated_utc": "2026-10-16T19:39:38.482956+00:00",
+  "tournaments_total": 820,
+  "tournaments_done": 820,
+  "tournaments_ok": 743,
+  "tournaments_ok_no_brackets": 53,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9770,
+  "maps_collected": 9777,
   "last_tournament": {
-    "tournament": "Stake Pulse Beat III - Playoffs",
+    "tournament": "Logitech G Pro Series 2026 - Group B",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-10-16T12:16:08.249220+00:00"
+    "maps_found": 0,
+    "at": "2026-10-16T19:39:38.447779+00:00"
   }
 }
