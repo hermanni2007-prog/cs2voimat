@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-17T09:24:49.176727+00:00",
+  "updated_utc": "2026-10-17T13:10:08.052981+00:00",
   "tournaments_total": 821,
   "tournaments_done": 821,
   "tournaments_ok": 745,
   "tournaments_ok_no_brackets": 52,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9806,
+  "maps_collected": 9814,
   "last_tournament": {
-    "tournament": "Logitech G Pro Series 2026 - Playoffs",
+    "tournament": "PGL Bucharest 2027 Qual",
     "status": "ok",
-    "maps_found": 5,
-    "at": "2026-10-17T05:21:23.724155+00:00"
+    "maps_found": 4,
+    "at": "2026-10-17T13:10:08.050545+00:00"
   }
 }
