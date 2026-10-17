@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-17T17:59:03.412302+00:00",
-  "tournaments_total": 821,
-  "tournaments_done": 821,
-  "tournaments_ok": 745,
-  "tournaments_ok_no_brackets": 52,
+  "updated_utc": "2026-10-17T21:12:13.759496+00:00",
+  "tournaments_total": 823,
+  "tournaments_done": 823,
+  "tournaments_ok": 746,
+  "tournaments_ok_no_brackets": 53,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9814,
+  "maps_collected": 9841,
   "last_tournament": {
-    "tournament": "PGL Bucharest 2027 Qual",
-    "status": "ok",
-    "maps_found": 4,
-    "at": "2026-10-17T13:10:08.050545+00:00"
+    "tournament": "NODWIN Clutch Series #13 - Round 2",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-10-17T21:12:13.756993+00:00"
   }
 }
