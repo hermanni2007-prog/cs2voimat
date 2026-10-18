@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-18T18:53:30.118072+00:00",
+  "updated_utc": "2026-10-18T22:05:17.189355+00:00",
   "tournaments_total": 824,
   "tournaments_done": 824,
   "tournaments_ok": 747,
   "tournaments_ok_no_brackets": 53,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9859,
+  "maps_collected": 9872,
   "last_tournament": {
-    "tournament": "Logitech G Pro Series 2026 - Playoffs",
+    "tournament": "Thunderpick World Champ. '26 - Playoffs",
     "status": "ok",
-    "maps_found": 9,
-    "at": "2026-10-18T14:03:03.024364+00:00"
+    "maps_found": 8,
+    "at": "2026-10-18T22:05:17.185817+00:00"
   }
 }
