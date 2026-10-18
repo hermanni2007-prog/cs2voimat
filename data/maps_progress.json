@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-18T00:14:49.210128+00:00",
-  "tournaments_total": 823,
-  "tournaments_done": 823,
-  "tournaments_ok": 746,
+  "updated_utc": "2026-10-18T05:24:08.600505+00:00",
+  "tournaments_total": 824,
+  "tournaments_done": 824,
+  "tournaments_ok": 747,
   "tournaments_ok_no_brackets": 53,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9841,
+  "maps_collected": 9850,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #13 - Round 2",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-10-17T21:12:13.756993+00:00"
+    "tournament": "eXTREMESLAND 2026: CA Qual",
+    "status": "ok",
+    "maps_found": 9,
+    "at": "2026-10-18T05:24:08.598023+00:00"
   }
 }
