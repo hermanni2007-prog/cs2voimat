@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-19T19:47:21.655857+00:00",
-  "tournaments_total": 827,
-  "tournaments_done": 827,
-  "tournaments_ok": 748,
-  "tournaments_ok_no_brackets": 55,
+  "updated_utc": "2026-10-19T23:48:42.639818+00:00",
+  "tournaments_total": 828,
+  "tournaments_done": 828,
+  "tournaments_ok": 750,
+  "tournaments_ok_no_brackets": 54,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9877,
+  "maps_collected": 9891,
   "last_tournament": {
-    "tournament": "Stake Ranked Ep. 6 Qual",
+    "tournament": "1win Private Club #2",
     "status": "ok",
-    "maps_found": 5,
-    "at": "2026-10-19T14:45:11.711078+00:00"
+    "maps_found": 8,
+    "at": "2026-10-19T23:48:42.636832+00:00"
   }
 }
