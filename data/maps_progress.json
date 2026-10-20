@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-20T01:44:46.457956+00:00",
-  "tournaments_total": 828,
-  "tournaments_done": 828,
-  "tournaments_ok": 750,
+  "updated_utc": "2026-10-20T07:22:23.599713+00:00",
+  "tournaments_total": 830,
+  "tournaments_done": 830,
+  "tournaments_ok": 752,
   "tournaments_ok_no_brackets": 54,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 9891,
   "last_tournament": {
-    "tournament": "1win Private Club #2",
+    "tournament": "DraculaN Season 7 - Group B",
     "status": "ok",
-    "maps_found": 8,
-    "at": "2026-10-19T23:48:42.636832+00:00"
+    "maps_found": 0,
+    "at": "2026-10-20T07:22:23.597160+00:00"
   }
 }
