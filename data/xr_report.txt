@@ -1,26 +1,26 @@
-Ajettu: 2026-10-20T12:18:30Z
-Kartat: 9849 (top75-vs-top75 2249), train/test-raja 2026-09-10
+Ajettu: 2026-10-20T18:03:09Z
+Kartat: 9902 (top75-vs-top75 2269), train/test-raja 2026-09-11
 Kentan CT-etu (train): {'Ancient': 0.526, 'Anubis': 0.485, 'Cache': 0.519, 'Dust II': 0.51, 'Inferno': 0.513, 'Mirage': 0.547, 'Nuke': 0.55, 'Overpass': 0.551, '_all': 0.527}
 
 === K-haku (train, log loss / kierros) ===
-  K=  0.5  train_round_ll=0.69002
-  K=    1  train_round_ll=0.68956
-  K=    2  train_round_ll=0.68909
-  K=    3  train_round_ll=0.68889
-  K=    4  train_round_ll=0.68886
-  K=    6  train_round_ll=0.68910
-  K=    8  train_round_ll=0.68960
-  K=   12  train_round_ll=0.69111
-  K=   16  train_round_ll=0.69315
+  K=  0.5  train_round_ll=0.69000
+  K=    1  train_round_ll=0.68955
+  K=    2  train_round_ll=0.68907
+  K=    3  train_round_ll=0.68888
+  K=    4  train_round_ll=0.68885
+  K=    6  train_round_ll=0.68908
+  K=    8  train_round_ll=0.68958
+  K=   12  train_round_ll=0.69108
+  K=   16  train_round_ll=0.69313
 
 Valittu (train): K=4, tau=0.25
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.68959 vs pelkka CT/T-perustaso 0.68972  (n=18966 kierrosta)
-2) Kartat:     xR 0.6856 vs 50/50 0.6931  (n=452)
-3) SARJAT (samat 285 sarjaa, train-sarjoja kalibrointiin 1049):
-     raaka:        xR 0.6757  vs tuotanto-Elo 0.6969
-     kalibroitu:   xR 0.6813 (tau=0.5)  vs tuotanto-Elo 0.6885 (tau=0.65)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.579  vs tuotanto-Elo 0.586
+1) Kierrokset: xR 0.68931 vs pelkka CT/T-perustaso 0.68953  (n=19090 kierrosta)
+2) Kartat:     xR 0.6860 vs 50/50 0.6931  (n=455)
+3) SARJAT (samat 280 sarjaa, train-sarjoja kalibrointiin 1059):
+     raaka:        xR 0.6786  vs tuotanto-Elo 0.7001
+     kalibroitu:   xR 0.6820 (tau=0.55)  vs tuotanto-Elo 0.6907 (tau=0.65)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.575  vs tuotanto-Elo 0.586
 
 -> xR PARANTAA sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.
