@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-21T13:40:51.707802+00:00",
-  "tournaments_total": 834,
-  "tournaments_done": 834,
-  "tournaments_ok": 754,
+  "updated_utc": "2026-10-21T18:17:53.701320+00:00",
+  "tournaments_total": 835,
+  "tournaments_done": 835,
+  "tournaments_ok": 755,
   "tournaments_ok_no_brackets": 56,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 9950,
+  "maps_collected": 9980,
   "last_tournament": {
-    "tournament": "DraculaN Season 7 - Playoffs",
+    "tournament": "VOID Autumn Cup 2026",
     "status": "ok",
-    "maps_found": 6,
-    "at": "2026-10-21T02:29:00.820795+00:00"
+    "maps_found": 8,
+    "at": "2026-10-21T18:17:53.698172+00:00"
   }
 }
