@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-21T21:35:55.518060+00:00",
+  "updated_utc": "2026-10-22T00:42:11.534700+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 21,
-  "teams_ok": 14,
+  "teams_done": 75,
+  "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5584,
+  "matches_collected": 5608,
   "last_team": {
-    "team": "Ninjas in Pyjamas",
+    "team": "Inner Circle",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-21T18:16:07.996246+00:00"
+    "at": "2026-10-22T00:42:11.533014+00:00"
   }
 }
