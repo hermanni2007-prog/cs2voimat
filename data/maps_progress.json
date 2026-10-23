@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-23T19:32:08.276284+00:00",
+  "updated_utc": "2026-10-23T23:14:22.406884+00:00",
   "tournaments_total": 840,
   "tournaments_done": 840,
-  "tournaments_ok": 758,
-  "tournaments_ok_no_brackets": 58,
+  "tournaments_ok": 759,
+  "tournaments_ok_no_brackets": 57,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10048,
+  "maps_collected": 10051,
   "last_tournament": {
-    "tournament": "CIS LAN Championship #9 - Playoffs",
+    "tournament": "Circuit X Curitiba #4 - Group B",
     "status": "ok",
-    "maps_found": 6,
-    "at": "2026-10-22T19:54:26.251237+00:00"
+    "maps_found": 3,
+    "at": "2026-10-23T23:14:22.404172+00:00"
   }
 }
