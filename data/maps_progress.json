@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-24T01:00:01.062443+00:00",
+  "updated_utc": "2026-10-24T06:21:45.403780+00:00",
   "tournaments_total": 840,
   "tournaments_done": 840,
   "tournaments_ok": 759,
   "tournaments_ok_no_brackets": 57,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10051,
+  "maps_collected": 10081,
   "last_tournament": {
-    "tournament": "Circuit X Curitiba #4 - Group B",
+    "tournament": "VOID Autumn Cup 2026",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-10-23T23:14:22.404172+00:00"
+    "maps_found": 10,
+    "at": "2026-10-24T06:21:45.379220+00:00"
   }
 }
