@@ -1,3 +1,4 @@
-Ajettu: 2026-10-24T19:24:29Z
-[VIRHE] 8 joukkueen omaa sivua ei loydy (niiden ottelut muita kuin top75-joukkueita vastaan puuttuvat): ['BETBOOM', 'BBL', 'Jam', 'Color', 'Butterfly', 'ASTRAL', 'ex-Zero Tenacity', 'THUNDERdOWNUNDER']
+Ajettu: 2026-10-24T21:49:54Z
+[VIRHE] 1 joukkueen omaa sivua ei loydy (niiden ottelut muita kuin top75-joukkueita vastaan puuttuvat): ['BETBOOM']
+[HUOMIO] 7 joukkuetta yli 24h vanhaa (esim. BBL, 26h)
 [VIRHE] 1 tuplaottelua historical_matches-taulussa, esim. ['QUAZAR 2026-10-11T13:00 (2 rivia)']
