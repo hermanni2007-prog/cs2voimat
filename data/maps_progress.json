@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-24T09:50:09.229689+00:00",
-  "tournaments_total": 840,
-  "tournaments_done": 840,
-  "tournaments_ok": 759,
-  "tournaments_ok_no_brackets": 57,
+  "updated_utc": "2026-10-24T14:20:02.773145+00:00",
+  "tournaments_total": 842,
+  "tournaments_done": 842,
+  "tournaments_ok": 760,
+  "tournaments_ok_no_brackets": 58,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10081,
+  "maps_collected": 10094,
   "last_tournament": {
-    "tournament": "VOID Autumn Cup 2026",
+    "tournament": "NODWIN Clutch Series #13 - Playoffs",
     "status": "ok",
-    "maps_found": 10,
-    "at": "2026-10-24T06:21:45.379220+00:00"
+    "maps_found": 2,
+    "at": "2026-10-24T14:20:02.770552+00:00"
   }
 }
