@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-24T21:49:53.740632+00:00",
+  "updated_utc": "2026-10-25T00:28:26.077312+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 1,
-  "teams_ok": 0,
-  "teams_not_found": 1,
+  "teams_done": 75,
+  "teams_ok": 67,
+  "teams_not_found": 8,
   "teams_error": 0,
-  "matches_collected": 5645,
+  "matches_collected": 5659,
   "last_team": {
     "team": "Inner Circle",
-    "status": "pending",
+    "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-24T14:18:16.777906+00:00"
+    "at": "2026-10-25T00:28:26.075247+00:00"
   }
 }

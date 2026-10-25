@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-24T21:49:54.047421+00:00",
-  "tournaments_total": 842,
-  "tournaments_done": 842,
-  "tournaments_ok": 760,
+  "updated_utc": "2026-10-25T00:30:11.775276+00:00",
+  "tournaments_total": 843,
+  "tournaments_done": 843,
+  "tournaments_ok": 761,
   "tournaments_ok_no_brackets": 58,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10094,
+  "maps_collected": 10108,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #13 - Playoffs",
+    "tournament": "Circuit X Curitiba #4 - Playoffs",
     "status": "ok",
-    "maps_found": 2,
-    "at": "2026-10-24T14:20:02.770552+00:00"
+    "maps_found": 6,
+    "at": "2026-10-25T00:30:11.772174+00:00"
   }
 }
