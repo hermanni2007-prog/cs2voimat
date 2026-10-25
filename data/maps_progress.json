@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-25T16:44:41.733138+00:00",
+  "updated_utc": "2026-10-25T19:59:36.089585+00:00",
   "tournaments_total": 844,
   "tournaments_done": 844,
   "tournaments_ok": 761,
   "tournaments_ok_no_brackets": 59,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10112,
+  "maps_collected": 10119,
   "last_tournament": {
     "tournament": "PGL Masters Bucharest 2026 - Round 2",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-10-25T13:10:58.574257+00:00"
+    "at": "2026-10-25T19:59:35.919610+00:00"
   }
 }
