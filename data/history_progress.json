@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-25T23:38:04.961007+00:00",
+  "updated_utc": "2026-10-26T02:02:13.125260+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 68,
   "teams_not_found": 7,
   "teams_error": 0,
-  "matches_collected": 5676,
+  "matches_collected": 5680,
   "last_team": {
-    "team": "Inner Circle",
+    "team": "SportsBetExpert",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-25T19:58:25.233812+00:00"
+    "at": "2026-10-26T02:02:13.123368+00:00"
   }
 }
