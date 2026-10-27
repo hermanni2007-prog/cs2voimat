@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-27T14:21:27.198777+00:00",
-  "tournaments_total": 845,
-  "tournaments_done": 845,
-  "tournaments_ok": 761,
-  "tournaments_ok_no_brackets": 60,
+  "updated_utc": "2026-10-27T20:11:15.356403+00:00",
+  "tournaments_total": 848,
+  "tournaments_done": 848,
+  "tournaments_ok": 762,
+  "tournaments_ok_no_brackets": 62,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10142,
+  "maps_collected": 10159,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #13 - Playoffs",
-    "status": "ok",
-    "maps_found": 6,
-    "at": "2026-10-27T00:04:18.543131+00:00"
+    "tournament": "PGL Masters Bucharest 2026 - Round 4",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-10-27T20:11:15.353504+00:00"
   }
 }
