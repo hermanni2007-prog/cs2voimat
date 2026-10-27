@@ -1,9 +1,9 @@
 {
-  "updated_utc": "2026-10-27T08:02:42.926716+00:00",
+  "updated_utc": "2026-10-27T14:21:26.943982+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 8,
-  "teams_ok": 1,
+  "teams_done": 7,
+  "teams_ok": 0,
   "teams_not_found": 7,
   "teams_error": 0,
   "matches_collected": 5750,
