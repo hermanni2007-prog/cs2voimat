@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-27T23:05:41.257936+00:00",
+  "updated_utc": "2026-10-28T02:46:54.564818+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
-  "teams_ok": 68,
-  "teams_not_found": 7,
+  "teams_ok": 69,
+  "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 5760,
+  "matches_collected": 5773,
   "last_team": {
-    "team": "BBL",
+    "team": "INFINITE",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-27T20:08:54.328583+00:00"
+    "at": "2026-10-28T02:46:54.561980+00:00"
   }
 }

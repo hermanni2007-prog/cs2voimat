@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-27T23:05:41.571030+00:00",
-  "tournaments_total": 848,
-  "tournaments_done": 848,
-  "tournaments_ok": 762,
-  "tournaments_ok_no_brackets": 62,
+  "updated_utc": "2026-10-28T02:48:40.081741+00:00",
+  "tournaments_total": 851,
+  "tournaments_done": 851,
+  "tournaments_ok": 763,
+  "tournaments_ok_no_brackets": 64,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10159,
+  "maps_collected": 10161,
   "last_tournament": {
-    "tournament": "PGL Masters Bucharest 2026 - Round 4",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-10-27T20:11:15.353504+00:00"
+    "tournament": "ECL Season 52: Europe Play-In",
+    "status": "ok",
+    "maps_found": 2,
+    "at": "2026-10-28T02:48:40.079281+00:00"
   }
 }
