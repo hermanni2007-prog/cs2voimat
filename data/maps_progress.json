@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-28T08:22:01.211349+00:00",
+  "updated_utc": "2026-10-28T15:55:18.645813+00:00",
   "tournaments_total": 851,
   "tournaments_done": 851,
   "tournaments_ok": 763,
@@ -8,9 +8,9 @@
   "tournaments_error": 0,
   "maps_collected": 10161,
   "last_tournament": {
-    "tournament": "ECL Season 52: Europe Play-In",
-    "status": "ok",
-    "maps_found": 2,
-    "at": "2026-10-28T02:48:40.079281+00:00"
+    "tournament": "Tesla Cup 2026 - Group A",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-10-28T15:55:18.642329+00:00"
   }
 }
