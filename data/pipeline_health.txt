@@ -1,3 +1,3 @@
-Ajettu: 2026-10-29T00:45:47Z
+Ajettu: 2026-10-29T05:35:51Z
 [VIRHE] 6 joukkueen omaa sivua ei loydy (niiden ottelut muita kuin top75-joukkueita vastaan puuttuvat): ['Jam', 'Color', 'Butterfly', 'ASTRAL', 'ex-Zero Tenacity', 'THUNDERdOWNUNDER']
 [VIRHE] 1 tuplaottelua historical_matches-taulussa, esim. ['QUAZAR 2026-10-11T13:00 (2 rivia)']
