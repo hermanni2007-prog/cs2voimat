@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-28T20:21:11.134485+00:00",
+  "updated_utc": "2026-10-29T00:45:47.833147+00:00",
   "tournaments_total": 851,
   "tournaments_done": 851,
-  "tournaments_ok": 763,
-  "tournaments_ok_no_brackets": 64,
+  "tournaments_ok": 764,
+  "tournaments_ok_no_brackets": 63,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10161,
+  "maps_collected": 10172,
   "last_tournament": {
-    "tournament": "Tesla Cup 2026 - Group A",
-    "status": "ok_no_brackets",
+    "tournament": "Tesla Cup 2026 - Group B",
+    "status": "ok",
     "maps_found": 0,
-    "at": "2026-10-28T15:55:18.642329+00:00"
+    "at": "2026-10-29T00:45:47.830647+00:00"
   }
 }
