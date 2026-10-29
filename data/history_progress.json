@@ -1,15 +1,15 @@
 {
-  "updated_utc": "2026-10-29T05:35:50.890396+00:00",
+  "updated_utc": "2026-10-29T11:43:09.081595+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 75,
-  "teams_ok": 69,
+  "teams_done": 6,
+  "teams_ok": 0,
   "teams_not_found": 6,
   "teams_error": 0,
   "matches_collected": 5796,
   "last_team": {
     "team": "INFINITE",
-    "status": "ok",
+    "status": "pending",
     "matches_found": 0,
     "at": "2026-10-29T00:44:37.225253+00:00"
   }
