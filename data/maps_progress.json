@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-29T11:43:09.400487+00:00",
-  "tournaments_total": 851,
-  "tournaments_done": 851,
-  "tournaments_ok": 764,
+  "updated_utc": "2026-10-29T18:18:54.059819+00:00",
+  "tournaments_total": 855,
+  "tournaments_done": 855,
+  "tournaments_ok": 768,
   "tournaments_ok_no_brackets": 63,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10172,
+  "maps_collected": 10203,
   "last_tournament": {
-    "tournament": "Tesla Cup 2026 - Group B",
+    "tournament": "CCT EU 2026 Series #12 - Playoffs",
     "status": "ok",
-    "maps_found": 0,
-    "at": "2026-10-29T00:45:47.830647+00:00"
+    "maps_found": 7,
+    "at": "2026-10-29T18:18:54.057292+00:00"
   }
 }
