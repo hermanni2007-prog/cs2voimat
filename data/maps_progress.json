@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-30T07:45:51.223920+00:00",
-  "tournaments_total": 855,
-  "tournaments_done": 855,
-  "tournaments_ok": 768,
-  "tournaments_ok_no_brackets": 63,
+  "updated_utc": "2026-10-30T15:18:14.427895+00:00",
+  "tournaments_total": 861,
+  "tournaments_done": 861,
+  "tournaments_ok": 769,
+  "tournaments_ok_no_brackets": 68,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10206,
+  "maps_collected": 10220,
   "last_tournament": {
-    "tournament": "Stake Ranked Episode 5",
+    "tournament": "DFRAG Invitational 2026 - Playoffs",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-10-30T02:32:18.579812+00:00"
+    "maps_found": 6,
+    "at": "2026-10-30T15:18:14.425272+00:00"
   }
 }
