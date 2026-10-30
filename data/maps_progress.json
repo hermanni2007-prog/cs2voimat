@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-29T21:58:21.829604+00:00",
+  "updated_utc": "2026-10-30T02:32:18.583453+00:00",
   "tournaments_total": 855,
   "tournaments_done": 855,
   "tournaments_ok": 768,
   "tournaments_ok_no_brackets": 63,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10203,
+  "maps_collected": 10206,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #12 - Playoffs",
+    "tournament": "Stake Ranked Episode 5",
     "status": "ok",
-    "maps_found": 7,
-    "at": "2026-10-29T18:18:54.057292+00:00"
+    "maps_found": 3,
+    "at": "2026-10-30T02:32:18.579812+00:00"
   }
 }
