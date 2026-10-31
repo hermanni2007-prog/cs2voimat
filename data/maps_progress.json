@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-30T19:39:35.592338+00:00",
-  "tournaments_total": 861,
-  "tournaments_done": 861,
-  "tournaments_ok": 769,
-  "tournaments_ok_no_brackets": 68,
+  "updated_utc": "2026-10-31T00:00:17.283869+00:00",
+  "tournaments_total": 864,
+  "tournaments_done": 864,
+  "tournaments_ok": 770,
+  "tournaments_ok_no_brackets": 70,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10220,
+  "maps_collected": 10239,
   "last_tournament": {
-    "tournament": "DFRAG Invitational 2026 - Playoffs",
-    "status": "ok",
-    "maps_found": 6,
-    "at": "2026-10-30T15:18:14.425272+00:00"
+    "tournament": "Gamers Club Masters VII - Group A",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-10-31T00:00:17.280905+00:00"
   }
 }
