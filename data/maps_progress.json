@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-10-31T02:29:23.085724+00:00",
-  "tournaments_total": 864,
-  "tournaments_done": 864,
-  "tournaments_ok": 770,
+  "updated_utc": "2026-10-31T09:28:35.587039+00:00",
+  "tournaments_total": 865,
+  "tournaments_done": 865,
+  "tournaments_ok": 771,
   "tournaments_ok_no_brackets": 70,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 10239,
   "last_tournament": {
-    "tournament": "Gamers Club Masters VII - Group A",
-    "status": "ok_no_brackets",
+    "tournament": "Circuito Retake Season 13 - Group D",
+    "status": "ok",
     "maps_found": 0,
-    "at": "2026-10-31T00:00:17.280905+00:00"
+    "at": "2026-10-31T09:28:35.584011+00:00"
   }
 }
