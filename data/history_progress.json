@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-31T09:27:59.506705+00:00",
+  "updated_utc": "2026-10-31T14:51:42.479557+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -8,9 +8,9 @@
   "teams_error": 0,
   "matches_collected": 5862,
   "last_team": {
-    "team": "INFINITE",
+    "team": "BETBOOM",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-10-31T09:27:59.504069+00:00"
+    "at": "2026-10-31T14:51:42.477325+00:00"
   }
 }
