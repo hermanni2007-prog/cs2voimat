@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-01T00:57:56.385383+00:00",
-  "tournaments_total": 869,
-  "tournaments_done": 869,
-  "tournaments_ok": 777,
+  "updated_utc": "2026-11-01T08:05:03.636879+00:00",
+  "tournaments_total": 871,
+  "tournaments_done": 871,
+  "tournaments_ok": 779,
   "tournaments_ok_no_brackets": 68,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10276,
+  "maps_collected": 10289,
   "last_tournament": {
-    "tournament": "Gamers Club Masters VII - Playoffs",
+    "tournament": "Moscow Cyber Games 2026",
     "status": "ok",
-    "maps_found": 0,
-    "at": "2026-10-31T22:41:53.100949+00:00"
+    "maps_found": 4,
+    "at": "2026-11-01T08:05:03.633322+00:00"
   }
 }
