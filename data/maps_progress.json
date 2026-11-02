@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-02T09:59:51.335251+00:00",
-  "tournaments_total": 872,
-  "tournaments_done": 872,
-  "tournaments_ok": 780,
+  "updated_utc": "2026-11-02T20:16:32.660869+00:00",
+  "tournaments_total": 873,
+  "tournaments_done": 873,
+  "tournaments_ok": 781,
   "tournaments_ok_no_brackets": 68,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10351,
+  "maps_collected": 10357,
   "last_tournament": {
-    "tournament": "IEM Beijing 2026 - Group A",
+    "tournament": "IEM Beijing 2026 - Group B",
     "status": "ok",
-    "maps_found": 14,
-    "at": "2026-11-02T09:59:51.331503+00:00"
+    "maps_found": 0,
+    "at": "2026-11-02T20:16:32.657879+00:00"
   }
 }
