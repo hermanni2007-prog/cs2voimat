@@ -1,26 +1,26 @@
-Ajettu: 2026-11-02T02:38:29Z
-Kartat: 10294 (top75-vs-top75 2399), train/test-raja 2026-09-18
+Ajettu: 2026-11-02T09:59:51Z
+Kartat: 10308 (top75-vs-top75 2413), train/test-raja 2026-09-19
 Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.487, 'Cache': 0.517, 'Dust II': 0.51, 'Inferno': 0.514, 'Mirage': 0.547, 'Nuke': 0.549, 'Overpass': 0.551, '_all': 0.527}
 
 === K-haku (train, log loss / kierros) ===
   K=  0.5  train_round_ll=0.69005
   K=    1  train_round_ll=0.68959
-  K=    2  train_round_ll=0.68911
+  K=    2  train_round_ll=0.68910
   K=    3  train_round_ll=0.68891
   K=    4  train_round_ll=0.68887
   K=    6  train_round_ll=0.68911
   K=    8  train_round_ll=0.68961
-  K=   12  train_round_ll=0.69113
-  K=   16  train_round_ll=0.69317
+  K=   12  train_round_ll=0.69112
+  K=   16  train_round_ll=0.69316
 
 Valittu (train): K=4, tau=0.25
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.69064 vs pelkka CT/T-perustaso 0.68980  (n=20026 kierrosta)
-2) Kartat:     xR 0.6892 vs 50/50 0.6931  (n=480)
-3) SARJAT (samat 322 sarjaa, train-sarjoja kalibrointiin 1118):
-     raaka:        xR 0.6875  vs tuotanto-Elo 0.6999
-     kalibroitu:   xR 0.6865 (tau=0.65)  vs tuotanto-Elo 0.6895 (tau=0.65)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.559  vs tuotanto-Elo 0.559
+1) Kierrokset: xR 0.69063 vs pelkka CT/T-perustaso 0.68964  (n=20170 kierrosta)
+2) Kartat:     xR 0.6896 vs 50/50 0.6931  (n=484)
+3) SARJAT (samat 312 sarjaa, train-sarjoja kalibrointiin 1130):
+     raaka:        xR 0.6880  vs tuotanto-Elo 0.6994
+     kalibroitu:   xR 0.6867 (tau=0.65)  vs tuotanto-Elo 0.6890 (tau=0.65)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.554  vs tuotanto-Elo 0.564
 
 -> xR PARANTAA sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.
