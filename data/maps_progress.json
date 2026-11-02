@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-01T22:42:41.796421+00:00",
+  "updated_utc": "2026-11-02T02:38:29.256941+00:00",
   "tournaments_total": 871,
   "tournaments_done": 871,
   "tournaments_ok": 779,
   "tournaments_ok_no_brackets": 68,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10289,
+  "maps_collected": 10337,
   "last_tournament": {
     "tournament": "Moscow Cyber Games 2026",
     "status": "ok",
-    "maps_found": 4,
-    "at": "2026-11-01T08:05:03.633322+00:00"
+    "maps_found": 5,
+    "at": "2026-11-02T02:38:29.228685+00:00"
   }
 }
