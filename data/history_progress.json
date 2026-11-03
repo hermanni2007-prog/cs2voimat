@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-02T20:15:56.210391+00:00",
+  "updated_utc": "2026-11-03T01:54:43.268049+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 69,
   "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 5923,
+  "matches_collected": 5925,
   "last_team": {
-    "team": "BETBOOM",
+    "team": "TYLOO",
     "status": "ok",
-    "matches_found": 1,
-    "at": "2026-11-02T20:15:56.208413+00:00"
+    "matches_found": 0,
+    "at": "2026-11-03T01:54:43.260821+00:00"
   }
 }
