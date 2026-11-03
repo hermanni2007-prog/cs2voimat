@@ -1,26 +1,26 @@
-Ajettu: 2026-11-03T01:54:44Z
-Kartat: 10314 (top75-vs-top75 2419), train/test-raja 2026-09-19
-Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.487, 'Cache': 0.516, 'Dust II': 0.51, 'Inferno': 0.514, 'Mirage': 0.547, 'Nuke': 0.549, 'Overpass': 0.551, '_all': 0.527}
+Ajettu: 2026-11-03T09:19:52Z
+Kartat: 10326 (top75-vs-top75 2431), train/test-raja 2026-09-20
+Kentan CT-etu (train): {'Ancient': 0.525, 'Anubis': 0.487, 'Cache': 0.514, 'Dust II': 0.51, 'Inferno': 0.515, 'Mirage': 0.547, 'Nuke': 0.549, 'Overpass': 0.551, '_all': 0.527}
 
 === K-haku (train, log loss / kierros) ===
   K=  0.5  train_round_ll=0.69005
   K=    1  train_round_ll=0.68959
-  K=    2  train_round_ll=0.68911
+  K=    2  train_round_ll=0.68910
   K=    3  train_round_ll=0.68891
-  K=    4  train_round_ll=0.68888
-  K=    6  train_round_ll=0.68911
-  K=    8  train_round_ll=0.68961
-  K=   12  train_round_ll=0.69112
-  K=   16  train_round_ll=0.69316
+  K=    4  train_round_ll=0.68887
+  K=    6  train_round_ll=0.68910
+  K=    8  train_round_ll=0.68960
+  K=   12  train_round_ll=0.69111
+  K=   16  train_round_ll=0.69314
 
 Valittu (train): K=4, tau=0.25
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.69060 vs pelkka CT/T-perustaso 0.68953  (n=20252 kierrosta)
-2) Kartat:     xR 0.6900 vs 50/50 0.6931  (n=486)
-3) SARJAT (samat 316 sarjaa, train-sarjoja kalibrointiin 1132):
-     raaka:        xR 0.6890  vs tuotanto-Elo 0.6987
-     kalibroitu:   xR 0.6873 (tau=0.65)  vs tuotanto-Elo 0.6882 (tau=0.65)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.547  vs tuotanto-Elo 0.566
+1) Kierrokset: xR 0.69056 vs pelkka CT/T-perustaso 0.68968  (n=20274 kierrosta)
+2) Kartat:     xR 0.6887 vs 50/50 0.6931  (n=487)
+3) SARJAT (samat 316 sarjaa, train-sarjoja kalibrointiin 1136):
+     raaka:        xR 0.6872  vs tuotanto-Elo 0.6946
+     kalibroitu:   xR 0.6861 (tau=0.65)  vs tuotanto-Elo 0.6855 (tau=0.65)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.551  vs tuotanto-Elo 0.573
 
--> xR PARANTAA sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.
+-> xR EI paranna sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.
