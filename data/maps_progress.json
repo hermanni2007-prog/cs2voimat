@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-04T10:09:19.712217+00:00",
-  "tournaments_total": 874,
-  "tournaments_done": 874,
-  "tournaments_ok": 782,
-  "tournaments_ok_no_brackets": 68,
+  "updated_utc": "2026-11-04T18:09:41.641876+00:00",
+  "tournaments_total": 876,
+  "tournaments_done": 876,
+  "tournaments_ok": 783,
+  "tournaments_ok_no_brackets": 69,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10399,
+  "maps_collected": 10404,
   "last_tournament": {
-    "tournament": "Fiesta Series 3 - Playoffs",
-    "status": "ok",
-    "maps_found": 8,
-    "at": "2026-11-04T10:09:19.709295+00:00"
+    "tournament": "United21 Season 58 - Group B",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-11-04T18:09:41.639449+00:00"
   }
 }
