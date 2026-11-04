@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-03T21:55:22.470563+00:00",
+  "updated_utc": "2026-11-04T02:48:55.413653+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -10,7 +10,7 @@
   "last_team": {
     "team": "TYLOO",
     "status": "ok",
-    "matches_found": 1,
-    "at": "2026-11-03T17:10:11.999499+00:00"
+    "matches_found": 0,
+    "at": "2026-11-04T02:48:55.411972+00:00"
   }
 }
