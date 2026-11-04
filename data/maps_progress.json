@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-04T02:48:55.621175+00:00",
-  "tournaments_total": 873,
-  "tournaments_done": 873,
-  "tournaments_ok": 781,
+  "updated_utc": "2026-11-04T10:09:19.712217+00:00",
+  "tournaments_total": 874,
+  "tournaments_done": 874,
+  "tournaments_ok": 782,
   "tournaments_ok_no_brackets": 68,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10377,
+  "maps_collected": 10399,
   "last_tournament": {
-    "tournament": "IEM Beijing 2026 - Group A",
+    "tournament": "Fiesta Series 3 - Playoffs",
     "status": "ok",
     "maps_found": 8,
-    "at": "2026-11-03T17:10:48.402356+00:00"
+    "at": "2026-11-04T10:09:19.709295+00:00"
   }
 }
