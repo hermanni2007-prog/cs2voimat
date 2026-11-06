@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-06T03:36:52.730944+00:00",
-  "tournaments_total": 878,
-  "tournaments_done": 878,
-  "tournaments_ok": 784,
+  "updated_utc": "2026-11-06T12:08:05.352863+00:00",
+  "tournaments_total": 879,
+  "tournaments_done": 879,
+  "tournaments_ok": 785,
   "tournaments_ok_no_brackets": 70,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10428,
+  "maps_collected": 10432,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #13 - Round 1",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-11-05T18:38:22.656291+00:00"
+    "tournament": "IEM Beijing 2026 - Playoffs",
+    "status": "ok",
+    "maps_found": 4,
+    "at": "2026-11-06T12:08:05.349475+00:00"
   }
 }
