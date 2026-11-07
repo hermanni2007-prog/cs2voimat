@@ -1,26 +1,26 @@
-Ajettu: 2026-11-07T10:34:55Z
-Kartat: 10400 (top75-vs-top75 2462), train/test-raja 2026-09-25
-Kentan CT-etu (train): {'Ancient': 0.526, 'Anubis': 0.489, 'Cache': 0.515, 'Dust II': 0.509, 'Inferno': 0.515, 'Mirage': 0.546, 'Nuke': 0.55, 'Overpass': 0.551, '_all': 0.527}
+Ajettu: 2026-11-07T16:41:54Z
+Kartat: 10406 (top75-vs-top75 2468), train/test-raja 2026-09-25
+Kentan CT-etu (train): {'Ancient': 0.526, 'Anubis': 0.489, 'Cache': 0.514, 'Dust II': 0.509, 'Inferno': 0.515, 'Mirage': 0.546, 'Nuke': 0.55, 'Overpass': 0.551, '_all': 0.527}
 
 === K-haku (train, log loss / kierros) ===
   K=  0.5  train_round_ll=0.69004
   K=    1  train_round_ll=0.68958
-  K=    2  train_round_ll=0.68910
+  K=    2  train_round_ll=0.68911
   K=    3  train_round_ll=0.68891
-  K=    4  train_round_ll=0.68887
-  K=    6  train_round_ll=0.68910
-  K=    8  train_round_ll=0.68960
-  K=   12  train_round_ll=0.69108
-  K=   16  train_round_ll=0.69310
+  K=    4  train_round_ll=0.68888
+  K=    6  train_round_ll=0.68911
+  K=    8  train_round_ll=0.68961
+  K=   12  train_round_ll=0.69110
+  K=   16  train_round_ll=0.69311
 
 Valittu (train): K=4, tau=0.25
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.69115 vs pelkka CT/T-perustaso 0.69006  (n=20510 kierrosta)
-2) Kartat:     xR 0.6886 vs 50/50 0.6931  (n=493)
-3) SARJAT (samat 316 sarjaa, train-sarjoja kalibrointiin 1151):
-     raaka:        xR 0.6873  vs tuotanto-Elo 0.6888
-     kalibroitu:   xR 0.6862 (tau=0.65)  vs tuotanto-Elo 0.6814 (tau=0.6)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.544  vs tuotanto-Elo 0.576
+1) Kierrokset: xR 0.69103 vs pelkka CT/T-perustaso 0.69007  (n=20564 kierrosta)
+2) Kartat:     xR 0.6883 vs 50/50 0.6931  (n=494)
+3) SARJAT (samat 315 sarjaa, train-sarjoja kalibrointiin 1153):
+     raaka:        xR 0.6870  vs tuotanto-Elo 0.6891
+     kalibroitu:   xR 0.6861 (tau=0.65)  vs tuotanto-Elo 0.6816 (tau=0.6)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.546  vs tuotanto-Elo 0.575
 
 -> xR EI paranna sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.
