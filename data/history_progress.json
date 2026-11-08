@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-07T20:35:25.686642+00:00",
+  "updated_utc": "2026-11-08T00:03:08.116350+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 69,
   "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 5980,
+  "matches_collected": 5986,
   "last_team": {
-    "team": "TYLOO",
+    "team": "BC.Game",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-11-07T20:35:25.683916+00:00"
+    "at": "2026-11-08T00:03:08.113666+00:00"
   }
 }
