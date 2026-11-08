@@ -1,26 +1,26 @@
-Ajettu: 2026-11-08T10:15:04Z
-Kartat: 10406 (top75-vs-top75 2468), train/test-raja 2026-09-25
-Kentan CT-etu (train): {'Ancient': 0.526, 'Anubis': 0.489, 'Cache': 0.514, 'Dust II': 0.509, 'Inferno': 0.515, 'Mirage': 0.546, 'Nuke': 0.55, 'Overpass': 0.551, '_all': 0.527}
+Ajettu: 2026-11-08T16:57:12Z
+Kartat: 10411 (top75-vs-top75 2473), train/test-raja 2026-09-25
+Kentan CT-etu (train): {'Ancient': 0.526, 'Anubis': 0.488, 'Cache': 0.515, 'Dust II': 0.509, 'Inferno': 0.515, 'Mirage': 0.546, 'Nuke': 0.55, 'Overpass': 0.551, '_all': 0.528}
 
 === K-haku (train, log loss / kierros) ===
-  K=  0.5  train_round_ll=0.69004
-  K=    1  train_round_ll=0.68958
-  K=    2  train_round_ll=0.68911
-  K=    3  train_round_ll=0.68891
-  K=    4  train_round_ll=0.68888
-  K=    6  train_round_ll=0.68911
-  K=    8  train_round_ll=0.68961
-  K=   12  train_round_ll=0.69110
-  K=   16  train_round_ll=0.69311
+  K=  0.5  train_round_ll=0.69003
+  K=    1  train_round_ll=0.68957
+  K=    2  train_round_ll=0.68909
+  K=    3  train_round_ll=0.68889
+  K=    4  train_round_ll=0.68886
+  K=    6  train_round_ll=0.68909
+  K=    8  train_round_ll=0.68959
+  K=   12  train_round_ll=0.69108
+  K=   16  train_round_ll=0.69309
 
 Valittu (train): K=4, tau=0.25
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.69103 vs pelkka CT/T-perustaso 0.69007  (n=20564 kierrosta)
-2) Kartat:     xR 0.6883 vs 50/50 0.6931  (n=494)
-3) SARJAT (samat 316 sarjaa, train-sarjoja kalibrointiin 1153):
-     raaka:        xR 0.6865  vs tuotanto-Elo 0.6886
-     kalibroitu:   xR 0.6858 (tau=0.65)  vs tuotanto-Elo 0.6813 (tau=0.6)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.547  vs tuotanto-Elo 0.576
+1) Kierrokset: xR 0.69092 vs pelkka CT/T-perustaso 0.69020  (n=20618 kierrosta)
+2) Kartat:     xR 0.6875 vs 50/50 0.6931  (n=496)
+3) SARJAT (samat 317 sarjaa, train-sarjoja kalibrointiin 1154):
+     raaka:        xR 0.6867  vs tuotanto-Elo 0.6895
+     kalibroitu:   xR 0.6859 (tau=0.65)  vs tuotanto-Elo 0.6819 (tau=0.6)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.546  vs tuotanto-Elo 0.574
 
 -> xR EI paranna sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.
