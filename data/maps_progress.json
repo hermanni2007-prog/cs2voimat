@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-08T03:02:35.294061+00:00",
-  "tournaments_total": 881,
-  "tournaments_done": 881,
+  "updated_utc": "2026-11-08T10:15:03.960330+00:00",
+  "tournaments_total": 882,
+  "tournaments_done": 882,
   "tournaments_ok": 785,
-  "tournaments_ok_no_brackets": 72,
+  "tournaments_ok_no_brackets": 73,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 10449,
   "last_tournament": {
-    "tournament": "ECL Season 52: EU Cup #11 - Group D",
+    "tournament": "ECL Season 52: EU Cup #11 - Group B",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-11-08T00:03:44.268147+00:00"
+    "at": "2026-11-08T10:15:03.957519+00:00"
   }
 }
