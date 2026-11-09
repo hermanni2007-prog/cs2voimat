@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-09T06:04:19.278898+00:00",
-  "tournaments_total": 885,
-  "tournaments_done": 885,
+  "updated_utc": "2026-11-09T16:40:19.162023+00:00",
+  "tournaments_total": 886,
+  "tournaments_done": 886,
   "tournaments_ok": 790,
-  "tournaments_ok_no_brackets": 71,
+  "tournaments_ok_no_brackets": 72,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 10476,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Contenders #11 OQ2",
-    "status": "ok",
-    "maps_found": 4,
-    "at": "2026-11-09T00:40:26.910609+00:00"
+    "tournament": "CCT EU 2026 Series #13 - Round 3",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-11-09T16:40:19.158855+00:00"
   }
 }
