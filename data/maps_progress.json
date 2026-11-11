@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-11T08:58:48.221568+00:00",
-  "tournaments_total": 888,
-  "tournaments_done": 888,
+  "updated_utc": "2026-11-11T16:59:20.028111+00:00",
+  "tournaments_total": 889,
+  "tournaments_done": 889,
   "tournaments_ok": 791,
-  "tournaments_ok_no_brackets": 73,
+  "tournaments_ok_no_brackets": 74,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 10521,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #14 - Round 1",
+    "tournament": "BLAST Rivals Fall 2026 - Group B",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-11-11T08:58:48.215805+00:00"
+    "at": "2026-11-11T16:59:20.025110+00:00"
   }
 }
