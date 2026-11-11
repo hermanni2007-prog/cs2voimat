@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-10T21:26:54.676753+00:00",
-  "tournaments_total": 886,
-  "tournaments_done": 886,
-  "tournaments_ok": 790,
+  "updated_utc": "2026-11-11T02:08:42.586515+00:00",
+  "tournaments_total": 887,
+  "tournaments_done": 887,
+  "tournaments_ok": 791,
   "tournaments_ok_no_brackets": 72,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10487,
+  "maps_collected": 10521,
   "last_tournament": {
-    "tournament": "ECL Season 52: EU Cup #11 - Playoffs",
+    "tournament": "PGL Cluj-Napoca 2027 OQ1",
     "status": "ok",
-    "maps_found": 11,
-    "at": "2026-11-10T00:58:47.839174+00:00"
+    "maps_found": 34,
+    "at": "2026-11-11T02:08:42.583496+00:00"
   }
 }
