@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-11T23:15:11.460838+00:00",
-  "tournaments_total": 889,
-  "tournaments_done": 889,
+  "updated_utc": "2026-11-12T03:39:09.185228+00:00",
+  "tournaments_total": 890,
+  "tournaments_done": 890,
   "tournaments_ok": 791,
-  "tournaments_ok_no_brackets": 74,
+  "tournaments_ok_no_brackets": 75,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10521,
+  "maps_collected": 10528,
   "last_tournament": {
-    "tournament": "BLAST Rivals Fall 2026 - Group B",
+    "tournament": "BLAST Rivals Fall 2026 - Group A",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-11-11T16:59:20.025110+00:00"
+    "at": "2026-11-12T03:39:09.182950+00:00"
   }
 }
