@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-13T07:51:09.186661+00:00",
-  "tournaments_total": 894,
-  "tournaments_done": 894,
-  "tournaments_ok": 794,
-  "tournaments_ok_no_brackets": 76,
+  "updated_utc": "2026-11-13T16:10:18.734275+00:00",
+  "tournaments_total": 896,
+  "tournaments_done": 896,
+  "tournaments_ok": 795,
+  "tournaments_ok_no_brackets": 77,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10561,
+  "maps_collected": 10566,
   "last_tournament": {
-    "tournament": "ECL Season 52: EU Cup #12 - Group A",
+    "tournament": "NODWIN Clutch Series #14 - Round 2",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-11-13T07:51:09.184137+00:00"
+    "at": "2026-11-13T16:10:18.731584+00:00"
   }
 }
