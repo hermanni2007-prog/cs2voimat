@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-13T00:32:06.905265+00:00",
-  "tournaments_total": 893,
-  "tournaments_done": 893,
+  "updated_utc": "2026-11-13T07:51:09.186661+00:00",
+  "tournaments_total": 894,
+  "tournaments_done": 894,
   "tournaments_ok": 794,
-  "tournaments_ok_no_brackets": 75,
+  "tournaments_ok_no_brackets": 76,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10543,
+  "maps_collected": 10561,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #13 - Round 5",
+    "tournament": "ECL Season 52: EU Cup #12 - Group A",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-11-12T19:52:37.258710+00:00"
+    "at": "2026-11-13T07:51:09.184137+00:00"
   }
 }

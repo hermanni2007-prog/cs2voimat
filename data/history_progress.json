@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-13T00:32:06.644344+00:00",
+  "updated_utc": "2026-11-13T07:49:58.461202+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 69,
   "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 6054,
+  "matches_collected": 6061,
   "last_team": {
     "team": "paiN",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-11-12T19:51:26.323480+00:00"
+    "at": "2026-11-13T07:49:58.459390+00:00"
   }
 }
