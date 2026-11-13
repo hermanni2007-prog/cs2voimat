@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-11-13T16:09:07.950464+00:00",
+  "updated_utc": "2026-11-13T21:37:12.173856+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
@@ -8,9 +8,9 @@
   "teams_error": 0,
   "matches_collected": 6069,
   "last_team": {
-    "team": "paiN",
+    "team": "INOX Division",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-11-13T16:09:07.948509+00:00"
+    "at": "2026-11-13T21:37:12.171797+00:00"
   }
 }
