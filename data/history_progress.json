@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-14T08:35:19.209967+00:00",
+  "updated_utc": "2026-11-14T15:39:06.231540+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 69,
   "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 6077,
+  "matches_collected": 6082,
   "last_team": {
     "team": "JiJieHao",
     "status": "ok",
     "matches_found": 0,
-    "at": "2026-11-14T08:35:19.206877+00:00"
+    "at": "2026-11-14T15:39:06.229672+00:00"
   }
 }
