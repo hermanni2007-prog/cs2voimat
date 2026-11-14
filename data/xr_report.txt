@@ -1,5 +1,5 @@
-Ajettu: 2026-11-13T21:37:13Z
-Kartat: 10523 (top75-vs-top75 2496), train/test-raja 2026-09-26
+Ajettu: 2026-11-14T02:18:03Z
+Kartat: 10531 (top75-vs-top75 2496), train/test-raja 2026-09-26
 Kentan CT-etu (train): {'Ancient': 0.527, 'Anubis': 0.488, 'Cache': 0.515, 'Dust II': 0.509, 'Inferno': 0.516, 'Mirage': 0.547, 'Nuke': 0.551, 'Overpass': 0.551, '_all': 0.528}
 
 === K-haku (train, log loss / kierros) ===

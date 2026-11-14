@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-13T21:37:12.525200+00:00",
+  "updated_utc": "2026-11-14T02:18:03.102801+00:00",
   "tournaments_total": 896,
   "tournaments_done": 896,
   "tournaments_ok": 795,
   "tournaments_ok_no_brackets": 77,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10566,
+  "maps_collected": 10574,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #14 - Round 2",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-11-13T16:10:18.731584+00:00"
+    "tournament": "PGL Cluj-Napoca 2027 OQ2",
+    "status": "ok",
+    "maps_found": 8,
+    "at": "2026-11-14T02:18:03.099040+00:00"
   }
 }
