@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-14T19:51:53.193615+00:00",
-  "tournaments_total": 899,
-  "tournaments_done": 899,
+  "updated_utc": "2026-11-15T00:08:28.453106+00:00",
+  "tournaments_total": 900,
+  "tournaments_done": 900,
   "tournaments_ok": 799,
-  "tournaments_ok_no_brackets": 76,
+  "tournaments_ok_no_brackets": 77,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10603,
+  "maps_collected": 10621,
   "last_tournament": {
-    "tournament": "EU Pro League Series 10 - Playoffs",
-    "status": "ok",
-    "maps_found": 5,
-    "at": "2026-11-14T15:40:16.977788+00:00"
+    "tournament": "NODWIN Clutch Series #14 - Round 3",
+    "status": "ok_no_brackets",
+    "maps_found": 0,
+    "at": "2026-11-15T00:08:28.449470+00:00"
   }
 }
