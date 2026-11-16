@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-16T09:18:53.900716+00:00",
+  "updated_utc": "2026-11-16T19:40:47.435233+00:00",
   "tournaments_total": 902,
   "tournaments_done": 902,
   "tournaments_ok": 801,
   "tournaments_ok_no_brackets": 77,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10661,
+  "maps_collected": 10695,
   "last_tournament": {
     "tournament": "United21 Season 58 - Playoffs",
     "status": "ok",
-    "maps_found": 15,
-    "at": "2026-11-16T02:31:47.499443+00:00"
+    "maps_found": 4,
+    "at": "2026-11-16T19:40:47.433266+00:00"
   }
 }
