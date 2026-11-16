@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-15T22:01:38.347371+00:00",
-  "tournaments_total": 901,
-  "tournaments_done": 901,
-  "tournaments_ok": 800,
+  "updated_utc": "2026-11-16T02:31:47.503845+00:00",
+  "tournaments_total": 902,
+  "tournaments_done": 902,
+  "tournaments_ok": 801,
   "tournaments_ok_no_brackets": 77,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10646,
+  "maps_collected": 10661,
   "last_tournament": {
-    "tournament": "PGL Cluj-Napoca 2027 Qual",
+    "tournament": "United21 Season 58 - Playoffs",
     "status": "ok",
     "maps_found": 15,
-    "at": "2026-11-15T18:07:51.161250+00:00"
+    "at": "2026-11-16T02:31:47.499443+00:00"
   }
 }
