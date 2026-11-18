@@ -1,26 +1,26 @@
-Ajettu: 2026-11-17T19:45:16Z
-Kartat: 10652 (top75-vs-top75 2523), train/test-raja 2026-09-26
-Kentan CT-etu (train): {'Ancient': 0.527, 'Anubis': 0.487, 'Cache': 0.52, 'Dust II': 0.509, 'Inferno': 0.516, 'Mirage': 0.547, 'Nuke': 0.551, 'Overpass': 0.551, '_all': 0.528}
+Ajettu: 2026-11-18T02:36:30Z
+Kartat: 10675 (top75-vs-top75 2538), train/test-raja 2026-09-27
+Kentan CT-etu (train): {'Ancient': 0.527, 'Anubis': 0.488, 'Cache': 0.521, 'Dust II': 0.509, 'Inferno': 0.516, 'Mirage': 0.547, 'Nuke': 0.551, 'Overpass': 0.551, '_all': 0.528}
 
 === K-haku (train, log loss / kierros) ===
   K=  0.5  train_round_ll=0.68995
   K=    1  train_round_ll=0.68950
-  K=    2  train_round_ll=0.68902
-  K=    3  train_round_ll=0.68882
+  K=    2  train_round_ll=0.68901
+  K=    3  train_round_ll=0.68881
   K=    4  train_round_ll=0.68878
-  K=    6  train_round_ll=0.68901
+  K=    6  train_round_ll=0.68900
   K=    8  train_round_ll=0.68949
-  K=   12  train_round_ll=0.69096
-  K=   16  train_round_ll=0.69297
+  K=   12  train_round_ll=0.69098
+  K=   16  train_round_ll=0.69299
 
 Valittu (train): K=4, tau=0.25
 
 === TESTI (nakematon jakso, top75-vs-top75) ===
-1) Kierrokset: xR 0.69100 vs pelkka CT/T-perustaso 0.69013  (n=20998 kierrosta)
-2) Kartat:     xR 0.6875 vs 50/50 0.6931  (n=506)
-3) SARJAT (samat 332 sarjaa, train-sarjoja kalibrointiin 1173):
-     raaka:        xR 0.6853  vs tuotanto-Elo 0.6831
-     kalibroitu:   xR 0.6849 (tau=0.65)  vs tuotanto-Elo 0.6778 (tau=0.6)
-     osumatarkkuus (kalibrointi ei vaikuta): xR 0.551  vs tuotanto-Elo 0.599
+1) Kierrokset: xR 0.69109 vs pelkka CT/T-perustaso 0.69021  (n=21180 kierrosta)
+2) Kartat:     xR 0.6874 vs 50/50 0.6931  (n=511)
+3) SARJAT (samat 334 sarjaa, train-sarjoja kalibrointiin 1177):
+     raaka:        xR 0.6836  vs tuotanto-Elo 0.6830
+     kalibroitu:   xR 0.6837 (tau=0.65)  vs tuotanto-Elo 0.6774 (tau=0.6)
+     osumatarkkuus (kalibrointi ei vaikuta): xR 0.551  vs tuotanto-Elo 0.596
 
 -> xR EI paranna sarjaennustetta, kun molemmat on kalibroitu reilusti train-datalla.

@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-17T19:45:15.887384+00:00",
+  "updated_utc": "2026-11-18T02:34:09.468571+00:00",
   "window_days": 240,
   "teams_total": 75,
-  "teams_done": 0,
-  "teams_ok": 0,
-  "teams_not_found": 0,
+  "teams_done": 75,
+  "teams_ok": 69,
+  "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 6118,
+  "matches_collected": 6133,
   "last_team": {
     "team": "JiJieHao",
-    "status": "pending",
+    "status": "ok",
     "matches_found": 0,
-    "at": "2026-11-17T11:43:29.007111+00:00"
+    "at": "2026-11-18T02:34:09.354977+00:00"
   }
 }
