@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-19T00:49:21.607775+00:00",
+  "updated_utc": "2026-11-19T08:32:28.932542+00:00",
   "tournaments_total": 905,
   "tournaments_done": 905,
-  "tournaments_ok": 802,
-  "tournaments_ok_no_brackets": 79,
+  "tournaments_ok": 803,
+  "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10725,
+  "maps_collected": 10733,
   "last_tournament": {
-    "tournament": "RUSH:Brno 2026 - Group B",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-11-18T18:51:51.073285+00:00"
+    "tournament": "United21 Season 58 - Playoffs",
+    "status": "ok",
+    "maps_found": 8,
+    "at": "2026-11-19T08:32:28.930012+00:00"
   }
 }
