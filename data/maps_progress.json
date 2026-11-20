@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-20T13:25:09.454994+00:00",
-  "tournaments_total": 906,
-  "tournaments_done": 906,
-  "tournaments_ok": 804,
+  "updated_utc": "2026-11-20T21:28:31.547496+00:00",
+  "tournaments_total": 908,
+  "tournaments_done": 908,
+  "tournaments_ok": 806,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10746,
+  "maps_collected": 10788,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #14 - Playoffs",
+    "tournament": "CCT EU 2026 Series #14 - Playoffs",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-11-20T13:25:09.451496+00:00"
+    "maps_found": 19,
+    "at": "2026-11-20T21:28:31.543552+00:00"
   }
 }
