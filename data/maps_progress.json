@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-20T04:16:12.063937+00:00",
-  "tournaments_total": 905,
-  "tournaments_done": 905,
-  "tournaments_ok": 803,
+  "updated_utc": "2026-11-20T13:25:09.454994+00:00",
+  "tournaments_total": 906,
+  "tournaments_done": 906,
+  "tournaments_ok": 804,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10743,
+  "maps_collected": 10746,
   "last_tournament": {
-    "tournament": "Stake Ranked Episode 6",
+    "tournament": "NODWIN Clutch Series #14 - Playoffs",
     "status": "ok",
     "maps_found": 3,
-    "at": "2026-11-19T23:43:00.462207+00:00"
+    "at": "2026-11-20T13:25:09.451496+00:00"
   }
 }
