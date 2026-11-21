@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-21T09:33:39.280784+00:00",
+  "updated_utc": "2026-11-21T17:07:58.327988+00:00",
   "tournaments_total": 910,
   "tournaments_done": 910,
   "tournaments_ok": 808,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10810,
+  "maps_collected": 10814,
   "last_tournament": {
-    "tournament": "Dust2.dk Ligaen Season 33",
+    "tournament": "NODWIN Clutch Series #14 - Playoffs",
     "status": "ok",
-    "maps_found": 5,
-    "at": "2026-11-21T09:33:39.277321+00:00"
+    "maps_found": 4,
+    "at": "2026-11-21T17:07:58.324762+00:00"
   }
 }
