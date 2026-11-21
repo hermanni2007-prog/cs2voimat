@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-21T01:48:05.691061+00:00",
-  "tournaments_total": 908,
-  "tournaments_done": 908,
-  "tournaments_ok": 806,
+  "updated_utc": "2026-11-21T09:33:39.280784+00:00",
+  "tournaments_total": 910,
+  "tournaments_done": 910,
+  "tournaments_ok": 808,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10788,
+  "maps_collected": 10810,
   "last_tournament": {
-    "tournament": "CCT EU 2026 Series #14 - Playoffs",
+    "tournament": "Dust2.dk Ligaen Season 33",
     "status": "ok",
-    "maps_found": 19,
-    "at": "2026-11-20T21:28:31.543552+00:00"
+    "maps_found": 5,
+    "at": "2026-11-21T09:33:39.277321+00:00"
   }
 }
