@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-22T09:34:54.859562+00:00",
-  "tournaments_total": 910,
-  "tournaments_done": 910,
-  "tournaments_ok": 808,
+  "updated_utc": "2026-11-22T17:45:50.447097+00:00",
+  "tournaments_total": 912,
+  "tournaments_done": 912,
+  "tournaments_ok": 810,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10833,
+  "maps_collected": 10855,
   "last_tournament": {
-    "tournament": "NODWIN Clutch Series #14 - Playoffs",
+    "tournament": "RES Showdown Winter WEU OQ",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-11-22T09:34:54.855895+00:00"
+    "maps_found": 9,
+    "at": "2026-11-22T17:45:50.374971+00:00"
   }
 }
