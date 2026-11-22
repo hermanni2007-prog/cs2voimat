@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-22T02:23:00.350972+00:00",
+  "updated_utc": "2026-11-22T09:34:54.859562+00:00",
   "tournaments_total": 910,
   "tournaments_done": 910,
   "tournaments_ok": 808,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10830,
+  "maps_collected": 10833,
   "last_tournament": {
-    "tournament": "RUSH:Brno 2026 - Playoffs",
+    "tournament": "NODWIN Clutch Series #14 - Playoffs",
     "status": "ok",
-    "maps_found": 6,
-    "at": "2026-11-22T02:23:00.340607+00:00"
+    "maps_found": 3,
+    "at": "2026-11-22T09:34:54.855895+00:00"
   }
 }
