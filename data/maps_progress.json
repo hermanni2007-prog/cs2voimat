@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-23T03:42:40.674745+00:00",
-  "tournaments_total": 912,
-  "tournaments_done": 912,
-  "tournaments_ok": 810,
+  "updated_utc": "2026-11-23T12:54:57.379622+00:00",
+  "tournaments_total": 913,
+  "tournaments_done": 913,
+  "tournaments_ok": 811,
   "tournaments_ok_no_brackets": 78,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10858,
+  "maps_collected": 10901,
   "last_tournament": {
-    "tournament": "RUSH:Brno 2026 - Playoffs",
+    "tournament": "CCT EU 2026 Contenders #11",
     "status": "ok",
-    "maps_found": 3,
-    "at": "2026-11-23T03:42:40.671635+00:00"
+    "maps_found": 21,
+    "at": "2026-11-23T12:54:57.377470+00:00"
   }
 }
