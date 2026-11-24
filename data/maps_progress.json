@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-24T10:22:36.450245+00:00",
-  "tournaments_total": 914,
-  "tournaments_done": 914,
+  "updated_utc": "2026-11-24T21:03:42.590241+00:00",
+  "tournaments_total": 915,
+  "tournaments_done": 915,
   "tournaments_ok": 811,
-  "tournaments_ok_no_brackets": 79,
+  "tournaments_ok_no_brackets": 80,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
   "maps_collected": 10905,
   "last_tournament": {
-    "tournament": "PGL Major Singapore 2026 - Round 1",
+    "tournament": "PGL Major Singapore 2026 - Round 2",
     "status": "ok_no_brackets",
     "maps_found": 0,
-    "at": "2026-11-24T10:22:36.446734+00:00"
+    "at": "2026-11-24T21:03:42.587443+00:00"
   }
 }
