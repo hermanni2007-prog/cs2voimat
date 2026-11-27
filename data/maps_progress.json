@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-27T04:55:23.369180+00:00",
-  "tournaments_total": 918,
-  "tournaments_done": 918,
-  "tournaments_ok": 811,
-  "tournaments_ok_no_brackets": 83,
+  "updated_utc": "2026-11-27T15:37:05.647173+00:00",
+  "tournaments_total": 920,
+  "tournaments_done": 920,
+  "tournaments_ok": 812,
+  "tournaments_ok_no_brackets": 84,
   "tournaments_not_found": 24,
   "tournaments_error": 0,
-  "maps_collected": 10905,
+  "maps_collected": 10917,
   "last_tournament": {
-    "tournament": "United21 Season 59 - Group C",
-    "status": "ok_no_brackets",
-    "maps_found": 0,
-    "at": "2026-11-26T15:28:13.614383+00:00"
+    "tournament": "Fiesta Series 4 - Playoffs",
+    "status": "ok",
+    "maps_found": 12,
+    "at": "2026-11-27T15:37:05.643783+00:00"
   }
 }
