@@ -1,16 +1,16 @@
 {
-  "updated_utc": "2026-11-28T04:47:05.528185+00:00",
+  "updated_utc": "2026-11-28T14:41:17.463801+00:00",
   "window_days": 240,
   "teams_total": 75,
   "teams_done": 75,
   "teams_ok": 69,
   "teams_not_found": 6,
   "teams_error": 0,
-  "matches_collected": 6259,
+  "matches_collected": 6269,
   "last_team": {
     "team": "GenOne",
     "status": "ok",
-    "matches_found": 0,
-    "at": "2026-11-28T00:02:10.810616+00:00"
+    "matches_found": 1,
+    "at": "2026-11-28T14:41:17.461956+00:00"
   }
 }
